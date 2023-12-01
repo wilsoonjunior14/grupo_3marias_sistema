@@ -21,10 +21,10 @@ terraform
 files/category
 files/enterprise/*-*.png
 ./tests/Coverage/html
-wmarket/scripts/coverage_reports/
-wmarket/scripts/coverage_frontend/
-wmarket/tests/Coverage
-wmarket/coverage
+3marias/scripts/coverage_reports/
+3marias/scripts/coverage_frontend/
+3marias/tests/Coverage
+3marias/coverage
 *.icloud
 service.min.js
 directive.min.js
