@@ -12,7 +12,7 @@ export default function Header() {
         <>
           <Navbar collapseOnSelect expand="md" className="App-primary-color App-elevation" variant="light">
             <Container>
-              <Navbar.Brand href="/">
+              <Navbar.Brand href="/home">
                 <img
                   alt=""
                   src={logo}
@@ -25,7 +25,7 @@ export default function Header() {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link style={{color: "white"}} href="/index">Início</Nav.Link>
+                    <Nav.Link style={{color: "white"}} href="/home">Início</Nav.Link>
                     <NavDropdown style={{color: "white"}} title="Cadastros" id="basic-nav-dropdown">
                       <NavDropdown.Item href="/users">Usuários</NavDropdown.Item>
                       <NavDropdown.Item href="/groups">Grupos de Usuários</NavDropdown.Item>

@@ -27,6 +27,10 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
     useEffect(() => {
         if (parameters.id && !isLoadingData) {
+            if (endpoint === "/users") {
+                endpoint = "/v1" + endpoint;
+            }
+            console.log(endpoint);
             setIsLoadingData(true);
             performRequest("GET", endpoint + "/"+parameters.id)
             .then(successGet)

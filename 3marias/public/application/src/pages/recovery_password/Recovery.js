@@ -53,8 +53,8 @@ export default function RecoveryPassword() {
         <div className="Display">
             <div style={{flex: 1}}></div>
             <div style={{flex: 1}}>
-            <img src={config.url + "/img/logo_complete.png"} />
-            <Card style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#31B573' }}>
+            <img width={400} src={config.url + "/img/logo_complete.png"} />
+            <Card style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#0C3472' }}>
                 <Card.Body>
                         {!isLoading && httpError && 
                         <Alert key={'danger'} variant={'danger'}>
