@@ -1,0 +1,99 @@
+body {
+  background: #f8f7f7 !important;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-primary-color {
+  background-color: #31B573;
+}
+
+thead tr th, .btn-success{
+  color: white !important;
+  background: #31B573 !important;
+}
+
+tbody tr td {
+  padding-top: 15px !important;
+}
+
+tbody tr .options {
+  padding-top: 5px !important;
+  min-width: 250px !important;
+}
+
+.btn-light {
+  border: 1px solid lightgray !important;
+}
+
+.App-secondary-color {
+  color: white;
+}
+
+.float-left {
+  float: left !important;
+}
+
+.App-elevation {
+  box-shadow: 3px 3px 3px gray;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.dropdown-toggle {
+  color: white !important;
+}
+
+.custom-btn {
+  border: 1px solid white !important;
+}
+
+.custom-btn:hover {
+  background: white !important;
+  color: #31B573 !important;
+}
+
+/* Pagination */
+.active span {
+  background: #31B573 !important;
+  color: white !important;
+}
+
+.page-link { 
+  color: black !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

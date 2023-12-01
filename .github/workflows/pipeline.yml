@@ -1,0 +1,117 @@
+name: Busquei - Pipeline
+run-name: Pipeline - ${{ github.ref }}
+on: [push]
+jobs: 
+  
+  Backend:
+    name: Backend - Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Setup the python environment
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r wmarket/scripts/requirements.txt
+
+      # Setup the php environment
+      - name: Environment Setup
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo, pdo_mysql
+          ini-values: post_max_size=256M, max_execution_time=180
+          coverage: xdebug
+          tools: php-cs-fixer, phpunit
+      - run: php -version
+
+      # Getting the all dependencies of the project
+      - name: Build
+        run: |
+          cd wmarket
+          curl https://getcomposer.org/download/latest-stable/composer.phar --output composer.phar
+          php composer.phar install
+
+      # Checking the list of dependencies outdated
+      - name: Dependencies Outdated
+        run: |
+          cd wmarket
+          php composer.phar outdated --direct
+
+      # Checking project vulnerabilities
+      - name: Checking Project Vulnerabilities
+        run: |
+          cd wmarket
+          ./vendor/enlightn/security-checker/security-checker security:check composer.lock
+
+      # Checking the code statically
+      - name: Code Analysis
+        run: |
+          ls -la
+          cd wmarket
+          ./vendor/bin/psalm --no-cache --show-info=false --show-snippet=true
+
+      # Check the code coverage
+      # - name: E2E Tests & Code Coverage
+      #   run: |
+      #     cd wmarket
+      #     php artisan config:clear
+      #     php artisan cache:clear
+      #     XDEBUG_MODE=coverage php artisan test --parallel --processes 8 --coverage --testsuite=Backend
+      #     cd scripts
+      #     cd coverage
+      #     python3 check_coverage_backend.py
+
+  Lambda:
+    name: Lambda Function
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Setup the python environment
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+          cache: 'pip' # caching pip dependencies
+
+      - name: Geocode LF - Build & Test
+        run: |
+          pip install --upgrade pip
+          pip install -r wmarket/lambda_functions/geocode/requirements.txt
+          pip install -r wmarket/lambda_functions/geocode/requirements.txt -t wmarket/lambda_functions/geocode/dependencies
+          cd wmarket/lambda_functions/geocode
+          python3 lambda_function_test.py
+
+  Deploy:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [Backend, Lambda]
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checking out to the repo
+        uses: actions/checkout@v3
+
+      - name: Retrieve version
+        run: |
+          echo "TAG_NAME=$(grep "tag" wmarket/project.json | tr -d " \ttag\"\:")" >> $GITHUB_ENV
+        id: version
+      
+      - name: Tagging the commit
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.TAG_NAME }}
+          message: "Latest release"
+
+      - name: Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: Release ${{ env.TAG_NAME }}
+          body: |
+            Changelog
+            - Generating Release ${{ env.TAG_NAME }}
+          draft: false
+          prerelease: false
+

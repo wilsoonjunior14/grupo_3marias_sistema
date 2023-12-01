@@ -1,0 +1,105 @@
+body {
+    background: #fcfafa !important;
+}
+
+.bg-success, .btn-success {
+    background: #31B573 !important;
+}
+
+.text-success {
+    color: #31B573 !important;
+}
+
+.btn-without-border {
+    margin-top: 3px;
+    border: none !important;
+}
+
+.row {
+    margin-bottom: 10px !important;
+}
+
+.row div {
+    margin-bottom: 5px !important;
+}
+
+.col {
+    margin-bottom: 10px !important;
+}
+
+.navbar {
+    box-shadow: 3px 3px 3px gray !important;
+    padding-left: 12px !important;
+}
+
+.rent-container {
+    margin-top: 12px;
+}
+
+.rent-left-icon {
+    float: left;
+}
+
+.rent-right-icon {
+    float: right;
+}
+
+.rent-btn-floating {
+    border-radius: 50% !important;
+}
+
+.item-active {
+    background: black;
+    color: white;
+}
+
+.no-link {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.no-link:hover {
+    color: black !important;
+}
+
+.input-error { 
+    border: 1px solid red;
+    transition: all linear 0.5s;
+}
+
+/* The styles for steps components */
+.step {
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    border-radius: 25px;
+    border: 1px solid green;
+    padding: 10px; 
+    background: white; 
+    color: green;
+}
+
+.step-done {
+    width: 50px; 
+    height: 50px; 
+    margin: 0 auto;
+    border-radius: 25px;
+    border: 1px solid green;
+    padding: 10px; 
+    background: green; 
+    color: white;
+    font-weight: bold;
+}
+
+.step-line {
+    height: 5px; 
+    background: white;
+    border: 1px solid green; 
+    margin-top: 20px;
+}
+
+.step-line-done {
+    height: 5px; 
+    background: green; 
+    margin-top: 20px;
+}
