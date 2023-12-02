@@ -1,9 +1,8 @@
 import React from "react";
 import Container from 'react-bootstrap/Container';
-import Header from '../../components/header/Header';
+import VHeader from '../../components/vHeader/vHeader';
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
-import { useNavigate } from "react-router-dom";
 
 export default function GroupList() {
 
@@ -33,9 +32,8 @@ export default function GroupList() {
 
     return (
         <>
-            <Header />
-            <br></br>
-            <Container fluid>
+            <VHeader />
+            <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
                     tableName="Grupos de Usuários" 

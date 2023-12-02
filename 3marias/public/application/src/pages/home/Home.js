@@ -1,9 +1,8 @@
 import React from "react";
-import {useState} from "react";
-import Header from '../../components/header/Header';
+import VHeader from "../../components/vHeader/vHeader";
 
 export default function Home() {
     return (
-        <Header />
+        <VHeader />
     );
 };

@@ -11,6 +11,10 @@ thead tr th, .btn-success{
   background: #0C3472 !important;
 }
 
+.TbodyTdHigh {
+  min-width: 200px !important;
+}
+
 tbody tr td {
   padding-top: 15px !important;
 }
@@ -32,8 +36,12 @@ tbody tr .options {
   float: left !important;
 }
 
+.Over-zIndex {
+  z-index: 1000 !important;
+}
+
 .App-elevation {
-  box-shadow: 5px 5px 5px gray;
+  box-shadow: 3px 3px 3px gray;
 }
 
 .App-logo {

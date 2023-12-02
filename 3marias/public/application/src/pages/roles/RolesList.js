@@ -1,8 +1,8 @@
 import React from "react";
 import Container from 'react-bootstrap/Container';
-import Header from '../../components/header/Header';
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
+import VHeader from "../../components/vHeader/vHeader";
 
 export default function RolesList() {
 
@@ -35,9 +35,8 @@ export default function RolesList() {
 
     return (
         <>
-            <Header />
-            <br></br>
-            <Container fluid>
+            <VHeader />
+            <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
                     tableName="Permissões" 
