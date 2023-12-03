@@ -14,6 +14,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\ContractModelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,9 @@ Route::get('/states/{id}', [StateController::class, 'getByCountry']);
  * Protected routes
  */
 Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed']], function() {
+    // Contract Model api routes
+    Route::apiResource('/contractsModels', ContractModelController::class);
+    
     // Users api routes
     Route::apiResource('/users', UserController::class);
     Route::post('/users/search', [UserController::class, 'search']);

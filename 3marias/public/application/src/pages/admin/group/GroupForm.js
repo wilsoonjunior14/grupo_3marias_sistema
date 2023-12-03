@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import CustomForm from "../../components/form/Form";
+import CustomForm from "../../../components/form/Form";
 
 const GroupForm = ({}) => {
     const fields = [

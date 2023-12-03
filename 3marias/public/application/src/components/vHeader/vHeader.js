@@ -9,15 +9,51 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import config from "../../config.json";
 import { Tooltip } from "react-tooltip";
+import VHeaderItem from "./vHeaderItem";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
 
-    const [itemSelected, setItemSelected] = useState("");
+    const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
+    const items = [
+        {
+            id: 1,
+            name: "Administração",
+            icon: "business_center"
+        },
+        {
+            id: 2,
+            name: "Compras",
+            icon: "shopping_cart"
+        },
+        {
+            id: 3,
+            name: "Suprimentos",
+            icon: "store"
+        },
+        {
+            id: 4,
+            name: "Vendas",
+            icon: "payment"
+        },
+        {
+            id: 5,
+            name: "Engenharia",
+            icon: "memory"
+        },
+        {
+            id: 6,
+            name: "Financeiro",
+            icon: "attach_money"
+        },        {
+            id: 7,
+            name: "RH",
+            icon: "people"
+        }
+    ];
 
-    const onNavToggleClick = function(item) {
-        console.log("it clicked.");
-        setItemSelected(item);
+    const onNavToggleClick = function(id, item) {
+        setItemSelected({id: id, item: item});
     }
 
     return (
@@ -40,55 +76,15 @@ function VHeader() {
                         />
                     </Navbar.Brand>
 
-                    <Navbar.Toggle 
-                        id="dashboard-item" data-tooltip-id="dashboard-item-tooltip" data-tooltip-content="Dashboard"
-                        onClick={() => onNavToggleClick("dashboard")} 
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
+                    <Nav.Link href="/home" style={{marginRight: "10px"}}
+                        data-tooltip-id="dashboard-item-tooltip" data-tooltip-content="Dashboard">
                         <i style={{color: "red", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">dashboard</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px", zIndex: 1000, display: "block", position: "absolute"}} place="right" id="dashboard-item-tooltip" />
+                    </Nav.Link>
+                    <Tooltip style={{marginTop: "-5px"}} place="right" id="dashboard-item-tooltip" />
 
-                    <Navbar.Toggle 
-                        id="business_center-item" data-tooltip-id="business_center-item-tooltip" data-tooltip-content="Administração"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">business_center</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="business_center-item-tooltip" />
-
-                    <Navbar.Toggle 
-                        id="shopping_cart-item" data-tooltip-id="shopping_cart-item-tooltip" data-tooltip-content="Compras"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">shopping_cart</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="shopping_cart-item-tooltip" />
-
-                    <Navbar.Toggle 
-                        id="store-item" data-tooltip-id="store-item-tooltip" data-tooltip-content="Suprimentos"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">store</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="store-item-tooltip" />
-
-                    <Navbar.Toggle 
-                        id="payment-item" data-tooltip-id="payment-item-tooltip" data-tooltip-content="Vendas"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">payment</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="payment-item-tooltip" />
-
-                    <Navbar.Toggle 
-                        id="attach_money-item" data-tooltip-id="attach_money-item-tooltip" data-tooltip-content="Financeiro"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">attach_money</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="attach_money-item-tooltip" />
-
-                    <Navbar.Toggle 
-                        id="people-item" data-tooltip-id="people-item-tooltip" data-tooltip-content="RH"
-                        style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-${expand}`}>
-                        <i style={{color: "white", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">people</i>
-                    </Navbar.Toggle>
-                    <Tooltip style={{marginTop: "-10px"}} place="right" id="people-item-tooltip" />
+                    {items.map((item) => (
+                        <VHeaderItem item={item} onClick={() => onNavToggleClick(item.id, item.name)} />
+                    ))}
 
                     <Nav style={{position: "absolute", bottom: 15, left: 25}}>
                         <Nav.Link href="/home" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
@@ -105,16 +101,36 @@ function VHeader() {
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-${expand}`}
                         aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-                        style={{marginLeft: 80, background: "#0C3472"}}
+                        style={{marginLeft: 80, background: "#0C3472", color: "white"}}
                         placement="start">
 
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                            {itemSelected}
+                            {itemSelected.item}
                             </Offcanvas.Title>
                         </Offcanvas.Header>
 
                         <Offcanvas.Body>
+                            {itemSelected.id === 1 &&
+                                <Nav className="justify-content-end flex-grow-1 pe-3">
+                                    <Nav.Link href="/admin/users">Usuários</Nav.Link>
+                                    <Nav.Link href="/admin/enterprises">Empresa</Nav.Link>
+                                    <Nav.Link href="/admin/documents">Tipos de Documentos</Nav.Link>
+                                    <Nav.Link href="/admin/contractsModel">Modelos de Contrato</Nav.Link>
+                                    <Nav.Link href="/admin/groups">Grupos de Usuários</Nav.Link>
+                                    <Nav.Link href="/admin/roles">Permissões</Nav.Link>
+                                </Nav>
+                            }
+                            {itemSelected.id === 2 &&
+                                <Nav className="justify-content-end flex-grow-1 pe-3">
+                                    <Nav.Link href="/home">Compras</Nav.Link>
+                                    <Nav.Link href="/home">Ordens de Compra</Nav.Link>
+                                    <Nav.Link href="/home">Ordens de Serviço</Nav.Link>
+                                    <Nav.Link href="/home">Parceiros</Nav.Link>
+                                    <Nav.Link href="/home">Serviços</Nav.Link>
+                                    <Nav.Link href="/home">Categorias de Serviços</Nav.Link>
+                                </Nav>
+                            }
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                             <Nav.Link href="#action1">Home</Nav.Link>
                             <Nav.Link href="#action2">Link</Nav.Link>

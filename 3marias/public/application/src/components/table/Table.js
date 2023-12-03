@@ -231,7 +231,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                         </Card.Title>
 
                         <Form>
-                            <Options disableAdd={disableAdd} onAdd={() => {navigate(url + "/add")}} onLoad={loadItems} />
+                            <Options disableAdd={disableAdd} onAdd={() => {navigate(window.location.pathname + "/add")}} onLoad={loadItems} />
 
                             {loading &&
                             <>

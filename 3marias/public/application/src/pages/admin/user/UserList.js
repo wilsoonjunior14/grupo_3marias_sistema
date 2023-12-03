@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Container from 'react-bootstrap/Container';
-import VHeader from "../../components/vHeader/vHeader";
-import '../../App.css';
-import CustomTable from "../../components/table/Table";
+import VHeader from "../../../components/vHeader/vHeader";
+import '../../../App.css';
+import CustomTable from "../../../components/table/Table";
 
 export default function UserList() {
 

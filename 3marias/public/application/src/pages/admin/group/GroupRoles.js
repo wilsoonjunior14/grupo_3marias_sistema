@@ -4,18 +4,18 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import Header from '../../components/header/Header';
-import Error from '../../components/error/Error';
-import Success from '../../components/success/Success';
-import '../../App.css';
-import Loading from "../../components/loading/Loading";
-import { performCustomRequest, performRequest } from "../../services/Api";
+import Header from '../../../components/header/Header';
+import Error from '../../../components/error/Error';
+import Success from '../../../components/success/Success';
+import '../../../App.css';
+import Loading from "../../../components/loading/Loading";
+import { performCustomRequest, performRequest } from "../../../services/Api";
 import { useParams } from "react-router-dom";
-import CustomPagination from "../../components/table/Pagination";
+import CustomPagination from "../../../components/table/Pagination";
 import Select from 'react-select';
-import CustomButton from "../../components/button/Button";
+import CustomButton from "../../../components/button/Button";
 import './GroupRoles.css';
-import CustomTable from "../../components/table/Table";
+import CustomTable from "../../../components/table/Table";
 
 function GroupRoles() {
 
