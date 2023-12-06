@@ -6,7 +6,7 @@ class Address extends BaseModel
 {
     protected $table = "addresses";
     protected $fillable = ["id", "address", "number", "complement", "city_id", "zipcode",
-    "neighborhood", "enterprise_id", "deleted", "created_at", "updated_at"];
+    "neighborhood", "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["address", "number", "complement", 
     "city_id", "zipcode", "neighborhood", "deleted"];

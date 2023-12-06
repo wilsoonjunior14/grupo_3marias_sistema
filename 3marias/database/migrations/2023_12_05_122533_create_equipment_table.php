@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_models', function (Blueprint $table) {
+        Schema::create('equipment', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("name", 100);
-            $table->string("content")->nullable();
-            $table->enum("type", ["Corretagem", "Entrega das Chaves", "Serviço", "Venda"]);
+            $table->string("name", 255);
+            $table->date("acquisition_date");
+            $table->date("maintenance_date")->nullable();
+
+            $table->integer('stock_id')->unsigned();
+            $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
+
+            $table->enum("status", ["Disponível", "Manutenção", "Não Disponível"]);
             $table->boolean("deleted")->default(false);
             $table->timestamps();
         });
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_models');
+        Schema::dropIfExists('equipment');
     }
 };

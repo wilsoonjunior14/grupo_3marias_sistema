@@ -4,7 +4,9 @@ RUN apt-get update -y
 
 RUN apt-get install git curl zip -y
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get install libpq-dev -y
+
+RUN docker-php-ext-install pdo pgsql pdo_mysql pdo_pgsql
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \

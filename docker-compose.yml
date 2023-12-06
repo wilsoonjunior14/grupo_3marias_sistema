@@ -25,14 +25,14 @@ services:
   # Backend - LARAVEL
   php:
     container_name: 3marias_app
-    image: wilsonjunior/busquei:1.2
+    build: .
     volumes:
       - .:/var/www/html
     working_dir: /var/www/html/3marias
     ports:
-      - "5000:5000"
+      - "8000:8000"
     #it must run on dev
-    entrypoint: ["bash", "-c", "php artisan serve --port 5000 --host 0.0.0.0"]
+    entrypoint: ["bash", "-c", "php artisan serve --port 8000 --host 0.0.0.0"]
     #entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 5000 --host 0.0.0.0"]
     
   # Frontend - React

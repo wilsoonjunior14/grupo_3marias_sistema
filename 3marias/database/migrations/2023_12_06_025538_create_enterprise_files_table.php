@@ -8,33 +8,28 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('linked_systems', function (Blueprint $table) {
-            $table->increments("id");
-
-            $table->enum('name', ['facebook', 'instagram', 'other']);
-            $table->string('value', 500);
+        Schema::create('enterprise_files', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string("name", 255);
+            $table->string("description", 255);
+            $table->string("url", 255);
 
             $table->integer('enterprise_id')->unsigned();
             $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
-
-            $table->boolean('deleted')->default(false);
-
+        
+            $table->boolean("deleted")->default(false);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('linked_systems');
+        Schema::dropIfExists('enterprise_files');
     }
 };

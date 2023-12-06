@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Container from 'react-bootstrap/Container';
-import Header from '../../components/header/Header';
+import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
 
-export default function CategoriesList() {
+export default function StockList() {
 
     const fields = [
         {
@@ -16,22 +16,21 @@ export default function CategoriesList() {
     ];
 
     const table = {
-        fields: ["#", "Imagem", "Nome", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
-        bodyFields: ["id", "image", "name", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "created_at", "updated_at"]
     };
-
+    
     return (
         <>
-            <Header />
-            <br></br>
-            <Container fluid>
+            <VHeader />
+            <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
-                    tableName="Categorias" 
-                    tableIcon="assignment" 
+                    tableName="Locais de Estoque" 
+                    tableIcon="group" 
                     fieldNameDeletion="name" 
-                    url="/categories" 
+                    url="/stocks" 
                     tableFields={table}
                     searchFields={fields} />
 

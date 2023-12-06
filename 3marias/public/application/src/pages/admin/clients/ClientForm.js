@@ -1,52 +1,30 @@
-import React, {useState, useEffect, createRef, useReducer} from "react";
+import CustomForm from "../../../components/form/Form";
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import VHeader from "../../../components/vHeader/vHeader";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Header from '../../components/header/Header';
-import Error from '../../components/error/Error';
-import Success from '../../components/success/Success';
-import '../../App.css';
-import Button from "react-bootstrap/esm/Button";
-import Loading from "../../components/loading/Loading";
-import CustomInput from "../../components/input/CustomInput";
-import { performCustomRequest, performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
-import { formatDateToServer } from "../../services/Format";
+import { useReducer, useState } from "react";
+import Error from "../../../components/error/Error";
+import Success from "../../../components/success/Success";
+import Loading from "../../../components/loading/Loading";
+import CustomInput from "../../../components/input/CustomInput";
+import Button from "react-bootstrap/Button";
+import { performCustomRequest, performRequest } from "../../../services/Api";
+import { formatDateToServer } from "../../../services/Format";
 
-const CustomForm = ({endpoint, nameScreen, fields}) => {
+const ClientForm = ({}) => {
+
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
-    const [item, setItem] = useState({});
     const parameters = useParams();
-
+    const [item, setItem] = useState({});
     const initialState = {};
-
-    useEffect(() => {
-        if (parameters.id && !isLoadingData) {
-            if (endpoint === "/users") {
-                endpoint = "/v1" + endpoint;
-            }
-            console.log(endpoint);
-            setIsLoadingData(true);
-            performRequest("GET", endpoint + "/"+parameters.id)
-            .then(successGet)
-            .catch(errorResponse);
-        }
-    }, []);
-
-    const successGet = (response) => {
-        setItem(response.data);
-        const data = response.data;
-        if (data["image"]) {
-            data.image = "";
-        }
-        setIsLoadingData(false);
-        dispatch({ type: "data", data });
-    }; 
+    const [endpoint, setEndpoint] = useState("/v1/clients");
 
     const reducer = (state, action) => {
         if (action.type === "reset") {
@@ -67,6 +45,19 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
     const changeField = (e) => {
         const { name, value } = e.target;
         dispatch({ type: name, value });
+
+        const hasField = fields.some((item) => {return (item.name === "conjugue")});
+        console.log(name.toString() === "state" && value === "Casado" && !hasField);
+        if (name.toString() === "state" && value === "Casado" && !hasField) {
+            fields.push({
+                name: 'name_dependent',
+                placeholder: 'Cônjugue',
+                type: 'text',
+                maxlength: 255,
+                required: true
+            });
+            setFields(fields);
+        }
     };
 
     const onSubmit = (e) => {
@@ -161,44 +152,93 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
         setHttpError({message: "Não foi possível conectar-se com o servidor."});
     };
 
+    const [fields, setFields] = useState([
+        {
+            name: 'name',
+            placeholder: 'Nome',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'email',
+            placeholder: 'Email',
+            type: 'email',
+            maxlength: 100,
+            required: true
+        },
+        {
+            name: 'cpf',
+            placeholder: 'CPF',
+            type: 'mask',
+            maxlength: 14,
+            required: true,
+            mask: "999.999.999-99"
+        },
+        {
+            name: 'birthdate',
+            placeholder: 'Data de Nascimento',
+            type: 'mask',
+            maxlength: 10,
+            required: true,
+            mask: "99/99/9999"
+        },
+        {
+            name: 'phoneNumber',
+            placeholder: 'Telefone',
+            type: 'mask',
+            maxlength: 14,
+            required: true,
+            mask: "(99)99999-9999"
+        },
+        {
+            name: "state",
+            placeholder: "Estado Civil",
+            type: "select",
+            required: true,
+            data: ["Solteiro", "Casado", "Divorciado", "Viúvo"]
+        }
+    ]);
+
     return (
         <>
-            <Container fluid>
-                {!loading && httpError &&
-                    <Error message={httpError.message} />
-                }
+        <VHeader />
+        <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <Row>
+                <Col>
+                    {!loading && httpError &&
+                        <Error message={httpError.message} />
+                    }
 
-                {!loading && httpSuccess &&
-                    <Success message={httpSuccess.message} />
-                }
-
-                <Row>
-                    <Col>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>
-                                <i className="material-icons float-left">add</i>
-                                
+                    {!loading && httpSuccess &&
+                        <Success message={httpSuccess.message} />
+                    }
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>
                                 {parameters.id &&
-                                <p>Editar {nameScreen}</p>
+                                <>
+                                <i className="material-icons float-left">edit</i>
+                                <p>Editar Cliente</p>
+                                </>
                                 }
                                 {!parameters.id &&
-                                <p>Adicionar {nameScreen}</p>
+                                <>
+                                <i className="material-icons float-left">add</i>
+                                <p>Adicionar Cliente</p>
+                                </>
                                 }
-                                
-                                </Card.Title>
-
-                                {isLoadingData && 
-                                    <>
-                                    <Col></Col>
-                                    <Col style={{textAlign: 'center'}}>
-                                        <Loading />
-                                    </Col>
-                                    <Col></Col>
-                                    </>
-                                }
-
-                                {!isLoadingData &&
+                            </Card.Title>
+                            {isLoadingData && 
+                                <>
+                                <Col></Col>
+                                <Col style={{textAlign: 'center'}}>
+                                    <Loading />
+                                </Col>
+                                <Col></Col>
+                                </>
+                            }
+                            {!isLoadingData &&
                                 <Form onSubmit={onSubmit}>
                                     <Row>
                                         {fields.map((field) => 
@@ -235,13 +275,13 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                                     </Row>
                                 </Form>
                                 }
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
         </>
-    );
-}
+    )
+};
 
-export default CustomForm;
+export default ClientForm;

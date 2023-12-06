@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_models', function (Blueprint $table) {
+        Schema::create('category_products', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("name", 100);
-            $table->string("content")->nullable();
-            $table->enum("type", ["Corretagem", "Entrega das Chaves", "Serviço", "Venda"]);
+            $table->string("name");
             $table->boolean("deleted")->default(false);
+        
+            $table->integer('category_products_father_id')->unsigned()->nullable();
+            $table->foreign('category_products_father_id')->references('id')->on('category_products')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_models');
+        Schema::dropIfExists('category_products');
     }
 };

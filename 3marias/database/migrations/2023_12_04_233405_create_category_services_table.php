@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_models', function (Blueprint $table) {
+        Schema::create('category_services', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("name", 100);
-            $table->string("content")->nullable();
-            $table->enum("type", ["Corretagem", "Entrega das Chaves", "Serviço", "Venda"]);
+            $table->string("name", 255);
             $table->boolean("deleted")->default(false);
             $table->timestamps();
         });
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_models');
+        Schema::dropIfExists('category_services');
     }
 };

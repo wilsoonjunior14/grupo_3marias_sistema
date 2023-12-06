@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Header from '../../components/header/Header';
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
+import VHeader from "../../components/vHeader/vHeader";
 
 export default function CitiesList() {
 
@@ -23,9 +24,8 @@ export default function CitiesList() {
 
     return (
         <>
-            <Header />
-            <br></br>
-            <Container fluid>
+            <VHeader />
+            <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
                     tableName="Cidades" 

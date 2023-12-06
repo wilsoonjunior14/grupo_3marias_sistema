@@ -15,6 +15,23 @@ thead tr th, .btn-success{
   min-width: 200px !important;
 }
 
+.navbar-nav .nav-link:hover {
+  color: red !important;
+}
+
+.dropdown-menu {
+  background: #0C3472 !important;
+}
+
+.dropdown-menu a {
+  color: white;
+}
+
+.dropdown-menu a:hover {
+  color: red;
+  background: #0C3472 !important;
+}
+
 tbody tr td {
   padding-top: 15px !important;
 }

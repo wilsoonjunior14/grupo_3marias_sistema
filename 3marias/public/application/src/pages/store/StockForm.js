@@ -1,35 +1,36 @@
-import Container from "react-bootstrap/Container";
 import CustomForm from "../../components/form/Form";
+import Container from 'react-bootstrap/Container';
 import VHeader from "../../components/vHeader/vHeader";
+import '../../App.css';
 
-const CitiesForm = ({}) => {
+const StockForm = ({}) => {
 
     const fields = [
         {
-            name: "name",
-            placeholder: "Nome",
+            name: 'name',
+            placeholder: 'Nome',
+            type: 'text',
             maxlength: 255,
-            type: "text",
             required: true
         },
         {
-            name: "state_id",
-            placeholder: "Estado",
+            name: "city_id",
+            placeholder: "Cidade",
             type: "select",
             required: true,
-            endpoint: "states",
+            endpoint: "cities",
             endpoint_field: "name"
         }
-    ]
+    ];
 
     return (
         <>
         <VHeader />
         <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
-            <CustomForm endpoint="/v1/cities" nameScreen="Cidade" fields={fields} />
+            <CustomForm endpoint="/stocks" nameScreen="Local de Estoque" fields={fields} />
         </Container>
         </>
     )
 };
 
-export default CitiesForm;
+export default StockForm;

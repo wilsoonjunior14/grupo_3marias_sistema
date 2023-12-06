@@ -15,6 +15,7 @@ use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\ContractModelController;
+use App\Http\Controllers\StockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,9 @@ Route::get('/states/{id}', [StateController::class, 'getByCountry']);
 Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed']], function() {
     // Contract Model api routes
     Route::apiResource('/contractsModels', ContractModelController::class);
+
+    // Contract Model api routes
+    Route::apiResource('/stocks', StockController::class);
     
     // Users api routes
     Route::apiResource('/users', UserController::class);

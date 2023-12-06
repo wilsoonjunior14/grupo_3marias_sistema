@@ -21,6 +21,13 @@ import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
 import TiposDocumentos from './pages/admin/tiposDocumentos/TiposDocumentos';
 import ContractsModel from './pages/admin/contractsModel/ContractsModel';
 import ContractsModelForm from './pages/admin/contractsModel/ContractsModelForm';
+import ClientList from './pages/admin/clients/ClientList';
+import ClientForm from './pages/admin/clients/ClientForm';
+import ShoppingList from './pages/shopping/shopping/Shopping';
+import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
+import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
+import StockList from './pages/store/StockList';
+import StockForm from './pages/store/StockForm';
 
 console.disableYellowBox = true;
 
@@ -41,27 +48,29 @@ function App() {
           <Route path='admin/documents' element={<TiposDocumentos />}></Route>
           <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
           <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
-
+          <Route path='admin/clients' element={<ClientList />}></Route>
+          <Route path='admin/clients/add' element={<ClientForm />}></Route>
           <Route path='admin/groups' element={<GroupList />}></Route>
           <Route path='admin/groups/add' element={<GroupForm />}></Route>
           <Route path='admin/groups/edit/:id' element={<GroupForm />}></Route>
           <Route path='admin/groups/roles/:id' element={<GroupRoles />}></Route>
-
           <Route path='admin/roles' element={<RolesList />}></Route>
           <Route path='admin/roles/add' element={<RolesForm />}></Route>
           <Route path='admin/roles/edit/:id' element={<RolesForm />}></Route>
+          <Route path='admin/cities' element={<CitiesList />}></Route>
+          <Route path='admin/cities/add' element={<CitiesForm />}></Route>
+          <Route path='admin/cities/edit/:id' element={<CitiesForm />}></Route>
+          <Route path='admin/states' element={<StatesList />}></Route>
+          <Route path='admin/states/add' element={<StatesForm />}></Route>
+          <Route path='admin/states/edit/:id' element={<StatesForm />}></Route>
 
-          <Route path='cities' element={<CitiesList />}></Route>
-          <Route path='cities/add' element={<CitiesForm />}></Route>
-          <Route path='cities/edit/:id' element={<CitiesForm />}></Route>
+          <Route path='shopping' element={<ShoppingList />}></Route>
+          <Route path='shopping/orders' element={<ShoppingOrdersList />}></Route>
+          <Route path='shopping/orders/add' element={<ShoppingOrdersForm />}></Route>
 
-          <Route path='states' element={<StatesList />}></Route>
-          <Route path='states/add' element={<StatesForm />}></Route>
-          <Route path='states/edit/:id' element={<StatesForm />}></Route>
-
-          <Route path='countries' element={<CountriesList />}></Route>
-          <Route path='countries/add' element={<CountriesForm />}></Route>
-          <Route path='countries/edit/:id' element={<CountriesForm />}></Route>
+          <Route path='store/stocks' element={<StockList />}></Route>
+          <Route path='store/stocks/add' element={<StockForm />}></Route>
+          <Route path='store/stocks/edit/:id' element={<StockForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>
