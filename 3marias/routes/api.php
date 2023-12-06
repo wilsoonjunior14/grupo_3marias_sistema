@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EnterpriseController;
 use Illuminate\Http\Request;
@@ -64,8 +65,11 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     // Contract Model api routes
     Route::apiResource('/contractsModels', ContractModelController::class);
 
-    // Contract Model api routes
+    // Stocks api routes
     Route::apiResource('/stocks', StockController::class);
+
+    // Clients api routes
+    Route::apiResource('/clients', ClientController::class);
     
     // Users api routes
     Route::apiResource('/users', UserController::class);

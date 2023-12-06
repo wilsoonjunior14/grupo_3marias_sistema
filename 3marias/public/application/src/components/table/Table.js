@@ -90,7 +90,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
     };
 
     const onEditItem = (item) => {
-        navigate(url + "/edit/"+item.id);
+        navigate(window.location.pathname + "/edit/"+item.id);
     };
 
     const onDeleteItem = (item) => {

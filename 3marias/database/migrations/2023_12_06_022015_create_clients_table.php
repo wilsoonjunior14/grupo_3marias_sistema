@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string("phone_dependent", 20)->nullable();
             $table->string("email_dependent")->nullable();
 
+            $table->integer('address_id')->unsigned();
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+
             $table->boolean("deleted")->default(false);
             $table->timestamps();
         });

@@ -1,4 +1,3 @@
-import React, {useState, useEffect} from "react";
 import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
@@ -20,7 +19,7 @@ export default function ClientList() {
             maxlength: 100
         },
         {
-            id: 'phoneNumber',
+            id: 'phone',
             placeholder: 'Telefone',
             type: 'text',
             maxlength: 20
@@ -40,9 +39,9 @@ export default function ClientList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "Data de Nascimento", "Telefone", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Email", "Telefone", "Estado Civil", "Profissão", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "birthdate", "phoneNumber", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "email", "phone", "state", "ocupation", "created_at", "updated_at"]
     };
     
     return (
@@ -54,7 +53,7 @@ export default function ClientList() {
                     tableName="Clientes" 
                     tableIcon="people" 
                     fieldNameDeletion="name" 
-                    url="/users" 
+                    url="/clients" 
                     tableFields={table}
                     searchFields={fields} />
 
