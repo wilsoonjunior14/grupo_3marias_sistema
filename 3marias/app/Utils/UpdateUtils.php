@@ -2,10 +2,6 @@
 
 namespace App\Utils;
 
-use App\Models\BaseModel;
-use Exception;
-use App\Models\Logger;
-
 class UpdateUtils
 {
     /**

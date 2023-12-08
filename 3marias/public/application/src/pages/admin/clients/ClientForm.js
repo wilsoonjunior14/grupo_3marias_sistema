@@ -91,23 +91,12 @@ const ClientForm = ({}) => {
     };
 
     const performPut = (data, e) => {
-        const hasImageField = Object.keys(data).some((key) => key === "image");
-        if (hasImageField) {
-            var formData = new FormData();
-            Object.keys(data).forEach((key) => {
-                formData.append(key, data[key]);
-            });
-            formData.delete("image");
-            formData.append("image", document.getElementById("imageInput").files[0]);
-
-            const payload = Object.assign(item, state);
-            performCustomRequest("POST", endpoint, formData)
-            .then(successPut)
-            .catch(errorResponse);
-            return;
-        }
-
-        const payload = Object.assign(item, state);
+        var payload = Object.assign(item, state);
+        Object.keys(payload).forEach((key) => {
+            if (payload[key] === null || payload[key] === "") {
+                delete payload[key];
+            }
+        });
         performRequest("PUT", endpoint + "/"+parameters.id, payload)
         .then(successPut)
         .catch(errorResponse);
@@ -326,7 +315,7 @@ const ClientForm = ({}) => {
     return (
         <>
         <VHeader />
-        <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+        <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col>
                     {!loading && httpError &&

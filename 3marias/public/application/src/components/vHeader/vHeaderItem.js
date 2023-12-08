@@ -1,7 +1,7 @@
-import Navbar from 'react-bootstrap/Navbar';
 import { Tooltip } from "react-tooltip";
+import Nav from 'react-bootstrap/Nav';
 
-function VHeaderItem ({item, onClick}) {
+function VHeaderItem ({item, onClick, onMouseOut}) {
     const location = window.location.pathname;
     var style = {
         color: "white"
@@ -14,14 +14,23 @@ function VHeaderItem ({item, onClick}) {
 
     return (
         <>
-        <Navbar.Toggle
-            key={item.id + Math.random()}
-            onClick={onClick} 
-            id={item.icon + "-item"} data-tooltip-id={item.icon + "-item-tooltip"} data-tooltip-content={item.name}
-            style={{background: "none"}} aria-controls={`offcanvasNavbar-expand-false`}>
-            <i style={{color: style.color, fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">{item.icon}</i>
-        </Navbar.Toggle>
-        <Tooltip key={item.id + Math.random()} style={{marginTop: "-10px"}} place="right" id={item.icon + "-item-tooltip"} />
+        <Nav.Link key={item.id}
+                onMouseOver={onClick}
+                onMouseOut={onMouseOut}
+                onClick={onClick} style={{marginLeft: "15px"}}
+                data-tooltip-id={item.icon + "-item-tooltip"} data-tooltip-content={item.name}>
+            {!item.show &&
+                <i style={{color: style.color, fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">{item.icon}</i>
+            }
+            {item.show &&
+                <>
+                    <i style={{color: "orange", fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">{item.icon}</i>
+                    <i className="material-icons float-right" style={{color: "orange", fontSize: 10}}>keyboard_arrow_right</i>
+                </>
+            }
+
+        </Nav.Link>
+        <Tooltip key={item.id + 1000} style={{marginTop: "-5px"}} place="right" id={item.icon + "-item-tooltip"} />
         </>
     );
 }

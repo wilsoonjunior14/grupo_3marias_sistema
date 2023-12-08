@@ -28,7 +28,7 @@ function ContractsModel() {
     return (
         <>
         <VHeader />
-        <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+        <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomTable
                     tableName="Modelos de Contratos" 
                     tableIcon="content_paste" 

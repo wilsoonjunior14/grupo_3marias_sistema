@@ -14,7 +14,7 @@ const GroupForm = ({}) => {
 
     return (
         <>
-        <CustomForm endpoint="/v1/groups" nameScreen="Grupo de Usuário" fields={fields} />
+        <CustomForm id='app-container' endpoint="/v1/groups" nameScreen="Grupo de Usuário" fields={fields} />
         </>
     )
 };

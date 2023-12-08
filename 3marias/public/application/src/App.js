@@ -10,14 +10,13 @@ import GroupForm from './pages/admin/group/GroupForm';
 import RolesList from './pages/admin/roles/RolesList';
 import CitiesList from './pages/cities/CitiesList';
 import StatesList from './pages/states/StatesList';
-import CountriesList from './pages/countries/CountriesList';
-import CountriesForm from './pages/countries/ContriesForm';
 import StatesForm from './pages/states/StatesForm';
 import CitiesForm from './pages/cities/CitiesForm';
 import RolesForm from './pages/admin/roles/RolesForm';
 import UserForm from './pages/admin/user/UserForm';
 import GroupRoles from './pages/admin/group/GroupRoles';
 import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
+import EnterpriseForm from './pages/admin/enterprises/EnterpriseForm';
 import TiposDocumentos from './pages/admin/tiposDocumentos/TiposDocumentos';
 import ContractsModel from './pages/admin/contractsModel/ContractsModel';
 import ContractsModelForm from './pages/admin/contractsModel/ContractsModelForm';
@@ -28,6 +27,7 @@ import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
 import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
 import StockList from './pages/store/StockList';
 import StockForm from './pages/store/StockForm';
+import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
 
 console.disableYellowBox = true;
 
@@ -44,7 +44,10 @@ function App() {
           <Route path='admin/users' element={<UserList />}></Route>
           <Route path='admin/users/add' element={<UserForm />}></Route>
           <Route path='admin/users/edit/:id' element={<UserForm />}></Route>
-          <Route path='admin/enterprises' element={<EnterpriseDetails />}></Route>
+          <Route path='admin/enterprises/:id' element={<EnterpriseDetails />}></Route>
+          <Route path='admin/enterprises/edit/:id' element={<EnterpriseForm />}></Route>
+          <Route path='admin/enterprises/accountants/edit/:id' element={<AccountantsForm />}></Route>
+          <Route path='admin/enterprises/accountants/add/:enterpriseId' element={<AccountantsForm />}></Route>
           <Route path='admin/documents' element={<TiposDocumentos />}></Route>
           <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
           <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>

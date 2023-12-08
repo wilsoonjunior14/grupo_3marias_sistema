@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accountants', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name", 255);
-            $table->string("phone", 255);
+            $table->string("phone", 20);
 
             $table->integer('address_id')->unsigned();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');

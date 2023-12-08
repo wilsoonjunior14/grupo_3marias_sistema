@@ -7,7 +7,6 @@ use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 /**
  * Client Validator
@@ -18,12 +17,11 @@ class ClientValidator extends ModelValidator
     public function validateUpdate(Request $request) {
         $rules = $this->getRules();
         $rules["cpf"] = "required|cpf";
-        $rules["cpf_dependent"] = "required|cpf";
-        $validator = Validator::make($request->all(), $rules, $messages = $this->getRulesMessages());
-        $this->validateData(request: $request, validator: $validator);
+        $rules["cpf_dependent"] = "cpf|different:cpf";
+        $this->validateData(request: $request, isUpdate: true, rules: $rules);
     }
 
-    public function validateData(Request $request, $validator = null) {
+    public function validateData(Request $request, bool $isUpdate = false, array $rules = []) {
         $data = $request->all();
         if (empty($data["birthdate"])) {
             unset($data["birthdate"]);
@@ -37,7 +35,8 @@ class ClientValidator extends ModelValidator
             unset($data["phone_dependent"]);
         }
         
-        if ($validator !== null) {
+        if ($isUpdate) {
+            $validator = Validator::make($data, $rules, $messages = $this->getRulesMessages());
             if ($validator->stopOnFirstFailure()->fails()){
                 $errors = $validator->stopOnFirstFailure()->errors();
                    throw new InputValidationException($errors->first());

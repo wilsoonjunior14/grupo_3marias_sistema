@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
@@ -70,6 +71,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Clients api routes
     Route::apiResource('/clients', ClientController::class);
+
+    // Accountants api routes
+    Route::apiResource('/accountants', AccountantController::class);
     
     // Users api routes
     Route::apiResource('/users', UserController::class);

@@ -23,6 +23,30 @@ thead tr th, .btn-success{
   background: #0C3472 !important;
 }
 
+.btn-close {
+  background-color: white !important;
+  opacity: 1;
+}
+
+.toggleOptions {
+  width: "300px" !important;
+  height: "100vh" !important; 
+  position: "fixed" !important;
+  top: 0;
+  left: 78;
+  z-index: 1000;
+  transition: 1.5s;
+  display: none;
+}
+
+.toggleOptions .toggleOptions-nav a, .toggleOptions-title {
+  color: white !important;
+}
+
+.toggleOptions .toggleOptions-nav a:hover {
+  color: red !important;
+}
+
 .dropdown-menu a {
   color: white;
 }

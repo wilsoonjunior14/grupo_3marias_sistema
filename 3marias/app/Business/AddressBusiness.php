@@ -30,16 +30,25 @@ class AddressBusiness {
         $this->validateData(data: $data);
         
         Logger::info("Salvando o novo endereço.");
-        $address = $this->getById(id: $id);
+        $address = $this->getById(id: $id, merge: false);
         $address = UpdateUtils::processFieldsToBeUpdated($address, $data, Address::$fieldsToBeUpdated);
+
         $address->save();
         Logger::info("Finalizando a atualização de endereço.");
+        return $address;
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $merge = true) {
         Logger::info("Recuperando endereço.");
         Logger::info("Salvando a nova endereço.");
         $address = (new Address())->getById($id);
+
+        if ($merge) {
+            $city = (new CityBusiness())->getById($address->city_id);
+            $address["city_name"] = $city["city_name"];
+            $address["state_name"] = $city["state_name"];
+        }
+
         Logger::info("Finalizando a recuperação de endereço.");
         return $address;
     }

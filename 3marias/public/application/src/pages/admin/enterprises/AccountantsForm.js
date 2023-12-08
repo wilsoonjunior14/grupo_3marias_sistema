@@ -2,47 +2,12 @@ import CustomForm from "../../../components/form/Form";
 import VHeader from "../../../components/vHeader/vHeader";
 import Container from "react-bootstrap/Container";
 
-const EnterpriseForm = ({}) => {
+const AccountantsForm = ({}) => {
 
     const fields = [
         {
             name: "name",
             placeholder: "Nome *",
-            maxlength: 255,
-            type: "text",
-            required: true
-        },
-        {
-            name: "fantasy_name",
-            placeholder: "Nome Fantasia *",
-            maxlength: 255,
-            type: "text",
-            required: true
-        },
-        {
-            name: "social_reason",
-            placeholder: "Razão Social *",
-            maxlength: 255,
-            type: "text",
-            required: true
-        },
-        {
-            name: "creci",
-            placeholder: "CRECI *",
-            maxlength: 255,
-            type: "text",
-            required: true
-        },
-        {
-            name: "state_registration",
-            placeholder: "Inscrição Estadual *",
-            maxlength: 255,
-            type: "text",
-            required: true
-        },
-        {
-            name: "municipal_registration",
-            placeholder: "Inscrição Municipal *",
             maxlength: 255,
             type: "text",
             required: true
@@ -104,10 +69,10 @@ const EnterpriseForm = ({}) => {
         <>
         <VHeader />
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
-            <CustomForm endpoint="/v1/enterprises" nameScreen="Dados da Empresa" fields={fields} />
+            <CustomForm endpoint="/v1/accountants" nameScreen="Contador" fields={fields} />
         </Container>
         </>
     )
 };
 
-export default EnterpriseForm;
+export default AccountantsForm;

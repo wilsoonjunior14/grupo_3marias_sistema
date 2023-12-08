@@ -59,7 +59,7 @@ const UserForm = ({}) => {
 
     return (
         <>
-        <CustomForm endpoint="/users" nameScreen="Usuário" fields={fields} />
+        <CustomForm id='app-container' endpoint="/users" nameScreen="Usuário" fields={fields} />
         </>
     )
 };

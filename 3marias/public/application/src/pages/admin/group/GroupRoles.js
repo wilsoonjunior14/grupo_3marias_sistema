@@ -151,7 +151,7 @@ function GroupRoles() {
         <>
             <Header />
             <br></br>
-            <Container fluid>
+            <Container id='app-container' fluid>
                 {!loading && httpError &&
                     <Error message={httpError.message} />
                 }

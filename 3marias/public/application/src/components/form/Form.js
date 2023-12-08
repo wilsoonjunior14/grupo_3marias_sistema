@@ -136,6 +136,11 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                 data[key] = formatDateToServer(data[key]);
             }
         });
+
+        if (parameters.enterpriseId) {
+            data["enterprise_id"] = parameters.enterpriseId;
+        }
+
         return data;
     }
 
@@ -200,6 +205,13 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
                                 {!isLoadingData &&
                                 <Form onSubmit={onSubmit}>
+                                    <Row>
+                                        <Col>
+                                            <small>Campos com * são obrigatórios.</small>
+                                        </Col>
+                                        <br></br>
+                                        <br></br>
+                                    </Row>
                                     <Row>
                                         {fields.map((field) => 
                                         <Col key={field.name} md={6} lg={4}>
