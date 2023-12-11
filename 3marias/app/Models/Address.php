@@ -17,7 +17,7 @@ class Address extends BaseModel
         'complement' => 'max:255',
         'number' => 'required|integer',
         'city_id' => 'required|integer',
-        'zipcode' => 'required|min:9'
+        'zipcode' => 'required|regex:/^\d{5}-\d{3}$/'
     ];
 
     static $rulesMessages = [
@@ -33,7 +33,7 @@ class Address extends BaseModel
         'city_id.required' => 'Campo identificador de cidade é obrigatório.',
         'city_id.integer' => 'Campo identificador de cidade deve ser um número inteiro.',
         'zipcode.required' => 'Campo de cep é obrigatório.',
-        'zipcode.min' => 'Campo de cep deve conter no mínimo 9 caracteres.'
+        'zipcode.regex' => 'Campo de cep está inválido.'
     ];
 
     public function city() {

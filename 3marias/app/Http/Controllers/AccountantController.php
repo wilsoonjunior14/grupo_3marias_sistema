@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Business\AccountantBusiness;
 use Illuminate\Http\Request;
-use App\Models\Accountant;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
 

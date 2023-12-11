@@ -34,7 +34,7 @@ function TiposDocumentos() {
                     tableName="Tipos de Documentos" 
                     tableIcon="content_paste" 
                     fieldNameDeletion="name" 
-                    url="/users" 
+                    url="/documentTypes" 
                     tableFields={table}
                     searchFields={fields} />
 

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -228,7 +227,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 75; $i++) {
+        for ($i = 1; $i<= 115; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -252,7 +251,6 @@ class DatabaseSeeder extends Seeder
     private function createRoles(): void {
         // api resource /users
         $this->createAPIResource("users");
-        DB::table('roles')->insert(['description' => 'POST /users/search', 'endpoint' => '/users/search', 'request_type' => 'post', 'deleted' => false]);
 
         // api resource /groups
         $this->createAPIResource('groups');
@@ -287,16 +285,34 @@ class DatabaseSeeder extends Seeder
         // api resource /accountants
         $this->createAPIResource('accountants');
 
+        // api resource /enterprisePartners
+        $this->createAPIResource('enterprisePartners');
+
+        // api resource /enterpriseOwners
+        $this->createAPIResource('enterpriseOwners');
+
+        // api resource /enterpriseBranches
+        $this->createAPIResource('enterpriseBranches');
+
+        // api resource /enterpriseFiles
+        $this->createAPIResource('enterpriseFiles');
+
+        // api resource /documentTypes
+        $this->createAPIResource('documentTypes');
+
         // api resource /roles
         $this->createAPIResource('roles');
-        DB::table('roles')->insert(['description' => "POST /roles/groups", 'endpoint' => '/roles/groups', 'request_type' => 'post', 'deleted' => false]);
-        DB::table('roles')->insert(['description' => "DELETE /roles/groups/{id}", 'endpoint' => '/roles/groups/{id}', 'request_type' => 'delete', 'deleted' => false]);
 
         // api resource /enterprises
         $this->createAPIResource('enterprises');
 
         // api resource /contractsModels
         $this->createAPIResource('contractsModels');
+
+        DB::table('roles')->insert(['description' => 'POST /users/search', 'endpoint' => '/users/search', 'request_type' => 'post', 'deleted' => false]);
+
+        DB::table('roles')->insert(['description' => "POST /roles/groups", 'endpoint' => '/roles/groups', 'request_type' => 'post', 'deleted' => false]);
+        DB::table('roles')->insert(['description' => "DELETE /roles/groups/{id}", 'endpoint' => '/roles/groups/{id}', 'request_type' => 'delete', 'deleted' => false]);
 
         DB::table('roles')->insert(['description' => 'GET /categories', 'endpoint' => '/categories', 'request_type' => 'get', 'deleted' => false]);
         DB::table('roles')->insert(['description' => 'POST /categories', 'endpoint' => '/categories', 'request_type' => 'post', 'deleted' => false]);

@@ -28,6 +28,10 @@ import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
 import StockList from './pages/store/StockList';
 import StockForm from './pages/store/StockForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
+import EnterprisePartnerForm from './pages/admin/enterprises/EnterprisePartnerForm';
+import EnterpriseOwnerForm from './pages/admin/enterprises/EnterpriseOwner';
+import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm';
+import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
 
 console.disableYellowBox = true;
 
@@ -48,7 +52,15 @@ function App() {
           <Route path='admin/enterprises/edit/:id' element={<EnterpriseForm />}></Route>
           <Route path='admin/enterprises/accountants/edit/:id' element={<AccountantsForm />}></Route>
           <Route path='admin/enterprises/accountants/add/:enterpriseId' element={<AccountantsForm />}></Route>
+          <Route path='admin/enterprises/enterprisePartners/add/:enterpriseId' element={<EnterprisePartnerForm />}></Route>
+          <Route path='admin/enterprises/enterprisePartners/edit/:id' element={<EnterprisePartnerForm />}></Route>
+          <Route path='admin/enterprises/enterpriseOwners/add/:enterpriseId' element={<EnterpriseOwnerForm />}></Route>
+          <Route path='admin/enterprises/enterpriseOwners/edit/:id' element={<EnterpriseOwnerForm />}></Route>
+          <Route path='admin/enterprises/enterpriseBranches/add/:enterpriseId' element={<EnterpriseBranchForm />}></Route>
+          <Route path='admin/enterprises/enterpriseBranches/edit/:id' element={<EnterpriseBranchForm />}></Route>
           <Route path='admin/documents' element={<TiposDocumentos />}></Route>
+          <Route path='admin/documents/add' element={<DocumentTypeForm />}></Route>
+          <Route path='admin/documents/edit/:id' element={<DocumentTypeForm />}></Route>
           <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
           <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
           <Route path='admin/clients' element={<ClientList />}></Route>

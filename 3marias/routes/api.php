@@ -17,6 +17,11 @@ use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\ContractModelController;
+use App\Http\Controllers\DocumentTypeController;
+use App\Http\Controllers\EnterpriseBranchController;
+use App\Http\Controllers\EnterpriseFileController;
+use App\Http\Controllers\EnterpriseOwnerController;
+use App\Http\Controllers\EnterprisePartnerController;
 use App\Http\Controllers\StockController;
 
 /*
@@ -74,6 +79,21 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Accountants api routes
     Route::apiResource('/accountants', AccountantController::class);
+
+    // EnterprisePartners api routes
+    Route::apiResource('/enterprisePartners', EnterprisePartnerController::class);
+
+    // EnterpriseOwners api routes
+    Route::apiResource('/enterpriseOwners', EnterpriseOwnerController::class);
+
+    // EnterpriseBranches api routes
+    Route::apiResource('/enterpriseBranches', EnterpriseBranchController::class);
+
+    // EnterpriseFiles api routes
+    Route::apiResource('/enterpriseFiles', EnterpriseFileController::class);
+
+    // DocumentTypes api routes
+    Route::apiResource('/documentTypes', DocumentTypeController::class);
     
     // Users api routes
     Route::apiResource('/users', UserController::class);

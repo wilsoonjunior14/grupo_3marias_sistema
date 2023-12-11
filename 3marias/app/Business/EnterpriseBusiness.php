@@ -26,6 +26,10 @@ class EnterpriseBusiness {
         $address = (new AddressBusiness())->getById($enterprise->address_id);
         $enterprise = $this->mountenterpriseAddressInline($enterprise, $address);
         $enterprise["accountants"] = (new AccountantBusiness())->get(enterpriseId: $id);
+        $enterprise["partners"] = (new EnterprisePartnerBusiness())->get(enterpriseId: $id);
+        $enterprise["owners"] = (new EnterpriseOwnerBusiness())->get(enterpriseId: $id);
+        $enterprise["branches"] = (new EnterpriseBranchBusiness())->get(enterpriseId: $id);
+        $enterprise["files"] = (new EnterpriseFileBusiness())->get(enterpriseId: $id);
         Logger::info("Finalizando a recuperação de empresa $id.");
         return $enterprise;
     }
