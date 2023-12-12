@@ -13,20 +13,19 @@ class ContractModel extends BaseModel
     static $rules = [
         'name' => 'required|max:100|min:3|regex:/^[\pL\s]+$/u',
         'type' => 'required|max:100|min:3|regex:/^[\pL\s]+$/u',
-        'content' => 'required|min:3|max:16383'
+        'content' => 'required|min:3'
     ];
 
     static $rulesMessages = [
-        'name.required' => 'Campo nome é obrigatório.',
-        'name.max' => 'Campo nome permite no máximo 100 caracteres.',
-        'name.min' => 'Campo nome deve conter no mínimo 3 caracteres.',
-        'name.regex' => 'Campo nome deve conter somente letras.',
-        'type.required' => 'Campo nome é obrigatório.',
-        'type.max' => 'Campo nome permite no máximo 100 caracteres.',
-        'type.min' => 'Campo nome deve conter no mínimo 3 caracteres.',
-        'type.regex' => 'Campo nome deve conter somente letras.',
-        'content.required' => 'Campo conteúdo é obrigatório.',
-        'content.max' => 'Campo conteúdo permite no máximo 16383 caracteres.',
-        'content.min' => 'Campo conteúdo deve conter no mínimo 3 caracteres.',
+        'name.required' => 'Campo Nome do Modelo de Contrato é obrigatório.',
+        'name.max' => 'Campo Nome do Modelo de Contrato permite no máximo 100 caracteres.',
+        'name.min' => 'Campo Nome do Modelo de Contrato deve conter no mínimo 3 caracteres.',
+        'name.regex' => 'Campo Nome do Modelo de Contrato deve conter somente letras.',
+        'type.required' => 'Campo Tipo do Modelo de Contrato é obrigatório.',
+        'type.max' => 'Campo Tipo do Modelo de Contrato permite no máximo 100 caracteres.',
+        'type.min' => 'Campo Tipo do Modelo de Contrato deve conter no mínimo 3 caracteres.',
+        'type.regex' => 'Campo Tipo do Modelo de Contrato deve conter somente letras.',
+        'content.required' => 'Campo Conteúdo do Contrato é obrigatório.',
+        'content.min' => 'Campo Conteúdo do Contrato deve conter no mínimo 3 caracteres.',
     ];
 }

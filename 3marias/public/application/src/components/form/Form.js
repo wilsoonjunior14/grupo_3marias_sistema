@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Header from '../../components/header/Header';
 import Error from '../../components/error/Error';
 import Success from '../../components/success/Success';
 import '../../App.css';
@@ -205,9 +204,9 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
                                 {!isLoadingData &&
                                 <Form onSubmit={onSubmit}>
-                                    <Row>
+                                    <Row className="required-label">
                                         <Col>
-                                            <small>Campos com * são obrigatórios.</small>
+                                            <small className="required-label-content">Campos com * são obrigatórios.</small>
                                         </Col>
                                         <br></br>
                                         <br></br>

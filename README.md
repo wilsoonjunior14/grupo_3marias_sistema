@@ -32,4 +32,29 @@
 - CryptoJS
 - Karma
 
+### AWS
+
+- Apply these changes on each bucket
+
+```json
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::bucket_name/*"
+            ]
+        }
+    ]
+}
+```
+
 ## Changelog

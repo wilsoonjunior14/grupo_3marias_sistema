@@ -63,6 +63,7 @@ function App() {
           <Route path='admin/documents/edit/:id' element={<DocumentTypeForm />}></Route>
           <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
           <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
+          <Route path='admin/contractsModel/edit/:id' element={<ContractsModelForm />}></Route>
           <Route path='admin/clients' element={<ClientList />}></Route>
           <Route path='admin/clients/add' element={<ClientForm />}></Route>
           <Route path='admin/clients/edit/:id' element={<ClientForm />}></Route>
