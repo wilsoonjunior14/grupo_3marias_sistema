@@ -27,11 +27,15 @@ import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
 import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
 import StockList from './pages/store/StockList';
 import StockForm from './pages/store/StockForm';
+import ProductList from './pages/store/Products/ProductList';
+import ProductForm from './pages/store/Products/ProductForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
 import EnterprisePartnerForm from './pages/admin/enterprises/EnterprisePartnerForm';
 import EnterpriseOwnerForm from './pages/admin/enterprises/EnterpriseOwner';
 import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm';
 import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
+import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
+import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
 
 console.disableYellowBox = true;
 
@@ -87,7 +91,13 @@ function App() {
 
           <Route path='store/stocks' element={<StockList />}></Route>
           <Route path='store/stocks/add' element={<StockForm />}></Route>
-          <Route path='store/stocks/edit/:id' element={<StockForm />}></Route>
+          <Route path='store/stocks/edit/:id' element={<StockForm />}></Route>          
+          <Route path='store/products' element={<ProductList />}></Route>
+          <Route path='store/products/add' element={<ProductForm />}></Route>
+          <Route path='store/products/edit/:id' element={<ProductForm />}></Route>
+          <Route path='store/categoryProducts' element={<CategoryProductList />}></Route>
+          <Route path='store/categoryProducts/add' element={<CategoryProductForm />}></Route>
+          <Route path='store/categoryProducts/edit/:id' element={<CategoryProductForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

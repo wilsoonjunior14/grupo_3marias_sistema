@@ -31,7 +31,11 @@ export function formatDateTime(datetime) {
 
 // TODO: it must be located on utils
 export function getValueOfComplexField(item, complexField) {
+    if (!item) {
+        return "";
+    }
     if (complexField.indexOf(".") === -1) {
+        console.log(item, complexField, item[complexField]);
         return item[complexField];
     }
 

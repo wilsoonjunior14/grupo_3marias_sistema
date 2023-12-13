@@ -9,7 +9,7 @@ import Success from '../../../components/success/Success';
 import Loading from "../../../components/loading/Loading";
 import CustomInput from "../../../components/input/CustomInput";
 import '../../../App.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import CustomButton from "../../../components/button/Button";
 
@@ -17,6 +17,70 @@ const ShoppingOrdersForm = ({}) => {
     const [loading, setLoading] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
+    const [itemsSelected, setItemsSelected] = useState([]);
+
+    const [products, setProducts] = useState([]);
+    const [productSelected, setProductSelected] = useState({});
+
+    const [leaveHappened, setLeaveHappened] = useState(false);
+
+    useEffect(() => {
+        setProducts([
+            {
+                id: 1,
+                name: "Product 1"
+            },
+            {
+                id: 2,
+                name: "Product 2"
+            },
+            {
+                id: 3,
+                name: "Product 3"
+            }
+        ]);
+    }, []);
+
+    const onDragStart = (product) => {
+        const element = document.getElementById("product"+product.id);
+        element.style.border = "2px solid red";
+        element.style.backgroundColor = "red";
+
+        setProductSelected(product);
+    }
+
+    const onDragEnd = (product) => {
+        const element = document.getElementById("product"+product.id);
+        element.style.border = "none";
+        element.style.borderBottom = "1px solid lightgray";
+        element.style.backgroundColor = "none";
+
+        setProductSelected({});
+        if (leaveHappened) {
+            onDragLeave();
+            setLeaveHappened(false);
+        }
+    }
+
+    const onDragLeave = () => {
+        if (!productSelected.id) {
+            return;
+        }
+        const exists = itemsSelected.some((p) => p.id === productSelected.id);
+        if (exists) {
+            // shows a modal message.
+            return;
+        }
+
+        itemsSelected.push(productSelected);
+        setItemsSelected(itemsSelected);
+        setProductSelected({});
+    }
+
+    const removeProduct = (product) => {
+        const newItems = itemsSelected.filter((p) => p.id !== product.id);
+        setItemsSelected(newItems);
+    }
     
     return (
         <>
@@ -68,50 +132,83 @@ const ShoppingOrdersForm = ({}) => {
                                             Adicionar Itens da Compra
                                         </Card.Title>
                                         <Row>
-                                            <Col>
-                                                <CustomInput key="category_service" placeholder="Categoria do Serviço" type="select" data={["Alvenaria", "Pintura", "Acabamento"]} name="category_service_id" />
+                                            <Col xs={3}>
+                                                <Card>
+                                                    <Card.Body>
+                                                        <Card.Title>
+                                                            Produtos
+                                                        </Card.Title>
+                                                        <Row>
+                                                            <Col>
+                                                                <Table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>ID</th>
+                                                                            <th>Nome</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {products.map((product) => 
+                                                                            <tr id={"product" + product.id} draggable={true} 
+                                                                                onDragStart={() => onDragStart(product)} 
+                                                                                onDragEnd={() => onDragEnd(product)}>
+                                                                                <td>{product.id}</td>
+                                                                                <td>{product.name}</td>
+                                                                            </tr>
+                                                                        )}
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card.Body>
+                                                </Card>
                                             </Col>
-                                            <Col>
-                                                <CustomInput key="service" placeholder="Serviço" type="select" data={["S1", "S2", "S3", "S4"]} name="service_id" />
-                                            </Col>
-                                            <Col>
-                                                <CustomButton style={{height: 58}} color="success" icon="add" tooltip="Adicionar Item de Compra" key="btn_add_shopping_item" name="btn_add_shopping_item" />
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col>
-                                                <Table striped responsive>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Descrição</th>
-                                                            <th>Quantidade</th>
-                                                            <th>Valor Unitátio</th>
-                                                            <th>Valor Total</th>
-                                                            <th>Opções</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>
-                                                                <input type="text" maxLength="255" placeholder="Descrição" />
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" placeholder="Quantidade" />
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" placeholder="Valor Unitário" />
-                                                            </td>
-                                                            <td>
-                                                                R$ 100
-                                                            </td>
-                                                            <td>
-                                                            <CustomButton color="light" icon="delete" tooltip="Remover Item de Compra" key="btn_delete_shopping_item" name="btn_delete_shopping_item" />
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </Table>
+                                            <Col xs={9}>
+                                                <Card>
+                                                    <Card.Body>
+                                                        <Card.Title>
+                                                            Produtos Selecionados
+                                                        </Card.Title>
+                                                        <Row>
+                                                            <Col>
+                                                                <Table 
+                                                                    onDragLeave={() => {setLeaveHappened(true)}}>
+                                                                    <thead onDragLeave={() => {setLeaveHappened(true)}}>
+                                                                        <tr>
+                                                                            <th>ID</th>
+                                                                            <th>Nome</th>
+                                                                            <th>Quantidade</th>
+                                                                            <th>Valor Unitário</th>
+                                                                            <th>Opções</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody onDragLeave={() => {setLeaveHappened(true)}}>
+                                                                        {itemsSelected.map((item) => 
+                                                                            <tr>
+                                                                                <td>{item.id}</td>
+                                                                                <td>
+                                                                                    <input type="text" maxLength="255" placeholder="Descrição" value={item.name} />
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" min={1} max={9999} placeholder="Quantidade" />
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" min={1} max={9999} placeholder="Valor Unitário" />
+                                                                                </td>
+                                                                                <td>
+                                                                                    <CustomButton
+                                                                                    onClick={() => removeProduct(item)} 
+                                                                                    color="light" icon="delete" tooltip="Remover Item de Compra" 
+                                                                                    key="btn_delete_shopping_item" name="btn_delete_shopping_item" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        )}
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card.Body>
+                                                </Card>
                                             </Col>
                                         </Row>
                                     </Col>

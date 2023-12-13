@@ -13,6 +13,12 @@ function VHeaderSuprimentos() {
             </Col>
         </Row>
         <Row style={{width: "100%"}}>
+            <Col><Nav.Link href="/store/categoryProducts">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Categorias de Produtos</Nav.Link>
+            </Col>
+        </Row>
+        <Row style={{width: "100%"}}>
             <Col><Nav.Link href="/store/products">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Produtos</Nav.Link>
