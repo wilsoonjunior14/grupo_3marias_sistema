@@ -173,7 +173,7 @@ class ObservabilityController extends Controller
     public function getEnterprises() {
         Logger::info("Iniciando a recuperação de empresas.");
 
-        $enterprises = (new Enterprise())->getAll();
+        $enterprises = (new Enterprise())->getAll("name");
         $responseData = [
             "waiting" => 0,
             "active" => 0,

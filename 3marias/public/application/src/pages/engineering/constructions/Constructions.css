@@ -1,0 +1,13 @@
+.constructions .row, .constructions .col, .constructions .card-title {
+    text-align: center;
+    cursor: pointer;
+}
+
+.constructions-col i {
+    font-size: 150px;
+}
+
+.constructions-row-divider {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}

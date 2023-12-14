@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Header from '../../components/header/Header';
 import Error from '../../components/error/Error';
 import Success from '../../components/success/Success';
 import '../../App.css';
@@ -14,6 +13,7 @@ import CustomInput from "../../components/input/CustomInput";
 import { performCustomRequest, performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
 import { formatDateToServer } from "../../services/Format";
+import BackButton from "../button/BackButton";
 
 const CustomForm = ({endpoint, nameScreen, fields}) => {
     const [loading, setLoading] = useState(false);
@@ -136,6 +136,11 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                 data[key] = formatDateToServer(data[key]);
             }
         });
+
+        if (parameters.enterpriseId) {
+            data["enterprise_id"] = parameters.enterpriseId;
+        }
+
         return data;
     }
 
@@ -163,8 +168,6 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
     return (
         <>
-            <Header />
-            <br></br>
             <Container fluid>
                 {!loading && httpError &&
                     <Error message={httpError.message} />
@@ -173,6 +176,12 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                 {!loading && httpSuccess &&
                     <Success message={httpSuccess.message} />
                 }
+
+                <Row>
+                    <Col>
+                        <BackButton />
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col>
@@ -202,6 +211,13 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
                                 {!isLoadingData &&
                                 <Form onSubmit={onSubmit}>
+                                    <Row className="required-label">
+                                        <Col>
+                                            <small className="required-label-content">Campos com * são obrigatórios.</small>
+                                        </Col>
+                                        <br></br>
+                                        <br></br>
+                                    </Row>
                                     <Row>
                                         {fields.map((field) => 
                                         <Col key={field.name} md={6} lg={4}>

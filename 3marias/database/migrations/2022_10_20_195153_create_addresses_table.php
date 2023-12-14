@@ -24,10 +24,7 @@ return new class extends Migration
 
             $table->integer('city_id')->unsigned();
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
-
-            $table->integer('enterprise_id')->unsigned();
-            $table->foreign('enterprise_id')->references('id')->on('enterprises')->onDelete('cascade');
-
+            
             $table->boolean('deleted')->default(false);
 
             $table->timestamps();

@@ -3,6 +3,7 @@
 # Clear docker cache
 # docker system prune --all
 # docker volume prune
+# docker login -u wilsonjunior
 # dckr_pat_I11iPGMfegdN7cExkhKrjDP-piI
 #
 version: '3.3'
@@ -25,7 +26,7 @@ services:
   # Backend - LARAVEL
   php:
     container_name: 3marias_app
-    image: wilsonjunior/busquei:1.2
+    image: wilsonjunior/busquei:1.3
     volumes:
       - .:/var/www/html
     working_dir: /var/www/html/3marias

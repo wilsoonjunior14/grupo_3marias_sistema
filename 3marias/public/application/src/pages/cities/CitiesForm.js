@@ -1,4 +1,6 @@
+import Container from "react-bootstrap/Container";
 import CustomForm from "../../components/form/Form";
+import VHeader from "../../components/vHeader/vHeader";
 
 const CitiesForm = ({}) => {
 
@@ -22,7 +24,10 @@ const CitiesForm = ({}) => {
 
     return (
         <>
-        <CustomForm endpoint="/v1/cities" nameScreen="Cidade" fields={fields} />
+        <VHeader />
+        <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <CustomForm endpoint="/v1/cities" nameScreen="Cidade" fields={fields} />
+        </Container>
         </>
     )
 };

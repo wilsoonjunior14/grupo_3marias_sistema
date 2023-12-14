@@ -16,6 +16,7 @@ import Thead from "./Thead";
 import NoEntity from "./NoEntity";
 import { formatDate, formatDateTime, getValueOfComplexField } from "../../services/Format";
 import Search from "../search/Search";
+import "../../App.css";
 
 const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
     disableEdit, disableDelete, disableAdd }) => {
@@ -89,7 +90,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
     };
 
     const onEditItem = (item) => {
-        navigate(url + "/edit/"+item.id);
+        navigate(window.location.pathname + "/edit/"+item.id);
     };
 
     const onDeleteItem = (item) => {
@@ -130,6 +131,15 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         }
         return item[field];
     };
+
+    const getTDField = (item, field) => {
+        const value = getValueOfField(item, field);
+        if (field === "id") {
+            return <td>{value}</td>;
+        } else {
+            return <td style={{minWidth: 200}}>{value}</td>
+        }
+    }
 
     const getStatusField = (value) => {
         if (value === "active") {
@@ -221,7 +231,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                         </Card.Title>
 
                         <Form>
-                            <Options disableAdd={disableAdd} onAdd={() => {navigate(url + "/add")}} onLoad={loadItems} />
+                            <Options disableAdd={disableAdd} onAdd={() => {navigate(window.location.pathname + "/add")}} onLoad={loadItems} />
 
                             {loading &&
                             <>
@@ -247,7 +257,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                                             {itemsPerPage.map((item) => 
                                                 <tr key={item.id}>
                                                 {tableFields.bodyFields.map((field) => 
-                                                <td>{getValueOfField(item, field)}</td>
+                                                    getTDField(item, field)
                                                 )}
                                                 <td className="options">
                                                     <Row>

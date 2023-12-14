@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 class UploadUtils
 {
 
-    public static function uploadImage(Request $request, string $folder, string $filePath) {
+    public static function uploadImage(Request $request, string $folder, string $filePath, string $field = "image") {
         Logger::info("Realizando upload para o local storage.");
-        move_uploaded_file($request->file("image")->getRealPath(), $filePath);
+        move_uploaded_file($request->file($field)->getRealPath(), $filePath);
 
         if (!(strcmp(env('APP_ENV'), "testing") === 0)) {
             Self::upload(folder: $folder, filePath: $filePath);

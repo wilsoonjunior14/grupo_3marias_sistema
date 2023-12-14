@@ -22,6 +22,14 @@ class ModelValidator
         $this->rulesMessages = $rulesMessages;
     }   
 
+    public function getRules() {
+        return $this->rules;
+    }
+
+    public function getRulesMessages() {
+        return $this->rulesMessages;
+    }
+
     /**
      * Method to be used to validate all input data.
      */

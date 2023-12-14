@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import CustomInputFile from "./CustomInputFile";
 import CustomSelect from "./CustomSelect";
 import CustomInputMask from "./CustomInputMask";
+import CustomSelect2 from "./CustomSelect2";
 
 const CustomInput = ({placeholder, name, type, value, maxlength, required, onChange, endpoint, 
     endpoint_field, data, mask, maskPlaceholder, pattern}) => {
@@ -19,6 +20,21 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
                 endpoint_field={endpoint_field}
                 data={data}
                 value={value}/>
+        )
+    }
+
+    if (type === "select2") {
+        return (
+            <CustomSelect2
+            name={name}
+            placeholder={placeholder}
+            maxlength={maxlength}
+            required={required} 
+            onChange={onChange} 
+            endpoint={endpoint}
+            endpoint_field={endpoint_field}
+            data={data}
+            value={value} />
         )
     }
 

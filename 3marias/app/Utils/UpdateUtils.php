@@ -2,9 +2,6 @@
 
 namespace App\Utils;
 
-use Exception;
-use App\Models\Logger;
-
 class UpdateUtils
 {
     /**
@@ -15,6 +12,13 @@ class UpdateUtils
             if (in_array($key, $fields)) {
                 $targetData[$key] = $value;
             }
+        }
+        return $targetData;
+    }
+
+    public static function clearFields($targetData, $fields) {
+        foreach ($fields as $key) {
+            $targetData[$key] = "";
         }
         return $targetData;
     }
