@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CountryController;
@@ -24,7 +25,9 @@ use App\Http\Controllers\EnterpriseFileController;
 use App\Http\Controllers\EnterpriseOwnerController;
 use App\Http\Controllers\EnterprisePartnerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\PartnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +105,15 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // CategoryProducts api routes
     Route::apiResource('/categoryProducts', CategoryProductController::class);
+
+    // CategoryServices api routes
+    Route::apiResource('/categoryServices', CategoryServiceController::class);
+
+    // Services api routes
+    Route::apiResource('/services', ServiceController::class);
+
+    // Partners api routes
+    Route::apiResource('/partners', PartnerController::class);
     
     // Users api routes
     Route::apiResource('/users', UserController::class);

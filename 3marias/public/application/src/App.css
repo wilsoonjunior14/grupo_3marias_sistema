@@ -32,6 +32,18 @@ thead tr th, .btn-success{
   opacity: 1;
 }
 
+.bp5-popover-transition-container {
+  width: 300px !important;
+}
+
+.bp5-popover {
+  width: 100% !important;
+}
+
+.bp5-popover input::placeholder {
+  color: transparent !important;
+}
+
 .toggleOptions {
   width: "300px" !important;
   height: "100vh" !important; 

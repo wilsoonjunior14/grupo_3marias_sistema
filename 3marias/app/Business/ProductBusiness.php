@@ -41,6 +41,8 @@ class ProductBusiness {
         Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
 
+        $category = (new CategoryProductBusiness())->getByName(name: $data["category_product_name"]);
+        $data["category_product_id"] = $category->id;
         $productValidator = new ModelValidator(Product::$rules, Product::$rulesMessages);
         $productValidator->validate(data: $data);
         $this->existsEntity(name: $data["product"]);
@@ -59,6 +61,8 @@ class ProductBusiness {
         $productUpdated = UpdateUtils::processFieldsToBeUpdated($product, $request->all(), Product::$fieldsToBeUpdated);
         
         Logger::info("Validando as informações do produto.");
+        $category = (new CategoryProductBusiness())->getByName(name: $data["category_product_name"]);
+        $data["category_product_id"] = $category->id;
         $productValidator = new ModelValidator(Product::$rules, Product::$rulesMessages);
         $productValidator->validate(data: $request->all());
         $this->existsEntity(name: $productUpdated["product"], id: $id);

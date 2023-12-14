@@ -36,6 +36,16 @@ import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm
 import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
 import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
 import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
+import CategoryServiceForm from './pages/shopping/categoryServices/CategoryServiceForm';
+import CategoryServiceList from './pages/shopping/categoryServices/CategoryServiceList';
+import ServiceForm from './pages/shopping/services/ServiceForm';
+import ServiceList from './pages/shopping/services/ServiceList';
+import PartnerList from './pages/shopping/partners/PartnerList';
+import PartnerForm from './pages/shopping/partners/PartnerForm';
+import ProposalList from './pages/engineering/proposals/ProposalList';
+import ProposalForm from './pages/engineering/proposals/ProposalForm';
+import ConstructionsList from './pages/engineering/constructions/ConstructionList';
+import ConstructionsForm from './pages/engineering/constructions/ConstructionsForm';
 
 console.disableYellowBox = true;
 
@@ -69,8 +79,8 @@ function App() {
           <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
           <Route path='admin/contractsModel/edit/:id' element={<ContractsModelForm />}></Route>
           <Route path='admin/clients' element={<ClientList />}></Route>
-          <Route path='admin/clients/add' element={<ClientForm />}></Route>
-          <Route path='admin/clients/edit/:id' element={<ClientForm />}></Route>
+          <Route path='admin/clients/add' element={<ClientForm disableHeader={false} />}></Route>
+          <Route path='admin/clients/edit/:id' element={<ClientForm disableHeader={false} />}></Route>
           <Route path='admin/groups' element={<GroupList />}></Route>
           <Route path='admin/groups/add' element={<GroupForm />}></Route>
           <Route path='admin/groups/edit/:id' element={<GroupForm />}></Route>
@@ -88,6 +98,15 @@ function App() {
           <Route path='shopping' element={<ShoppingList />}></Route>
           <Route path='shopping/orders' element={<ShoppingOrdersList />}></Route>
           <Route path='shopping/orders/add' element={<ShoppingOrdersForm />}></Route>
+          <Route path='shopping/services' element={<ServiceList />}></Route>
+          <Route path='shopping/services/add' element={<ServiceForm />}></Route>
+          <Route path='shopping/services/edit/:id' element={<ServiceForm />}></Route>
+          <Route path='shopping/categoryServices' element={<CategoryServiceList />}></Route>
+          <Route path='shopping/categoryServices/add' element={<CategoryServiceForm />}></Route>
+          <Route path='shopping/categoryServices/edit/:id' element={<CategoryServiceForm />}></Route>
+          <Route path='shopping/partners' element={<PartnerList />}></Route>
+          <Route path='shopping/partners/add' element={<PartnerForm />}></Route>
+          <Route path='shopping/partners/edit/:id' element={<PartnerForm />}></Route>
 
           <Route path='store/stocks' element={<StockList />}></Route>
           <Route path='store/stocks/add' element={<StockForm />}></Route>
@@ -98,6 +117,13 @@ function App() {
           <Route path='store/categoryProducts' element={<CategoryProductList />}></Route>
           <Route path='store/categoryProducts/add' element={<CategoryProductForm />}></Route>
           <Route path='store/categoryProducts/edit/:id' element={<CategoryProductForm />}></Route>
+
+          <Route path='engineering/proposals' element={<ProposalList />}></Route>
+          <Route path='engineering/proposals/add' element={<ProposalForm />}></Route>
+          <Route path='engineering/proposals/edit/:id' element={<ProposalForm />}></Route> 
+          <Route path='engineering/constructions' element={<ConstructionsList />}></Route>
+          <Route path='engineering/constructions/add' element={<ConstructionsForm />}></Route>
+          <Route path='engineering/constructions/edit/:id' element={<ConstructionsForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

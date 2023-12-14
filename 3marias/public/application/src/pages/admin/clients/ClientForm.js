@@ -14,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import { performCustomRequest, performRequest } from "../../../services/Api";
 import { formatDateToServer } from "../../../services/Format";
 
-const ClientForm = ({}) => {
+const ClientForm = ({disableHeader}) => {
 
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
@@ -24,6 +24,7 @@ const ClientForm = ({}) => {
     const [item, setItem] = useState({});
     const initialState = {};
     const [endpoint, setEndpoint] = useState("/v1/clients");
+    const [containerStyle, setContainerStyle] = useState({});
 
     useEffect(() => {
         if (parameters.id && !isLoadingData) {
@@ -31,6 +32,12 @@ const ClientForm = ({}) => {
             performRequest("GET", endpoint + "/"+parameters.id)
             .then(successGet)
             .catch(errorResponse);
+        }
+
+        if (disableHeader) {
+            setContainerStyle({});
+        } else {
+            setContainerStyle({marginLeft: 90, width: "calc(100% - 100px)"});
         }
     }, []);
 
@@ -314,8 +321,10 @@ const ClientForm = ({}) => {
 
     return (
         <>
+        {!disableHeader &&
         <VHeader />
-        <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+        }
+        <Container id='app-container' style={containerStyle} fluid>
             <Row>
                 <Col>
                     {!loading && httpError &&

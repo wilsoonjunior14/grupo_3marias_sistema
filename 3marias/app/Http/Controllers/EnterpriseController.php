@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Business\enterpriseBusiness;
+use App\Business\EnterpriseBusiness;
 use App\Exceptions\MethodNotImplementedYet;
 use Illuminate\Http\Request;
 use App\Models\Enterprise;

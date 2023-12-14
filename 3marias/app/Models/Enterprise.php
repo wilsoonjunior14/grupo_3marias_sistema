@@ -47,9 +47,9 @@ class Enterprise extends BaseModel
         'state_registration.required' => 'Campo Inscrição Estadual é obrigatório.',
         'state_registration.max' => 'Campo Inscrição Estadual permite no máximo 255 caracteres.',
         'state_registration.min' => 'Campo Inscrição Estadual deve conter no mínimo 3 caracteres.',
-        'social_reason.required' => 'Campo Inscrição Municipal é obrigatório.',
-        'social_reason.max' => 'Campo Inscrição Municipal permite no máximo 255 caracteres.',
-        'social_reason.min' => 'Campo Inscrição Municipal deve conter no mínimo 3 caracteres.'
+        'municipal_registration.required' => 'Campo Inscrição Municipal é obrigatório.',
+        'municipal_registration.max' => 'Campo Inscrição Municipal permite no máximo 255 caracteres.',
+        'municipal_registration.min' => 'Campo Inscrição Municipal deve conter no mínimo 3 caracteres.'
     ];
 
     public function address(): \Illuminate\Database\Eloquent\Relations\HasOne {

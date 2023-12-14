@@ -14,9 +14,9 @@ const ProductForm = ({}) => {
             required: true
         },
         {
-            name: "category_product_id",
+            name: "category_product_name",
             placeholder: "Categoria do Produto *",
-            type: "select",
+            type: "select2",
             required: true,
             endpoint: "categoryProducts",
             endpoint_field: "name"

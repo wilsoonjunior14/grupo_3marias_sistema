@@ -227,7 +227,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 125; $i++) {
+        for ($i = 1; $i<= 140; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -314,6 +314,15 @@ class DatabaseSeeder extends Seeder
 
         // api resource /categoryProducts
         $this->createAPIResource('categoryProducts');
+
+        // api resource /services
+        $this->createAPIResource('services');
+
+        // api resource /categoryServices
+        $this->createAPIResource('categoryServices');
+
+        // api resource /partners
+        $this->createAPIResource('partners');
 
         DB::table('roles')->insert(['description' => 'POST /users/search', 'endpoint' => '/users/search', 'request_type' => 'post', 'deleted' => false]);
 

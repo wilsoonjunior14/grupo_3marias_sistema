@@ -13,6 +13,7 @@ import CustomInput from "../../components/input/CustomInput";
 import { performCustomRequest, performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
 import { formatDateToServer } from "../../services/Format";
+import BackButton from "../button/BackButton";
 
 const CustomForm = ({endpoint, nameScreen, fields}) => {
     const [loading, setLoading] = useState(false);
@@ -175,6 +176,12 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                 {!loading && httpSuccess &&
                     <Success message={httpSuccess.message} />
                 }
+
+                <Row>
+                    <Col>
+                        <BackButton />
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col>

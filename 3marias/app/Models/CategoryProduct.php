@@ -33,6 +33,7 @@ class CategoryProduct extends BaseModel
     static function getByName(string $name) {
         return CategoryProduct::where("deleted", false)
         ->where("name", $name)
-        ->get();
+        ->get()
+        ->first();
     }
 }

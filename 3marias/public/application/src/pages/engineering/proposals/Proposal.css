@@ -1,0 +1,27 @@
+.proposal-menu {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.proposal-menu-item {
+    text-align: center;
+    background-color: white;
+    height: 40px;
+    padding-top: 5px;
+    border: 1px solid gray;
+    border-top-right-radius: 50px;
+    border-top-left-radius: 50px;
+    cursor: pointer;
+}
+
+.proposal-menu-item:hover {
+    border-color: #0C3472;
+    font-weight: bold;
+    border: 2px solid;
+}
+
+.proposal-menu-item-active {
+    background-color: #0C3472;
+    color: white;
+    font-weight: bold;
+}

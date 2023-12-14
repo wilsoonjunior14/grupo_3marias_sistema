@@ -36,7 +36,7 @@ function VHeaderCompras() {
             </Col>
         </Row>
         <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/shopping/categories_services">
+            <Col><Nav.Link href="/shopping/categoryServices">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Categorias de Serviços</Nav.Link>
             </Col>

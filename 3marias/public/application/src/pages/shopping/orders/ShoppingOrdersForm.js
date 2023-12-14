@@ -12,6 +12,8 @@ import '../../../App.css';
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import CustomButton from "../../../components/button/Button";
+import { performRequest } from "../../../services/Api";
+import NoEntity from "../../../components/table/NoEntity";
 
 const ShoppingOrdersForm = ({}) => {
     const [loading, setLoading] = useState(false);
@@ -25,21 +27,20 @@ const ShoppingOrdersForm = ({}) => {
     const [leaveHappened, setLeaveHappened] = useState(false);
 
     useEffect(() => {
-        setProducts([
-            {
-                id: 1,
-                name: "Product 1"
-            },
-            {
-                id: 2,
-                name: "Product 2"
-            },
-            {
-                id: 3,
-                name: "Product 3"
-            }
-        ]);
+        getProducts();
     }, []);
+
+    const getProducts = () => {
+        setLoading(true);
+        performRequest("GET", "/v1/products", null)
+        .then((successGetProducts))
+        .catch((err) => setLoading(false));
+    }
+
+    const successGetProducts = (response) => {
+        setLoading(false);
+        setProducts(response.data);
+    }
 
     const onDragStart = (product) => {
         const element = document.getElementById("product"+product.id);
@@ -138,6 +139,16 @@ const ShoppingOrdersForm = ({}) => {
                                                         <Card.Title>
                                                             Produtos
                                                         </Card.Title>
+                                                        {loading &&
+                                                            <Row>
+                                                                <Col xs={4}></Col>
+                                                                <Col xs={4}>
+                                                                    <Loading />
+                                                                </Col>
+                                                                <Col xs={4}></Col>
+                                                            </Row>
+                                                        }
+                                                        {!loading &&
                                                         <Row>
                                                             <Col>
                                                                 <Table>
@@ -153,13 +164,14 @@ const ShoppingOrdersForm = ({}) => {
                                                                                 onDragStart={() => onDragStart(product)} 
                                                                                 onDragEnd={() => onDragEnd(product)}>
                                                                                 <td>{product.id}</td>
-                                                                                <td>{product.name}</td>
+                                                                                <td>{product.product}</td>
                                                                             </tr>
                                                                         )}
                                                                     </tbody>
                                                                 </Table>
                                                             </Col>
                                                         </Row>
+                                                        }
                                                     </Card.Body>
                                                 </Card>
                                             </Col>
@@ -187,7 +199,7 @@ const ShoppingOrdersForm = ({}) => {
                                                                             <tr>
                                                                                 <td>{item.id}</td>
                                                                                 <td>
-                                                                                    <input type="text" maxLength="255" placeholder="Descrição" value={item.name} />
+                                                                                    <input type="text" disabled={true} maxLength="255" placeholder="Descrição" value={item.product} />
                                                                                 </td>
                                                                                 <td>
                                                                                     <input type="number" min={1} max={9999} placeholder="Quantidade" />
@@ -203,6 +215,9 @@ const ShoppingOrdersForm = ({}) => {
                                                                                 </td>
                                                                             </tr>
                                                                         )}
+                                                                        {itemsSelected.length === 0 &&
+                                                                            <NoEntity message="Nenhum produto adicionado." />
+                                                                        }
                                                                     </tbody>
                                                                 </Table>
                                                             </Col>

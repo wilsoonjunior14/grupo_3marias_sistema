@@ -11,6 +11,7 @@ import VHeaderItem from "./vHeaderItem";
 import VHeaderAdmin from "./vHeaderAdmin";
 import VHeaderCompras from "./vHeaderCompras";
 import VHeaderSuprimentos from "./vHeaderSuprimentos";
+import VHeaderEngenharia from "./vHeaderEngenharia";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
@@ -43,13 +44,15 @@ function VHeader() {
         {
             id: 5,
             name: "Engenharia",
-            icon: "memory"
+            icon: "memory",
+            path: "engineering"
         },
         {
             id: 6,
             name: "Financeiro",
             icon: "attach_money"
-        },        {
+        },        
+        {
             id: 7,
             name: "RH",
             icon: "people"
@@ -133,6 +136,9 @@ function VHeader() {
                     }
                     {itemSelected.id === 3 &&
                         <VHeaderSuprimentos />
+                    }
+                    {itemSelected.id === 5 &&
+                        <VHeaderEngenharia />
                     }
                     </Nav>
                     </Col>

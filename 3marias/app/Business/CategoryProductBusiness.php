@@ -44,12 +44,13 @@ class CategoryProductBusiness {
         Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
 
+        if (isset($data["category_products_father_id"]) && !empty($data["category_products_father_id"])) {
+            $category = $this->getByName(name: $data["category_products_father_id"]);
+            $data["category_products_father_id"] = $category->id;
+        }
         $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
         $categoryValidator->validate(data: $data);
         $this->existsEntity(name: $data["name"]);
-        if (isset($data["category_products_father_id"]) && !empty($data["category_products_father_id"])) {
-            $this->getById(id: $data["category_products_father_id"]);
-        }
         
         Logger::info("Salvando a nova categoria de produto.");
         $category = new CategoryProduct($data);
@@ -62,14 +63,17 @@ class CategoryProductBusiness {
         Logger::info("Alterando informações do categoria de produto.");
         $category = (new CategoryProduct())->getById($id);
         $categoryUpdated = UpdateUtils::processFieldsToBeUpdated($category, $request->all(), CategoryProduct::$fieldsToBeUpdated);
-        
+        $data = $request->all();
+
         Logger::info("Validando as informações do categoria de produto.");
-        $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
-        $categoryValidator->validate(data: $request->all());
-        $this->existsEntity(name: $categoryUpdated["name"], id: $id);
         if (isset($data["category_products_father_id"]) && !empty($data["category_products_father_id"])) {
-            $this->getById(id: $data["category_products_father_id"]);
+            $category = $this->getByName(name: $data["category_products_father_id"]);
+            $data["category_products_father_id"] = $category->id;
         }
+        $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
+        $categoryValidator->validate(data: $data);
+        $this->existsEntity(name: $categoryUpdated["name"], id: $id);
+        $categoryUpdated["category_products_father_id"] = $data["category_products_father_id"];
 
         Logger::info("Atualizando as informações do categoria de produto.");
         $categoryUpdated->save();
@@ -77,12 +81,20 @@ class CategoryProductBusiness {
     }
 
     private function existsEntity(string $name, int $id = null) {
-        $condition = [["name", "like", "%" . $name . "%"]];
+        $condition = [["name", "=", $name]];
         $exists = (new CategoryProduct())->existsEntity(condition: $condition, id: $id);
         if ($exists) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome da Categoria", "Categorias de Produtos"));
         }
         return $exists;
+    }
+
+    public function getByName(string $name) {
+        $category = (new CategoryProduct())->getByName(name: $name);
+        if (is_null($category)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria Associada"));
+        }
+        return $category;
     }
 
 }
