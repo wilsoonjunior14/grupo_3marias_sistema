@@ -35,7 +35,7 @@ export default function ConstructionsList() {
             <VHeader />
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 <Search fields={fields} onSearch={onSearch} />
-                <Row>
+                <Row className="animate__animated animate__slideInUp">
                     <Col lg={4}>
                         <Card className="constructions">
                             <Card.Body>

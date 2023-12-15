@@ -6,6 +6,16 @@
   background-color: #0C3472;
 }
 
+.card {
+  animation: slideInUp !important; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 1s !important; /* don't forget to set a duration! */
+}
+
+.rsw-ce p, .rsw-ce span, .rsw-ce div, .rsw-ce div p, .rsw-ce div span, .rsw-ce {
+  background-color: white !important;
+  color: black !important;
+}
+
 thead tr th, .btn-success{
   color: white !important;
   background: #0C3472 !important;

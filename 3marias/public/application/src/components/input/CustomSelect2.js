@@ -65,7 +65,7 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
         }
 
         const itemsFound = items.filter((i) => {
-            return i[endpoint_field].toString().toLowerCase().indexOf(value) !== -1;
+            return i[endpoint_field].toString().toLowerCase().indexOf(value.toString().toLowerCase()) !== -1;
         });
         filterItems(itemsFound);
     }
@@ -94,7 +94,7 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
                 }}
                 onQueryChange={(e) => onSearch(e)}
                 onItemSelect={onChange} > 
-                <CustomInput type="text" value={value} placeholder={placeholder} required={required} />
+                <CustomInput type="text" value={value} placeholder={placeholder} required={required} disabled={true} />
             </Select2>
             }
             {loading &&
@@ -104,7 +104,7 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
                 name={name}
                 maxLength={maxlength}
                 value="Carregando..."
-                disabled="true"
+                disabled={true}
                 required={required} />
             }
         </FloatingLabel>

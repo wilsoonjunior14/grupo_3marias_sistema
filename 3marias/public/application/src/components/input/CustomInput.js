@@ -7,7 +7,7 @@ import CustomInputMask from "./CustomInputMask";
 import CustomSelect2 from "./CustomSelect2";
 
 const CustomInput = ({placeholder, name, type, value, maxlength, required, onChange, endpoint, 
-    endpoint_field, data, mask, maskPlaceholder, pattern}) => {
+    endpoint_field, data, mask, maskPlaceholder, pattern, disabled}) => {
     if (type === "select") {
         return (
             <CustomSelect
@@ -93,7 +93,8 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
             onChange={onChange}
             maxLength={maxlength}
             value={value}
-            required={required} />
+            required={required}
+            readOnly={disabled} />
     </FloatingLabel>);
 }
 

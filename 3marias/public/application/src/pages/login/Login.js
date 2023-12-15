@@ -65,8 +65,10 @@ function Login() {
         <div className="Display">
             <div style={{flex: 1}}></div>
             <div style={{flex: 1}}>
-            <img width={400} style={{marginBottom: "0"}} src={config.url + "/img/logo_complete.png"} />
-            <Card style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#0C3472' }}>
+            <img className="animate__animated animate__zoomInDown" 
+                width={400} style={{marginBottom: "0"}} 
+                src={config.url + "/img/logo_complete.png"} />
+            <Card className="animate__animated animate__backInLeft" style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#0C3472' }}>
                 <Card.Body>
                         {!isLoading && httpError && 
                         <Alert key={'danger'} variant={'danger'}>

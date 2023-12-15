@@ -164,7 +164,7 @@ function VHeader() {
                         />
                     </Navbar.Brand>
 
-                    <Nav.Link href="/home" style={{marginRight: "10px"}}
+                    <Nav.Link href="/home" style={{marginLeft: "-20px", paddingRight: "10px"}}
                         data-tooltip-id="dashboard-item-tooltip" data-tooltip-content="Dashboard">
                         <i style={{color: dashboardColor, fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">dashboard</i>
                     </Nav.Link>

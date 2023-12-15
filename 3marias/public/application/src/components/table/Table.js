@@ -17,6 +17,7 @@ import NoEntity from "./NoEntity";
 import { formatDate, formatDateTime, getValueOfComplexField } from "../../services/Format";
 import Search from "../search/Search";
 import "../../App.css";
+import TableButton from "../button/TableButton";
 
 const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
     disableEdit, disableDelete, disableAdd }) => {
@@ -260,30 +261,22 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                                                     getTDField(item, field)
                                                 )}
                                                 <td className="options">
-                                                    <Row>
-                                                        {customOptions != null &&
+                                                    {customOptions != null &&
                                                         customOptions.map((option) => 
-                                                            <Col>
-                                                                <CustomButton name={option.name} tooltip={option.tooltip} onClick={() => navigate(option.redirectTo+"/"+item.id)}
-                                                                icon={option.icon} color="light" />
-                                                            </Col>
+                                                            <TableButton name={option.name} tooltip={option.tooltip} onClick={() => navigate(option.redirectTo+"/"+item.id)}
+                                                            icon={option.icon} color="light" />
                                                         )
-                                                        }
+                                                    }
                                                         
-                                                        {!disableEdit &&
-                                                        <Col>
-                                                            <CustomButton name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
+                                                    {!disableEdit &&
+                                                        <TableButton name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
                                                                 icon="edit" color="light" />
-                                                        </Col>
-                                                        }
+                                                    }
 
-                                                        {!disableDelete &&
-                                                        <Col>
-                                                            <CustomButton name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
+                                                    {!disableDelete &&
+                                                        <TableButton name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
                                                                 icon="delete" color="light" />
-                                                        </Col>
-                                                        }
-                                                    </Row>
+                                                    }
                                                 </td>
                                             </tr>
                                             )

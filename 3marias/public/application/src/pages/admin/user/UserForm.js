@@ -1,4 +1,6 @@
 import CustomForm from "../../../components/form/Form";
+import Container from 'react-bootstrap/Container';
+import VHeader from "../../../components/vHeader/vHeader";
 
 const UserForm = ({}) => {
 
@@ -59,7 +61,10 @@ const UserForm = ({}) => {
 
     return (
         <>
-        <CustomForm id='app-container' endpoint="/users" nameScreen="Usuário" fields={fields} />
+        <VHeader />
+        <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <CustomForm id='app-container' endpoint="/users" nameScreen="Usuário" fields={fields} />
+        </Container>
         </>
     )
 };

@@ -179,9 +179,11 @@ function ContractsModelForm() {
                                         className="mb-3">
                                             <Tab eventKey="edit" title="Editar">
                                                 <Row>
-                                                    <Col>
+                                                    <Col xs={2}></Col>
+                                                    <Col xs={8}>
                                                         <Editor value={html} onChange={onChange} />
                                                     </Col>
+                                                    <Col xs={2}></Col>
                                                 </Row>
                                             </Tab>
                                             <Tab eventKey="preview" title="Visualizar">
@@ -210,7 +212,7 @@ function ContractsModelForm() {
                                                             />
                                                             </Col>
                                                         </Row>
-                                                        <div dangerouslySetInnerHTML={{ __html: html }} />
+                                                        <div className="rsw-ce" dangerouslySetInnerHTML={{ __html: html }} />
                                                     </Col>
                                                     <Col cs={2}></Col>
                                                 </Row>
