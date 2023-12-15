@@ -1,6 +1,6 @@
 {
-  "name": "3Marias",
-  "version": "1.0",
+  "name": "application",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^5.7.2",
