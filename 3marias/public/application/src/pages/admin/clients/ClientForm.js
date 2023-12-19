@@ -111,7 +111,8 @@ const ClientForm = ({disableHeader}) => {
     }
 
     const performPost = (data, e) => {
-        const payload = processDataBefore(state);
+        const userdata = Object.assign({}, state);
+        const payload = processDataBefore(userdata);
         performRequest("POST", endpoint, payload)
         .then((response) => successPost(response, e))
         .catch(errorResponse);
@@ -120,7 +121,7 @@ const ClientForm = ({disableHeader}) => {
     const processDataBefore = (data) => {
         const keys = Object.keys(data);
         keys.forEach((key) => {
-            if (key === "birthdate") {
+            if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
             }
         });
@@ -163,6 +164,20 @@ const ClientForm = ({disableHeader}) => {
             type: 'mask',
             mask: '9999999999999',
             maxlength: 100,
+            required: true
+        },
+        {
+            name: 'rg_organ',
+            placeholder: 'Órgão Expedidor do RG *',
+            type: 'text',
+            maxlength: 10,
+            required: true
+        },
+        {
+            name: 'rg_date',
+            placeholder: 'Data de Emissão do RG *',
+            type: 'date',
+            maxlength: 10,
             required: true
         },
         {
@@ -276,6 +291,20 @@ const ClientForm = ({disableHeader}) => {
             type: 'mask',
             mask: '9999999999999',
             maxlength: 13,
+            required: true
+        },
+        {
+            name: 'rg_dependent_organ',
+            placeholder: 'Órgão Expedidor do RG do Cônjugue *',
+            type: 'text',
+            maxlength: 10,
+            required: true
+        },
+        {
+            name: 'rg_dependent_date',
+            placeholder: 'Data de Emissão do RG do Cônjugue *',
+            type: 'date',
+            maxlength: 10,
             required: true
         },
         {

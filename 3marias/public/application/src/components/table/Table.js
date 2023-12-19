@@ -263,7 +263,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                                                 <td className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
-                                                            <TableButton name={option.name} tooltip={option.tooltip} onClick={() => navigate(option.redirectTo+"/"+item.id)}
+                                                            <TableButton 
+                                                                name={option.name} 
+                                                                tooltip={option.tooltip} 
+                                                                onClick={() => option.onClick(item)}
                                                             icon={option.icon} color="light" />
                                                         )
                                                     }
