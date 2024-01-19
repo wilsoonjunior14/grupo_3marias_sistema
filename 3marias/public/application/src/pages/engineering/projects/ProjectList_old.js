@@ -6,10 +6,10 @@ import Search from "../../../components/search/Search";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import "./Constructions.css";
+import "./Projects.css";
 import Button from "react-bootstrap/esm/Button";
 
-export default function ConstructionsList() {
+export default function ProjectList() {
     
     const fields = [
         {

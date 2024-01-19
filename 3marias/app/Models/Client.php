@@ -5,13 +5,13 @@ namespace App\Models;
 class Client extends BaseModel
 {
     protected $table = "clients";
-    protected $fillable = ["id", "name", "rg", "cpf", "state", "nationality", "ocupation", "email", 
+    protected $fillable = ["id", "name", "rg", "rg_organ", "rg_date", "cpf", "state", "nationality", "ocupation", "email", 
     "phone", "birthdate", "address_id",
     "name_dependent", "rg_dependent", "cpf_dependent", "nationality_dependent", "ocupation_dependent", "email_dependent", 
     "phone_dependent", "birthdate_dependent",
     "deleted", "created_at", "updated_at"];
 
-    static $fieldsToBeUpdated = ["name", "rg", "cpf", "state", "nationality", "ocupation", "email", 
+    static $fieldsToBeUpdated = ["name", "rg", "rg_organ", "rg_date", "cpf", "state", "nationality", "ocupation", "email", 
     "phone", "birthdate", "address_id",
     "name_dependent", "rg_dependent", "cpf_dependent", "nationality_dependent", "ocupation_dependent", "email_dependent", 
     "phone_dependent", "birthdate_dependent"];
@@ -19,6 +19,8 @@ class Client extends BaseModel
     static $rules = [
         'name' => 'bail|required|max:255|min:3',
         'rg' => 'required|min:13|max:14',
+        'rg_organ' => 'required|min:3|max:11',
+        'rg_date' => 'required|date',
         'cpf' => 'required|cpf|unique:clients',
         'state' => 'required|in:Solteiro,Casado,Divorciado,Viúvo',
         'nationality' => 'bail|required|max:255|min:3',
@@ -28,6 +30,8 @@ class Client extends BaseModel
         'birthdate' => 'date',
         'name_dependent' => 'bail|max:255|min:3',
         'rg_dependent' => 'min:13|max:14|different:rg',
+        'rg_dependent_organ' => 'min:3|max:11',
+        'rg_dependent_date' => 'date',
         'cpf_dependent' => 'cpf|unique:clients|different:cpf',
         'nationality_dependent' => 'bail|max:255|min:3',
         'ocupation_dependent' => 'bail|max:255|min:3',
@@ -41,8 +45,13 @@ class Client extends BaseModel
         'name.max' => 'Campo Nome Completo do Cliente permite no máximo 255 caracteres.',
         'name.min' => 'Campo Nome Completo do Cliente deve conter no mínimo 3 caracteres.',
         'rg.required' => 'Campo RG do Cliente é obrigatório.',
-        'rg.max' => 'Campo RG do Cliente permite no máximo 255 caracteres.',
-        'rg.min' => 'Campo RG do Cliente deve conter no mínimo 3 caracteres.',
+        'rg.max' => 'Campo RG do Cliente permite no máximo 14 caracteres.',
+        'rg.min' => 'Campo RG do Cliente deve conter no mínimo 13 caracteres.',
+        'rg_organ.required' => 'Campo Órgão do RG do Cliente é obrigatório.',
+        'rg_organ.max' => 'Campo Órgão RG do Cliente permite no máximo 11 caracteres.',
+        'rg_organ.min' => 'Campo Órgão RG do Cliente deve conter no mínimo 3 caracteres.',
+        'rg_date.required' => 'Campo Órgão do RG do Cliente é obrigatório.',
+        'rg_date.date' => 'Campo de Data de Emissão do RG do Cliente é inválido.',
         'cpf.required' => 'Campo CPF do Cliente é obrigatório.',
         'cpf.cpf' => 'Campo CPF é inválido.',
         'cpf.unique' => 'Campo CPF já existente na base de dados.',
@@ -67,9 +76,14 @@ class Client extends BaseModel
         'name_dependent.max' => 'Campo Nome Completo do Cônjugue permite no máximo 255 caracteres.',
         'name_dependent.min' => 'Campo Nome Completo do Cônjugue deve conter no mínimo 3 caracteres.',
         'rg_dependent.required' => 'Campo RG do Cônjugue é obrigatório.',
-        'rg_dependent.max' => 'Campo RG do Cônjugue permite no máximo 255 caracteres.',
-        'rg_dependent.min' => 'Campo RG do Cônjugue deve conter no mínimo 3 caracteres.',
+        'rg_dependent.max' => 'Campo RG do Cônjugue permite no máximo 14 caracteres.',
+        'rg_dependent.min' => 'Campo RG do Cônjugue deve conter no mínimo 13 caracteres.',
         'rg_dependent.different' => 'Campo RG do Cônjugue deve ser diferente do RG do Cliente.',
+        'rg_dependent_organ.required' => 'Campo Órgão do RG do Cônjugue é obrigatório.',
+        'rg_dependent_organ.max' => 'Campo Órgão RG do Cônjugue permite no máximo 11 caracteres.',
+        'rg_dependent_organ.min' => 'Campo Órgão RG do Cônjugue deve conter no mínimo 3 caracteres.',
+        'rg_dependent_date.required' => 'Campo Órgão do RG do Cônjugue é obrigatório.',
+        'rg_dependent_date.date' => 'Campo de Data de Emissão do RG do Cônjugue é inválido.',
         'cpf_dependent.required' => 'Campo CPF do Cônjugue é obrigatório.',
         'cpf_dependent.cpf' => 'Campo CPF do Cônjugue é inválido.',
         'cpf_dependent.unique' => 'Campo CPF do Cônjugue já existente na base de dados.',
@@ -93,5 +107,12 @@ class Client extends BaseModel
 
     public function address(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(Address::class, "id", "address_id");
+    }
+
+    public function getByNameAndCPF(string $name, string $cpf) {
+        return $this::where("deleted", false)
+        ->where("name", "like", "%" . $name . "%")
+        ->where("cpf", "like", "%" . $cpf . "%")
+        ->get();
     }
 }

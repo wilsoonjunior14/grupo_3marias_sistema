@@ -2,11 +2,14 @@
 
 namespace App\Business;
 
+use App\Exceptions\EntityNotFoundException;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ClientValidator;
+use Exception;
 use Illuminate\Http\Request;
 
 class ClientBusiness {
@@ -15,9 +18,26 @@ class ClientBusiness {
         Logger::info("Iniciando a recuperação de clientes.");
         $clients = (new Client())->getAll("name");
         $amount = count($clients);
+        foreach ($clients as $client) {
+            $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
+            $address = (new AddressBusiness())->getById($client->address_id);
+            $client = $this->mountClientAddressInline(client: $client, address: $address);
+        }
         Logger::info("Foram recuperados {$amount} clientes.");
         Logger::info("Finalizando a recuperação de clientes.");
         return $clients;
+    }
+
+    public function getByNameAndCPF(string $name, string $cpf) {
+        Logger::info("Iniciando a recuperação de cliente pelo nome e cpf.");
+        $client = (new Client())->getByNameAndCPF(name: $name, cpf: $cpf);
+
+        if (count($client) === 0) {
+            throw new EntityNotFoundException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Cliente"));
+        }
+
+        Logger::info("Finalizando a recuperação de cliente.");
+        return $client[0];
     }
 
     public function getById(int $id) {

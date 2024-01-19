@@ -11,11 +11,6 @@
   animation-duration: 1s !important; /* don't forget to set a duration! */
 }
 
-.rsw-ce p, .rsw-ce span, .rsw-ce div, .rsw-ce div p, .rsw-ce div span, .rsw-ce {
-  background-color: white !important;
-  color: black !important;
-}
-
 thead tr th, .btn-success{
   color: white !important;
   background: #0C3472 !important;
@@ -139,6 +134,11 @@ tbody tr .options {
   color: black !important;
 }
 
+.rsw-ce p, .rsw-ce span, .rsw-ce div, .rsw-ce div p, .rsw-ce div span, .rsw-ce {
+  background-color: white !important;
+  color: black !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -190,7 +190,22 @@ tbody tr .options {
   #app-container button,
   #app-container .form-floating,
   .nav, .nav-tabs,
-  .required-label, .required-label .col, .required-label .required-label-content { 
+  .required-label, .required-label .col, .required-label .required-label-content,
+  .printer-hide { 
     display: none !important;
+  }
+
+  #printer-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70vw;
+    margin: 0;
+    z-index: 1000 !important;
+    border: none !important;
+  }
+
+  #printer-row .card-title {
+    display: block !important;
   }
 }

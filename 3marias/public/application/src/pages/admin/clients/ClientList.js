@@ -20,6 +20,7 @@ import { performCustomRequest, performRequest } from '../../../services/Api';
 import Success from '../../../components/success/Success';
 import NoEntity from '../../../components/table/NoEntity';
 import { formatDate, formatDateTime } from '../../../services/Format';
+import { useNavigate } from 'react-router-dom';
 
 export default function ClientList() {
 
@@ -35,6 +36,7 @@ export default function ClientList() {
     const [successMessage, setSuccessMessage] = useState(null);
     const [isLoadingDocuments, setIsLoadingDocuments] = useState(false);
     const [show, setShow] = useState(true);
+    const navigate = useNavigate();
 
     const fields = [
         {
@@ -68,7 +70,7 @@ export default function ClientList() {
             name: "see_clientdata",
             tooltip: "Ver Dados do Cliente",
             icon: "visibility",
-            onClick: (evt) => {setClient(evt); setShowClientModal(true)}
+            onClick: (evt) => {setClient(evt); navigate("/admin/clients/details/"+evt.id)}
         },
         {
             name: "see_documents",

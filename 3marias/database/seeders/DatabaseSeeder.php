@@ -218,16 +218,32 @@ class DatabaseSeeder extends Seeder
           'name' => "Francisco Wilson Rodrigues Júnior",
           'email' => "wjunior_msn@hotmail.com",
           'password' => md5(12345),
-          'phoneNumber' => '(88)99924-1492',
-          'birthdate' => '1995-09-04',
           'group_id' => 1,
           'active' => true,
           'deleted' => false
         ]);
+
+        DB::table('users')->insert([
+            'name' => "Dinailton Rocha Linhares",
+            'email' => "dinailton2005@hotmail.com",
+            'password' => md5(12345),
+            'group_id' => 1,
+            'active' => true,
+            'deleted' => false
+        ]);
+
+        DB::table('users')->insert([
+            'name' => "Leandro Linhares",
+            'email' => "leandrogomeslinhares@gmail.com",
+            'password' => md5(12345),
+            'group_id' => 3,
+            'active' => true,
+            'deleted' => false
+        ]);
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 140; $i++) {
+        for ($i = 1; $i<= 152; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -276,12 +292,20 @@ class DatabaseSeeder extends Seeder
         // api resource /products
         $this->createAPIResource('products');
 
-        // api resource /products
+        // api resource /stocks
         $this->createAPIResource('stocks');
+
+        // api resource /projects
+        $this->createAPIResource('projects');
+
+        // api resource /proposals
+        $this->createAPIResource('proposals');
 
         // api resource /clients
         $this->createAPIResource('clients');
-
+        DB::table("roles")->insert(["description" => "POST /clients/docs", "endpoint" => "/clients/docs", "request_type" => "post", "deleted" => false]);
+        DB::table("roles")->insert(["description" => "DELETE /clients/deleteDocs/{id}", "endpoint" => "/clients/deleteDocs/{id}", "request_type" => "post", "deleted" => false]);
+        
         // api resource /accountants
         $this->createAPIResource('accountants');
 

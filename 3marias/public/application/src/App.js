@@ -44,8 +44,10 @@ import PartnerList from './pages/shopping/partners/PartnerList';
 import PartnerForm from './pages/shopping/partners/PartnerForm';
 import ProposalList from './pages/engineering/proposals/ProposalList';
 import ProposalForm from './pages/engineering/proposals/ProposalForm';
-import ConstructionsList from './pages/engineering/constructions/ConstructionList';
-import ConstructionsForm from './pages/engineering/constructions/ConstructionsForm';
+import ProjectList from './pages/engineering/projects/ProjectList';
+import ProjectForm from './pages/engineering/projects/ProjectForm';
+import ClientDetails from './pages/admin/clients/ClientDetails';
+import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
 
 console.disableYellowBox = true;
 
@@ -81,6 +83,7 @@ function App() {
           <Route path='admin/clients' element={<ClientList />}></Route>
           <Route path='admin/clients/add' element={<ClientForm disableHeader={false} />}></Route>
           <Route path='admin/clients/edit/:id' element={<ClientForm disableHeader={false} />}></Route>
+          <Route path='admin/clients/details/:id' element={<ClientDetails />}></Route>
           <Route path='admin/groups' element={<GroupList />}></Route>
           <Route path='admin/groups/add' element={<GroupForm />}></Route>
           <Route path='admin/groups/edit/:id' element={<GroupForm />}></Route>
@@ -121,9 +124,10 @@ function App() {
           <Route path='engineering/proposals' element={<ProposalList />}></Route>
           <Route path='engineering/proposals/add' element={<ProposalForm />}></Route>
           <Route path='engineering/proposals/edit/:id' element={<ProposalForm />}></Route> 
-          <Route path='engineering/constructions' element={<ConstructionsList />}></Route>
-          <Route path='engineering/constructions/add' element={<ConstructionsForm />}></Route>
-          <Route path='engineering/constructions/edit/:id' element={<ConstructionsForm />}></Route>
+          <Route path='engineering/proposals/download/:id' element={<ProposalDownload />}></Route> 
+          <Route path='engineering/projects' element={<ProjectList />}></Route>
+          <Route path='engineering/projects/add' element={<ProjectForm />}></Route>
+          <Route path='engineering/projects/edit/:id' element={<ProjectForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

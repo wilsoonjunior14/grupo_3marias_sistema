@@ -53,8 +53,7 @@ class AddressBusiness {
         return $address;
     }
 
-
-    private function validateData(array $data, int $id = null) {
+    public function validateData(array $data, int $id = null) {
         $validator = new ModelValidator(Address::$rules, Address::$rulesMessages);
         $addressValidation = $validator->validate($data);
         if (!is_null($addressValidation)) {
