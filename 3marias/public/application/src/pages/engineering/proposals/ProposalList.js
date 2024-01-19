@@ -3,23 +3,46 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 export default function ProposalList() {
 
+    const navigate = useNavigate();
     const fields = [
         {
-            id: 'nr_ticket',
-            placeholder: 'Nr. Recibo',
+            id: 'code',
+            placeholder: "Código",
             type: 'text',
             maxlength: 255
         }
     ];
 
     const table = {
-        fields: ["#", "Nr. Recibo", "description"],
+        fields: ["Status", "#", "Descrição", "Tipo de Empreendimento", "Tipo da Proposta", "Valor Global", "Data da Proposta"],
         amountOptions: 1,
-        bodyFields: ["id", "nr_ticket", "description"]
+        bodyFields: ["icon", "code", "description", "construction_type", "proposal_type", "global_value", "proposal_date"]
     };
+
+    const customOptions = [
+        {
+            name: "approve_proposal",
+            tooltip: "Aprovar Proposta",
+            icon: "thumb_up",
+            onClick: (evt) => {console.log(evt)}
+        },
+        {
+            name: "cancel_proposal",
+            tooltip: "Cancelar Proposta",
+            icon: "thumb_down",
+            onClick: (evt) => {console.log(evt)}
+        },
+        {
+            name: "see_proposal_contract",
+            tooltip: "Ver Contrato Proposta",
+            icon: "description",
+            onClick: (evt) => {navigate("/engineering/proposals/download/"+evt.id)}
+        }
+    ];
     
     return (
         <>
@@ -30,9 +53,10 @@ export default function ProposalList() {
                     tableName="Propostas" 
                     tableIcon="work" 
                     fieldNameDeletion="name" 
-                    url="/users"
+                    url="/proposals"
                     tableFields={table}
-                    searchFields={fields} />
+                    searchFields={fields}
+                    customOptions={customOptions} />
 
             </Container>
         </>

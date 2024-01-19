@@ -28,6 +28,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProposalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +83,8 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Clients api routes
     Route::apiResource('/clients', ClientController::class);
+    Route::post('/clients/docs', [ClientController::class, 'saveDocuments']);
+    Route::delete('/clients/deleteDocs/{id}', [ClientController::class, 'deleteDocument']);
 
     // Accountants api routes
     Route::apiResource('/accountants', AccountantController::class);
@@ -102,6 +106,12 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Products api routes
     Route::apiResource('/products', ProductController::class);
+
+    // Projects api routes
+    Route::apiResource('/projects', ProjectController::class);
+
+    // Proposals api routes
+    Route::apiResource('/proposals', ProposalController::class);
 
     // CategoryProducts api routes
     Route::apiResource('/categoryProducts', CategoryProductController::class);

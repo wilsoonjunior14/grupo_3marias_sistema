@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string("nationality", 255);
             $table->string("ocupation", 255);
             $table->string("rg", 13);
+            $table->date("rg_date", 10);
+            $table->string("rg_organ", 10);
             $table->string("cpf", 14);
             $table->date("birthdate")->nullable();
             $table->string("phone", 20)->nullable();
@@ -27,6 +29,8 @@ return new class extends Migration
             $table->string("nationality_dependent", 255)->nullable();
             $table->string("ocupation_dependent", 255)->nullable();
             $table->string("rg_dependent", 13)->nullable();
+            $table->date("rg_dependent_date", 10)->nullable();
+            $table->string("rg_dependent_organ", 10)->nullable();
             $table->string("cpf_dependent", 14)->nullable();
             $table->date("birthdate_dependent")->nullable();
             $table->string("phone_dependent", 20)->nullable();

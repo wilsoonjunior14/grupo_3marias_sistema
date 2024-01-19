@@ -123,7 +123,8 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
             return;
         }
 
-        const payload = processDataBefore(state);
+        const userdata = Object.assign({}, state);
+        const payload = processDataBefore(userdata);
         performRequest("POST", endpoint, payload)
         .then((response) => successPost(response, e))
         .catch(errorResponse);
@@ -132,7 +133,7 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
     const processDataBefore = (data) => {
         const keys = Object.keys(data);
         keys.forEach((key) => {
-            if (key === "birthdate") {
+            if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
             }
         });
@@ -232,7 +233,8 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                                                 endpoint={field.endpoint}
                                                 endpoint_field={field.endpoint_field}
                                                 data={field.data}
-                                                mask={field.mask} />
+                                                mask={field.mask}
+                                                dateId={field.dateId} />
                                         </Col>
                                         )}
                                     </Row>

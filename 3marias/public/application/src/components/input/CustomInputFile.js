@@ -2,7 +2,7 @@ import React from "react";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from 'react-bootstrap/Form';
 
-const CustomInputFile = ({placeholder, name, value, maxlength, required, onChange}) => {
+const CustomInputFile = ({placeholder, name, value, accept, maxlength, required, onChange}) => {
     return (
         <>
         <FloatingLabel
@@ -14,6 +14,7 @@ const CustomInputFile = ({placeholder, name, value, maxlength, required, onChang
                 placeholder={placeholder}
                 name={name} 
                 onChange={onChange}
+                accept={accept}
                 maxLength={maxlength}
                 value={value}
                 required={required} />

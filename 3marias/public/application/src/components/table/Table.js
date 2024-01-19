@@ -118,7 +118,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         if (field === "created_at" || field === "updated_at") {
             return formatDateTime(item[field]);
         }
-        if (field === "birthdate") {
+        if (field === "birthdate" || field.indexOf("date") !== -1) {
             return formatDate(item[field]);
         }
         if (field.indexOf(".") !== -1) {
@@ -127,18 +127,25 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         if (field === "image") {
             return (<img width={40} height={40} src={BASE_URL + "/images/" + "category" + "/" + item[field]} />);
         }
+        if (field === "icon") {
+            return (<i className="material-icons">{item[field]}</i>);
+        }
         if (field === "status") {
             return getStatusField(item[field]);
+        }
+        if (field === "global_value") {
+            const v = Number(item[field].replace(".", "").replace(",", "."));
+            return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
         }
         return item[field];
     };
 
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
-        if (field === "id") {
-            return <td>{value}</td>;
-        } else {
+        if (field === "description") {
             return <td style={{minWidth: 200}}>{value}</td>
+        } else {
+            return <td>{value}</td>;
         }
     }
 
@@ -152,6 +159,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         if (value === "inactive") {
             return (<i className="text-danger material-icons">remove_circle</i>);
         }
+        return value;
     }
 
     const onSearch = (inputData) => {
@@ -263,7 +271,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                                                 <td className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
-                                                            <TableButton name={option.name} tooltip={option.tooltip} onClick={() => navigate(option.redirectTo+"/"+item.id)}
+                                                            <TableButton 
+                                                                name={option.name} 
+                                                                tooltip={option.tooltip} 
+                                                                onClick={() => option.onClick(item)}
                                                             icon={option.icon} color="light" />
                                                         )
                                                     }

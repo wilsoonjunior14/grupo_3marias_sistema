@@ -18,6 +18,17 @@ class UploadUtils
         }
     }
 
+    public static function uploadFile(string $tmpName, string $name, string $awsFolder) {
+        Logger::info("Realizando upload para o local storage.");
+        $filePath = PathUtils::getPathByFolder("");
+        $filePath = $filePath . $name;
+        move_uploaded_file($tmpName, $filePath);
+        if (!(strcmp(env('APP_ENV'), "testing") === 0)) {
+            Self::upload(folder: $awsFolder, filePath: $filePath);
+        }
+        return $filePath;
+    }
+
     private static function upload(string $folder, string $filePath) {
         Logger::info("Realizando upload para o bucket s3");
         $bucketName = env('AWS_BUCKET', '');

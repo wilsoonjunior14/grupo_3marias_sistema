@@ -3,9 +3,10 @@ import Container from 'react-bootstrap/Container';
 import VHeader from '../../../components/vHeader/vHeader';
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 export default function GroupList() {
-
+    const navigate = useNavigate();
     const fields = [
         {
             id: 'description',
@@ -26,7 +27,8 @@ export default function GroupList() {
             name: "btnGroupRoles",
             icon: "lock",
             redirectTo: "/groups/roles",
-            tooltip: "Editar Permissões"
+            tooltip: "Editar Permissões",
+            onClick: (item) => {navigate("/roles/"+item.id)}
         }
     ];
 

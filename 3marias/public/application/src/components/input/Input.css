@@ -1,0 +1,38 @@
+.react-datepicker {
+    z-index: 1000 !important;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker-wrapper input {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 15px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding-left: 12px;
+}
+
+.react-datepicker-popper {
+    z-index: 1000 !important;
+}
+
+.input-money-label { 
+    position: absolute !important;
+    color: lightslategrey;
+    font-size: 14px;
+    padding-left: 12px;
+    padding-top: 8px;
+}
+
+.input-money {
+    height: 60px;
+    width: 100%;
+    float: left;
+    padding-top: 20px;
+    padding-left: 12px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
