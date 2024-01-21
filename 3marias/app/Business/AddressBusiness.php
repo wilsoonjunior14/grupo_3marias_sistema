@@ -45,8 +45,9 @@ class AddressBusiness {
 
         if ($merge) {
             $city = (new CityBusiness())->getById($address->city_id);
-            $address["city_name"] = $city["city_name"];
+            $address["city_name"] = $city["name"];
             $address["state_name"] = $city["state_name"];
+            $address["state_acronym"] = $city["state_acronym"];
         }
 
         Logger::info("Finalizando a recuperação de endereço.");

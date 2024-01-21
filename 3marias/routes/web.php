@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BotManController;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,6 @@ Route::get('/', function () {
 });
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+
+Route::get('/clientData/{id}', [PDFController::class, 'getClientDataPDF']);
+Route::get('/proposal/{id}', [PDFController::class, 'getProposalPDF']);

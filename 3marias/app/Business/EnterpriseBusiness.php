@@ -23,7 +23,7 @@ class EnterpriseBusiness {
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de empresa $id.");
         $enterprise = (new Enterprise())->getById($id);
-        $address = (new AddressBusiness())->getById($enterprise->address_id);
+        $address = (new AddressBusiness())->getById($enterprise->address_id, merge: true);
         $enterprise = $this->mountenterpriseAddressInline($enterprise, $address);
         $enterprise["accountants"] = (new AccountantBusiness())->get(enterpriseId: $id);
         $enterprise["partners"] = (new EnterprisePartnerBusiness())->get(enterpriseId: $id);
@@ -84,6 +84,9 @@ class EnterpriseBusiness {
         $enterprise["complement"] = $address->complement;
         $enterprise["city_id"] = $address->city_id;
         $enterprise["zipcode"] = $address->zipcode;
+        $enterprise["city_name"] = $address->city_name;
+        $enterprise["state_name"] = $address->state_name;
+        $enterprise["state_acronym"] = $address->state_acronym;
         return $enterprise;
     }
 

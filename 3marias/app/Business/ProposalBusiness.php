@@ -31,6 +31,7 @@ class ProposalBusiness {
         Logger::info("Iniciando a recuperação de proposta $id.");
         $proposal = (new Proposal())->getById($id);
         $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
+        $proposal->payments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
         Logger::info("Finalizando a recuperação de proposta $id.");
         return $proposal;
     }
