@@ -118,10 +118,14 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
             name={name} 
             pattern={pattern}
             onChange={onChange}
+            minLength={3}
             maxLength={maxlength}
             value={value}
             required={required}
             readOnly={disabled} />
+        <div class="invalid-feedback">
+            Por favor, preencha o campo {placeholder.replace("*", "")} corretamente.
+        </div>
     </FloatingLabel>);
 }
 

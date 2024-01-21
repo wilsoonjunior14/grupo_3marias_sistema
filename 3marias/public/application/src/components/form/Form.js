@@ -22,7 +22,7 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [item, setItem] = useState({});
     const parameters = useParams();
-
+    const [randomId, setRandomId] = useState(parseInt(Math.random() * 1000));
     const initialState = {};
 
     useEffect(() => {
@@ -30,7 +30,6 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
             if (endpoint === "/users") {
                 endpoint = "/v1" + endpoint;
             }
-            console.log(endpoint);
             setIsLoadingData(true);
             performRequest("GET", endpoint + "/"+parameters.id)
             .then(successGet)
@@ -71,6 +70,15 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        const form = document.getElementById("form" + randomId);
+        if (!form.checkValidity()) {
+            form.classList.add("was-validated");
+            return;
+        } else {
+            form.classList.remove("was-validated");
+        }
+
         setLoading(true);
         setHttpError(null);
         setHttpSuccess(null);
@@ -211,7 +219,7 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
                                 }
 
                                 {!isLoadingData &&
-                                <Form onSubmit={onSubmit}>
+                                <Form id={"form" + randomId} onSubmit={onSubmit} noValidate={true}>
                                     <Row className="required-label">
                                         <Col>
                                             <small className="required-label-content">Campos com * são obrigatórios.</small>

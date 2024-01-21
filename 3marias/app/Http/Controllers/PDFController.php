@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\ClientBusiness;
 use App\Business\EnterpriseBusiness;
 use App\Business\ProposalBusiness;
 use Illuminate\Http\Request;
@@ -9,8 +10,13 @@ use Illuminate\Http\Request;
 class PDFController extends Controller
 {
     public function getClientDataPDF(Request $request, $id) {
+
+        $clientBusiness = new ClientBusiness();
+        $client = $clientBusiness->getById(id: $id);
+
         $data = [
-            'title' => 'Ficha de Cadastro do Cliente'
+            'title' => 'Ficha de Cadastro do Cliente',
+            'client' => $client
         ];
         return view('client-data-pdf', $data);
     }

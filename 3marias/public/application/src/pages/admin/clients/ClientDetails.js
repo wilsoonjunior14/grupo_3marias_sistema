@@ -37,12 +37,10 @@ export default function ClientDetails() {
     const onSuccessResponse = (res) => {
         setClient(res.data);
         setLoading(false);
-        console.log(res);
     }
 
     const onErrorResponse = (err) => {
         setLoading(false);
-        console.err(err);
     }
 
     return (
@@ -54,6 +52,16 @@ export default function ClientDetails() {
             <Error message={errorMessage} />
             }
 
+            <Row>
+                <Col xs={2}>
+                    <CustomButton
+                        icon="print"
+                        variant="success"
+                        name="Imprimir"
+                        onClick={() => {window.open(config.url + "/clientData/" + params.id)}}
+                    />
+                </Col>
+            </Row>
             <Row id="printer-row">
                 <Col>
                     <Card style={{minHeight: 150}}>
@@ -352,7 +360,7 @@ export default function ClientDetails() {
                                         icon="print"
                                         variant="success"
                                         name="Imprimir"
-                                        onClick={() => {window.print();}}
+                                        onClick={() => {window.open(config.url + "/clientData/" + params.id)}}
                                     />
                                 </Col>
                             </Row>

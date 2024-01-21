@@ -4,6 +4,7 @@ import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
 import { useNavigate } from "react-router-dom";
+import config from "../../../config.json";
 
 export default function ProposalList() {
 
@@ -39,8 +40,8 @@ export default function ProposalList() {
         {
             name: "see_proposal_contract",
             tooltip: "Ver Contrato Proposta",
-            icon: "description",
-            onClick: (evt) => {navigate("/engineering/proposals/download/"+evt.id)}
+            icon: "file_download",
+            onClick: (evt) => {window.open( config.url + "/proposal/"+evt.id)}
         }
     ];
     
