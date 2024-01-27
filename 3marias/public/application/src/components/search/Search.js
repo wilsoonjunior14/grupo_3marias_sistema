@@ -5,8 +5,9 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import CustomButton from "../button/Button";
+import Button from "react-bootstrap/esm/Button";
 
-const Search = ({fields, onSearch}) => {
+const Search = ({fields, onSearch, onReset}) => {
 
     const [inputData, setInputData] = useState({});
 
@@ -45,6 +46,15 @@ const Search = ({fields, onSearch}) => {
                                 <Row>
                                     <Col md={6} lg={2}>
                                         <CustomButton color="success" onClick={() => onSearch(inputData)} name="Buscar" icon="search" />
+                                    </Col>
+                                    <Col md={6} lg={2}>
+                                        <div className="d-grid gap-2">
+                                            <Button type="reset" size="lg" key="resetButton" 
+                                                onClick={() => {setInputData({}); onReset();}} variant={"light"}>
+                                            <i className="material-icons float-left">refresh</i>
+                                            Limpar
+                                            </Button>
+                                        </div>
                                     </Col>
                                 </Row>
                                 </Form>

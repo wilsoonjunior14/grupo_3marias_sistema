@@ -19,10 +19,11 @@ import Search from "../search/Search";
 import "../../App.css";
 import TableButton from "../button/TableButton";
 
-const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
+const CustomTable = ({tableName, tableNamePlaceholder, tableIcon, 
+    url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
     disableEdit, disableDelete, disableAdd }) => {
     
-        const [item, setItem] = useState({});
+    const [item, setItem] = useState({});
     const [items, setItems] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState([]);
     const [originalItems, setOriginalItems] = useState([]);
@@ -142,11 +143,13 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
 
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
-        if (field === "description") {
-            return <td style={{minWidth: 200}}>{value}</td>
-        } else {
-            return <td>{value}</td>;
+        if (field === "id") {
+            return <td>{value}</td>
         }
+        if (field === "name") {
+            return <td style={{minWidth: 300}}>{value}</td>;
+        }
+        return <td style={{minWidth: 200}}>{value}</td>;
     }
 
     const getStatusField = (value) => {
@@ -160,6 +163,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
             return (<i className="text-danger material-icons">remove_circle</i>);
         }
         return value;
+    }
+
+    const onReset = () => {
+        setItems(originalItems);
     }
 
     const onSearch = (inputData) => {
@@ -219,7 +226,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                 <Modal.Title>Atenção</Modal.Title>
                 </Modal.Header>
             <Modal.Body>
-                Item excluído com sucesso!
+                {tableNamePlaceholder ? tableNamePlaceholder : "Item"} excluído com sucesso!
             </Modal.Body>
             <Modal.Footer>
                 <CustomButton name="Fechar" color="light" onClick={() => {setShowSuccessModal(false)}}></CustomButton>
@@ -227,7 +234,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         </Modal>
 
         {searchFields && searchFields.length > 0 &&
-        <Search fields={searchFields} onSearch={onSearch} />
+        <Search 
+            fields={searchFields} 
+            onSearch={onSearch}
+            onReset={onReset} />
         }
 
         <Row>

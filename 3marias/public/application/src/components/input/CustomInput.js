@@ -123,9 +123,21 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
             value={value}
             required={required}
             readOnly={disabled} />
+        {required && (!value || value.length === 0) &&
         <div class="invalid-feedback">
-            Por favor, preencha o campo {placeholder.replace("*", "")} corretamente.
+            O campo {placeholder.replace("*", "")} é obrigatório.
         </div>
+        }
+        {value && value.length > 0 && value.length < 3 &&
+        <div class="invalid-feedback">
+            O campo {placeholder.replace("*", "")} deve conter mais que 3 caracteres.
+        </div>
+        }
+        {value && value.length > maxlength &&
+        <div class="invalid-feedback">
+            O campo {placeholder.replace("*", "")} deve conter menos que {maxlength} caracteres.
+        </div>
+        }
     </FloatingLabel>);
 }
 

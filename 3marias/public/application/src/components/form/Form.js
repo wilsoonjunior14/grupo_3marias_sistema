@@ -14,8 +14,9 @@ import { performCustomRequest, performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
 import { formatDateToServer } from "../../services/Format";
 import BackButton from "../button/BackButton";
+import MD5 from "crypto-js/md5";
 
-const CustomForm = ({endpoint, nameScreen, fields}) => {
+const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
     const [httpError, setHttpError] = useState(null);
@@ -71,12 +72,22 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
     const onSubmit = (e) => {
         e.preventDefault();
 
+        // Form Validation
         const form = document.getElementById("form" + randomId);
         if (!form.checkValidity()) {
             form.classList.add("was-validated");
             return;
         } else {
             form.classList.remove("was-validated");
+        }
+
+        // Custom Validation
+        if (validation) {
+            const fails = validation(state);
+            if (fails) {
+                setHttpError(fails);
+                return;
+            }
         }
 
         setLoading(true);
@@ -144,6 +155,9 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
             }
+            if (key.indexOf("password") !== -1) {
+                data[key] = MD5(data[key]).toString();
+            }
         });
 
         if (parameters.enterpriseId) {
@@ -155,14 +169,14 @@ const CustomForm = ({endpoint, nameScreen, fields}) => {
 
     const successPut = (response) => {
         setLoading(false);
-        setHttpSuccess({message: "Item salvo com sucesso!"});
+        setHttpSuccess({message: nameScreen + " salvo com sucesso!"});
     };
 
     const successPost = (response, e) => {
         e.target.reset();
         setLoading(false);
         dispatch({type: "reset"});
-        setHttpSuccess({message: "Item criado com sucesso!"});
+        setHttpSuccess({message: nameScreen + " criado com sucesso!"});
     };
 
     const errorResponse = (response) => {

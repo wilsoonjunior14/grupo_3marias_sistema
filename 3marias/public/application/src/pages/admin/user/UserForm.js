@@ -43,11 +43,22 @@ const UserForm = ({}) => {
         }
     ];
 
+    const customValidation = (obj) => {
+        if (obj.password !== obj.conf_password) {
+            return {message: "Senhas estão diferentes."};
+        }
+    };
+
     return (
         <>
         <VHeader />
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
-            <CustomForm id='app-container' endpoint="/users" nameScreen="Usuário" fields={fields} />
+            <CustomForm 
+                id='app-container' 
+                endpoint="/users" 
+                nameScreen="Usuário" 
+                fields={fields}
+                validation={customValidation} />
         </Container>
         </>
     )
