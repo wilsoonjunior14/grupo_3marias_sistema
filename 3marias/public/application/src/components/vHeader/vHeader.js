@@ -9,9 +9,8 @@ import config from "../../config.json";
 import { Tooltip } from "react-tooltip";
 import VHeaderItem from "./vHeaderItem";
 import VHeaderAdmin from "./vHeaderAdmin";
-import VHeaderCompras from "./vHeaderCompras";
-import VHeaderSuprimentos from "./vHeaderSuprimentos";
-import VHeaderEngenharia from "./vHeaderEngenharia";
+import VHeaderProposals from "./vHeaderProposals";
+import VHeaderContracts from "./vHeaderContracts";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
@@ -20,43 +19,22 @@ function VHeader() {
     const initialStateItems = [
         {
             id: 1,
-            name: "Administração",
-            icon: "business_center",
+            name: "Cadastros",
+            icon: "add_circle_outline",
             path: "admin"
         },
         {
             id: 2,
-            name: "Compras",
-            icon: "shopping_cart",
-            path: "shopping"
+            name: "Propostas",
+            icon: "assignment",
+            path: "proposals"
         },
         {
             id: 3,
-            name: "Suprimentos",
-            icon: "store",
-            path: "store"
+            name: "Contratos",
+            icon: "business_center",
+            path: "contracts"
         },
-        {
-            id: 4,
-            name: "Vendas",
-            icon: "payment"
-        },
-        {
-            id: 5,
-            name: "Engenharia",
-            icon: "memory",
-            path: "engineering"
-        },
-        {
-            id: 6,
-            name: "Financeiro",
-            icon: "attach_money"
-        },        
-        {
-            id: 7,
-            name: "RH",
-            icon: "people"
-        }
     ];
     const [items, setItems] = useState(initialStateItems);
 
@@ -132,6 +110,12 @@ function VHeader() {
                         <VHeaderAdmin />
                     }
                     {itemSelected.id === 2 &&
+                        <VHeaderProposals />
+                    }
+                    {itemSelected.id === 3 &&
+                        <VHeaderContracts />
+                    }
+                    {/* {itemSelected.id === 2 &&
                         <VHeaderCompras />
                     }
                     {itemSelected.id === 3 &&
@@ -139,7 +123,7 @@ function VHeader() {
                     }
                     {itemSelected.id === 5 &&
                         <VHeaderEngenharia />
-                    }
+                    } */}
                     </Nav>
                     </Col>
                 </Row>

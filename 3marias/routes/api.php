@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EnterpriseController;
 use Illuminate\Http\Request;
@@ -123,6 +124,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Services api routes
     Route::apiResource('/services', ServiceController::class);
+
+    // contracts api routes
+    Route::apiResource('/contracts', ContractController::class);
 
     // Partners api routes
     Route::apiResource('/partners', PartnerController::class);

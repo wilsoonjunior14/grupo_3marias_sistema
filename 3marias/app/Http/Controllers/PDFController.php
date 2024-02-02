@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Business\ClientBusiness;
+use App\Business\ContractBusiness;
 use App\Business\EnterpriseBusiness;
+use App\Business\EnterpriseOwnerBusiness;
 use App\Business\ProposalBusiness;
+use App\Models\EnterpriseOwner;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller
@@ -36,5 +39,24 @@ class PDFController extends Controller
             'enterprise' => $enterprise
         ];
         return view('proposal-pdf', $data);
+    }
+
+    public function getContractPDF(Request $request, $id) {
+        $contractBusiness = new ContractBusiness();
+        $contract = $contractBusiness->getById(id: $id);
+
+        $enterpriseBusiness = new EnterpriseBusiness();
+        $enterprise = $enterpriseBusiness->getById(id: 1);
+
+        $enterpriseOwnerBusiness = new EnterpriseOwnerBusiness();
+        $owner = $enterpriseOwnerBusiness->getById(id: 1);
+
+        $data = [
+            'title' => 'CONTRATO DE EMPREITADA POR PREÇO GLOBAL COM FORNECIMENTO DE PROJETOS E CONSTRUÇÃO DA OBRA',
+            'contract' => $contract,
+            'enterprise' => $enterprise,
+            'owner' => $owner
+        ];
+        return view('contract-pdf', $data);
     }
 }

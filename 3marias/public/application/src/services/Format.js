@@ -42,7 +42,6 @@ export function getValueOfComplexField(item, complexField) {
         return "";
     }
     if (complexField.indexOf(".") === -1) {
-        console.log(item, complexField, item[complexField]);
         return item[complexField];
     }
 

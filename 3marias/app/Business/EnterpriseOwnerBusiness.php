@@ -85,6 +85,9 @@ class EnterpriseOwnerBusiness {
         $enterpriseOwner["complement"] = $address->complement;
         $enterpriseOwner["city_id"] = $address->city_id;
         $enterpriseOwner["zipcode"] = $address->zipcode;
+        $enterpriseOwner["city_name"] = $address->city_name;
+        $enterpriseOwner["state_name"] = $address->state_name;
+        $enterpriseOwner["state_acronym"] = $address->state_acronym;
         return $enterpriseOwner;
     }
 

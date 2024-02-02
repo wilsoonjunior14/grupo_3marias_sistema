@@ -19,6 +19,13 @@ return new class extends Migration
             $table->string("ocupation", 255);
             $table->enum("state", ["Solteiro", "Casado", "Divorciado", "Viúvo"]);
 
+            $table->string("nationality", 255);
+            $table->string("naturality", 255);
+            $table->string("rg", 13);
+            $table->date("rg_date", 10);
+            $table->string("rg_organ", 10);
+            $table->string("cpf", 14);
+
             $table->integer('address_id')->unsigned();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
 

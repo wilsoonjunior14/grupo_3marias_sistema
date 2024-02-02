@@ -129,12 +129,15 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
             return (<img width={40} height={40} src={BASE_URL + "/images/" + "category" + "/" + item[field]} />);
         }
         if (field === "icon") {
+            if (item["icon_color"]) {
+                return (<i style={{color: item["icon_color"]}} className="material-icons">{item[field]}</i>);
+            }
             return (<i className="material-icons">{item[field]}</i>);
         }
         if (field === "status") {
             return getStatusField(item[field]);
         }
-        if (field === "global_value") {
+        if (field.indexOf("value") !== -1) {
             const v = Number(item[field].replace(".", "").replace(",", "."));
             return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
         }
