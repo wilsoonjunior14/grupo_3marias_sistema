@@ -23,24 +23,6 @@ function VHeaderCompras() {
                 Ordens de Serviço</Nav.Link>
             </Col>
         </Row>
-        <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/shopping/partners">
-                <i className="material-icons float-left">keyboard_arrow_right</i>
-                Parceiros</Nav.Link>
-            </Col>
-        </Row>
-        <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/shopping/services">
-                <i className="material-icons float-left">keyboard_arrow_right</i>
-                Serviços</Nav.Link>
-            </Col>
-        </Row>
-        <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/shopping/categoryServices">
-                <i className="material-icons float-left">keyboard_arrow_right</i>
-                Categorias de Serviços</Nav.Link>
-            </Col>
-        </Row>
         </>
     );
 }

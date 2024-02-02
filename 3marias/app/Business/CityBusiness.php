@@ -14,6 +14,7 @@ class CityBusiness {
         $state = (new State())->getById($city->state_id);
 
         $city["state_name"] = $state->name;
+        $city["state_acronym"] = $state->acronym;
         Logger::info("Finalizando a recuperação de cidade.");
         return $city;
     }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Business\EnterpriseBusiness;
 use App\Exceptions\MethodNotImplementedYet;
 use Illuminate\Http\Request;
-use App\Models\Enterprise;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
 use Exception;

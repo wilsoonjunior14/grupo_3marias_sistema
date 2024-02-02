@@ -162,6 +162,14 @@ class User extends Authenticatable
             $errors = "Campo de ativação do usuário não pode ser nulo";
         }
 
+        if (!isset($data["conf_password"]) || empty($data["conf_password"])) {
+            $errors = "Campo de confirmação de senha não informado.";
+        }
+
+        if (strcmp($data["password"], $data["conf_password"])) {
+            $errors = "Senhas estão diferentes.";
+        }
+
         $group = new Group();
         $groupInstance = $group->getGroupById($data["group_id"]);
         if ($groupInstance === null) {

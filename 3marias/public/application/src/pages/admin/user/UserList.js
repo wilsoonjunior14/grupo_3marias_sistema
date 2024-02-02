@@ -18,19 +18,13 @@ export default function UserList() {
             placeholder: 'Email',
             type: 'email',
             maxlength: 100
-        },
-        {
-            id: 'phoneNumber',
-            placeholder: 'Telefone',
-            type: 'text',
-            maxlength: 20
         }
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "Data de Nascimento", "Telefone", "Grupo", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Email", "Grupo", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "birthdate", "phoneNumber", "group.description", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "email", "group.description", "created_at", "updated_at"]
     };
     
     return (
@@ -39,7 +33,8 @@ export default function UserList() {
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
-                    tableName="Usuários" 
+                    tableName="Usuários"
+                    tableNamePlaceholder="Usuário" 
                     tableIcon="group" 
                     fieldNameDeletion="name" 
                     url="/users" 

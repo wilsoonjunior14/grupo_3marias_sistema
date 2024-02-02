@@ -19,7 +19,7 @@ class ProposalBusiness {
 
         foreach ($proposals as $proposal) {
             $proposal["payments"] = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
-            $proposal["icon"] = $this->getStatusIcon(status: $proposal->status);
+            $this->setStatusIcon(proposal: $proposal);
         }
 
         Logger::info("Foram recuperados {$amount} propostas.");
@@ -27,10 +27,13 @@ class ProposalBusiness {
         return $proposals;
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de proposta $id.");
         $proposal = (new Proposal())->getById($id);
-        $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
+        if ($mergeFields) {
+            $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
+            $proposal->payments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
+        }
         Logger::info("Finalizando a recuperação de proposta $id.");
         return $proposal;
     }
@@ -39,7 +42,9 @@ class ProposalBusiness {
         $proposal = $this->getById(id: $id);
         Logger::info("Deletando o de proposta $id.");
 
-        // TODO: NEED DELETE THE ALL PAYMENTS ASSOCIATED TO THIS PROPOSAL
+        // TODO: NEED CHECK IF THERE IS SOME BUILDING OR CONTRACT OR STOCK ASSOCIATED.
+
+        // TODO: NEED DELETE THE ALL PAYMENTS ASSOCIATED TO THIS PROPOSAL.
 
         $proposal->deleted = true;
         $proposal->save();
@@ -63,7 +68,7 @@ class ProposalBusiness {
 
         // Filling missing fields
         $data["client_id"] = $client->id;
-        $data["code"] = count($this->get()) . "" . date('Y') . "" . date('m') . "" . time() . "P";
+        $data["code"] = count($this->get()) . "" . date('Y') . "" . date('m') . "" . random_int(10, 99) . "3MP";
         $data["status"] = 0;
 
         $rules = Proposal::$rules;
@@ -91,14 +96,14 @@ class ProposalBusiness {
         $totalPayments = 0;
         $counter = 0;
         foreach ($data["clientPayments"] as $payment) {
-            $payment["code"] = $counter . "" . time() . "GT";
+            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
             $payment["status"] = 0;
             $proposalPaymentBusiness->validatePayment(data: $payment, excludeProposalId: true);
             $totalPayments += $payment["value"];
             $counter++;
         }
         foreach ($data["bankPayments"] as $payment) {
-            $payment["code"] = $counter . "" . time() . "GT";
+            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
             $payment["status"] = 0;
             $proposalPaymentBusiness->validatePayment(data: $payment, excludeProposalId: true);
             $totalPayments += $payment["value"];
@@ -122,14 +127,14 @@ class ProposalBusiness {
 
         $counter = 0;
         foreach ($data["clientPayments"] as $payment) {
-            $payment["code"] = $counter . "" . time() . "GT";
+            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
             $payment["status"] = 0;
             $payment["proposal_id"] = $proposal->id;
             $proposalPaymentBusiness->create(data: $payment);
             $counter++;
         }
         foreach ($data["bankPayments"] as $payment) {
-            $payment["code"] = $counter . "" . time() . "GT";
+            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
             $payment["status"] = 0;
             $payment["proposal_id"] = $proposal->id;
             $proposalPaymentBusiness->create(data: $payment);
@@ -156,15 +161,36 @@ class ProposalBusiness {
         // return $this->getById(id: $proposalUpdated->id);
     }
 
-    public function getStatusIcon(int $status) {
-        if ($status === 0) {
-            return "access_time";
+    public function reject(int $id) {
+        Logger::info("Rejeitando uma proposta $id.");
+        $proposal = $this->getById(id: $id, mergeFields: false);
+        $proposal->status = 1;
+        $proposal->save();
+        Logger::info("Finalizando rejeição de proposta $id.");
+        return $proposal;
+    }
+
+    public function approve(int $id) {
+        Logger::info("Aprovando uma proposta $id.");
+        $proposal = $this->getById(id: $id, mergeFields: false);
+        $proposal->status = 2;
+        $proposal->save();
+        Logger::info("Finalizando aprovação de proposta $id.");
+        return $proposal;
+    }
+
+    public function setStatusIcon(Proposal $proposal) {
+        if ($proposal->status === 0) {
+            $proposal["icon"] = "access_time";
+            $proposal["icon_color"] = "gray";
         }
-        if ($status === 1) {
-            return "thumb_down";
+        if ($proposal->status === 1) {
+            $proposal["icon"] = "thumb_down";
+            $proposal["icon_color"] = "red";
         }
-        if ($status === 2) {
-            return "thumb_up";
+        if ($proposal->status === 2) {
+            $proposal["icon"] = "thumb_up";
+            $proposal["icon_color"] = "green";
         }
     }
 

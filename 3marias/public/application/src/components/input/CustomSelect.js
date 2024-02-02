@@ -53,6 +53,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
         label={placeholder}
         className="mb-3">
             {!loading &&
+            <>
             <Form.Select
                 name={name}
                 required={required}
@@ -63,6 +64,10 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
                     getOptionField(item)
                 )}
             </Form.Select>
+            <div class="invalid-feedback">
+                Por favor, Selecione uma opção válida para o campo {placeholder.replace("*", "")}.
+            </div>
+            </>
             }
             {loading &&
                 <Form.Control 

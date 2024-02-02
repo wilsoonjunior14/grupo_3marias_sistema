@@ -36,18 +36,21 @@ import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm
 import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
 import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
 import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
-import CategoryServiceForm from './pages/shopping/categoryServices/CategoryServiceForm';
-import CategoryServiceList from './pages/shopping/categoryServices/CategoryServiceList';
-import ServiceForm from './pages/shopping/services/ServiceForm';
-import ServiceList from './pages/shopping/services/ServiceList';
-import PartnerList from './pages/shopping/partners/PartnerList';
-import PartnerForm from './pages/shopping/partners/PartnerForm';
+import CategoryServiceForm from './pages/admin/categoryServices/CategoryServiceForm';
+import CategoryServiceList from './pages/admin/categoryServices/CategoryServiceList';
+import ServiceForm from './pages/admin/services/ServiceForm';
+import ServiceList from './pages/admin/services/ServiceList';
+import PartnerList from './pages/admin/partners/PartnerList';
+import PartnerForm from './pages/admin/partners/PartnerForm';
 import ProposalList from './pages/engineering/proposals/ProposalList';
 import ProposalForm from './pages/engineering/proposals/ProposalForm';
 import ProjectList from './pages/engineering/projects/ProjectList';
 import ProjectForm from './pages/engineering/projects/ProjectForm';
 import ClientDetails from './pages/admin/clients/ClientDetails';
 import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
+
+import ContractList from './pages/contracts/ContractList';
+import ContractForm from './pages/contracts/ContractForm';
 
 console.disableYellowBox = true;
 
@@ -97,19 +100,19 @@ function App() {
           <Route path='admin/states' element={<StatesList />}></Route>
           <Route path='admin/states/add' element={<StatesForm />}></Route>
           <Route path='admin/states/edit/:id' element={<StatesForm />}></Route>
+          <Route path='admin/services' element={<ServiceList />}></Route>
+          <Route path='admin/services/add' element={<ServiceForm />}></Route>
+          <Route path='admin/services/edit/:id' element={<ServiceForm />}></Route>
+          <Route path='admin/categoryServices' element={<CategoryServiceList />}></Route>
+          <Route path='admin/categoryServices/add' element={<CategoryServiceForm />}></Route>
+          <Route path='admin/categoryServices/edit/:id' element={<CategoryServiceForm />}></Route>
+          <Route path='admin/partners' element={<PartnerList />}></Route>
+          <Route path='admin/partners/add' element={<PartnerForm />}></Route>
+          <Route path='admin/partners/edit/:id' element={<PartnerForm />}></Route>
 
           <Route path='shopping' element={<ShoppingList />}></Route>
           <Route path='shopping/orders' element={<ShoppingOrdersList />}></Route>
           <Route path='shopping/orders/add' element={<ShoppingOrdersForm />}></Route>
-          <Route path='shopping/services' element={<ServiceList />}></Route>
-          <Route path='shopping/services/add' element={<ServiceForm />}></Route>
-          <Route path='shopping/services/edit/:id' element={<ServiceForm />}></Route>
-          <Route path='shopping/categoryServices' element={<CategoryServiceList />}></Route>
-          <Route path='shopping/categoryServices/add' element={<CategoryServiceForm />}></Route>
-          <Route path='shopping/categoryServices/edit/:id' element={<CategoryServiceForm />}></Route>
-          <Route path='shopping/partners' element={<PartnerList />}></Route>
-          <Route path='shopping/partners/add' element={<PartnerForm />}></Route>
-          <Route path='shopping/partners/edit/:id' element={<PartnerForm />}></Route>
 
           <Route path='store/stocks' element={<StockList />}></Route>
           <Route path='store/stocks/add' element={<StockForm />}></Route>
@@ -121,10 +124,14 @@ function App() {
           <Route path='store/categoryProducts/add' element={<CategoryProductForm />}></Route>
           <Route path='store/categoryProducts/edit/:id' element={<CategoryProductForm />}></Route>
 
-          <Route path='engineering/proposals' element={<ProposalList />}></Route>
-          <Route path='engineering/proposals/add' element={<ProposalForm />}></Route>
-          <Route path='engineering/proposals/edit/:id' element={<ProposalForm />}></Route> 
-          <Route path='engineering/proposals/download/:id' element={<ProposalDownload />}></Route> 
+          <Route path='proposals' element={<ProposalList />}></Route>
+          <Route path='proposals/add' element={<ProposalForm />}></Route>
+          <Route path='proposals/edit/:id' element={<ProposalForm />}></Route> 
+          <Route path='proposals/download/:id' element={<ProposalDownload />}></Route> 
+
+          <Route path='contracts' element={<ContractList />}></Route>
+          <Route path='contracts/add' element={<ContractForm />}></Route> 
+          
           <Route path='engineering/projects' element={<ProjectList />}></Route>
           <Route path='engineering/projects/add' element={<ProjectForm />}></Route>
           <Route path='engineering/projects/edit/:id' element={<ProjectForm />}></Route>

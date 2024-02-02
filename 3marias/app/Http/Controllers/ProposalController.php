@@ -50,6 +50,22 @@ class ProposalController extends Controller implements APIController
     }
 
     /**
+     * Approves a proposal by id.
+     */
+    public function approve($id) {
+        $proposal = $this->proposalBusiness->approve(id: $id);
+        return ResponseUtils::getResponse($proposal, 200);
+    }
+
+    /**
+     * Rejects a proposal by id.
+     */
+    public function reject($id) {
+        $proposal = $this->proposalBusiness->reject(id: $id);
+        return ResponseUtils::getResponse($proposal, 200);
+    }
+
+    /**
      * Updates a proposal.
      */
     public function update(Request $request, $id) {

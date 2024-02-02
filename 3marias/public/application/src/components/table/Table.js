@@ -19,10 +19,11 @@ import Search from "../search/Search";
 import "../../App.css";
 import TableButton from "../button/TableButton";
 
-const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
+const CustomTable = ({tableName, tableNamePlaceholder, tableIcon, 
+    url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
     disableEdit, disableDelete, disableAdd }) => {
     
-        const [item, setItem] = useState({});
+    const [item, setItem] = useState({});
     const [items, setItems] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState([]);
     const [originalItems, setOriginalItems] = useState([]);
@@ -128,12 +129,15 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
             return (<img width={40} height={40} src={BASE_URL + "/images/" + "category" + "/" + item[field]} />);
         }
         if (field === "icon") {
+            if (item["icon_color"]) {
+                return (<i style={{color: item["icon_color"]}} className="material-icons">{item[field]}</i>);
+            }
             return (<i className="material-icons">{item[field]}</i>);
         }
         if (field === "status") {
             return getStatusField(item[field]);
         }
-        if (field === "global_value") {
+        if (field.indexOf("value") !== -1) {
             const v = Number(item[field].replace(".", "").replace(",", "."));
             return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
         }
@@ -142,11 +146,13 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
 
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
-        if (field === "description") {
-            return <td style={{minWidth: 200}}>{value}</td>
-        } else {
-            return <td>{value}</td>;
+        if (field === "id" || field === "icon") {
+            return <td>{value}</td>
         }
+        if (field === "name") {
+            return <td style={{minWidth: 300}}>{value}</td>;
+        }
+        return <td style={{minWidth: 200}}>{value}</td>;
     }
 
     const getStatusField = (value) => {
@@ -160,6 +166,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
             return (<i className="text-danger material-icons">remove_circle</i>);
         }
         return value;
+    }
+
+    const onReset = () => {
+        setItems(originalItems);
     }
 
     const onSearch = (inputData) => {
@@ -219,7 +229,7 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
                 <Modal.Title>Atenção</Modal.Title>
                 </Modal.Header>
             <Modal.Body>
-                Item excluído com sucesso!
+                {tableNamePlaceholder ? tableNamePlaceholder : "Item"} excluído com sucesso!
             </Modal.Body>
             <Modal.Footer>
                 <CustomButton name="Fechar" color="light" onClick={() => {setShowSuccessModal(false)}}></CustomButton>
@@ -227,7 +237,10 @@ const CustomTable = ({tableName, tableIcon, url, tableFields, fieldNameDeletion,
         </Modal>
 
         {searchFields && searchFields.length > 0 &&
-        <Search fields={searchFields} onSearch={onSearch} />
+        <Search 
+            fields={searchFields} 
+            onSearch={onSearch}
+            onReset={onReset} />
         }
 
         <Row>

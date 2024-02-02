@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("fantasy_name", 255);
             $table->string("social_reason", 255);
             $table->string("cnpj", 30);
+            $table->string("email", 100);
 
             $table->string("creci", 255);
             $table->string("phone", 20);
@@ -25,6 +26,11 @@ return new class extends Migration
 
             $table->integer('address_id')->unsigned();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+
+            $table->string("bank", 100);
+            $table->string("bank_agency", 6);
+            $table->string("bank_account", 7);
+            $table->string("pix", 100);
         
             $table->boolean("deleted")->default(false);
             $table->timestamps();

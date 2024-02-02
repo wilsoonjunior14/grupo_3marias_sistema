@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
 
         $this->createStocks();
         $this->createEquipment();
+        $this->createProjects();
+        $this->createEnterprise();
     }
 
     private function createContractModels() {
@@ -57,6 +59,65 @@ class DatabaseSeeder extends Seeder
         DB::table('document_types')->insert(['name' => "Contrato Social", 'deleted' => false]);
         DB::table('document_types')->insert(['name' => "Documento Geral RH", 'deleted' => false]);
         DB::table('document_types')->insert(['name' => "Manual de Gestão da Qualidade", 'deleted' => false]);
+    }
+
+    private function createEnterprise() {
+        DB::table('addresses')
+            ->insert([
+                'address' => "AVENIDA FERREIRA DE ASSIS",
+                'neighborhood' => "CENTRO",
+                'city_id' => 1,
+                'number' => 110,
+                'complement' => "APARTAMENTO 102 SALA 03",
+                'zipcode' => "62360-000",
+            ]);
+
+        DB::table('enterprises')
+            ->insert([
+                'name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'fantasy_name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'social_reason' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'creci' => "000000",
+                'cnpj' => "17.236.500/0001-20",
+                'phone' => "(88)99733-7979",
+                'email' => "3mariasconstrutora@gmail.com",
+                'state_registration' => "0000",
+                'municipal_registration' => "0000",
+                'address_id' => 2,
+                'bank' => 'BANCO DO BRASIL',
+                'bank_agency' => '2093-1',
+                'bank_account' => '18929-4',
+                'pix' => "3mariasconstrutora@gmail.com",
+                'deleted' => false
+            ]);
+
+        DB::table('addresses')
+            ->insert([
+                'address' => "AVENIDA FERREIRA DE ASSIS",
+                'neighborhood' => "SÃO JOÃO",
+                'city_id' => 1,
+                'number' => 110,
+                'complement' => "",
+                'zipcode' => "62360-000",
+            ]);
+
+        DB::table('enterprise_owners')
+            ->insert([
+                'name' => 'ANTÔNIO LEANDRO GOMES LINHARES',
+                'phone' => '(00)00000-0000',
+                'email' => 'leandrogomeslinhares@gmail.com',
+                'ocupation' => 'EMPRESÁRIO',
+                'state' => 'Casado',
+                'nationality' => 'BRASILEIRA',
+                'naturality' => 'IBIAPINA/CE',
+                'rg' => '2002009013471',
+                'rg_date' => '05/10/2010',
+                'rg_organ' => 'SSP/CE',
+                'cpf' => '003.781.613.69',
+                'enterprise_id' => 1,
+                'address_id' => 3,
+                'deleted' => false
+            ]);
     }
 
     private function createCategoryServices() {
@@ -213,6 +274,11 @@ class DatabaseSeeder extends Seeder
         DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'stock_id' => 1, 'deleted' => false]);
     }
 
+    private function createProjects() {
+        DB::table('projects')
+            ->insert(['name' => "PROJETO PERSONALIZADO", 'description' => 'A DEFINIR COM CLIENTE', 'deleted' => false]);
+    }
+
     private function createGenericUsers(): void{
         DB::table('users')->insert([
           'name' => "Francisco Wilson Rodrigues Júnior",
@@ -243,7 +309,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 152; $i++) {
+        for ($i = 1; $i<= 159; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -301,6 +367,9 @@ class DatabaseSeeder extends Seeder
         // api resource /proposals
         $this->createAPIResource('proposals');
 
+        // api resource /contracts
+        $this->createAPIResource('contracts');
+
         // api resource /clients
         $this->createAPIResource('clients');
         DB::table("roles")->insert(["description" => "POST /clients/docs", "endpoint" => "/clients/docs", "request_type" => "post", "deleted" => false]);
@@ -347,6 +416,10 @@ class DatabaseSeeder extends Seeder
 
         // api resource /partners
         $this->createAPIResource('partners');
+
+        DB::table('roles')->insert(['description' => 'POST /proposals/approve/{id}', 'endpoint' => '/proposals/approve/{id}', 'request_type' => 'post', 'deleted' => false]);
+        DB::table('roles')->insert(['description' => 'POST /proposals/reject/{id}', 'endpoint' => '/proposals/reject/{id}', 'request_type' => 'post', 'deleted' => false]);
+
 
         DB::table('roles')->insert(['description' => 'POST /users/search', 'endpoint' => '/users/search', 'request_type' => 'post', 'deleted' => false]);
 

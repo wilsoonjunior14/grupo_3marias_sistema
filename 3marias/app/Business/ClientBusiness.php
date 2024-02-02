@@ -20,6 +20,8 @@ class ClientBusiness {
         $amount = count($clients);
         foreach ($clients as $client) {
             $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
+            $client->birthdate = !is_null($client->birthdate) ? date_format(date_create($client->birthdate),"d/m/Y") : "";
+            $client->rg_date = !is_null($client->rg_date) ? date_format(date_create($client->rg_date),"d/m/Y") : "";
             $address = (new AddressBusiness())->getById($client->address_id);
             $client = $this->mountClientAddressInline(client: $client, address: $address);
         }
@@ -43,7 +45,7 @@ class ClientBusiness {
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de cliente $id.");
         $client = (new Client())->getById($id);
-        $address = (new AddressBusiness())->getById($client->address_id);
+        $address = (new AddressBusiness())->getById($client->address_id, merge: true);
         $client = $this->mountClientAddressInline($client, $address);
         Logger::info("Finalizando a recuperação de cliente $id.");
         return $client;
@@ -98,6 +100,8 @@ class ClientBusiness {
         $client["complement"] = $address->complement;
         $client["city_id"] = $address->city_id;
         $client["zipcode"] = $address->zipcode;
+        $client["city_name"] = $address->city_name;
+        $client["state_acronym"] = $address->state_acronym;
         return $client;
     }
 

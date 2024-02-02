@@ -1,4 +1,5 @@
 import InputMask from "react-input-mask";
+import InputErrorTag from "../error/InputErrorTag";
 
 const CustomInputMask = ({name, placeholder, onChange, maxlength, value, required, mask, pattern}) => {
     return (
@@ -14,6 +15,8 @@ const CustomInputMask = ({name, placeholder, onChange, maxlength, value, require
                 onChange={onChange}
                 value={value} />
             <label htmlFor={name + "Input"}>{placeholder}</label>
+            <InputErrorTag placeholder={placeholder} maxlength={maxlength} minLength={3} 
+                required={required} value={value} />
         </div>
     );
 }
