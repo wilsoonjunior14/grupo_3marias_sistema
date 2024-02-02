@@ -12,7 +12,7 @@ const CustomMoney = ({placeholder, name, value, required, onChange, disabled}) =
         className='input-money'
         id={name}
         name={name}
-        defaultValue={"0"}
+        defaultValue={""}
         required={required}
         disabled={disabled}
         decimalsLimit={2}

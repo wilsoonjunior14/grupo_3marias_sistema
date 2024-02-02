@@ -20,6 +20,8 @@ class ClientBusiness {
         $amount = count($clients);
         foreach ($clients as $client) {
             $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
+            $client->birthdate = !is_null($client->birthdate) ? date_format(date_create($client->birthdate),"d/m/Y") : "";
+            $client->rg_date = !is_null($client->rg_date) ? date_format(date_create($client->rg_date),"d/m/Y") : "";
             $address = (new AddressBusiness())->getById($client->address_id);
             $client = $this->mountClientAddressInline(client: $client, address: $address);
         }

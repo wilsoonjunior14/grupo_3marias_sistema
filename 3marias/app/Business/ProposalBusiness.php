@@ -27,11 +27,13 @@ class ProposalBusiness {
         return $proposals;
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de proposta $id.");
         $proposal = (new Proposal())->getById($id);
-        $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
-        $proposal->payments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
+        if ($mergeFields) {
+            $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
+            $proposal->payments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
+        }
         Logger::info("Finalizando a recuperação de proposta $id.");
         return $proposal;
     }
@@ -155,6 +157,24 @@ class ProposalBusiness {
         // Logger::info("Atualizando as informações do proposta.");
         // $proposalUpdated->save();
         // return $this->getById(id: $proposalUpdated->id);
+    }
+
+    public function reject(int $id) {
+        Logger::info("Rejeitando uma proposta $id.");
+        $proposal = $this->getById(id: $id, mergeFields: false);
+        $proposal->status = 1;
+        $proposal->save();
+        Logger::info("Finalizando rejeição de proposta $id.");
+        return $proposal;
+    }
+
+    public function approve(int $id) {
+        Logger::info("Aprovando uma proposta $id.");
+        $proposal = $this->getById(id: $id, mergeFields: false);
+        $proposal->status = 2;
+        $proposal->save();
+        Logger::info("Finalizando aprovação de proposta $id.");
+        return $proposal;
     }
 
     public function getStatusIcon(int $status) {

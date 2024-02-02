@@ -15,7 +15,9 @@ return new class extends Migration
             $table->increments('id');
             $table->string("name", 255);
             $table->enum("state", ["Solteiro", "Casado", "Divorciado", "Viúvo"]);
+            $table->enum("sex", ["Masculino", "Feminino", "Outro"]);
             $table->string("nationality", 255);
+            $table->string("naturality", 255);
             $table->string("ocupation", 255);
             $table->string("rg", 13);
             $table->date("rg_date", 10);
@@ -24,9 +26,17 @@ return new class extends Migration
             $table->date("birthdate")->nullable();
             $table->string("phone", 20)->nullable();
             $table->string("email")->nullable();
+            $table->string("person_service", 255)->nullable();
+            $table->string("indication", 255)->nullable();
+            $table->string("is_public_employee", 3)->nullable();
+            $table->double("salary")->nullable();
+            $table->string("has_fgts", 3)->nullable();
+            $table->string("has_many_buyers", 3)->nullable();
 
             $table->string("name_dependent", 255)->nullable();
+            $table->enum("sex_dependent", ["Masculino", "Feminino", "Outro"])->nullable();
             $table->string("nationality_dependent", 255)->nullable();
+            $table->string("naturality_dependent", 255)->nullable();
             $table->string("ocupation_dependent", 255)->nullable();
             $table->string("rg_dependent", 13)->nullable();
             $table->date("rg_dependent_date", 10)->nullable();
@@ -35,6 +45,10 @@ return new class extends Migration
             $table->date("birthdate_dependent")->nullable();
             $table->string("phone_dependent", 20)->nullable();
             $table->string("email_dependent")->nullable();
+            $table->string("is_public_employee_dependent", 3)->nullable();
+            $table->double("salary_dependent")->nullable();
+            $table->string("has_fgts_dependent", 3)->nullable();
+            $table->string("has_many_buyers_dependent", 3)->nullable();
 
             $table->integer('address_id')->unsigned();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');

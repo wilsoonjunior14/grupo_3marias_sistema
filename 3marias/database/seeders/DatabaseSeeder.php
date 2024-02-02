@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
 
         $this->createStocks();
         $this->createEquipment();
+        $this->createProjects();
     }
 
     private function createContractModels() {
@@ -213,6 +214,11 @@ class DatabaseSeeder extends Seeder
         DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'stock_id' => 1, 'deleted' => false]);
     }
 
+    private function createProjects() {
+        DB::table('projects')
+            ->insert(['name' => "PROJETO PERSONALIZADO", 'description' => 'A DEFINIR COM CLIENTE', 'deleted' => false]);
+    }
+
     private function createGenericUsers(): void{
         DB::table('users')->insert([
           'name' => "Francisco Wilson Rodrigues Júnior",
@@ -243,7 +249,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 152; $i++) {
+        for ($i = 1; $i<= 154; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -347,6 +353,10 @@ class DatabaseSeeder extends Seeder
 
         // api resource /partners
         $this->createAPIResource('partners');
+
+        DB::table('roles')->insert(['description' => 'POST /proposals/approve/{id}', 'endpoint' => '/proposals/approve/{id}', 'request_type' => 'post', 'deleted' => false]);
+        DB::table('roles')->insert(['description' => 'POST /proposals/reject/{id}', 'endpoint' => '/proposals/reject/{id}', 'request_type' => 'post', 'deleted' => false]);
+
 
         DB::table('roles')->insert(['description' => 'POST /users/search', 'endpoint' => '/users/search', 'request_type' => 'post', 'deleted' => false]);
 

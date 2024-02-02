@@ -21,6 +21,7 @@ import Success from '../../../components/success/Success';
 import NoEntity from '../../../components/table/NoEntity';
 import { formatDate, formatDateTime } from '../../../services/Format';
 import { useNavigate } from 'react-router-dom';
+import config from "../../../config.json";
 
 export default function ClientList() {
 
@@ -68,9 +69,9 @@ export default function ClientList() {
     const customOptions = [
         {
             name: "see_clientdata",
-            tooltip: "Ver Dados do Cliente",
+            tooltip: "Ver Ficha de Cadastro do Cliente",
             icon: "visibility",
-            onClick: (evt) => {setClient(evt); navigate("/admin/clients/details/"+evt.id)}
+            onClick: (evt) => {setClient(evt); window.open(config.url + "/clientData/" + evt.id)}
         },
         {
             name: "see_documents",

@@ -78,7 +78,7 @@
 <div class="row">
     <div class="col-5 row-colored">
         <b>Naturalidade</b> </br>
-        <span></span>
+        <span>{{ strtoupper($proposal->client->naturality) }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>UF</b> </br>
@@ -180,7 +180,8 @@
 
 <div class="row" style="text-align: center;">
     <div class="col-12 row-colored">
-        <span>Ibiapina - Ceará, 07 de Janeiro de 2024</span> </br> </br>
+        <?php date_default_timezone_set("America/Sao_Paulo"); ?>
+        <span>Ibiapina - Ceará, {{ date('d') }} de Fevereiro de {{ date('Y') }}</span> </br> </br>
 
         <span style="border-top: 1px solid black">{{ strtoupper($enterprise->fantasy_name) }}</span> </br>
         <span>CNPJ {{ strtoupper($enterprise->cnpj) }}</span> </br>

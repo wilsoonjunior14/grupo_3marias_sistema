@@ -7,6 +7,7 @@ import CustomInputMask from "./CustomInputMask";
 import CustomSelect2 from "./CustomSelect2";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomMoney from "./CustomMoney";
+import InputErrorTag from "../error/InputErrorTag";
 
 const CustomInput = ({placeholder, name, type, value, maxlength, required, onChange, endpoint, 
     endpoint_field, data, mask, maskPlaceholder, pattern, disabled, dateId}) => {
@@ -102,7 +103,6 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
                 name={name} 
                 onChange={onChange}
                 placeholder={placeholder}
-                value={value} 
                 required={required} 
                 disabled={disabled} />
         );
@@ -123,21 +123,12 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
             value={value}
             required={required}
             readOnly={disabled} />
-        {required && (!value || value.length === 0) &&
-        <div class="invalid-feedback">
-            O campo {placeholder.replace("*", "")} é obrigatório.
-        </div>
-        }
-        {value && value.length > 0 && value.length < 3 &&
-        <div class="invalid-feedback">
-            O campo {placeholder.replace("*", "")} deve conter mais que 3 caracteres.
-        </div>
-        }
-        {value && value.length > maxlength &&
-        <div class="invalid-feedback">
-            O campo {placeholder.replace("*", "")} deve conter menos que {maxlength} caracteres.
-        </div>
-        }
+        <InputErrorTag 
+            required={required} 
+            placeholder={placeholder} 
+            maxlength={maxlength}
+            minLength={3}
+            value={value}></InputErrorTag>
     </FloatingLabel>);
 }
 

@@ -122,7 +122,6 @@ const ProposalForm = ({}) => {
     };
 
     const onChangeName = (evt) => {
-        //setInitialState({client_name: evt.target.value});
         const { name, value } = evt.target;
         dispatch({ type: name, value });
 
@@ -135,19 +134,32 @@ const ProposalForm = ({}) => {
         });
         setCpfs(cpfsFiltered);
 
-        const emailsFiltered = clients
-        .filter((client) => client.name === evt.target.value)
-        .map((client) => {
-            if (client.name === evt.target.value) {
-                return client.email;
-            }
-        });
-        setEmails(emailsFiltered);
+        if (cpfsFiltered.length === 1) {
+            onChangeField({target: {name: "client_cpf", value: cpfsFiltered[0]}});
+            onUpdateClientFields(value, cpfsFiltered[0]);
+        }
 
         setReloadFields(true);
         setTimeout(() => {
             setReloadFields(false);
         }, 1);
+    }
+
+    const onChangeCPF = (evt) => {
+        const { name, value } = evt.target;
+        dispatch({ type: name, value });
+
+        onUpdateClientFields(state.client_name, value);
+    }
+
+    const onUpdateClientFields = (name, cpf) => {
+        var client = clients.filter((client) => client.name === name && client.cpf === cpf)[0];
+        onChangeField({target: {name: "city_id", value: client.city_id}});
+        onChangeField({target: {name: "neighborhood", value: client.neighborhood}});
+        onChangeField({target: {name: "address", value: client.address}});
+        onChangeField({target: {name: "zipcode", value: client.zipcode}});
+        onChangeField({target: {name: "number", value: client.number}});
+        onChangeField({target: {name: "complement", value: client.complement}});
     }
 
     const onRefreshClients = (evt) => {
@@ -172,10 +184,6 @@ const ProposalForm = ({}) => {
         }
         if (!state.client_cpf || state.client_cpf === "") {
             setHttpError({message: "CPF do Cliente não informado."});
-            return;
-        }
-        if (!state.client_email || state.client_email === "") {
-            setHttpError({message: "Email do Cliente não informado."});
             return;
         }
         onSetStep(steps[1]);
@@ -251,12 +259,8 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Bairro deve conter mais que 3 caracteres."});
             return;
         }
-        if (!state.number || state.number === "") {
-            setHttpError({message: "Número do endereço não informado."});
-            return;
-        }
         const numberRegex = RegExp(/^\d+$/g);
-        if (!numberRegex.test(state.number)) {
+        if (state.number && state.number !== "" && !numberRegex.test(state.number)) {
             setHttpError({message: "Número do endereço inválido."});
             return;
         }
@@ -488,14 +492,8 @@ const ProposalForm = ({}) => {
                                     <>
                                     <Col lg={4}>
                                         <CustomInput key="client_cpf" type="select" 
-                                            data={cpfs} onChange={onChangeField} value={state.client_cpf}
+                                            data={cpfs} onChange={onChangeCPF} value={state.client_cpf}
                                             placeholder="CPF do Cliente *" name="client_cpf" />
-                                    </Col>
-                                    <Col lg={4}>
-                                        <CustomInput key="client_email" type="select" 
-                                            disabled={true}
-                                            data={emails} onChange={onChangeField} value={state.client_email}
-                                            placeholder="Email do Cliente *" name="client_email" />
                                     </Col>
                                     </>
                                     }
@@ -541,6 +539,8 @@ const ProposalForm = ({}) => {
                                             placeholder="Tipo de Proposta*" name="proposal_type"
                                             onChange={onChangeField} />
                                     </Col>
+                                </Row>
+                                <Row style={{marginBottom: 12}}>
                                     <Col lg={4}>
                                         <CustomInput key="global_value" type="money" value={state.global_value2}
                                             placeholder="Valor Global *" name="global_value"
@@ -548,7 +548,7 @@ const ProposalForm = ({}) => {
                                     </Col>
                                     <Col lg={4}>
                                         <CustomInput key="proposal_date" 
-                                            type="date" value={state.proposal_date}
+                                            type="mask" value={state.proposal_date} mask={"99/99/9999"}
                                             onChange={onChangeField}
                                             placeholder="Data da Proposta *" name="proposal_date" />
                                     </Col>
@@ -557,6 +557,8 @@ const ProposalForm = ({}) => {
                                             placeholder="CEP *" name="zipcode" value={state.zipcode}
                                             onChange={onChangeField} />
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col lg={4}>
                                         <CustomInput key="city_id" type="select"
                                             endpoint={"cities"} endpoint_field={"name"} value={state.city_id}
@@ -573,9 +575,11 @@ const ProposalForm = ({}) => {
                                             placeholder="Bairro *" name="neighborhood"
                                             onChange={onChangeField} />
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col lg={4}>
                                         <CustomInput key="number" type="text" value={state.number}
-                                            placeholder="Número *" name="number"
+                                            placeholder="Número" name="number"
                                             onChange={onChangeField} />
                                     </Col>
                                     <Col lg={8}>

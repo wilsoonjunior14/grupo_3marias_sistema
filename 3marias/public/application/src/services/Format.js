@@ -17,6 +17,13 @@ export function formatDateToServer(date) {
     return array[2] + "-" + array[1] + "-" + array[0];
 }
 
+export function formatDoubleValue(value) {
+    if (!value){
+        return "";
+    }
+    return Number(value.replace(".", "").replace(",", "."));
+}
+
 export function formatHour(hour) {
     if (!hour) {
         return "";

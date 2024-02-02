@@ -112,6 +112,8 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Proposals api routes
     Route::apiResource('/proposals', ProposalController::class);
+    Route::post('/proposals/approve/{id}', [ProposalController::class, 'approve']);
+    Route::post('/proposals/reject/{id}', [ProposalController::class, 'reject']);
 
     // CategoryProducts api routes
     Route::apiResource('/categoryProducts', CategoryProductController::class);

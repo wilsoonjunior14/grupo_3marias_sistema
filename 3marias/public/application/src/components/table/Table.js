@@ -143,7 +143,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
 
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
-        if (field === "id") {
+        if (field === "id" || field === "icon") {
             return <td>{value}</td>
         }
         if (field === "name") {

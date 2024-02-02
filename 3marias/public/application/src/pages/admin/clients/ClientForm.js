@@ -11,8 +11,9 @@ import Success from "../../../components/success/Success";
 import Loading from "../../../components/loading/Loading";
 import CustomInput from "../../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
-import { performCustomRequest, performRequest } from "../../../services/Api";
-import { formatDateToServer } from "../../../services/Format";
+import { performGetCEPInfo, performRequest } from "../../../services/Api";
+import { formatDateToServer, formatDoubleValue } from "../../../services/Format";
+import { clearForm, validateForm } from '../../../services/Utils';
 
 const ClientForm = ({disableHeader}) => {
 
@@ -20,6 +21,7 @@ const ClientForm = ({disableHeader}) => {
     const [isLoadingData, setIsLoadingData] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
+    const [resetScreen, setResetScreen] = useState(false);
     const parameters = useParams();
     const [item, setItem] = useState({});
     const initialState = {};
@@ -49,6 +51,7 @@ const ClientForm = ({disableHeader}) => {
     }; 
 
     const reducer = (state, action) => {
+        const value = action.value;
         if (action.type === "reset") {
             return initialState;
         }
@@ -58,7 +61,7 @@ const ClientForm = ({disableHeader}) => {
         }
     
         const result = { ...state };
-        result[action.type] = action.value;
+        result[action.type] = value;
         return result;
     };
 
@@ -68,6 +71,13 @@ const ClientForm = ({disableHeader}) => {
         const { name, value } = e.target;
         dispatch({ type: name, value });
 
+        if (name === "zipcode") {
+            var zipCodeRegex = new RegExp(/\d{5}-\d{3}/g);
+            if (zipCodeRegex.test(value)) {
+                onChangeZipCode(value);
+            }
+        }
+
         const hasField = fields.some((item) => {return (item.name === "conjugue")});
         if (name.toString() === "state" && value === "Casado" && !hasField) {
             fields.concat(dependentFields);
@@ -75,16 +85,42 @@ const ClientForm = ({disableHeader}) => {
             dependentFields.forEach((f) => fields.push(f));
             setFields(fields);
         } else if(name.toString() === "state" && value !== "Casado") {
-            var remainingFields = fields;
-            dependentFields.forEach((f) => {
-                remainingFields = remainingFields.filter((field) => field.name !== f.name);
-            });
-            setFields(remainingFields);
+            removeDependentFields();
         }
+    };
+
+    const removeDependentFields = () => {
+        var remainingFields = fields;
+        dependentFields.forEach((f) => {
+            remainingFields = remainingFields.filter((field) => field.name !== f.name);
+        });
+        setFields(remainingFields);
+    }
+
+    const onChangeZipCode = (zipcode) => {
+        performGetCEPInfo(zipcode)
+        .then(onSuccessGetZipCodeResponse)
+        .catch((err) => {});
+    }
+
+    const onSuccessGetZipCodeResponse = (res) => {
+        const response = res.data;
+        const address = response.logradouro;
+        const neighborhood = response.bairro;
+        const complement = response.complemento;
+        changeField({target: {name: "address", value: address}});
+        changeField({target: {name: "neighborhood", value: neighborhood}});
+        changeField({target: {name: "complement", value: complement}});
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        const validation = validateForm("clientForm");
+        if (!validation) {
+            return;
+        }
+
         setLoading(true);
         setHttpError(null);
         setHttpSuccess(null);
@@ -124,20 +160,28 @@ const ClientForm = ({disableHeader}) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
             }
+            if (key.indexOf("salary") !== -1) {
+                data[key] = formatDoubleValue(data[key]);
+            }
         });
         return data;
     }
 
     const successPut = (response) => {
         setLoading(false);
-        setHttpSuccess({message: "Item salvo com sucesso!"});
+        setHttpSuccess({message: "Cliente salvo com sucesso!"});
     };
 
     const successPost = (response, e) => {
         e.target.reset();
         setLoading(false);
         dispatch({type: "reset"});
+        removeDependentFields();
         setHttpSuccess({message: "Cliente salvo com sucesso!"});
+        setResetScreen(true);
+        setTimeout(() => {
+            setResetScreen(false);
+        }, 100);
     };
 
     const errorResponse = (response) => {
@@ -150,7 +194,7 @@ const ClientForm = ({disableHeader}) => {
         setHttpError({message: "Não foi possível conectar-se com o servidor."});
     };
 
-    const [fields, setFields] = useState([
+    const initialFields = [
         {
             name: 'name',
             placeholder: 'Nome Completo *',
@@ -176,9 +220,17 @@ const ClientForm = ({disableHeader}) => {
         {
             name: 'rg_date',
             placeholder: 'Data de Emissão do RG *',
-            type: 'date',
+            type: 'mask',
             maxlength: 10,
+            mask: "99/99/9999",
             required: true
+        },
+        {
+            name: "sex",
+            placeholder: "Sexo *",
+            type: "select",
+            required: true,
+            data: ["Masculino", "Feminino"]
         },
         {
             name: 'cpf',
@@ -218,6 +270,20 @@ const ClientForm = ({disableHeader}) => {
             required: true
         },
         {
+            name: 'naturality',
+            placeholder: 'Naturalidade *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'salary',
+            placeholder: 'Renda Bruta (R$)',
+            type: 'money',
+            maxlength: 255,
+            required: false
+        },
+        {
             name: "state",
             placeholder: "Estado Civil *",
             type: "select",
@@ -233,20 +299,20 @@ const ClientForm = ({disableHeader}) => {
             mask: "99/99/9999"
         },
         {
+            name: 'zipcode',
+            placeholder: 'CEP *',
+            type: 'mask',
+            required: true,
+            mask: '99999-999'
+        },  
+        {
             name: 'city_id',
             placeholder: 'Cidade *',
             type: 'select',
             required: true,
             endpoint: "cities",
             endpoint_field: "name"
-        },
-        {
-            name: 'zipcode',
-            placeholder: 'CEP *',
-            type: 'mask',
-            required: true,
-            mask: '99999-999'
-        },        
+        },      
         {
             name: 'address',
             placeholder: 'Endereço *',
@@ -263,10 +329,10 @@ const ClientForm = ({disableHeader}) => {
         },
         {
             name: 'number',
-            placeholder: 'Número *',
+            placeholder: 'Número',
             type: 'number',
             maxlength: 4,
-            required: true
+            required: false
         },
         {
             name: 'complement',
@@ -275,7 +341,44 @@ const ClientForm = ({disableHeader}) => {
             maxlength: 255,
             required: false
         },
-    ]);
+        {
+            name: 'person_service',
+            placeholder: 'Atendimento',
+            type: 'select',
+            required: false,
+            data: ["Whatsapp", "Instagram", "Presencial"]
+        },   
+        {
+            name: 'indication',
+            placeholder: 'Indicação',
+            type: 'text',
+            maxlength: 255,
+            required: false
+        },
+        {
+            name: "is_public_employee",
+            placeholder: "É Funcionário Público?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
+        {
+            name: "has_fgts",
+            placeholder: "Possui 3 anos de trabalho sob regime do FGTS?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
+        {
+            name: "has_many_buyers",
+            placeholder: "Possui mais de um comprador ou dependente?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
+    ];
+
+    const [fields, setFields] = useState(initialFields);
 
     const dependentFields = [
         {
@@ -303,9 +406,17 @@ const ClientForm = ({disableHeader}) => {
         {
             name: 'rg_dependent_date',
             placeholder: 'Data de Emissão do RG do Cônjugue *',
-            type: 'date',
+            type: 'mask',
             maxlength: 10,
-            required: true
+            required: true,
+            mask: "99/99/9999"
+        },
+        {
+            name: "sex_dependent",
+            placeholder: "Sexo",
+            type: "select",
+            required: true,
+            data: ["Masculino", "Feminino"]
         },
         {
             name: 'cpf_dependent',
@@ -316,12 +427,33 @@ const ClientForm = ({disableHeader}) => {
             mask: "999.999.999-99"
         },
         {
+            name: 'nationality_dependent',
+            placeholder: 'Nacionalidade do Cônjugue *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'naturality_dependent',
+            placeholder: 'Naturalidade do Cônjugue *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
             name: 'ocupation_dependent',
             placeholder: 'Profissão do Cônjugue *',
             type: 'text',
             maxlength: 255,
             required: true,
             mask: "999.999.999-99"
+        },
+        {
+            name: 'salary_dependent',
+            placeholder: 'Renda Bruta do Cônjugue (R$)',
+            type: 'money',
+            maxlength: 255,
+            required: false
         },
         {
             name: 'email_dependent',
@@ -345,7 +477,28 @@ const ClientForm = ({disableHeader}) => {
             maxlength: 10,
             required: false,
             mask: "99/99/9999"
-        }
+        },
+        {
+            name: "is_public_employee_dependent",
+            placeholder: "Cônjugue é Funcionário Público?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
+        {
+            name: "has_fgts_dependent",
+            placeholder: "O Cônjugue possui 3 anos de trabalho sob regime do FGTS?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
+        {
+            name: "has_many_buyers_dependent",
+            placeholder: "O Cônjugue possui mais de um dependente?",
+            type: "select",
+            required: false,
+            data: ["Sim", "Não"]
+        },
     ];
 
     return (
@@ -353,6 +506,7 @@ const ClientForm = ({disableHeader}) => {
         {!disableHeader &&
         <VHeader />
         }
+        {!resetScreen &&
         <Container id='app-container' style={containerStyle} fluid>
             <Row>
                 <Col>
@@ -389,7 +543,7 @@ const ClientForm = ({disableHeader}) => {
                                 </>
                             }
                             {!isLoadingData &&
-                                <Form onSubmit={onSubmit}>
+                                <Form id='clientForm' onSubmit={onSubmit} noValidate={true}>
                                     <Row>
                                         <Col>
                                             <small>Campos com * são obrigatórios.</small>
@@ -438,6 +592,7 @@ const ClientForm = ({disableHeader}) => {
                 </Col>
             </Row>
         </Container>
+        }
         </>
     )
 };
