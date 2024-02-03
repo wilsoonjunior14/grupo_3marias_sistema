@@ -94,7 +94,11 @@ const ProposalForm = ({}) => {
     }
 
     const errorResponse = (err) => {
-        setHttpError(err.data);
+        if (err.data && err.data.message) {
+            setHttpError(err.data.message);
+        } else {
+            setHttpError(err.data);
+        }
         setLoading(false);
     }
 
@@ -154,11 +158,13 @@ const ProposalForm = ({}) => {
 
     const onUpdateClientFields = (name, cpf) => {
         var client = clients.filter((client) => client.name === name && client.cpf === cpf)[0];
+        const number = client.number && client.number > 0 ? client.number : 1;
+
         onChangeField({target: {name: "city_id", value: client.city_id}});
         onChangeField({target: {name: "neighborhood", value: client.neighborhood}});
         onChangeField({target: {name: "address", value: client.address}});
         onChangeField({target: {name: "zipcode", value: client.zipcode}});
-        onChangeField({target: {name: "number", value: client.number}});
+        onChangeField({target: {name: "number", value: number}});
         onChangeField({target: {name: "complement", value: client.complement}});
     }
 
@@ -353,7 +359,6 @@ const ProposalForm = ({}) => {
     }
 
     const onAddBankPayment = () => {
-        console.log("adicionando pagamento do banco");
         setHttpError(null);
         const paymentObj = {
             code: paymentsBank.length,
@@ -416,6 +421,9 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Pagamentos e Valor Global estão diferentes. Diferença de: R$ "+diff});
             return;
         }
+        
+        setHttpSuccess(null);
+        setHttpError(null);
 
         const payload = Object.assign({}, state);
         payload.global_value = globalValue;

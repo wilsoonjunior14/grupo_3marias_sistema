@@ -39,7 +39,7 @@ class ProposalBusiness {
     }
 
     public function delete(int $id) {
-        $proposal = $this->getById(id: $id);
+        $proposal = $this->getById(id: $id, mergeFields: false);
         Logger::info("Deletando o de proposta $id.");
 
         // TODO: NEED CHECK IF THERE IS SOME BUILDING OR CONTRACT OR STOCK ASSOCIATED.
