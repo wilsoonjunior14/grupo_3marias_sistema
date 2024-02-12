@@ -74,7 +74,7 @@ const CustomPagination = ({data, setDataCallback}) => {
 
     return (
         <>
-        <Pagination>
+        <Pagination style={{marginTop: 20}}>
             <Pagination.First onClick={() => goTo(1)} />
             <Pagination.Prev onClick={() => goTo(currentPage - 1)} />
 

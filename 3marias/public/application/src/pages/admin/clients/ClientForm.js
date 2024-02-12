@@ -13,7 +13,8 @@ import CustomInput from "../../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
 import { performGetCEPInfo, performRequest } from "../../../services/Api";
 import { formatDateToServer, formatDoubleValue } from "../../../services/Format";
-import { clearForm, validateForm } from '../../../services/Utils';
+import { validateForm } from '../../../services/Utils';
+import BackButton from '../../../components/button/BackButton';
 
 const ClientForm = ({disableHeader}) => {
 
@@ -508,6 +509,11 @@ const ClientForm = ({disableHeader}) => {
         }
         {!resetScreen &&
         <Container id='app-container' style={containerStyle} fluid>
+            <Row>
+                <Col xs={2}>
+                    <BackButton></BackButton>
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     {!loading && httpError &&

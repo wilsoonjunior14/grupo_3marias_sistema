@@ -8,12 +8,12 @@ class Contract extends BaseModel
     protected $fillable = ["id", 
     "code", "building_type", "description", "meters",
     "value", "witness_one_name", "witness_one_cpf",
-    "witness_two_name", "witness_two_cpf",
+    "witness_two_name", "witness_two_cpf", "date",
     "address_id", "proposal_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["code", "building_type", "description", "meters",
-    "value", "witness_one_name", "witness_one_cpf",
+    "value", "witness_one_name", "witness_one_cpf", "date",
     "witness_two_name", "witness_two_cpf",
     "address_id", "proposal_id"];
 
@@ -23,6 +23,7 @@ class Contract extends BaseModel
         'description' => 'bail|required|max:1000|min:3',
         'meters' => 'bail|required|max:1000|min:3',
         'value' => 'required|',
+        'date' => 'required|date',
         'witness_one_name' => 'bail|required|max:255|min:3',
         'witness_one_cpf' => 'required|cpf',
         'witness_two_name' => 'bail|required|max:255|min:3',
@@ -46,6 +47,8 @@ class Contract extends BaseModel
         'meters.min' => 'Campo Metros Quadrados da Obra deve conter no mínimo 3 caracteres.',
         'value.required' => 'Campo Valor do Contrato é obrigatório.',
         'value.regex' => 'Campo Valor do Contrato está inválido.',
+        'date.required' => 'Campo Data de Assinatura do Contrato é obrigatório.',
+        'date.date' => 'Campo de Data de Assinatura do Contrato é inválido.',
         'witness_one_name.required' => 'Campo Nome da Primeira Testemunha é obrigatório.',
         'witness_one_name.max' => 'Campo Nome da Primeira Testemunha permite no máximo 255 caracteres.',
         'witness_one_name.min' => 'Campo Nome da Primeira Testemunha deve conter no mínimo 3 caracteres.',
@@ -61,4 +64,26 @@ class Contract extends BaseModel
         'address_id.required' => 'Campo Identificador de Endereço é obrigatório.',
         'address_id.integer' => 'Campo Identificador de Endereço está inválido.'
     ];
+
+    public function proposal(): \Illuminate\Database\Eloquent\Relations\HasOne {
+        return $this->hasOne(Proposal::class, "id", "proposal_id")->where("deleted", false);
+    }
+
+    public function address(): \Illuminate\Database\Eloquent\Relations\HasOne {
+        return $this->hasOne(Address::class, "id", "address_id")->where("deleted", false);
+    }
+
+    public function getAll(string $orderBy) {
+        return $this::where("deleted", false)
+        ->with("proposal")
+        ->with("address")
+        ->orderBy($orderBy)
+        ->get();
+    }
+
+    public function getByProposalId(int $id) {
+        return $this::where("deleted", false)
+        ->where("proposal_id", $id)
+        ->get();
+    }
 }

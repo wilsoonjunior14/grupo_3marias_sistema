@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('cost_centers', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name", 255);
             $table->enum("status", ["Ativo", "Desativado"]);
 
-            $table->integer('address_id')->unsigned();
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->integer('contract_id')->unsigned()->nullable();
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->boolean("deleted")->default(false);
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
+        Schema::dropIfExists('cost_centers');
     }
 };

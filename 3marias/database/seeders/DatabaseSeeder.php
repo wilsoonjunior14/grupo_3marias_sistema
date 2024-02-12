@@ -267,11 +267,11 @@ class DatabaseSeeder extends Seeder
 
     private function createStocks() {
         DB::table("addresses")->insert(["address" => "São João", "neighborhood" => "São João", "number" => 0, "city_id" => 1, "zipcode" => "62360-000", "deleted" => false]);
-        DB::table('stocks')->insert(['name' => "Matriz", 'status' => 'Ativo', 'address_id' => 1, 'deleted' => false]);
+        DB::table('cost_centers')->insert(['name' => "Matriz", 'status' => 'Ativo', 'deleted' => false]);
     }
 
     private function createEquipment() {
-        DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'stock_id' => 1, 'deleted' => false]);
+        DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'cost_center_id' => 1, 'deleted' => false]);
     }
 
     private function createProjects() {

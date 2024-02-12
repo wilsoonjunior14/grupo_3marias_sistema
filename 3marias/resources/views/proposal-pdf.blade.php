@@ -8,57 +8,57 @@
 <div class="row">
     <div class="col-9 row-colored">
         <b>Dados da Empresa</b> </br>
-        <span>{{ strtoupper($enterprise->name) }}</span>
+        <span>{{ mb_strtoupper($enterprise->name, 'UTF-8') }}</span>
     </div>
     <div class="col-3 row-colored">
         <b>CNPJ</b> </br>
-        <span>{{ strtoupper($enterprise->cnpj) }}</span>
+        <span>{{ mb_strtoupper($enterprise->cnpj, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-5 row-colored">
         <b>Bairro</b> </br>
-        <span>{{ strtoupper($enterprise->neighborhood) }}</span>
+        <span>{{ mb_strtoupper($enterprise->neighborhood, 'UTF-8') }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>CEP</b> </br>
-        <span>{{ strtoupper($enterprise->zipcode) }}</span>
+        <span>{{ mb_strtoupper($enterprise->zipcode, 'UTF-8') }}</span>
     </div>
     <div class="col-4 row-colored">
         <b>Cidade</b> </br>
-        <span>{{ strtoupper($enterprise->city_name) }}</span>
+        <span>{{ mb_strtoupper($enterprise->city_name, 'UTF-8') }}</span>
     </div>
     <div class="col-1 row-colored">
         <b>UF</b> </br>
-        <span>{{ strtoupper($enterprise->state_acronym) }}</span>
+        <span>{{ mb_strtoupper($enterprise->state_acronym, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-5 row-colored">
         <b>Endereço Residencial</b> </br>
-        <span>{{ strtoupper($enterprise->address) }}</span>
+        <span>{{ mb_strtoupper($enterprise->address, 'UTF-8') }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>Número</b> </br>
-        <span>{{ strtoupper($enterprise->number) }}</span>
+        <span>{{ mb_strtoupper($enterprise->number, 'UTF-8') }}</span>
     </div>
     <div class="col-5 row-colored">
         <b>Complemento</b> </br>
-        <span>{{ strtoupper($enterprise->complement) }}</span>
+        <span>{{ mb_strtoupper($enterprise->complement, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-1 row-colored">
         <b>DDD</b> </br>
-        <span>{{ strtoupper(substr($enterprise->phone, 1, 2)) }}</span>
+        <span>{{ mb_strtoupper(substr($enterprise->phone, 1, 2), 'UTF-8') }}</span>
     </div>
     <div class="col-4 row-colored">
         <b>Telefone</b> </br>
-        <span>{{ strtoupper(substr($enterprise->phone, 4)) }}</span>
+        <span>{{ mb_strtoupper(substr($enterprise->phone, 4), 'UTF-8') }}</span>
     </div>
     <div class="col-7 row-colored">
         <b>Email</b> </br>
-        <span></span>
+        <span>{{ $enterprise->email }}</span>
     </div>
 </div>
 
@@ -68,78 +68,78 @@
 <div class="row">
     <div class="col-9 row-colored">
         <b>Nome Completo</b> </br>
-        <span>{{ strtoupper($proposal->client->name) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->name, 'UTF-8') }}</span>
     </div>
     <div class="col-3 row-colored">
         <b>CPF</b> </br>
-        <span>{{ strtoupper($proposal->client->cpf) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->cpf, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-5 row-colored">
         <b>Naturalidade</b> </br>
-        <span>{{ strtoupper($proposal->client->naturality) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->naturality, 'UTF-8') }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>UF</b> </br>
-        <span>{{ strtoupper($proposal->client->state_acronym) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->state_acronym, 'UTF-8') }}</span>
     </div>
     <div class="col-5 row-colored">
         <b>Nacionalidade</b> </br>
-        <span>{{ strtoupper($proposal->client->nationality) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->nationality, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-5 row-colored">
         <b>Endereço Residencial</b> </br>
-        <span>{{ strtoupper($proposal->client->address) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->address, 'UTF-8') }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>Número</b> </br>
-        <span>{{ strtoupper($proposal->client->number) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->number, 'UTF-8') }}</span>
     </div>
     <div class="col-5 row-colored">
         <b>Complemento</b> </br>
-        <span>{{ strtoupper($proposal->client->complement) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->complement, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-5 row-colored">
         <b>Bairro</b> </br>
-        <span>{{ strtoupper($proposal->client->neighborhood) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->neighborhood, 'UTF-8') }}</span>
     </div>
     <div class="col-2 row-colored">
         <b>CEP</b> </br>
-        <span>{{ strtoupper($proposal->client->zipcode) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->zipcode, 'UTF-8') }}</span>
     </div>
     <div class="col-4 row-colored">
         <b>Cidade</b> </br>
-        <span>{{ strtoupper($proposal->client->city_name) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->city_name, 'UTF-8') }}</span>
     </div>
     <div class="col-1 row-colored">
         <b>UF</b> </br>
-        <span>{{ strtoupper($proposal->client->state_acronym) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->state_acronym, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-1 row-colored">
         <b>DDD</b> </br>
-        <span>{{ strtoupper(substr($proposal->client->phone, 1, 2)) }}</span>
+        <span>{{ mb_strtoupper(substr($proposal->client->phone, 1, 2), 'UTF-8') }}</span>
     </div>
     <div class="col-4 row-colored">
         <b>Telefone</b> </br>
-        <span>{{ strtoupper(substr($proposal->client->phone, 4)) }}</span>
+        <span>{{ mb_strtoupper(substr($proposal->client->phone, 4), 'UTF-8') }}</span>
     </div>  
     <div class="col-7 row-colored">
         <b>Email</b> </br>
-        <span>{{ strtoupper($proposal->client->email) }}</span>
+        <span>{{ mb_strtoupper($proposal->client->email, 'UTF-8') }}</span>
     </div>
 </div>
 <div class="row">
     <div class="col-12 row-colored">
         <b>Objetos da Proposta</b> </br>
         <span>
-        {{ strtoupper($proposal->description) }}
+        {{ mb_strtoupper($proposal->description, 'UTF-8') }}
         
         <ul>
             <li>DOCUMENTAÇÃO TÉCNICA PARA FINANCIAMENTO BANCÁRIO: ELABORAÇÃO DE PLANILHA ORÇAMENTÁRIA, CRONOGRAMA FÍSICO-FINANCEIRO, MEMORIAL DESCRITIVO, E DEMAIS DOCUMENTOS TÉCNICOS NECESSÁRIOS EXIGIDOS PELAS INSTITUIÇÕES FINANCEIRAS, PARA FINS DE FINANCIAMENTO BANCÁRIO; </li>
@@ -156,14 +156,14 @@
 </div>
 <div class="row">
     <div class="col-12 row-colored">
-        <b>Prazo da Proposta</b> </br>
-        <span>45 DIAS</span>
+        <b>Prazo da Proposta:</b> <span style="font-size: 12px">45 DIAS</span></br>
+        <span></span>
         <b>Formas de Pagamento</b> </br>
         <span>
             <ul>
                 @foreach ($proposal->payments as $payment)
                     @if (strcmp("Cliente", $payment->source) === 0)
-                    <li>{{ strtoupper($payment->type) . ": R$" . number_format($payment->value, 2, ',', '.') . " " . $payment->description . " EM ". date_format(date_create($payment->desired_date),"d/m/Y") }}</li>
+                    <li>{{ mb_strtoupper($payment->type, 'UTF-8') . ": R$" . number_format($payment->value, 2, ',', '.') . " " . mb_strtoupper($payment->description, 'UTF-8') . " EM ". date_format(date_create($payment->desired_date),"d/m/Y") }}</li>
                     @endif
                 @endforeach
             </ul>
@@ -171,7 +171,7 @@
         <span>
         @foreach ($proposal->payments as $payment)
             @if (strcmp("Banco", $payment->source) === 0)
-                O VALOR DE R$ {{ number_format($payment->value, 2, ',', '.') }} SERÃO PAGOS DE ACORDO COM A EXECUÇÃO E {{ strtoupper($payment->type) }} DA OBRA REALIZADAS PELA {{ strtoupper($payment->bank) }};
+                O VALOR DE R$ {{ number_format($payment->value, 2, ',', '.') }} SERÃO PAGOS DE ACORDO COM A EXECUÇÃO E {{ mb_strtoupper($payment->type, 'UTF-8') }} DA OBRA REALIZADAS PELA {{ mb_strtoupper($payment->bank, 'UTF-8') }};
             @endif        
         @endforeach
         </span>
@@ -183,8 +183,8 @@
         <?php date_default_timezone_set("America/Sao_Paulo"); ?>
         <span>Ibiapina - Ceará, {{ date('d') }} de Fevereiro de {{ date('Y') }}</span> </br> </br>
 
-        <span style="border-top: 1px solid black">{{ strtoupper($enterprise->fantasy_name) }}</span> </br>
-        <span>CNPJ {{ strtoupper($enterprise->cnpj) }}</span> </br>
+        <span style="border-top: 1px solid black">{{ mb_strtoupper($enterprise->fantasy_name, 'UTF-8') }}</span> </br>
+        <span>CNPJ {{ mb_strtoupper($enterprise->cnpj, 'UTF-8') }}</span> </br>
     </div>
 </div>
 

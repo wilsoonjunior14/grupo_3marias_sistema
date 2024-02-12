@@ -25,8 +25,6 @@ import ClientForm from './pages/admin/clients/ClientForm';
 import ShoppingList from './pages/shopping/shopping/Shopping';
 import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
 import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
-import StockList from './pages/store/StockList';
-import StockForm from './pages/store/StockForm';
 import ProductList from './pages/store/Products/ProductList';
 import ProductForm from './pages/store/Products/ProductForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
@@ -51,6 +49,8 @@ import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
 
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
+import StockList from './pages/contracts/stocks/StockList';
+import StockForm from './pages/contracts/stocks/StockForm';
 
 console.disableYellowBox = true;
 
@@ -131,6 +131,9 @@ function App() {
 
           <Route path='contracts' element={<ContractList />}></Route>
           <Route path='contracts/add' element={<ContractForm />}></Route> 
+          <Route path='contracts/stocks' element={<StockList />}></Route>
+          <Route path='contracts/stocks/add' element={<StockForm />}></Route> 
+          <Route path='contracts/stocks/edit/:id' element={<StockForm />}></Route> 
           
           <Route path='engineering/projects' element={<ProjectList />}></Route>
           <Route path='engineering/projects/add' element={<ProjectForm />}></Route>

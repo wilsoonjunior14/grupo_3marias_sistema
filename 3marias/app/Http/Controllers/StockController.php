@@ -2,58 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\StockBusiness;
 use Illuminate\Http\Request;
-use App\Models\Stock;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
 
 class StockController extends Controller implements APIController
 {
+    private $stockBusiness;
+
     public function __construct() {
         $startTime = date('d/m/Y H:i:s');
+        $this->stockBusiness = new StockBusiness();
         Logger::info("Iniciando o StockController em {$startTime}.");
     }
 
     /**
-     * Gets all contracts.
+     * Gets all stocks.
      */
     public function index() {
-        Logger::info("Iniciando a recuperação de estoques.");
-
-        $stocks = (new Stock())->getAll("name");
-        $amount = count($stocks);
-        Logger::info("Foram recuperados {$amount} estoques.");
-
-        Logger::info("Finalizando a recuperação de estoques.");
+        $stocks = $this->stockBusiness->getAll();
         return ResponseUtils::getResponse($stocks, 200);
     }
 
     /**
-     * Creates a contracts model.
+     * Creates a stocks model.
      */
     public function store(Request $request) {
     }
 
     /**
-     * Gets a contracts model by id.
+     * Gets a stocks model by id.
      */
     public function show($id) {
+        $stock = $this->stockBusiness->getById(id: $id);
+        return ResponseUtils::getResponse($stock, 200);
     }
 
     /**
-     * Deletes a contracts models by id.
+     * Deletes a stocks models by id.
      */
     public function destroy($id) {
     }
 
     /**
-     * Updates a contracts model.
+     * Updates a stocks model.
      */
     public function update(Request $request, $id) {
+        $stock = $this->stockBusiness->update(payload: $request->all(), id: $id);
+        return ResponseUtils::getResponse($stock, 200);
     }
 
     /**
-     * Creates a contracts model.
+     * Creates a stocks model.
      */
     public function create(Request $request) {
         return $this->store(request: $request);

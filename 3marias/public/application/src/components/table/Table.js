@@ -51,6 +51,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
         }
 
         setItems([]);
+        setHttpError(null);
         setLoading(true);
 
         performRequest("GET", "/v1" + url)
@@ -149,7 +150,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
         if (field === "id" || field === "icon") {
             return <td>{value}</td>
         }
-        if (field === "name") {
+        if (field.indexOf("name") !== -1 || field.indexOf("description") !== -1) {
             return <td style={{minWidth: 300}}>{value}</td>;
         }
         return <td style={{minWidth: 200}}>{value}</td>;

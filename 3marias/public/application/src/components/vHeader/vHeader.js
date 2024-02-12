@@ -11,6 +11,7 @@ import VHeaderItem from "./vHeaderItem";
 import VHeaderAdmin from "./vHeaderAdmin";
 import VHeaderProposals from "./vHeaderProposals";
 import VHeaderContracts from "./vHeaderContracts";
+import VHeaderMoney from "./vHeaderMoney";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
@@ -35,6 +36,12 @@ function VHeader() {
             icon: "business_center",
             path: "contracts"
         },
+        {
+            id: 4,
+            name: "Movimentações",
+            icon: "attach_money",
+            path: "money"
+        }
     ];
     const [items, setItems] = useState(initialStateItems);
 
@@ -114,6 +121,9 @@ function VHeader() {
                     }
                     {itemSelected.id === 3 &&
                         <VHeaderContracts />
+                    }
+                    {itemSelected.id === 4 &&
+                        <VHeaderMoney />
                     }
                     {/* {itemSelected.id === 2 &&
                         <VHeaderCompras />

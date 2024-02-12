@@ -38,6 +38,7 @@ export default function Home() {
 
     const [loadingProposals, setLoadingProposals] = useState(false);
     const [proposalsData, setProposalsData] = useState(data);
+    const [proposals, setProposals] = useState([]);
 
     useEffect(() => {
         getProposals();
@@ -53,6 +54,7 @@ export default function Home() {
 
     const onSuccessGetProposals = (res) => {
         if (res.data) {
+            setProposals(res.data);
             var accepted = 0;
             var canceled = 0;
             var waiting = 0;
@@ -88,14 +90,17 @@ export default function Home() {
             <VHeader />
             <Container id='app-container' className="home-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 <Row>
+                    {proposals.length > 0 &&
                     <Col xs={12} lg={4}>
-                        <Card>
+                        <Card className="main-card">
                             <Card.Body>
                                 <Card.Title>
                                     Propostas
+                                    <i className="material-icons float-left">work</i>
                                 </Card.Title>
                                 {!loadingProposals &&
                                 <Pie
+                                    width={"80%"}
                                     data={proposalsData}
                                     options={{
                                     plugins: {
@@ -117,54 +122,58 @@ export default function Home() {
                             </Card.Body>
                         </Card>
                     </Col>
+                    }
                     <Col xs={12} lg={4}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>
-                                    Apresentação de Dados
-                            </Card.Title>
-                                <Bar
-                                    data={data}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Users Gained between 2016-2020"
-                                        },
-                                        legend: {
-                                        display: false
-                                        }
-                                    }
-                                    }}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col xs={12} lg={4}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>
-                                    Apresentação de Dados
-                            </Card.Title>
-                                <Line
-                                    data={data}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Users Gained between 2016-2020"
-                                        },
-                                        legend: {
-                                        display: false
-                                        }
-                                    }
-                                    }}
-                                />
-                            </Card.Body>
-                    </Card>
+                        <Row>
+                            <Col xs={12} style={{marginBottom: 8}}>
+                                <Card style={{height: 200, background: "rgba(54, 162, 0, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Contas a Receber
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b> + R$ 1.500,00</b>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col xs={12} style={{marginBottom: 8}}>
+                                <Card style={{height: 200, background: "rgba(255, 99, 90, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Contas a Pagar
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b> - R$ 1.500,00</b>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col xs={12} style={{marginBottom: 8}}>
+                                <Card style={{height: 200, background: "rgba(0, 99, 255, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Saldo da Construtora
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b> + R$ 30.000,00</b>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col xs={12} lg={4}>
                         <Card>
                             <Card.Body>
@@ -231,7 +240,8 @@ export default function Home() {
                             </Card.Body>
                         </Card>
                     </Col>
-                </Row>
+                </Row> */}
+
             </Container>
         </>
     );

@@ -46,5 +46,8 @@ export function getValueOfComplexField(item, complexField) {
     }
 
     var array = complexField.split(".");
-    return getValueOfComplexField(item[array[0]], array[1]);
+    // TODO: it must merge the another options instead of provide only array[1]
+    const first = array[0];
+    const last = array.slice(1).join(".")
+    return getValueOfComplexField(item[first], last);
 }

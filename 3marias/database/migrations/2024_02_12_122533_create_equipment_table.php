@@ -17,8 +17,8 @@ return new class extends Migration
             $table->date("acquisition_date");
             $table->date("maintenance_date")->nullable();
 
-            $table->integer('stock_id')->unsigned();
-            $table->foreign('stock_id')->references('id')->on('stocks')->onDelete('cascade');
+            $table->integer('cost_center_id')->unsigned();
+            $table->foreign('cost_center_id')->references('id')->on('cost_centers')->onDelete('cascade');
 
             $table->enum("status", ["Disponível", "Manutenção", "Não Disponível"]);
             $table->boolean("deleted")->default(false);
