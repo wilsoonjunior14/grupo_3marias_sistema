@@ -1,6 +1,6 @@
 import Container from "react-bootstrap/Container";
-import CustomForm from "../../components/form/Form";
-import VHeader from "../../components/vHeader/vHeader";
+import CustomForm from "../../../components/form/Form";
+import VHeader from "../../../components/vHeader/vHeader";
 
 const CitiesForm = ({}) => {
 

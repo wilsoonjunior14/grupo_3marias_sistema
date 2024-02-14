@@ -8,18 +8,15 @@ import NoPage from './pages/no_page/NoPage';
 import GroupList from './pages/admin/group/GroupList';
 import GroupForm from './pages/admin/group/GroupForm';
 import RolesList from './pages/admin/roles/RolesList';
-import CitiesList from './pages/cities/CitiesList';
-import StatesList from './pages/states/StatesList';
-import StatesForm from './pages/states/StatesForm';
-import CitiesForm from './pages/cities/CitiesForm';
+import CitiesList from './pages/admin/cities/CitiesList';
+import StatesList from './pages/admin/states/StatesList';
+import StatesForm from './pages/admin/states/StatesForm';
+import CitiesForm from './pages/admin/cities/CitiesForm';
 import RolesForm from './pages/admin/roles/RolesForm';
 import UserForm from './pages/admin/user/UserForm';
 import GroupRoles from './pages/admin/group/GroupRoles';
 import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
 import EnterpriseForm from './pages/admin/enterprises/EnterpriseForm';
-import TiposDocumentos from './pages/admin/tiposDocumentos/TiposDocumentos';
-import ContractsModel from './pages/admin/contractsModel/ContractsModel';
-import ContractsModelForm from './pages/admin/contractsModel/ContractsModelForm';
 import ClientList from './pages/admin/clients/ClientList';
 import ClientForm from './pages/admin/clients/ClientForm';
 import ShoppingList from './pages/shopping/shopping/Shopping';
@@ -31,7 +28,6 @@ import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
 import EnterprisePartnerForm from './pages/admin/enterprises/EnterprisePartnerForm';
 import EnterpriseOwnerForm from './pages/admin/enterprises/EnterpriseOwner';
 import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm';
-import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
 import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
 import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
 import CategoryServiceForm from './pages/admin/categoryServices/CategoryServiceForm';
@@ -44,7 +40,6 @@ import ProposalList from './pages/engineering/proposals/ProposalList';
 import ProposalForm from './pages/engineering/proposals/ProposalForm';
 import ClientDetails from './pages/admin/clients/ClientDetails';
 import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
-
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
 import StockList from './pages/contracts/stocks/StockList';
@@ -79,12 +74,6 @@ function App() {
           <Route path='admin/enterprises/enterpriseOwners/edit/:id' element={<EnterpriseOwnerForm />}></Route>
           <Route path='admin/enterprises/enterpriseBranches/add/:enterpriseId' element={<EnterpriseBranchForm />}></Route>
           <Route path='admin/enterprises/enterpriseBranches/edit/:id' element={<EnterpriseBranchForm />}></Route>
-          <Route path='admin/documents' element={<TiposDocumentos />}></Route>
-          <Route path='admin/documents/add' element={<DocumentTypeForm />}></Route>
-          <Route path='admin/documents/edit/:id' element={<DocumentTypeForm />}></Route>
-          <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
-          <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
-          <Route path='admin/contractsModel/edit/:id' element={<ContractsModelForm />}></Route>
           <Route path='admin/clients' element={<ClientList />}></Route>
           <Route path='admin/clients/add' element={<ClientForm disableHeader={false} />}></Route>
           <Route path='admin/clients/edit/:id' element={<ClientForm disableHeader={false} />}></Route>
