@@ -28,7 +28,7 @@ export default function GroupList() {
             icon: "lock",
             redirectTo: "/groups/roles",
             tooltip: "Editar Permissões",
-            onClick: (item) => {navigate("/roles/"+item.id)}
+            onClick: (item) => {navigate("/admin/groups/roles/"+item.id)}
         }
     ];
 

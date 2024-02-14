@@ -104,7 +104,8 @@ const CustomInput = ({placeholder, name, type, value, maxlength, required, onCha
                 onChange={onChange}
                 placeholder={placeholder}
                 required={required} 
-                disabled={disabled} />
+                disabled={disabled}
+                defaultValue={value} />
         );
     }
 

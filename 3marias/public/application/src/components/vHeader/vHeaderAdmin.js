@@ -25,6 +25,12 @@ function VHeaderAdmin() {
             </Col>
         </Row>
         <Row style={{width: "100%"}}> 
+            <Col><Nav.Link href="/admin/projects">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Projetos</Nav.Link>
+            </Col>
+        </Row>
+        <Row style={{width: "100%"}}> 
             <Col><Nav.Link href="/admin/partners">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Parceiros/Fornecedores</Nav.Link>

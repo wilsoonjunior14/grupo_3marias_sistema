@@ -24,6 +24,14 @@ export function formatDoubleValue(value) {
     return Number(value.replace(".", "").replace(",", "."));
 }
 
+export function formatMoney(value) {
+    if (!value) {
+        return "";
+    }
+    const v = Number(value.replace(".", "").replace(",", "."));
+    return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
+}
+
 export function formatHour(hour) {
     if (!hour) {
         return "";

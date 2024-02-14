@@ -10,9 +10,7 @@ class BillReceive extends BaseModel
     "contract_id", "purchase_order_id",
     "deleted", "created_at", "updated_at"];
 
-    static $fieldsToBeUpdated = ["id", "type", "value", "value_performed", "code", "description",
-    "source", "desired_date", "bank", "status",
-    "contract_id", "purchase_order_id",];
+    static $fieldsToBeUpdated = ["code", "value_performed", "description", "desired_date"];
 
     static $rules = [
         'code' => 'required|max:100|min:3',
@@ -57,6 +55,13 @@ class BillReceive extends BaseModel
     public function getByContractId(int $id) {
         return $this::where("deleted", false)
         ->where("contract_id", $id)
+        ->get();
+    }
+
+    public function getBillsNotDone() {
+        return $this::where("deleted", false)
+        ->where("status", 0)
+        ->orderBy("desired_date")
         ->get();
     }
 }

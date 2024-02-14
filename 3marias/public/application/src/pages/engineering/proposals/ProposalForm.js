@@ -20,7 +20,7 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from 'react-bootstrap/Modal';
 import ClientForm from '../../admin/clients/ClientForm';
 import TableButton from "../../../components/button/TableButton";
-import { formatDate, formatDateToServer, formatDoubleValue } from "../../../services/Format";
+import { formatDate, formatDateToServer, formatDoubleValue, formatMoney } from "../../../services/Format";
 
 const ProposalForm = ({}) => {
     const [loading, setLoading] = useState(false);
@@ -418,8 +418,8 @@ const ProposalForm = ({}) => {
 
         if (globalValue - discount !== payments) {
             const diff = (globalValue - discount) - payments;
-            const diffFormated = formatDoubleValue(diff);
-            setHttpError({message: "Pagamentos e Valor Global estão diferentes. Diferença de: R$ "+diffFormated});
+            const diffFormated = formatMoney(diff.toString());
+            setHttpError({message: "Pagamentos e Valor Global estão diferentes. Diferença de: "+diffFormated});
             return;
         }
         
@@ -696,7 +696,7 @@ const ProposalForm = ({}) => {
                                                 </thead>
                                                 <tbody>
                                                     {paymentsClient.length === 0 &&
-                                                    <NoEntity message={"Nenhuma pagamento adicionado."} />
+                                                    <NoEntity count={5} message={"Nenhum pagamento adicionado."} />
                                                     }
                                                     {paymentsClient.map((payment) => 
                                                     <tr>
@@ -770,7 +770,7 @@ const ProposalForm = ({}) => {
                                                 </thead>
                                                 <tbody>
                                                     {paymentsBank.length === 0 &&
-                                                    <NoEntity message={"Nenhuma pagamento adicionado."} />
+                                                    <NoEntity count={5} message={"Nenhuma pagamento adicionado."} />
                                                     }
                                                     {paymentsBank.map((payment) => 
                                                     <tr>

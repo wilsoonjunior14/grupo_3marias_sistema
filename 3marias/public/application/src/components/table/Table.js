@@ -196,7 +196,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
             Object.keys(inputData).forEach((key) => {
                 if (inputData[key] !== "") {
                     amountMatches = amountMatches + 1;
-                    if (item[key].toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
+                    var fieldValue = getValueOfComplexField(item, key);
+                    if (fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
                         matches = matches + 1;
                     }
                 }    
@@ -308,7 +309,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                             }
 
                                             {itemsPerPage.length === 0 &&
-                                                <NoEntity message="Nenhum resultado encontrado." />
+                                                <NoEntity count={tableFields.bodyFields.length + 2} message="Nenhum resultado encontrado." />
                                             }
                                         </tbody>
                                     </Table>
