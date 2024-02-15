@@ -70,6 +70,12 @@
                 padding: 0;
                 text-align: justify;
             }
+
+            @media print {
+                #container {
+                    margin-top: 100px !important;
+                }
+            }
         </style>
 
         <div class="container">
