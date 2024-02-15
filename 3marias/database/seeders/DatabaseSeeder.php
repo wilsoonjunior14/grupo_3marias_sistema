@@ -267,11 +267,11 @@ class DatabaseSeeder extends Seeder
 
     private function createStocks() {
         DB::table("addresses")->insert(["address" => "São João", "neighborhood" => "São João", "number" => 0, "city_id" => 1, "zipcode" => "62360-000", "deleted" => false]);
-        DB::table('stocks')->insert(['name' => "Matriz", 'status' => 'Ativo', 'address_id' => 1, 'deleted' => false]);
+        DB::table('cost_centers')->insert(['name' => "Matriz", 'status' => 'Ativo', 'deleted' => false]);
     }
 
     private function createEquipment() {
-        DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'stock_id' => 1, 'deleted' => false]);
+        DB::table('equipment')->insert(['name' => "Furadeira", 'status' => 'Disponível', 'acquisition_date' => '2023-12-10', 'cost_center_id' => 1, 'deleted' => false]);
     }
 
     private function createProjects() {
@@ -309,7 +309,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 159; $i++) {
+        for ($i = 1; $i<= 164; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -410,6 +410,10 @@ class DatabaseSeeder extends Seeder
 
         // api resource /services
         $this->createAPIResource('services');
+
+        // api resource /billsReceive
+        $this->createAPIResource('billsReceive');
+        DB::table("roles")->insert(["description" => "GET /billsReceive/get/inProgress", "endpoint" => "/billsReceive/get/inProgress", "request_type" => "get", "deleted" => false]);
 
         // api resource /categoryServices
         $this->createAPIResource('categoryServices');

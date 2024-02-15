@@ -1,21 +1,19 @@
-import React, {useState, useEffect, createRef, useReducer} from "react";
+import React, {useState, useEffect } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import Header from '../../../components/header/Header';
+import VHeader from '../../../components/vHeader/vHeader';
 import Error from '../../../components/error/Error';
 import Success from '../../../components/success/Success';
 import '../../../App.css';
 import Loading from "../../../components/loading/Loading";
-import { performCustomRequest, performRequest } from "../../../services/Api";
+import { performRequest } from "../../../services/Api";
 import { useParams } from "react-router-dom";
 import CustomPagination from "../../../components/table/Pagination";
-import Select from 'react-select';
 import CustomButton from "../../../components/button/Button";
 import './GroupRoles.css';
-import CustomTable from "../../../components/table/Table";
 
 function GroupRoles() {
 
@@ -37,7 +35,6 @@ function GroupRoles() {
     useEffect(() => {
         setLoading(true);
         getGroup(parameters.id);
-        getRoles();
     }, []);
 
     useEffect(() => {
@@ -57,20 +54,22 @@ function GroupRoles() {
         setItemsPerPage(data);
     };
 
-    const getRoles = () => {
+    const getRoles = (group) => {
         setLoadingRoles(true);
         performRequest("GET", "/v1/roles")
-        .then(successGetRoles)
+        .then((res) => successGetRoles(res, group))
         .catch(errorGet);
     };
 
-    const successGetRoles = (response) => {
+    const successGetRoles = (response, group) => {
         setLoadingRoles(false);
         postProcessing(group, response.data);
     }
     
 
     const getGroup = (id) => {
+        setHttpError(null);
+
         performRequest("GET", "/v1/groups/"+id)
         .then(successGet)
         .catch(errorGet);
@@ -80,7 +79,7 @@ function GroupRoles() {
         setLoading(false);
         const group = response.data;
         setGroup(group);
-        postProcessing(group, roles);
+        getRoles(group);
     }
 
     const errorGet = (response) => {
@@ -99,13 +98,9 @@ function GroupRoles() {
     }
 
     const postProcessing = (group, roles) => {
-        if (loading || loadingRoles || !roles || roles.length === 0) {
-            return;
-        }
-        
         roles.forEach((role) => {
             const hasMatch = group.roles.some((item) => {
-                return item.role_id === role.id;
+                return item.role_id.toString() === role.id.toString();
             });
             role.enabled = hasMatch;
         });
@@ -149,9 +144,8 @@ function GroupRoles() {
 
     return (
         <>
-            <Header />
-            <br></br>
-            <Container id='app-container' fluid>
+            <VHeader />
+            <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 {!loading && httpError &&
                     <Error message={httpError.message} />
                 }
@@ -244,7 +238,7 @@ function GroupRoles() {
                                                                 <CustomButton onClick={() => addRole(item)} disabled={item.enabled} name={"add"} tooltip={"Adicionar Permissão"} icon={"add"} color={"light"} />
                                                             </Col>
                                                             <Col xs={6} sm={1} md={6} lg={2}>
-                                                                <CustomButton onClick={() => removeRole(item)} disabled={!item.enabled} name={"remove"} tooltip={"Remover Permissão"} icon={"remove"} color={"light"} />
+                                                                <CustomButton onClick={() => removeRole(item)} disabled={!item.enabled} name={"remove"} tooltip={"Remover Permissão"} icon={"remove"} color={"danger"} />
                                                             </Col>
                                                         </Row>
                                                     </td>

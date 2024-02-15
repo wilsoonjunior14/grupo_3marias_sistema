@@ -1,7 +1,7 @@
-import CustomForm from "../../components/form/Form";
+import CustomForm from "../../../components/form/Form";
 import Container from 'react-bootstrap/Container';
-import VHeader from "../../components/vHeader/vHeader";
-import '../../App.css';
+import VHeader from "../../../components/vHeader/vHeader";
+import '../../../App.css';
 
 const StockForm = ({}) => {
 
@@ -14,12 +14,11 @@ const StockForm = ({}) => {
             required: true
         },
         {
-            name: "city_id",
-            placeholder: "Cidade",
-            type: "select",
-            required: true,
-            endpoint: "cities",
-            endpoint_field: "name"
+            name: 'status',
+            placeholder: 'Status',
+            type: 'select',
+            data: ['Ativo', 'Desativado'],
+            required: true
         }
     ];
 
@@ -27,7 +26,7 @@ const StockForm = ({}) => {
         <>
         <VHeader />
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
-            <CustomForm endpoint="/stocks" nameScreen="Local de Estoque" fields={fields} />
+            <CustomForm endpoint="/v1/stocks" nameScreen="Centro de Custo" fields={fields} />
         </Container>
         </>
     )

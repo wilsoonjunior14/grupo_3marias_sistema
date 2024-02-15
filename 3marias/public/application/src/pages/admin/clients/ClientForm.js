@@ -13,7 +13,9 @@ import CustomInput from "../../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
 import { performGetCEPInfo, performRequest } from "../../../services/Api";
 import { formatDateToServer, formatDoubleValue } from "../../../services/Format";
-import { clearForm, validateForm } from '../../../services/Utils';
+import { formatDataFrontend, validateForm } from '../../../services/Utils';
+import BackButton from '../../../components/button/BackButton';
+import { validateClient } from '../../../services/Validation';
 
 const ClientForm = ({disableHeader}) => {
 
@@ -31,6 +33,9 @@ const ClientForm = ({disableHeader}) => {
     useEffect(() => {
         if (parameters.id && !isLoadingData) {
             setIsLoadingData(true);
+            setHttpError(null);
+            setHttpSuccess(null);
+
             performRequest("GET", endpoint + "/"+parameters.id)
             .then(successGet)
             .catch(errorResponse);
@@ -45,7 +50,7 @@ const ClientForm = ({disableHeader}) => {
 
     const successGet = (response) => {
         setItem(response.data);
-        const data = response.data;
+        const data = formatDataFrontend(response.data);
         setIsLoadingData(false);
         dispatch({ type: "data", data });
     }; 
@@ -115,9 +120,16 @@ const ClientForm = ({disableHeader}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setHttpError(null);
 
         const validation = validateForm("clientForm");
         if (!validation) {
+            return;
+        }
+
+        const clientValidation = validateClient(state);
+        if (clientValidation) {
+            setHttpError(clientValidation);
             return;
         }
 
@@ -134,7 +146,7 @@ const ClientForm = ({disableHeader}) => {
     };
 
     const performPut = (data, e) => {
-        var payload = Object.assign(item, state);
+        var payload = processDataBefore(Object.assign(item, state));
         Object.keys(payload).forEach((key) => {
             if (payload[key] === null || payload[key] === "") {
                 delete payload[key];
@@ -508,6 +520,11 @@ const ClientForm = ({disableHeader}) => {
         }
         {!resetScreen &&
         <Container id='app-container' style={containerStyle} fluid>
+            <Row>
+                <Col xs={2}>
+                    <BackButton></BackButton>
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     {!loading && httpError &&

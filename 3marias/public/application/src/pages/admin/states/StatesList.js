@@ -1,37 +1,37 @@
 import React from "react";
 import Container from 'react-bootstrap/Container';
-import Header from '../../components/header/Header';
-import '../../App.css';
-import CustomTable from "../../components/table/Table";
-import VHeader from "../../components/vHeader/vHeader";
+import Header from '../../../components/header/Header';
+import '../../../App.css';
+import CustomTable from "../../../components/table/Table";
 
-export default function CitiesList() {
+export default function StatesList() {
 
     const fields = [
         {
             id: 'name',
-            placeholder: 'Cidade',
+            placeholder: 'Estado',
             type: 'text',
             maxlength: 255
         }
     ];
 
     const table = {
-        fields: ["#", "Cidade", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Estado", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
         bodyFields: ["id", "name", "created_at", "updated_at"]
     };
 
     return (
         <>
-            <VHeader />
-            <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <Header />
+            <br></br>
+            <Container fluid>
 
                 <CustomTable 
-                    tableName="Cidades" 
+                    tableName="Estados" 
                     tableIcon="language" 
                     fieldNameDeletion="name" 
-                    url="/cities" 
+                    url="/states" 
                     tableFields={table}
                     searchFields={fields} />
 

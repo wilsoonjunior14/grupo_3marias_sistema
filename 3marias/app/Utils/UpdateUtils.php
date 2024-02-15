@@ -16,6 +16,17 @@ class UpdateUtils
         return $targetData;
     }
 
+    public static function updateFields(array $fieldsToBeUpdated, $model, $requestData) {
+        foreach ($fieldsToBeUpdated as $field) {
+            if (!isset($requestData[$field])) {
+                $model[$field] = null;
+            } else {
+                $model[$field] = $requestData[$field];
+            }
+        }
+        return $model;
+    }
+
     public static function clearFields($targetData, $fields) {
         foreach ($fields as $key) {
             $targetData[$key] = "";

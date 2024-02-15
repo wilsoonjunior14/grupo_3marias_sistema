@@ -21,7 +21,18 @@ export function formatDoubleValue(value) {
     if (!value){
         return "";
     }
+    if (value.toString().indexOf(",") === -1) {
+        return value;
+    }
     return Number(value.replace(".", "").replace(",", "."));
+}
+
+export function formatMoney(value) {
+    if (!value) {
+        return "";
+    }
+    const v = Number(value.replace(".", "").replace(",", "."));
+    return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
 }
 
 export function formatHour(hour) {
@@ -46,5 +57,8 @@ export function getValueOfComplexField(item, complexField) {
     }
 
     var array = complexField.split(".");
-    return getValueOfComplexField(item[array[0]], array[1]);
+    // TODO: it must merge the another options instead of provide only array[1]
+    const first = array[0];
+    const last = array.slice(1).join(".")
+    return getValueOfComplexField(item[first], last);
 }

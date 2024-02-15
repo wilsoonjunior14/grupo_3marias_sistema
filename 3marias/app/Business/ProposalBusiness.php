@@ -17,8 +17,15 @@ class ProposalBusiness {
         $proposals = (new Proposal())->getAll("proposal_date");
         $amount = count($proposals);
 
+        $proposalPaymentBusiness = new ProposalPaymentBusiness();
+        $clientBusiness = new ClientBusiness();
+        $contractBusiness = new ContractBusiness();
         foreach ($proposals as $proposal) {
-            $proposal["payments"] = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
+            $proposal["payments"] = $proposalPaymentBusiness->getByProposalId(proposalId: $proposal->id);
+            $proposal["client"] = $clientBusiness->getById(id: $proposal->client_id);
+
+            $contracts = $contractBusiness->getByProposalId(id: $proposal->id);
+            $proposal["has_contract"] = count($contracts) > 0 ? true : false;
             $this->setStatusIcon(proposal: $proposal);
         }
 
@@ -38,14 +45,32 @@ class ProposalBusiness {
         return $proposal;
     }
 
+    public function getByClientId(int $clientId) {
+        Logger::info("Iniciando a recuperação de proposta do cliente $clientId.");
+        $proposal = (new Proposal())->getByClientId(clientId: $clientId);
+        Logger::info("Finalizando a recuperação de proposta $clientId.");
+        return $proposal;
+    }
+
     public function delete(int $id) {
         $proposal = $this->getById(id: $id, mergeFields: false);
         Logger::info("Deletando o de proposta $id.");
 
-        // TODO: NEED CHECK IF THERE IS SOME BUILDING OR CONTRACT OR STOCK ASSOCIATED.
+        // Check if there is any contract associated.
+        Logger::info("Verificando se existe contrato associado a proposta $id.");
+        $contract = (new ContractBusiness())->getByProposalId(id: $id);
+        if (!is_null($contract) && count($contract) > 0) {
+            throw new InputValidationException("Proposta não pode ser excluída. Existe um contrato associado a proposta.");
+        }
 
-        // TODO: NEED DELETE THE ALL PAYMENTS ASSOCIATED TO THIS PROPOSAL.
+        // Deleting the payments associated to proposal.
+        Logger::info("Deletando pagamentos relacionados a proposta $id.");
+        $proposalPayments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $id);
+        foreach ($proposalPayments as $payment) {
+            (new ProposalPaymentBusiness())->delete(id: $payment->id);
+        }
 
+        Logger::info("Deletando a proposta $id.");
         $proposal->deleted = true;
         $proposal->save();
         return $proposal;

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string("meters", 1000);
             $table->double("value");
 
+            $table->date("date");
+
             $table->string("witness_one_name", 255);
             $table->string("witness_one_cpf", 14);
             $table->string("witness_two_name", 255);

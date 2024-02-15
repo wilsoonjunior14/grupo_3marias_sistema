@@ -8,32 +8,23 @@ import NoPage from './pages/no_page/NoPage';
 import GroupList from './pages/admin/group/GroupList';
 import GroupForm from './pages/admin/group/GroupForm';
 import RolesList from './pages/admin/roles/RolesList';
-import CitiesList from './pages/cities/CitiesList';
-import StatesList from './pages/states/StatesList';
-import StatesForm from './pages/states/StatesForm';
-import CitiesForm from './pages/cities/CitiesForm';
+import CitiesList from './pages/admin/cities/CitiesList';
+import StatesList from './pages/admin/states/StatesList';
+import StatesForm from './pages/admin/states/StatesForm';
+import CitiesForm from './pages/admin/cities/CitiesForm';
 import RolesForm from './pages/admin/roles/RolesForm';
 import UserForm from './pages/admin/user/UserForm';
 import GroupRoles from './pages/admin/group/GroupRoles';
 import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
 import EnterpriseForm from './pages/admin/enterprises/EnterpriseForm';
-import TiposDocumentos from './pages/admin/tiposDocumentos/TiposDocumentos';
-import ContractsModel from './pages/admin/contractsModel/ContractsModel';
-import ContractsModelForm from './pages/admin/contractsModel/ContractsModelForm';
 import ClientList from './pages/admin/clients/ClientList';
 import ClientForm from './pages/admin/clients/ClientForm';
-import ShoppingList from './pages/shopping/shopping/Shopping';
-import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
-import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
-import StockList from './pages/store/StockList';
-import StockForm from './pages/store/StockForm';
 import ProductList from './pages/store/Products/ProductList';
 import ProductForm from './pages/store/Products/ProductForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
 import EnterprisePartnerForm from './pages/admin/enterprises/EnterprisePartnerForm';
 import EnterpriseOwnerForm from './pages/admin/enterprises/EnterpriseOwner';
 import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm';
-import DocumentTypeForm from './pages/admin/tiposDocumentos/DocumentTypeForm';
 import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
 import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
 import CategoryServiceForm from './pages/admin/categoryServices/CategoryServiceForm';
@@ -44,13 +35,18 @@ import PartnerList from './pages/admin/partners/PartnerList';
 import PartnerForm from './pages/admin/partners/PartnerForm';
 import ProposalList from './pages/engineering/proposals/ProposalList';
 import ProposalForm from './pages/engineering/proposals/ProposalForm';
-import ProjectList from './pages/engineering/projects/ProjectList';
-import ProjectForm from './pages/engineering/projects/ProjectForm';
 import ClientDetails from './pages/admin/clients/ClientDetails';
 import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
-
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
+import StockList from './pages/contracts/stocks/StockList';
+import StockForm from './pages/contracts/stocks/StockForm';
+import BillsReceiveList from './pages/money/BillsReceiveList';
+import BillsReceiveForm from './pages/money/BillsReceiveForm';
+import ProjectList from './pages/admin/projects/ProjectList';
+import ProjectForm from './pages/admin/projects/ProjectForm';
+import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
+import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
 
 console.disableYellowBox = true;
 
@@ -77,12 +73,6 @@ function App() {
           <Route path='admin/enterprises/enterpriseOwners/edit/:id' element={<EnterpriseOwnerForm />}></Route>
           <Route path='admin/enterprises/enterpriseBranches/add/:enterpriseId' element={<EnterpriseBranchForm />}></Route>
           <Route path='admin/enterprises/enterpriseBranches/edit/:id' element={<EnterpriseBranchForm />}></Route>
-          <Route path='admin/documents' element={<TiposDocumentos />}></Route>
-          <Route path='admin/documents/add' element={<DocumentTypeForm />}></Route>
-          <Route path='admin/documents/edit/:id' element={<DocumentTypeForm />}></Route>
-          <Route path='admin/contractsModel' element={<ContractsModel />}></Route>
-          <Route path='admin/contractsModel/add' element={<ContractsModelForm />}></Route>
-          <Route path='admin/contractsModel/edit/:id' element={<ContractsModelForm />}></Route>
           <Route path='admin/clients' element={<ClientList />}></Route>
           <Route path='admin/clients/add' element={<ClientForm disableHeader={false} />}></Route>
           <Route path='admin/clients/edit/:id' element={<ClientForm disableHeader={false} />}></Route>
@@ -109,14 +99,11 @@ function App() {
           <Route path='admin/partners' element={<PartnerList />}></Route>
           <Route path='admin/partners/add' element={<PartnerForm />}></Route>
           <Route path='admin/partners/edit/:id' element={<PartnerForm />}></Route>
+          <Route path='admin/projects' element={<ProjectList />}></Route>
+          <Route path='admin/projects/add' element={<ProjectForm />}></Route>
+          <Route path='admin/projects/edit/:id' element={<ProjectForm />}></Route>
 
-          <Route path='shopping' element={<ShoppingList />}></Route>
-          <Route path='shopping/orders' element={<ShoppingOrdersList />}></Route>
-          <Route path='shopping/orders/add' element={<ShoppingOrdersForm />}></Route>
-
-          <Route path='store/stocks' element={<StockList />}></Route>
-          <Route path='store/stocks/add' element={<StockForm />}></Route>
-          <Route path='store/stocks/edit/:id' element={<StockForm />}></Route>          
+         
           <Route path='store/products' element={<ProductList />}></Route>
           <Route path='store/products/add' element={<ProductForm />}></Route>
           <Route path='store/products/edit/:id' element={<ProductForm />}></Route>
@@ -131,10 +118,19 @@ function App() {
 
           <Route path='contracts' element={<ContractList />}></Route>
           <Route path='contracts/add' element={<ContractForm />}></Route> 
+          <Route path='contracts/stocks' element={<StockList />}></Route>
+          <Route path='contracts/stocks/add' element={<StockForm />}></Route> 
+          <Route path='contracts/stocks/edit/:id' element={<StockForm />}></Route> 
           
           <Route path='engineering/projects' element={<ProjectList />}></Route>
           <Route path='engineering/projects/add' element={<ProjectForm />}></Route>
           <Route path='engineering/projects/edit/:id' element={<ProjectForm />}></Route>
+
+          <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
+          <Route path='money/billsReceive/edit/:id' element={<BillsReceiveForm />}></Route>
+          <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
+          <Route path='money/purchaseOrders/add' element={<PurchaseOrdersForm />}></Route>
+          <Route path='money/purchaseOrders/edit/:id' element={<PurchaseOrdersForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

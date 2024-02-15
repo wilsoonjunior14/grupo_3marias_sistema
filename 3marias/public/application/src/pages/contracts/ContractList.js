@@ -17,9 +17,9 @@ export default function ContractList() {
     ];
 
     const table = {
-        fields: ["Código", "Tipo de Obra", "Descrição", "Valor"],
+        fields: ["Código", "Cliente", "Tipo de Obra", "Descrição", "Valor"],
         amountOptions: 1,
-        bodyFields: ["code", "building_type", "description", "value"]
+        bodyFields: ["code", "client.name", "building_type", "description", "value"]
     };
 
     const customOptions = [
@@ -28,6 +28,12 @@ export default function ContractList() {
             tooltip: "Download do Contrato",
             icon: "file_download",
             onClick: (evt) => {window.open(config.url + "/contract/" + evt.id)}
+        },
+        {
+            name: "attach_money",
+            tooltip: "Pagamentos do Contrato",
+            icon: "attach_money",
+            onClick: (evt) => {console.log(evt);}
         }
     ];
 

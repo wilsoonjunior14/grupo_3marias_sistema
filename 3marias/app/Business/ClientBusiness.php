@@ -3,6 +3,7 @@
 namespace App\Business;
 
 use App\Exceptions\EntityNotFoundException;
+use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Logger;
@@ -52,6 +53,12 @@ class ClientBusiness {
     }
 
     public function delete(int $id) {
+        Logger::info("Deletando o de cliente $id.");
+        $proposal = (new ProposalBusiness())->getByClientId(clientId: $id);
+        if (!is_null($proposal)) {
+            throw new InputValidationException("Cliente não pode ser excluído. Existe proposta desse cliente.");
+        }
+
         $client = $this->getById(id: $id);
         Logger::info("Deletando o de cliente $id.");
         $client->deleted = true;

@@ -1,10 +1,10 @@
 import React from "react";
 
-const NoEntity = ({message}) => {
+const NoEntity = ({message, count}) => {
     return (
         <>
         <tr>
-            <td colSpan={6}>
+            <td colSpan={count}>
                 {message}
             </td>
         </tr>

@@ -21,4 +21,5 @@ class ErrorMessage {
     public static $FIELD_MUSTBE_STRING= "Campo %s deve conter somente letras.";
     public static $FIELD_SHORT= "Campo %s deve conter no mínimo %s caracteres.";
     public static $FIELD_LONG= "Campo %s permite no máximo %s caracteres.";
+    public static $METHOD_NOT_IMPLEMENTED = "Recurso não implementado.";
 }

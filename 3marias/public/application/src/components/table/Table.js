@@ -51,6 +51,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
         }
 
         setItems([]);
+        setHttpError(null);
         setLoading(true);
 
         performRequest("GET", "/v1" + url)
@@ -149,7 +150,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
         if (field === "id" || field === "icon") {
             return <td>{value}</td>
         }
-        if (field === "name") {
+        if (field.indexOf("name") !== -1 || field.indexOf("description") !== -1) {
             return <td style={{minWidth: 300}}>{value}</td>;
         }
         return <td style={{minWidth: 200}}>{value}</td>;
@@ -195,7 +196,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
             Object.keys(inputData).forEach((key) => {
                 if (inputData[key] !== "") {
                     amountMatches = amountMatches + 1;
-                    if (item[key].toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
+                    var fieldValue = getValueOfComplexField(item, key);
+                    if (fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
                         matches = matches + 1;
                     }
                 }    
@@ -307,7 +309,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                             }
 
                                             {itemsPerPage.length === 0 &&
-                                                <NoEntity message="Nenhum resultado encontrado." />
+                                                <NoEntity count={tableFields.bodyFields.length + 2} message="Nenhum resultado encontrado." />
                                             }
                                         </tbody>
                                     </Table>

@@ -14,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import { performRequest } from "../../services/Api";
 import { getMoney, validateForm } from '../../services/Utils';
 
-const ClientForm = ({disableHeader}) => {
+const ContractForm = ({disableHeader}) => {
 
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
@@ -50,7 +50,7 @@ const ClientForm = ({disableHeader}) => {
 
     const onSuccessGetProposals = (res) => {
         setIsLoadingData(false);
-        const proposalsApproved = res.data.filter((p) => p.status === 2);
+        const proposalsApproved = res.data.filter((p) => p.status === 2 && !p.has_contract);
         setProposals(proposalsApproved);
 
         const approvedProposals = proposalsApproved.map((p) => p.code);
@@ -152,6 +152,9 @@ const ClientForm = ({disableHeader}) => {
         setResetScreen(true);
         setTimeout(() => {
             setResetScreen(false);
+            setProposals([]);
+            setProposalsLabels([]);
+            getProposals();
         }, 10);
     };
 
@@ -358,4 +361,4 @@ const ClientForm = ({disableHeader}) => {
     )
 };
 
-export default ClientForm;
+export default ContractForm;

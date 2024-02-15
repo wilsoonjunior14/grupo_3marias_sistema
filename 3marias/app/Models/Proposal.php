@@ -54,4 +54,10 @@ class Proposal extends BaseModel
         'status.required' => 'Campo Status da Proposta é obrigatório.',
         'status.in' => 'Campo Status da Proposta está inválido.'
     ];
+
+    public function getByClientId(int $clientId) {
+        return $this::where("deleted", false)
+        ->where("client_id", $clientId)
+        ->get();
+    }
 }

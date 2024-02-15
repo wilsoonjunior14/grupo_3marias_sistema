@@ -1,4 +1,4 @@
-import CustomForm from "../../components/form/Form";
+import CustomForm from "../../../components/form/Form";
 
 const StatesForm = ({}) => {
 

@@ -12,9 +12,10 @@ import Loading from "../../components/loading/Loading";
 import CustomInput from "../../components/input/CustomInput";
 import { performCustomRequest, performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
-import { formatDateToServer } from "../../services/Format";
+import { formatDateToServer, formatDoubleValue } from "../../services/Format";
 import BackButton from "../button/BackButton";
 import MD5 from "crypto-js/md5";
+import { formatDataFrontend } from "../../services/Utils";
 
 const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
     const [loading, setLoading] = useState(false);
@@ -44,6 +45,9 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
         if (data["image"]) {
             data.image = "";
         }
+
+        formatDataFrontend(data);
+
         setIsLoadingData(false);
         dispatch({ type: "data", data });
     }; 
@@ -119,7 +123,9 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
             return;
         }
 
-        const payload = Object.assign(item, state);
+        const userdata = Object.assign(item, state);
+        const payload = processDataBefore(userdata);
+        console.log(payload);
         performRequest("PUT", endpoint + "/"+parameters.id, payload)
         .then(successPut)
         .catch(errorResponse);
@@ -158,6 +164,12 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
             if (key.indexOf("password") !== -1) {
                 data[key] = MD5(data[key]).toString();
             }
+            if (key.indexOf("value_performed") !== -1) {
+                data[key] = formatDoubleValue(data[key]);
+            }
+            if (!data[key] || data[key] === null || data[key] === undefined) {
+                delete data[key];
+            }
         });
 
         if (parameters.enterpriseId) {
@@ -183,6 +195,11 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
         setLoading(false);
         setIsLoadingData(false);
         if (response.response) {
+            console.log(response.response);
+            if (response.response.status === 404) {
+                setHttpError("Não foi possível conectar-se com o servidor.");
+                return;
+            }
             setHttpError(response.response.data);
             return;
         }
@@ -256,7 +273,8 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
                                                 endpoint_field={field.endpoint_field}
                                                 data={field.data}
                                                 mask={field.mask}
-                                                dateId={field.dateId} />
+                                                dateId={field.dateId}
+                                                disabled={field.disabled} />
                                         </Col>
                                         )}
                                     </Row>

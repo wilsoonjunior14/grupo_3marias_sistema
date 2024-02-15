@@ -33,11 +33,12 @@ export default function ProposalList() {
     ];
 
     const table = {
-        fields: ["Status", "Código", "Descrição", "Tipo", "Tipo da Proposta", "Valor", "Data da Proposta"],
+        fields: ["Status", "Código", "Cliente", "Descrição", "Tipo", "Tipo da Proposta", "Valor", "Data da Proposta"],
         amountOptions: 1,
-        bodyFields: ["icon", "code", "description", "construction_type", "proposal_type", "global_value", "proposal_date"]
+        bodyFields: ["icon", "code", "client.name", "description", "construction_type", "proposal_type", "global_value", "proposal_date"]
     };
 
+    // TODO: only admin or developer can approve or cancel a proposal
     const customOptions = [
         {
             name: "approve_proposal",
@@ -53,7 +54,7 @@ export default function ProposalList() {
         },
         {
             name: "see_proposal_contract",
-            tooltip: "Ver Contrato Proposta",
+            tooltip: "Ver Proposta",
             icon: "file_download",
             onClick: (evt) => {window.open( config.url + "/proposal/"+evt.id)}
         }
