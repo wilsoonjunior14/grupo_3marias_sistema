@@ -21,6 +21,9 @@ export function formatDoubleValue(value) {
     if (!value){
         return "";
     }
+    if (value.toString().indexOf(",") === -1) {
+        return value;
+    }
     return Number(value.replace(".", "").replace(",", "."));
 }
 

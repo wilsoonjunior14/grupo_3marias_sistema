@@ -134,6 +134,95 @@ export default function Home() {
             <VHeader />
             <Container id='app-container' className="home-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 <Row>
+                    <Col xs={12}>
+                        <Row>
+                            <Col xs={12} lg={4} style={{marginBottom: 7}}>
+                                <Card style={{height: 200, background: "rgba(54, 162, 0, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Contas a Receber
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        {loadingBills &&
+                                        <Row>
+                                            <Col></Col>
+                                            <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
+                                            <Col></Col>
+                                        </Row>
+                                        }
+                                        {!loadingBills &&
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b>+ {billReceive}</b>
+                                            </Col>
+                                        </Row>
+                                        }
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col xs={12} lg={4} style={{marginBottom: 7}}>
+                                <Card style={{height: 200, background: "rgba(255, 99, 90, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Contas a Pagar
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b> - R$ {billPay}</b>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col xs={12} lg={4} style={{marginBottom: 7}}>
+                                <Card style={{height: 200, background: "rgba(0, 99, 255, 0.5)", color: "white"}}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Saldo da Construtora
+                                            <i className="material-icons float-left">attach_money</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
+                                                <b> + R$ {balance}</b>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Col>
+                    
+                    <Col xs={12} lg={4}>
+                        {!loadingBills &&
+                        <Row>
+                            {nextBillsReceive.map((bill) => 
+                            <Col xs={12} style={{marginBottom: 10}}>
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Conta a Receber em {formatDate(bill.desired_date)}
+                                            <i className="material-icons float-left">timeline</i>
+                                        </Card.Title>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <b>Cliente: </b>{bill.contract.proposal.client.name}
+                                            </Col>
+                                            <Col xs={12}>
+                                                <b>Descrição: </b>{bill.description}
+                                            </Col>
+                                            <Col xs={12}>
+                                                <b>Valor: </b>{formatMoney(Math.abs(bill.value_performed - bill.value).toString())}
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            )}
+                        </Row>
+                        }
+                    </Col>
+
                     {proposals.length > 0 &&
                     <Col xs={12} lg={4}>
                         <Card className="main-card">
@@ -167,90 +256,40 @@ export default function Home() {
                         </Card>
                     </Col>
                     }
+
+                    {proposals.length > 0 &&
                     <Col xs={12} lg={4}>
-                        <Row>
-                            <Col xs={12} style={{marginBottom: 7}}>
-                                <Card style={{height: 200, background: "rgba(54, 162, 0, 0.5)", color: "white"}}>
-                                    <Card.Body>
-                                        <Card.Title>
-                                            Contas a Receber
-                                            <i className="material-icons float-left">attach_money</i>
-                                        </Card.Title>
-                                        {loadingBills &&
-                                        <Row>
-                                            <Col></Col>
-                                            <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
-                                            <Col></Col>
-                                        </Row>
+                        <Card className="main-card">
+                            <Card.Body>
+                                <Card.Title>
+                                    Propostas
+                                    <i className="material-icons float-left">work</i>
+                                </Card.Title>
+                                {!loadingProposals &&
+                                <Pie
+                                    width={"80%"}
+                                    data={proposalsData}
+                                    options={{
+                                    plugins: {
+                                        title: {
+                                        display: true,
+                                        text: "Informações das Propostas"
                                         }
-                                        {!loadingBills &&
-                                        <Row>
-                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> {billReceive}</b>
-                                            </Col>
-                                        </Row>
-                                        }
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col xs={12} style={{marginBottom: 7}}>
-                                <Card style={{height: 200, background: "rgba(255, 99, 90, 0.5)", color: "white"}}>
-                                    <Card.Body>
-                                        <Card.Title>
-                                            Contas a Pagar
-                                            <i className="material-icons float-left">attach_money</i>
-                                        </Card.Title>
-                                        <Row>
-                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> - R$ {billPay}</b>
-                                            </Col>
-                                        </Row>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col xs={12} style={{marginBottom: 7}}>
-                                <Card style={{height: 200, background: "rgba(0, 99, 255, 0.5)", color: "white"}}>
-                                    <Card.Body>
-                                        <Card.Title>
-                                            Saldo da Construtora
-                                            <i className="material-icons float-left">attach_money</i>
-                                        </Card.Title>
-                                        <Row>
-                                            <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> + R$ {balance}</b>
-                                            </Col>
-                                        </Row>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
+                                    }
+                                    }}
+                                />
+                                }
+                                {loadingProposals &&
+                                <Row>
+                                    <Col></Col>
+                                    <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
+                                    <Col></Col>
+                                </Row>
+                                }
+                            </Card.Body>
+                        </Card>
                     </Col>
-                    <Col xs={12} lg={4}>
-                        {!loadingBills &&
-                        <Row>
-                            {nextBillsReceive.map((bill) => 
-                            <Col xs={12} style={{marginBottom: 10}}>
-                                <Card>
-                                    <Card.Body>
-                                        <Card.Title>
-                                            Conta a Receber em {formatDate(bill.desired_date)}
-                                            <i className="material-icons float-left">timeline</i>
-                                        </Card.Title>
-                                        <Row>
-                                            <Col xs={12}>
-                                                {bill.description}
-                                            </Col>
-                                            <Col xs={12}>
-                                                {formatMoney(Math.abs(bill.value_performed - bill.value).toString())}
-                                            </Col>
-                                        </Row>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            )}
-                        </Row>
-                        }
-                    </Col>
+                    }
                 </Row>
                 {/* <Row>
                     <Col xs={12} lg={4}>

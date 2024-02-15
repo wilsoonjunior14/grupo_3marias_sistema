@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string("website", 255)->nullable();
             $table->string("observation", 500)->nullable();
 
-            $table->integer('address_id')->unsigned();
+            $table->integer('address_id')->unsigned()->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
 
             $table->boolean("deleted")->default(false);

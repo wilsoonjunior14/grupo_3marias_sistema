@@ -27,9 +27,6 @@ return new class extends Migration
             $table->integer('contract_id')->unsigned()->nullable();
             $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
 
-            $table->integer('purchase_order_id')->unsigned()->nullable();
-            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
-
             $table->boolean("deleted")->default(false);
             $table->timestamps();
         });

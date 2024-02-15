@@ -34,6 +34,9 @@ class BillReceiveBusiness {
     public function getBillsInProgress() {
         Logger::info("Iniciando a recuperação dos pagamentos.");
         $bills = (new BillReceive())->getBillsNotDone();
+        foreach ($bills as $bill) {
+            $bill["contract"] = (new ContractBusiness())->getById(id: $bill->contract_id);
+        }
         Logger::info("Finalizando a recuperação dos pagamentos.");
         return $bills;
     }

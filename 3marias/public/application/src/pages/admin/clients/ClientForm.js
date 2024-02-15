@@ -13,7 +13,7 @@ import CustomInput from "../../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
 import { performGetCEPInfo, performRequest } from "../../../services/Api";
 import { formatDateToServer, formatDoubleValue } from "../../../services/Format";
-import { validateForm } from '../../../services/Utils';
+import { formatDataFrontend, validateForm } from '../../../services/Utils';
 import BackButton from '../../../components/button/BackButton';
 
 const ClientForm = ({disableHeader}) => {
@@ -32,6 +32,9 @@ const ClientForm = ({disableHeader}) => {
     useEffect(() => {
         if (parameters.id && !isLoadingData) {
             setIsLoadingData(true);
+            setHttpError(null);
+            setHttpSuccess(null);
+
             performRequest("GET", endpoint + "/"+parameters.id)
             .then(successGet)
             .catch(errorResponse);
@@ -46,7 +49,7 @@ const ClientForm = ({disableHeader}) => {
 
     const successGet = (response) => {
         setItem(response.data);
-        const data = response.data;
+        const data = formatDataFrontend(response.data);
         setIsLoadingData(false);
         dispatch({ type: "data", data });
     }; 
@@ -135,7 +138,7 @@ const ClientForm = ({disableHeader}) => {
     };
 
     const performPut = (data, e) => {
-        var payload = Object.assign(item, state);
+        var payload = processDataBefore(Object.assign(item, state));
         Object.keys(payload).forEach((key) => {
             if (payload[key] === null || payload[key] === "") {
                 delete payload[key];
@@ -156,6 +159,7 @@ const ClientForm = ({disableHeader}) => {
     }
 
     const processDataBefore = (data) => {
+        console.log(data);
         const keys = Object.keys(data);
         keys.forEach((key) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {

@@ -56,9 +56,16 @@ export function formatDateField(key, data) {
 //     }
 // }
 
+export function formatMoney(key, data) {
+    if (key === "salary") {
+        data[key] = Number(data[key]);
+    }
+}
+
 export function formatDataFrontend(data) {
     Object.keys(data).forEach((key) => {
         formatDateField(key, data);
-        //formatMoneyValue(key, data);
+        formatMoney(key, data);
     });
+    return data;
 }

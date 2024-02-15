@@ -31,7 +31,7 @@ class AddressBusiness {
         
         Logger::info("Salvando o novo endereço.");
         $address = $this->getById(id: $id, merge: false);
-        $address = UpdateUtils::processFieldsToBeUpdated($address, $data, Address::$fieldsToBeUpdated);
+        $address = UpdateUtils::updateFields(Address::$fieldsToBeUpdated, $address, $data);
 
         $address->save();
         Logger::info("Finalizando a atualização de endereço.");

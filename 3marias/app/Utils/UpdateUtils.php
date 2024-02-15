@@ -18,7 +18,11 @@ class UpdateUtils
 
     public static function updateFields(array $fieldsToBeUpdated, $model, $requestData) {
         foreach ($fieldsToBeUpdated as $field) {
-            $model[$field] = $requestData[$field];
+            if (!isset($requestData[$field])) {
+                $model[$field] = null;
+            } else {
+                $model[$field] = $requestData[$field];
+            }
         }
         return $model;
     }

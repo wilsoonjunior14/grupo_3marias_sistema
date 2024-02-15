@@ -19,9 +19,6 @@ import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
 import EnterpriseForm from './pages/admin/enterprises/EnterpriseForm';
 import ClientList from './pages/admin/clients/ClientList';
 import ClientForm from './pages/admin/clients/ClientForm';
-import ShoppingList from './pages/shopping/shopping/Shopping';
-import ShoppingOrdersList from './pages/shopping/orders/ShoppingOrders';
-import ShoppingOrdersForm from './pages/shopping/orders/ShoppingOrdersForm';
 import ProductList from './pages/store/Products/ProductList';
 import ProductForm from './pages/store/Products/ProductForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
@@ -48,6 +45,8 @@ import BillsReceiveList from './pages/money/BillsReceiveList';
 import BillsReceiveForm from './pages/money/BillsReceiveForm';
 import ProjectList from './pages/admin/projects/ProjectList';
 import ProjectForm from './pages/admin/projects/ProjectForm';
+import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
+import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
 
 console.disableYellowBox = true;
 
@@ -104,13 +103,7 @@ function App() {
           <Route path='admin/projects/add' element={<ProjectForm />}></Route>
           <Route path='admin/projects/edit/:id' element={<ProjectForm />}></Route>
 
-          <Route path='shopping' element={<ShoppingList />}></Route>
-          <Route path='shopping/orders' element={<ShoppingOrdersList />}></Route>
-          <Route path='shopping/orders/add' element={<ShoppingOrdersForm />}></Route>
-
-          <Route path='store/stocks' element={<StockList />}></Route>
-          <Route path='store/stocks/add' element={<StockForm />}></Route>
-          <Route path='store/stocks/edit/:id' element={<StockForm />}></Route>          
+         
           <Route path='store/products' element={<ProductList />}></Route>
           <Route path='store/products/add' element={<ProductForm />}></Route>
           <Route path='store/products/edit/:id' element={<ProductForm />}></Route>
@@ -135,6 +128,9 @@ function App() {
 
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
           <Route path='money/billsReceive/edit/:id' element={<BillsReceiveForm />}></Route>
+          <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
+          <Route path='money/purchaseOrders/add' element={<PurchaseOrdersForm />}></Route>
+          <Route path='money/purchaseOrders/edit/:id' element={<PurchaseOrdersForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

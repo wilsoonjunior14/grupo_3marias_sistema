@@ -4,33 +4,33 @@ import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
 
-export default function StockList() {
+export default function PurchaseOrdersList() {
 
     const fields = [
         {
-            id: 'name',
-            placeholder: 'Nome',
+            id: 'code',
+            placeholder: 'Código',
             type: 'text',
             maxlength: 255
         }
     ];
 
     const table = {
-        fields: ["#", "Nome", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nr. Recibo", "description"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "created_at", "updated_at"]
+        bodyFields: ["id", "nr_ticket", "description"]
     };
     
     return (
         <>
             <VHeader />
-            <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
-                    tableName="Locais de Estoque" 
-                    tableIcon="group" 
+                    tableName="Compras" 
+                    tableIcon="shopping_cart" 
                     fieldNameDeletion="name" 
-                    url="/stocks" 
+                    url="/users"
                     tableFields={table}
                     searchFields={fields} />
 

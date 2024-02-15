@@ -38,7 +38,7 @@ function VHeader() {
         },
         {
             id: 4,
-            name: "Movimentações",
+            name: "Financeiro",
             icon: "attach_money",
             path: "money"
         }
