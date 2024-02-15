@@ -15,6 +15,7 @@ import { performGetCEPInfo, performRequest } from "../../../services/Api";
 import { formatDateToServer, formatDoubleValue } from "../../../services/Format";
 import { formatDataFrontend, validateForm } from '../../../services/Utils';
 import BackButton from '../../../components/button/BackButton';
+import { validateClient } from '../../../services/Validation';
 
 const ClientForm = ({disableHeader}) => {
 
@@ -119,9 +120,16 @@ const ClientForm = ({disableHeader}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setHttpError(null);
 
         const validation = validateForm("clientForm");
         if (!validation) {
+            return;
+        }
+
+        const clientValidation = validateClient(state);
+        if (clientValidation) {
+            setHttpError(clientValidation);
             return;
         }
 
@@ -159,7 +167,6 @@ const ClientForm = ({disableHeader}) => {
     }
 
     const processDataBefore = (data) => {
-        console.log(data);
         const keys = Object.keys(data);
         keys.forEach((key) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {
