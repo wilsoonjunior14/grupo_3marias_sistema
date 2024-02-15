@@ -64,6 +64,8 @@ class ContractBusiness {
         // TODO: DELETE A STOCK ASSOCIATED TO CONTRACT
         // TODO: DELETE A BILLS RECEIVED ASSOCIATED TO CONTRACT
 
+        throw new InputValidationException("Exclusão de contratos ainda não implementado no sistema.");
+
         $contract->deleted = true;
         $contract->save();
         return $contract;

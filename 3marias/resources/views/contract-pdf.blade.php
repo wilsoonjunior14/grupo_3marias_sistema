@@ -436,12 +436,12 @@
                             <li>3.1.2. Fornecer para {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} em formato digital (em extensão.pdf) um original de cada uma das plantas, e detalhes relativos ao desenvolvimento do projeto;</li>
                             <li>3.1.3. A CONTRATADA caberá coordenar os cálculos complementares do projeto arquitetônico incluindo supervisionar o desenvolvimento dos planos de estrutura, instalações hidráulicas, sanitárias, elétricas, telecomunicações, climatização e paisagismo, sempre que estes elementos façam parte do projeto, garantindo sua integração e conformidade com as normas técnicas.</li>
                             <li>3.1.4. A CONTRATADA deve elaborar os serviços objetivados no presente contrato, em obediência as normas e especificações técnicas vigentes, responsabilizando-se pelos serviços prestados, na forma da legislação em vigor;</li>
-                            <li>3.1.5. {{ $subjectArticle }} {{ strtoupper($subject) }} deverão pagar os honorários da CONTRATADA, referentes a projetos modificativos, e alterações de projetos das fases já executadas, decorrentes das solicitações feitas pel{{ strtolower($subjectArticle) }} {{strtoupper($subject)}}, independente das razões que o motivaram. Esses honorários serão cobrados conforme Cláusula 5.9.do presente contrato.</li>
+                            <li>3.1.5. {{ $subjectArticle }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "deverão" : "deverá" }} pagar os honorários da CONTRATADA, referentes a projetos modificativos, e alterações de projetos das fases já executadas, decorrentes das solicitações feitas pel{{ strtolower($subjectArticle) }} {{strtoupper($subject)}}, independente das razões que o motivaram. Esses honorários serão cobrados conforme Cláusula 5.9.do presente contrato.</li>
                             <li>3.2. A construção da obra observará as seguintes premissas:</li>
                             <li>3.2.1. As obras serão executadas pela CONTRATADA, com equipamentos, ferramentas e maquinários próprios ou locados às suas expensas, prestando pessoalmente os serviços ou contratando de mão de obra especializada, tendo este vínculo exclusivamente com o mesmo, a qual responderá pelo pagamento dos salários bem como todos os encargos tributários, cíveis ou trabalhistas decorrentes da contratação da mão de obra.</li>
                             <li>3.2.2. A CONTRATADA será responsável ainda pela aquisição dos materiais a serem empregados na obra, já inclusos no valor deste contrato, os quais obedecerão as especificações e qualidade descritas no Projeto e Memorial Descritivo anexos.</li>
                             <li>3.2.3. Será a CONTRATADA a única responsável por eventuais danos e prejuízos causados a terceiros em decorrência da execução da obra a seu cargo.</li>
-                            <li>3.2.4. Poderá {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, ou pessoa por eles autorizada, visitar as obras em qualquer dia ou horário, a fim de proceder com o seu acompanhamento técnico.</li>
+                            <li>3.2.4. {{ strpos($subjectArticle, "s") === true ? "Poderão" : "Poderá" }} {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, ou a pessoa autorizada, visitar as obras em qualquer dia ou horário, a fim de proceder com o seu acompanhamento técnico.</li>
                             <li>3.2.5. {{ $subjectArticle }} {{ strtoupper($subject) }}, em hipótese alguma, {{ strpos($subjectArticle, "s") === true ? "poderão" : "poderá" }} intervir na gestão, controle e execução da mão de obra, serviços e materiais a serem aplicados na obra, a qualquer momento, a fim de garantir a perfeita execução da obra.</li>
                             <li>3.2.6. Cabe a CONTRATADA a total gestão, controle e execução da mão de obra, serviços e materiais a serem aplicados na obra, o qual deverá fazer seguindo fielmente os projetos aprovados e o Memorial Descritivo anexo a este contrato.</li>
                             <li>3.2.7. Todas as despesas oriundas de análises, aprovações e registros dos serviços contratados são de responsabilidade da CONTRATADA, até a conclusão da obra, tais como: Taxas do CREA, Taxas de Prefeitura, Taxas de Cartório, Taxas das Instituições Financeiras, Emissão de Alvará de Construção, Taxas de Recolhimento INSS da Obra, Taxa Emissão de Habite-se, ISS, ITBI e Averbações.</li>
@@ -462,8 +462,8 @@
                             <li>4.2. Os prazos da Clausula 4.1 constituem os mínimos necessários para o desenvolvimento técnico dos serviços, podendo no entanto, serem dilatados a pedido da CONTRATADA.</li>
                             <li>4.3. Não serão contados os dias em que o projeto ficar retido pel{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, para apreciação;</li>
                             <li>4.4. Os prazos acima não se vinculam aos prazos necessários para aprovação junto aos órgãos competentes, podendo, entretanto, a CONTRATADA desenvolver, paralelamente e estes trâmites, as etapas posteriores.</li>
-                            <li>4.5. {{ $subjectArticle }} {{ strtoupper($subject) }} devem agir prontamente em todas as ações que dependerem exclusivamente deles para o avanço do projeto e documentações deste contrato. Caso eles atrasem ou causem dificuldades, a CONTRATADA não será responsável por atrasos nos serviços e pode cancelar o contrato. Se {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} falharem em colaborar adequadamente, especialmente na fase de projetos e documentos, terão que pagar R$ 10.000,00 (Dez Mil Reais) à CONTRATADA, que pode decidir encerrar o contrato se necessário sem nenhuma penalidade.</li>
-                            <li>4.6. {{ $subjectArticle }} {{ strtoupper($subject) }} terão 5 (cinco) dias úteis para a aprovação ou solicitação de eventuais alterações a contar da entrega de cada etapa.</li>
+                            <li>4.5. {{ $subjectArticle }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "devem" : "deve" }} agir prontamente em todas as ações que dependerem exclusivamente deles para o avanço do projeto e documentações deste contrato. Caso eles atrasem ou causem dificuldades, a CONTRATADA não será responsável por atrasos nos serviços e pode cancelar o contrato. Se {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "falharem" : "falhar" }} em colaborar adequadamente, especialmente na fase de projetos e documentos, terão que pagar R$ 10.000,00 (Dez Mil Reais) à CONTRATADA, que pode decidir encerrar o contrato se necessário sem nenhuma penalidade.</li>
+                            <li>4.6. {{ $subjectArticle }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "terão" : "terá" }} 5 (cinco) dias úteis para a aprovação ou solicitação de eventuais alterações a contar da entrega de cada etapa.</li>
                             <li>4.7. O presente contrato terá início na data da sua assinatura, e seguirá os prazos estabelecidos na cláusula 4.1.</li>
                             <li>4.8. O prazo de conclusão poderá ser prorrogado em caso de comprovado caso fortuito ou de força maior, como guerra, calamidade pública, suspensão de fornecimento de força elétrica ou de água por culpa das concessionárias ou falta de materiais na praça, o atraso no pagamento dos serviços, ou mesmo a não liberação de recursos de financiamento bancário em favor d{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, hipóteses em que a CONTRATADA deverá ser comunicada por escrito e o prazo será prorrogado por tempo igual àquele em que perdurar o respectivo evento.</li>
                         </ul>
@@ -492,7 +492,7 @@
                             Relatório de Vistoria: Se a fiscalização confirmar a conclusão adequada das etapas, o engenheiro do banco {{ $bank }} prepara um relatório de vistoria.
                             Liberação dos Recursos: Com base nesse relatório, o banco {{ $bank }} libera os recursos financeiros para a etapa correspondente, depositando-os na conta d{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} ({{strtoupper($contract->proposal->client->name)}}). </li>
 
-                            <li>5.3 {{ $subjectArticle }} {{ strtoupper($subject) }}, deverão realizar os pagamentos correspondentes a cada medição em até 2 (dois) dias úteis após o pagamento da medição pelo banco {{ $bank }}. O cronograma apresentado ao banco deverá ser anexado a este contrato, e passará a valer como cronograma de pagamento deste contrato, para todos os fins de direito. Caso haja atraso no repasse dos valores dentro do período estipulado, será aplicada uma multa de 1% (um por cento) sobre o valor total do contrato. </li>
+                            <li>5.3 {{ $subjectArticle }} {{ strtoupper($subject) }}, {{ strpos($subjectArticle, "s") === true ? "deverão" : "deverá" }} realizar os pagamentos correspondentes a cada medição em até 2 (dois) dias úteis após o pagamento da medição pelo banco {{ $bank }}. O cronograma apresentado ao banco deverá ser anexado a este contrato, e passará a valer como cronograma de pagamento deste contrato, para todos os fins de direito. Caso haja atraso no repasse dos valores dentro do período estipulado, será aplicada uma multa de 1% (um por cento) sobre o valor total do contrato. </li>
                             <li>5.4. Os valores das parcelas, deverão ser transferidos via TED ou PIX, para a conta da CONTRATADA no BANCO DO BRASIL, conforme os dados a seguir:
                                 <ul>
                                     <li>Agência: {{ strtoupper($enterprise->bank_agency) }}</li>
@@ -504,7 +504,7 @@
                             <li>5.5. Ocorrendo atraso no pagamento de qualquer prestação haverá incidência de juros de mora de 5% (cinco por cento) ao mês e correção pelo INPC, podendo ainda ocorrer a rescisão caso seja, à opção da CONTRATADA.</li>
                             <li>5.6. As medições mensais serão registradas através de emissão de relatório de medição de obra, elaborado pelo engenheiro responsável pela obra, onde deverá constar o avanço percentual do período, o acumulado anterior e o acumulado atual das medições. O relatório deverá ser apresentado para {{ strtolower($subjectArticle) }} {{ $subject }}, que deverá dar conhecimento deste, através de assinatura ou visto. </li>
                             <li>5.7. A CONTRATADA é responsável por emitir boletos bancários para {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, correspondentes aos valores do saldo devedor mencionados na cláusula 5.1 deste contrato. Uma vez que o saldo devedor seja total ou parcialmente pagos pel{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, a CONTRATADA emitirá um recibo a eles, confirmando os recebimento. Essa obrigação da contratada em emitir boletos e o recibo final está condicionada ao que foi especificado na cláusula 5.1 do contrato. </li>
-                            <li>5.8. Caso {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} não consigam o financiamento bancário e decidam cancelar o contrato, eles são obrigados a pagar R$ 10.000,00 (Dez Mil Reais) à CONTRATADA. Este valor serve como compensação pelos projetos já realizados e pela preparação dos documentos de financiamento. </li>
+                            <li>5.8. Caso {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} não {{ strpos($subjectArticle, "s") === true ? "consigam" : "consiga" }} o financiamento bancário e decidam cancelar o contrato, eles são obrigados a pagar R$ 10.000,00 (Dez Mil Reais) à CONTRATADA. Este valor serve como compensação pelos projetos já realizados e pela preparação dos documentos de financiamento. </li>
                             <li>5.9. Para cada revisão de projeto solicitada pel{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, após a aprovação do serviço, será cobrado o valor de R$ 1.000,00 (Um Mil Reais), que deverá ser pago à vista e adiantado. </li>
                         </ul>
                     </div>
@@ -513,7 +513,7 @@
                     <div class="col-12 row-colored no-bottom-border">
                         <ul class="list-no-style">
                             <li>6.1. Estando a obra completamente pronta, testada, e atestada pelo banco {{ $bank }}, a mesma será entregue para {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }}, que procederá a um minucioso exame e verificação, após o que será a entrega final ratificada mediante termo por escrito, assinado pel{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} e pela CONTRATADA, e no qual ficará especificado o cumprimento das cláusulas contratuais, sem, contudo, eximir a CONTRATADA das responsabilidades que por sua natureza ou por dispositivo legal, se estendam além do término do presente contrato.</li>
-                            <li>6.2. {{ $subjectArticle }} {{ strtoupper($subject) }} só poderão realizar a posse e ocupação do imóvel após o recebimento definitivo da obra, que será dado através da assinatura do TERMO RECEBIMENTO DE OBRA, TERMO DE VISTORIA DE OBRA e MANUAL DO PROPRIETÁRIO com orientações sobre os prazos de garantia.</li>
+                            <li>6.2. {{ $subjectArticle }} {{ strtoupper($subject) }} só {{ strpos($subjectArticle, "s") === true ? "poderão" : "poderá" }} realizar a posse e ocupação do imóvel após o recebimento definitivo da obra, que será dado através da assinatura do TERMO RECEBIMENTO DE OBRA, TERMO DE VISTORIA DE OBRA e MANUAL DO PROPRIETÁRIO com orientações sobre os prazos de garantia.</li>
                         </ul>
                     </div>
                     <br></br>
@@ -529,7 +529,7 @@
                                 </ul>
                             </li>
                             <li>7.2. Rescindido ou resolvido este contrato, a parte infratora ficará sujeita ao pagamento da multa de 20% (vinte por cento) sobre o valor do presente contrato, indenização por perdas e danos causados à parte não infratora, além de custas e honorários advocatícios decorrentes de eventual ação judicial.</li>
-                            <li>7.3. Se {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} decidirem cancelar o contrato durante a fase de obras, eles precisam pagar uma multa de 20% do valor do contrato a CONTRATADA e acertar os serviços ainda não pagos até o momento da data da rescisão. Caso a CONTRATADA decida cancelar, ela deve pagar 20% do valor total do contrato d{{ strtolower($subjectArticle) }} {{strtoupper($subject)}} e entregar o trabalho correspondente ao que já foi pago até o momento da data da rescisão. </li>
+                            <li>7.3. Se {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "decidirem" : "decidir" }} cancelar o contrato durante a fase de obras, eles precisam pagar uma multa de 20% do valor do contrato a CONTRATADA e acertar os serviços ainda não pagos até o momento da data da rescisão. Caso a CONTRATADA decida cancelar, ela deve pagar 20% do valor total do contrato d{{ strtolower($subjectArticle) }} {{strtoupper($subject)}} e entregar o trabalho correspondente ao que já foi pago até o momento da data da rescisão. </li>
                         </ul>
                     </div>
                     <br></br>
@@ -555,7 +555,7 @@
                             <li>10.2. Nenhum aditamento, alteração, revisão ou isenção deste contrato, no todo ou em parte, terá vigor ou efeito se não for realizado por escrito e assinado pelas partes. </li>
                             <li>10.3. Qualquer omissão ou tolerância por uma das partes quanto ao fiel cumprimento das disposições do presente contrato não constituirá novação, renúncia ou transigência, não afetando o direito da parte de exigi-las a qualquer tempo. </li>
                             <li>10.4. As cláusulas e condições estabelecidas no presente contrato prevalecem sobre todos os ajustes, verbais e/ou escritos, firmados pelas partes anteriormente ao ato de assinatura do presente contrato e que tenham relação, direta e/ou indireta, com os objetivos do vínculo obrigacional ora estipulado. </li>
-                            <li>10.5. Caso {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} desejarem alterar mudanças no objeto deste contrato após o mesmo já estiver registrado e a obra iniciada, deverá observar os seguintes procedimentos: </li>
+                            <li>10.5. Caso {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "desejarem" : "desejar" }} alterar mudanças no objeto deste contrato após o mesmo já estiver registrado e a obra iniciada, deverá observar os seguintes procedimentos: </li>
                                 <ul style="list-style: lower-norwegian;">
                                     <li>Solicitação por escrito, assinada e datada à CONTRATADA, descrevendo a mudança solicitada; </li>
                                     <li>A CONTRATADA num prazo de até 05 (cinco) dias úteis, responderá por escrito d{{ strtolower($subjectArticle) }} {{strtoupper($subject)}} sobre a viabilidade da mudança solicitada, levando-se em consideração: Viabilidade da mudança frente aos órgãos público; Viabilidade da mudança frente às questões técnicas da obra, consultando os profissionais correspondentes envolvidos (arquitetônico, estrutural, elétrico, hidráulico, etc); Viabilidade da mudança frente ao cronograma físico financeiro da obra; Custos e condições de pagamento da mudança; </li>
@@ -605,6 +605,7 @@
                         </div>
                     </div>
                     <div class="col-12 row-colored no-bottom-border">
+                        @if (strcmp($contract->proposal->client->state, "Casado") === 0)
                         <div class="row" style="margin-top: 50px; margin-left: 20px">
                             <div class="col-6 text-center">
                                 <div class="row" style="border-top: 1px solid gray;">
@@ -621,6 +622,19 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="col-3"></div>
+                            <div class="col-6 text-center">
+                                <div class="row" style="border-top: 1px solid gray;">
+                                    <div class="col-12">{{ mb_strtoupper($contract->proposal->client->name, 'UTF-8') }}</div>
+                                    <div class="col-12">CPF: {{ mb_strtoupper($contract->proposal->client->cpf, 'UTF-8') }}</div>
+                                    <div class="col-12"><b>CONTRATANTE</b></div>
+                                </div>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-12 row-colored no-bottom-border">
                         <div class="row" style="margin-top: 50px; margin-left: 20px">

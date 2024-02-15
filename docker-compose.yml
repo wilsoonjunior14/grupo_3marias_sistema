@@ -36,7 +36,7 @@ services:
     #entrypoint: ["bash", "-c", "php artisan serve --port 5000 --host 0.0.0.0"]
     entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 5000 --host 0.0.0.0"]
     
-  # # Frontend - React
+  # Frontend - React
   react:
     container_name: 3marias_frontend
     build: ./3marias/public/application/
