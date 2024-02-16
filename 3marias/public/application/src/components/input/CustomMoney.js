@@ -20,7 +20,7 @@ const CustomMoney = ({placeholder, name, value, required, onChange, disabled, de
         value={value}
         disableAbbreviations={true}
         onChange={onChange}
-        onValueChange={(value, name) => console.log(value, name)}
+        onValueChange={(value, name) => {}}
         allowNegativeValue={false}
         prefix=''
         groupSeparator='.'

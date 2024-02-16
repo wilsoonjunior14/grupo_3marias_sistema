@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Contract;
 use App\Models\Logger;
+use App\Models\ProposalPayment;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -38,11 +39,13 @@ class ContractBusiness {
         return $contracts;
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $mergerFields = true) {
         Logger::info("Iniciando a recuperação de contrato $id.");
         $contract = (new Contract())->getById($id);
-        $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
-        $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
+        if ($mergerFields) {
+            $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
+            $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
+        }
         Logger::info("Finalizando a recuperação de contrato $id.");
         return $contract;
     }
@@ -55,17 +58,14 @@ class ContractBusiness {
     }
 
     public function delete(int $id) {
-        $contract = $this->getById(id: $id);
         Logger::info("Deletando o contrato $id.");
 
-        // TODO: A CONTRACT CANNOT BE DELETED IF IT HAS SOME PAYMENT DONE.
-        // TODO: IF CONTRACT WILL BE DELETED, WE ALSO NEED DELETE PAYMENTS FROM BILLTORECEIVE table, NEED DELETE THE STOCK ASSOCIATED
+        Logger::info("Excluindo contas a receber do contrato $id.");
+        (new BillReceiveBusiness())->deleteByContractId(contractId: $id);
+        Logger::info("Excluindo centro de custo do contrato $id.");
+        (new StockBusiness())->deleteByContractId(contractId: $id);
 
-        // TODO: DELETE A STOCK ASSOCIATED TO CONTRACT
-        // TODO: DELETE A BILLS RECEIVED ASSOCIATED TO CONTRACT
-
-        throw new InputValidationException("Exclusão de contratos ainda não implementado no sistema.");
-
+        $contract = $this->getById(id: $id, mergerFields: false);
         $contract->deleted = true;
         $contract->save();
         return $contract;
@@ -110,23 +110,28 @@ class ContractBusiness {
         Logger::info("Criando os pagamentos a receber do contrato.");
         $proposal = $this->proposalBusiness->getById(id: $contract->proposal_id);
         foreach ($proposal->payments as $payment) {
-            $payload = [
-                "code" => $payment->code,
-                "type" => $payment->type,
-                "value" => $payment->value,
-                "value_performed" => 0,
-                "description" => $payment->description,
-                "source" => $payment->source,
-                "desired_date" => $payment->desired_date,
-                "bank" => $payment->bank,
-                "contract_id" => $contract->id,
-                "status" => 0
-            ];
-            (new BillReceiveBusiness())->create(data: $payload);
+            $this->createBillToReceiveForTheContract(proposalPayment: $payment, contractId: $contract->id);
         }
 
         Logger::info("Finalizando a atualização de contrato.");
         return $contract;
+    }
+
+    public function createBillToReceiveForTheContract(ProposalPayment $proposalPayment, int $contractId) {
+        Logger::info("Criando novo pagamento a receber do contrato.");
+        $payload = [
+            "code" => $proposalPayment->code,
+            "type" => $proposalPayment->type,
+            "value" => $proposalPayment->value,
+            "value_performed" => 0,
+            "description" => $proposalPayment->description,
+            "source" => $proposalPayment->source,
+            "desired_date" => $proposalPayment->desired_date,
+            "bank" => $proposalPayment->bank,
+            "contract_id" => $contractId,
+            "status" => 0
+        ];
+        (new BillReceiveBusiness())->create(data: $payload);
     }
 
     public function update(int $id, Request $request) {

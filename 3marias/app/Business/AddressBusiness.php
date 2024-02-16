@@ -33,6 +33,8 @@ class AddressBusiness {
         $address = $this->getById(id: $id, merge: false);
         $address = UpdateUtils::updateFields(Address::$fieldsToBeUpdated, $address, $data);
 
+        Logger::info("ENDEREÇO -> " . json_encode($address));
+
         $address->save();
         Logger::info("Finalizando a atualização de endereço.");
         return $address;

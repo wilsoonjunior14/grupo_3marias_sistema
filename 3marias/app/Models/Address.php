@@ -9,7 +9,7 @@ class Address extends BaseModel
     "neighborhood", "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["address", "number", "complement", 
-    "city_id", "zipcode", "neighborhood", "deleted"];
+    "city_id", "zipcode", "neighborhood"];
 
     static $rules = [
         'address' => 'required|max:100|min:3',

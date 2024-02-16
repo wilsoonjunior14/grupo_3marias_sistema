@@ -12,6 +12,7 @@ import "../../App.css";
 import { performRequest } from '../../services/Api';
 import Loading from "../../components/loading/Loading";
 import { formatDate, formatDoubleValue, formatMoney } from "../../services/Format";
+import Error from "../../components/error/Error";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -40,7 +41,7 @@ export default function Home() {
     const [loadingProposals, setLoadingProposals] = useState(false);
     const [proposalsData, setProposalsData] = useState(data);
     const [proposals, setProposals] = useState([]);
-
+    const [httpError, setHttpError] = useState(null);
     const [billReceive, setBillReceive] = useState("0,000.00");
     const [loadingBills, setLoadingBills] = useState(false);
 
@@ -58,11 +59,17 @@ export default function Home() {
     }, []);
 
     const getProposals = () => {
+        setHttpError(null);
         setLoadingProposals(true);
 
         performRequest("GET", "/v1/proposals")
         .then(onSuccessGetProposals)
+        .catch(onErrorGetProposals)
         .finally(() => setLoadingProposals(false));
+    }
+
+    const onErrorGetProposals = (err) => {
+        setHttpError({message: "Não foi possível conectar-se com o servidor para recuperar as propostas. Tente atualizar a página."});
     }
 
     const onSuccessGetProposals = (res) => {
@@ -99,6 +106,7 @@ export default function Home() {
     }
 
     const getBillsToReceiveInProgress = () => {
+        setHttpError(null);
         setLoadingBills(true);
         performRequest("GET", "/v1/billsReceive/get/inProgress")
         .then(onSuccessGetBillsToReceive)
@@ -127,12 +135,20 @@ export default function Home() {
     const onErrorGetBillsToReceive = (err) => {
         setLoadingBills(false);
         setBillReceive("Erro");
+        setHttpError({message: "Não foi possível conectar-se com o servidor para recuperar os pagamentos. Tente atualizar a página."});
     }
 
     return (
         <>
             <VHeader />
             <Container id='app-container' className="home-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+                <Row>
+                    <Col>
+                        {httpError &&
+                        <Error message={httpError.message} />
+                        }
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs={12}>
                         <Row>

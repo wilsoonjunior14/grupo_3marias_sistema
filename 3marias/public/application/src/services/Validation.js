@@ -138,6 +138,17 @@ export function validateMoney(array, field, fieldName, isRequired) {
     }
 }
 
+export function validateMoneyWithoutAllPatterns(array, field, field2, fieldName) {
+    const regMoney = new RegExp(/^(\d+\.)+(\d+)|(\d+)$/g);
+    if (!regMoney.test(array[field])) {
+        return returnMessage(fieldName + " não é válido.");
+    }
+    const regMoney2 = new RegExp(/^(\d+\.)+(\d+)$/g);
+    if (!regMoney2.test(array[field2])) {
+        return returnMessage(fieldName + " não é válido...");
+    }
+}
+
 function validateZipCode(array, field, fieldName) {
     const requiredFieldValidation = validateRequired(array, field, fieldName);
     if (requiredFieldValidation) {

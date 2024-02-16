@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Proposal;
 use App\Models\Logger;
+use App\Models\ProposalPayment;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
@@ -39,6 +40,7 @@ class ProposalBusiness {
         $proposal = (new Proposal())->getById($id);
         if ($mergeFields) {
             $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
+            $proposal->address = (new AddressBusiness())->getById(id: $proposal->address_id, merge: false);
             $proposal->payments = (new ProposalPaymentBusiness())->getByProposalId(proposalId: $proposal->id);
         }
         Logger::info("Finalizando a recuperação de proposta $id.");
@@ -76,8 +78,7 @@ class ProposalBusiness {
         return $proposal;
     }
 
-    public function create(Request $request) {
-        Logger::info("Iniciando a criação de proposta.");
+    private function validateProposalRequest(Request $request, int $id = 0) {
         Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
 
@@ -92,98 +93,148 @@ class ProposalBusiness {
         $client = $clientBusiness->getByNameAndCPF(name: $data["client_name"], cpf: $data["client_cpf"]);
 
         // Filling missing fields
-        $data["client_id"] = $client->id;
-        $data["code"] = count($this->get()) . "" . date('Y') . "" . date('m') . "" . random_int(10, 99) . "3MP";
-        $data["status"] = 0;
-
+        Logger::info("Preenchendo campos automaticamente.");
         $rules = Proposal::$rules;
         $rulesMessages = Proposal::$rulesMessages;
-        unset($rules["address_id"]);
-        unset($rulesMessages["address_id.required"]);
+        if ($id === 0) {
+            $data["code"] = count($this->get()) . "" . date('Y') . "" . date('m') . "" . random_int(10, 99) . "3MP";
+            $data["status"] = 0;
+            unset($rules["address_id"]);
+            unset($rulesMessages["address_id.required"]);
+        }
+        $data["client_id"] = $client->id;
+        // Validating the proposal data.
+        Logger::info("Validando as informações da proposta.");
         $proposalValidator = new ModelValidator($rules, $rulesMessages);
         $validation = $proposalValidator->validate($data);
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
-
-        // Validating the address.
-        $addressBusiness = new AddressBusiness();
-        $addressBusiness->validateData(data: $data);
-
+        // Validating the address data.
+        Logger::info("Validando as informações de endereço.");
+        (new AddressBusiness())->validateData(data: $data);
         // Validating the proposal payments.
+        Logger::info("Validando as informações de pagamentos.");
         if ( (!isset($data["clientPayments"]) && !isset($data["bankPayments"])) ) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_NOT_PROVIDED, "Lista de Pagamentos"));
         }
         if ( (empty($data["clientPayments"]) && empty($data["bankPayments"])) ) {
             throw new InputValidationException("Lista de Pagamentos vazias");
         }
-        $proposalPaymentBusiness = new ProposalPaymentBusiness();
         $totalPayments = 0;
         $counter = 0;
-        foreach ($data["clientPayments"] as $payment) {
-            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
-            $payment["status"] = 0;
-            $proposalPaymentBusiness->validatePayment(data: $payment, excludeProposalId: true);
-            $totalPayments += $payment["value"];
-            $counter++;
-        }
-        foreach ($data["bankPayments"] as $payment) {
-            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
-            $payment["status"] = 0;
-            $proposalPaymentBusiness->validatePayment(data: $payment, excludeProposalId: true);
-            $totalPayments += $payment["value"];
-            $counter++;
-        }
-
+        $totalPayments += $this->validateProposalPayment(payments: $data["clientPayments"], source: "Cliente", proposalId: $id, counter: $counter);
+        $totalPayments += $this->validateProposalPayment(payments: $data["bankPayments"], source: "Banco", proposalId: $id, counter: $counter);
+        
         // Validating the global value with discount and payments
+        Logger::info("Validando os valores globais de pagamento.");
         $globalValue = $data["global_value"] - $data["discount"];
         if ($globalValue !== $totalPayments) {
             $diff = $globalValue - $totalPayments;
             throw new InputValidationException("O valor global da proposta diverge dos valores dos pagamentos fornecidos. Diferença de R$ $diff");
         }
+        return $data;
+    }
+
+    private function validateProposalPayment(array $payments, string $source, int $proposalId, int $counter) {
+        Logger::info("Validando as informações de pagamentos de $source.");
+        $shouldExcludeProposalId = false;
+        $totalPayments = 0;
+        foreach ($payments as $payment) {
+            if ($proposalId === 0) {
+                $shouldExcludeProposalId = true;
+            }
+            if (strcmp($source, "Banco") === 0) {
+                unset($payment["desired_date"]);
+            }
+            if (strcmp($source, "Cliente") === 0) {
+                unset($payment["bank"]);
+            }
+            $payment["proposal_id"] = $proposalId;
+            $payment["code"] = $counter . "" . random_int(10000, 99999) . "3MPGT";
+            $payment["status"] = 0;
+            (new ProposalPaymentBusiness())->validatePayment(data: $payment, excludeProposalId: $shouldExcludeProposalId);
+            $totalPayments += $payment["value"];
+            $counter++;
+        }
+        return $totalPayments;
+    } 
+
+    private function createPayments(array $payments, int $counter, int $proposalId, int $contractId = null) {
+        foreach ($payments as $payment) {
+            unset($payment["id"]);
+            if (strcmp($payment["source"], "Banco") === 0) {
+                unset($payment["desired_date"]);
+            }
+            if (strcmp($payment["source"], "Cliente") === 0) {
+                unset($payment["bank"]);
+            }
+            $payment["code"] = $counter . "" . date('d') . date('m') . date('Y') . random_int(10, 99) . "3MPGT";
+            $payment["status"] = 0;
+            $payment["proposal_id"] = $proposalId;
+            $payment = (new ProposalPaymentBusiness())->create(data: $payment);
+            $counter++;
+            if (!is_null($contractId)) {
+                (new ContractBusiness())->createBillToReceiveForTheContract(proposalPayment: $payment, contractId: $contractId);
+            }
+        }
+    }
+
+    public function create(Request $request) {
+        Logger::info("Iniciando a criação de proposta.");
+        $data = $this->validateProposalRequest(request: $request);
 
         // Creating the entities : Address, Proposal and ProposalPayments
-        $newAddress = $addressBusiness->create(data: $data);
+        $newAddress = (new AddressBusiness)->create(data: $data);
         
         Logger::info("Salvando a nova proposta.");
         $proposal = new proposal($data);
         $proposal->address_id = $newAddress->id;
         $proposal->save();
 
+        Logger::info("Salvando os novos pagamentos da proposta.");
         $counter = 0;
-        foreach ($data["clientPayments"] as $payment) {
-            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
-            $payment["status"] = 0;
-            $payment["proposal_id"] = $proposal->id;
-            $proposalPaymentBusiness->create(data: $payment);
-            $counter++;
-        }
-        foreach ($data["bankPayments"] as $payment) {
-            $payment["code"] = $counter . "" . random_int(10, 99) . "3MPGT";
-            $payment["status"] = 0;
-            $payment["proposal_id"] = $proposal->id;
-            $proposalPaymentBusiness->create(data: $payment);
-            $counter++;
-        }
+        $this->createPayments(payments: $data["clientPayments"], counter: $counter, proposalId: $proposal->id);
+        $this->createPayments(payments: $data["bankPayments"], counter: $counter, proposalId: $proposal->id);
 
         Logger::info("Finalizando a atualização de proposta.");
         return $proposal;
     }
 
     public function update(int $id, Request $request) {
-        // TODO: NEED MORE TIME TO WORK ON THAT.
+        Logger::info("Iniciando a criação de proposta.");
+        Logger::info("Validando as informações fornecidas.");
+        $data = $this->validateProposalRequest(request: $request, id: $id);
 
-        // Logger::info("Alterando informações do proposta.");
-        // $proposal = (new proposal())->getById($id);
-        // $proposalUpdated = UpdateUtils::processFieldsToBeUpdated($proposal, $request->all(), proposal::$fieldsToBeUpdated);
-        
-        // Logger::info("Validando as informações do proposta.");
-        // $proposalValidator = new ModelValidator(proposal::$rules, proposal::$rulesMessages);
-        // $proposalValidator->validate($proposalUpdated);
+        // Updating the entities : Address, Proposal and ProposalPayments
+        (new AddressBusiness())->update(id: $data["address_id"], data: $data);
 
-        // Logger::info("Atualizando as informações do proposta.");
-        // $proposalUpdated->save();
-        // return $this->getById(id: $proposalUpdated->id);
+        Logger::info("Salvando informações da proposta.");
+        $proposal = $this->getById(id: $id, mergeFields: false);
+        $proposal = UpdateUtils::updateFields(Proposal::$fieldsToBeUpdated, $proposal, $data);
+        $proposal->save();
+
+        // Checking if there is contract associated
+        Logger::info("Verificando se existe contrato associado a proposta.");
+        $contract = null;
+        $contractsList = (new ContractBusiness())->getByProposalId(id: $id);
+        if (count($contractsList) > 0) {
+            Logger::info("Excluindo antigos pagamentos do contrato.");
+            $contract = $contractsList[0];
+            (new BillReceiveBusiness())->deleteByContractId(contractId: $contract->id);
+        }
+
+        Logger::info("Excluindo os pagamentos da proposta.");
+        (new ProposalPaymentBusiness())->deleteByProposalId(proposalId: $id);
+
+        Logger::info("Atualizando pagamentos da proposta.");
+        $contractId = is_null($contract) ? null : $contract->id;
+        $counter = 0;
+        $this->createPayments(payments: $data["clientPayments"], counter: $counter, proposalId: $id, contractId: $contractId);
+        $this->createPayments(payments: $data["bankPayments"], counter: $counter, proposalId: $id, contractId: $contractId);
+
+        Logger::info("Finalizando a atualização de proposta.");
+        return $proposal;
     }
 
     public function reject(int $id) {
