@@ -2,13 +2,13 @@ function returnMessage(message) {
     return {message: message};
 }
 
-function validateRequired(array, field, fieldName) {
+export function validateRequired(array, field, fieldName) {
     if (!array[field] || array[field] === "") {
         return returnMessage(fieldName + " é obrigatório.");
     }
 }
 
-function validateRequiredString(array, field, maxlength, fieldName) {
+export function validateRequiredString(array, field, maxlength, fieldName) {
     const requiredFieldValidation = validateRequired(array, field, fieldName);
     if (requiredFieldValidation) {
         return requiredFieldValidation;
@@ -22,7 +22,7 @@ function validateRequiredString(array, field, maxlength, fieldName) {
     }
 }
 
-function validateRequiredStringWithoutPattern(array, field, maxlength, fieldName) {
+export function validateRequiredStringWithoutPattern(array, field, maxlength, fieldName) {
     const requiredFieldValidation = validateRequired(array, field, fieldName);
     if (requiredFieldValidation) {
         return requiredFieldValidation;
@@ -131,7 +131,6 @@ export function validateMoney(array, field, fieldName, isRequired) {
         return;
     }
     const value = array[field];
-    console.log(value);
     const regMoney = new RegExp(/^(\d+\.)+(\d+\,\d+)$/g);
     if (!regMoney.test(value)) {
         return returnMessage(fieldName + " não é válido. Tente utilizar o padrão XXX.XXX,XX");

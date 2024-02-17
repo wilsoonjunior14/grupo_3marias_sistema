@@ -117,7 +117,8 @@ function App() {
           <Route path='proposals/download/:id' element={<ProposalDownload />}></Route> 
 
           <Route path='contracts' element={<ContractList />}></Route>
-          <Route path='contracts/add' element={<ContractForm />}></Route> 
+          <Route path='contracts/add' element={<ContractForm />}></Route>
+          <Route path='contracts/edit/:id' element={<ContractForm />}></Route> 
           <Route path='contracts/stocks' element={<StockList />}></Route>
           <Route path='contracts/stocks/add' element={<StockForm />}></Route> 
           <Route path='contracts/stocks/edit/:id' element={<StockForm />}></Route> 

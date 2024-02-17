@@ -26,6 +26,7 @@ export function clearForm(formId) {
 }
 
 export function getMoney(value) {
+    if (!value) {return "";}
     const v = Number(value.replace(".", "").replace(",", "."));
     return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
 }

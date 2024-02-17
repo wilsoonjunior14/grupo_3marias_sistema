@@ -233,6 +233,13 @@ class ProposalBusiness {
         $this->createPayments(payments: $data["clientPayments"], counter: $counter, proposalId: $id, contractId: $contractId);
         $this->createPayments(payments: $data["bankPayments"], counter: $counter, proposalId: $id, contractId: $contractId);
 
+        // Update the contract global value
+        if (!is_null($contract)) {
+            Logger::info("Atualizando valor global do contrato.");
+            $contractValue = $data["global_value"] - $data["discount"];
+            (new ContractBusiness())->changeGlobalValue(id: $contract->id, globalValue: $contractValue);
+        }
+
         Logger::info("Finalizando a atualização de proposta.");
         return $proposal;
     }

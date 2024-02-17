@@ -163,7 +163,6 @@ const ProposalForm = ({}) => {
     const errorResponse = (err) => {
         setLoading(false);
         if (err.response) {
-            console.log(err.response);
             if (err.response.status === 404) {
                 setHttpError("Não foi possível conectar-se com o servidor.");
                 return;
@@ -297,7 +296,6 @@ const ProposalForm = ({}) => {
         }
         const moneyValidation3 = validateMoneyWithoutAllPatterns(state, "global_value", "global_value2", "Valor Global da Proposta");
         if (parameters.id && (moneyValidation && moneyValidation3)) {
-            console.log(moneyValidation3);
             setHttpError(moneyValidation3);
             return;
         }
@@ -487,12 +485,9 @@ const ProposalForm = ({}) => {
         const globalValue = Number(state.global_value.replace(".", "").replace(",", "."));
         const discount = Number(state.discount.replace(".", "").replace(",", "."));
 
-        console.log(globalValue, discount);
-
         var payments = 0;
         var clientPayments = [];
         paymentsClient.forEach((p) => {
-            console.log(p.value.toString(), p.value.toString().replace("R$ ", ""), p.value.toString().replace("R$ ", ""), Number(p.value.replace("R$ ", "").replace(".", "").replace(",", ".")));
             const value = Number(p.value.replace("R$ ", "").replace(".", "").replace(",", "."));
             payments = payments + value;
 

@@ -50,6 +50,15 @@ class ContractBusiness {
         return $contract;
     }
 
+    public function changeGlobalValue(int $id, float $globalValue) {
+        Logger::info("Atualizando o valor global do contrato $id.");
+        $contract = $this->getById(id: $id, mergerFields: false);
+        $contract->value = $globalValue;
+        $contract->save();
+        Logger::info("Finalizando atualização do contrato $id.");
+        return $contract;
+    }
+
     public function getByProposalId(int $id) {
         Logger::info("Iniciando a recuperação de contrato pelo identificador da proposta $id.");
         $contract = (new Contract())->getByProposalId(id: $id);
@@ -59,7 +68,6 @@ class ContractBusiness {
 
     public function delete(int $id) {
         Logger::info("Deletando o contrato $id.");
-
         Logger::info("Excluindo contas a receber do contrato $id.");
         (new BillReceiveBusiness())->deleteByContractId(contractId: $id);
         Logger::info("Excluindo centro de custo do contrato $id.");
@@ -80,11 +88,14 @@ class ContractBusiness {
         $data["address_id"] = 0;
         $data["date"] = date('Y-m-d');
 
-        $enterpriseValidator = new ModelValidator(Contract::$rules, Contract::$rulesMessages);
-        $validation = $enterpriseValidator->validate(data: $data);
+        $contractValidator = new ModelValidator(Contract::$rules, Contract::$rulesMessages);
+        $validation = $contractValidator->validate(data: $data);
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+
+        // Checks if witness one and witness two contains different values for name and cpf.
+        $this->validateWitnessData(data: $data);
 
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $data["proposal_id"], mergeFields: false);
@@ -137,21 +148,34 @@ class ContractBusiness {
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do contrato.");
         $contract = (new Contract())->getById($id);
-        $contractModel = ((array) new Contract($request->all()));
-        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $contractModel, Contract::$fieldsToBeUpdated);
-        
+        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $request->all(), Contract::$fieldsToBeUpdated);
+        $contractUpdated->code = $contract->code;
+
         Logger::info("Validando as informações do contrato.");
         $contractValidator = new ModelValidator(Contract::$rules, Contract::$rulesMessages);
-        $validation = $contractValidator->validate(data: $contractUpdated);
+        $validation = $contractValidator->validate(data: UpdateUtils::convertModelToArray(baseModel: $contractUpdated));
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        $this->validateWitnessData(data: $request->all());
 
+        Logger::info("Atualizando as informações de endereço.");
         (new AddressBusiness())->update($request->all(), id: $contract->address_id);
 
         Logger::info("Atualizando as informações do contrato.");
         $contractUpdated->save();
         return $this->getById(id: $contractUpdated->id);
+    }
+
+    private function validateWitnessData(array $data) {
+        Logger::info("Validando informações das testemunhas.");
+        // Checks if witness one and witness two contains different values for name and cpf.
+        if (strcmp($data["witness_one_name"], $data["witness_two_name"]) === 0) {
+            throw new InputValidationException("Testemunhas devem ser pessoas diferentes.");
+        }
+        if (strcmp($data["witness_one_cpf"], $data["witness_two_cpf"]) === 0) {
+            throw new InputValidationException("CPFs das testemunhas não podem ser idênticos.");
+        }
     }
 
 }
