@@ -125,7 +125,6 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
 
         const userdata = Object.assign(item, state);
         const payload = processDataBefore(userdata);
-        console.log(payload);
         performRequest("PUT", endpoint + "/"+parameters.id, payload)
         .then(successPut)
         .catch(errorResponse);
@@ -195,7 +194,6 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
         setLoading(false);
         setIsLoadingData(false);
         if (response.response) {
-            console.log(response.response);
             if (response.response.status === 404) {
                 setHttpError("Não foi possível conectar-se com o servidor.");
                 return;

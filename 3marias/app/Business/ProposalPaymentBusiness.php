@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\ProposalPayment;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -34,7 +35,20 @@ class ProposalPaymentBusiness {
         return $payments;
     }
 
+    public function deleteByProposalId(int $proposalId) {
+        $payments = $this->getByProposalId(proposalId: $proposalId);
+        Logger::info("Deletando pagamentos da proposta $proposalId."); 
+        foreach ($payments as $payment) {
+            $payment->deleted = true;
+            $payment->code = "deleted" . time() . $payment->code;
+            $payment->save();
+        } 
+        Logger::info("Finalizando exclusão de pagamentos da proposta $proposalId.");   
+        return $payments; 
+    }
+
     public function delete(int $id) {
+        Logger::info("Buscando o pagamento da proposta para excluir.");
         $payment = $this->getById(id: $id);
         Logger::info("Deletando o de pagamento de proposta $id.");
         $payment->deleted = true;
@@ -83,6 +97,10 @@ class ProposalPaymentBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+
+        if ($data["value"] <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_INVALID, "Valor de Pagamento de ". $data["source"]));
+        } 
     }
 
 }

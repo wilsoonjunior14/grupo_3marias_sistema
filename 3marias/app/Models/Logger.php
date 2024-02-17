@@ -32,6 +32,7 @@ class Logger extends Model
         $log->message = $message;
         $log->trace_id = Logger::getTraceId();
         $log->timestamp = time();
+        error_log($message);
 
         $log->save();
     }

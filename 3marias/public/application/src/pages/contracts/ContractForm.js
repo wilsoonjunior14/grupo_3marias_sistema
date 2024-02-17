@@ -13,6 +13,7 @@ import CustomInput from "../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
 import { performRequest } from "../../services/Api";
 import { getMoney, validateForm } from '../../services/Utils';
+import { validateAddress, validateCPF, validateMoneyWithoutAllPatterns, validateRequired, validateRequiredString, validateRequiredStringWithoutPattern } from '../../services/Validation';
 
 const ContractForm = ({disableHeader}) => {
 
@@ -21,7 +22,7 @@ const ContractForm = ({disableHeader}) => {
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
     const parameters = useParams();
-    const [item, setItem] = useState({});
+    const [item, setItem] = useState(null);
     const initialState = {};
     const [endpoint, setEndpoint] = useState("/v1/contracts");
     const [resetScreen, setResetScreen] = useState(false);
@@ -39,6 +40,22 @@ const ContractForm = ({disableHeader}) => {
             .catch(errorResponse);
         }
     }, []);
+
+    useEffect(() => {
+        if (item) {
+            changeField({target: {name: "proposal_code", value: item.code}});
+            changeField({target: {name: "value2", value: getMoney(item.value)}});
+            changeField({target: {name: "value", value: item.value}});
+            changeField({target: {name: "city_id", value: item.address.city_id}});
+            changeField({target: {name: "neighborhood", value: item.address.neighborhood}});
+            changeField({target: {name: "address", value: item.address.address}});
+            changeField({target: {name: "zipcode", value: item.address.zipcode}});
+            if (item.address.number > 0) {
+                changeField({target: {name: "number", value: item.address.number}});
+            }
+            changeField({target: {name: "complement", value: item.address.complement}});
+        }
+    }, [item]);
 
     const getProposals = () => {
         setIsLoadingData(true);
@@ -84,7 +101,9 @@ const ContractForm = ({disableHeader}) => {
     const changeField = (e) => {
         const { name, value } = e.target;
         dispatch({ type: name, value });
-        console.log(e);
+        if (parameters.id && e.target.name === "proposal_code") {
+            return;
+        }
 
         if (e.target.name === "proposal_code") {
             if (e.target.value && e.target.value !== "") {
@@ -97,11 +116,54 @@ const ContractForm = ({disableHeader}) => {
         }
     };
 
+    const validatePayload = (payload) => {
+        const validateProposal = validateRequired(payload, "proposal_id", "Código da Proposta");
+        if (validateProposal) {
+            return validateProposal;
+        }
+        const validateBuildingType = validateRequiredStringWithoutPattern(payload, "building_type", 255, "Tipo de Obra");
+        if (validateBuildingType) {
+            return validateBuildingType;
+        }
+        const validateDescription = validateRequiredStringWithoutPattern(payload, "description", 255, "Descrição");
+        if (validateDescription) {
+            return validateDescription;
+        }
+        const validateMeters = validateRequiredStringWithoutPattern(payload, "meters", 255, "Metros Quadrados da Obra");
+        if (validateMeters) {
+            return validateMeters;
+        }
+        const validationAddress = validateAddress(payload);
+        if (validationAddress) {
+            return validationAddress;
+        }
+        const validateWitnessOne = validateRequiredString(payload, "witness_one_name", 255, "Nome da Testemunha 1");
+        if (validateWitnessOne) {
+            return validateWitnessOne;
+        }
+        const validateWitnessOneCPF = validateCPF(payload, "witness_one_cpf", "CPF da Testemunha 1");
+        if (validateWitnessOneCPF) {
+            return validateWitnessOneCPF;
+        }
+        const validateWitnessTwo = validateRequiredString(payload, "witness_two_name", 255, "Nome da Testemunha 2");
+        if (validateWitnessTwo) {
+            return validateWitnessTwo;
+        }
+        const validateWitnessTwoCPF = validateCPF(payload, "witness_two_cpf", "CPF da Testemunha 2");
+        if (validateWitnessTwoCPF) {
+            return validateWitnessTwoCPF;
+        }
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
-
         const validation = validateForm("contractForm");
         if (!validation) {
+            return;
+        }
+        const validationFields = validatePayload(state);
+        if (validationFields) {
+            setHttpError(validationFields);
             return;
         }
 
@@ -218,6 +280,7 @@ const ContractForm = ({disableHeader}) => {
                                         <br></br>
                                     </Row>
                                     <Row>
+                                        {!parameters.id &&
                                         <Col lg={4}>
                                             <CustomInput key="proposal_code" type="select"
                                                 placeholder="Código da Proposta *" name="proposal_code"
@@ -226,6 +289,17 @@ const ContractForm = ({disableHeader}) => {
                                                 value={state.proposal_code}
                                                 onChange={changeField} />
                                         </Col>
+                                        }
+                                        {parameters.id &&
+                                        <Col lg={4}>
+                                            <CustomInput key="proposal_code" type="text"
+                                                placeholder="Código da Proposta *" name="proposal_code"
+                                                maxlength={255}
+                                                required={true}
+                                                disabled={"true"}
+                                                value={state.proposal_code} />
+                                        </Col>
+                                        }
                                         <Col lg={4}>
                                             <CustomInput key="building_type" type="text"
                                                 placeholder="Tipo de Obra *" name="building_type"

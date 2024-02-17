@@ -9,7 +9,6 @@ const CustomDatePicker = ({ name, required, placeholder, onChange, value }) => {
         const day = date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
         const year = date.getFullYear();
         const month = date.getMonth() + 1 < 10 ? "0"+(date.getMonth() + 1) : (date.getMonth() + 1);
-        console.log(day + "/" + month + "/" + year);
         onChange({
             target: {
                 name: name,

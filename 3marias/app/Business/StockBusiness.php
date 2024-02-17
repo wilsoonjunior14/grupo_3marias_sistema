@@ -18,6 +18,17 @@ class StockBusiness {
         return $state;
     }
 
+    public function deleteByContractId(int $contractId) {
+        Logger::info("Iniciando a recuperação de centros de custo.");
+        $stocks = (new Stock())->getByContractId(id: $contractId);
+        foreach ($stocks as $stock) {
+            $stock->deleted = true;
+            $stock->save();
+        }
+        Logger::info("Finalizando a exclusão dos centros de custo associados ao contrato.");
+        return $stocks;
+    }
+
     public function create(array $payload) {
         Logger::info("Iniciando a criação de centro de custo.");
         Logger::info("Validando as informações fornecidas.");

@@ -47,7 +47,6 @@ export function formatDateTime(datetime) {
     return formatDate(datetime) + " " + formatHour(datetime);
 }
 
-// TODO: it must be located on utils
 export function getValueOfComplexField(item, complexField) {
     if (!item) {
         return "";
@@ -61,4 +60,13 @@ export function getValueOfComplexField(item, complexField) {
     const first = array[0];
     const last = array.slice(1).join(".")
     return getValueOfComplexField(item[first], last);
+}
+
+export function getMoneyFormatted(value) {
+    if (!value) {
+        return "";
+    }
+    if (value.toString().indexOf(".") === -1) {
+        return value.toString() + ".00";
+    }
 }

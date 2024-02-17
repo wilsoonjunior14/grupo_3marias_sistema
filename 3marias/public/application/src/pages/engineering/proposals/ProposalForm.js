@@ -20,10 +20,13 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from 'react-bootstrap/Modal';
 import ClientForm from '../../admin/clients/ClientForm';
 import TableButton from "../../../components/button/TableButton";
-import { formatDate, formatDateToServer, formatDoubleValue, formatMoney } from "../../../services/Format";
+import { formatDate, formatDateToServer, formatDoubleValue, formatMoney, getMoneyFormatted } from "../../../services/Format";
+import { useParams } from "react-router-dom";
+import { validateMoney, validateMoneyWithoutAllPatterns } from "../../../services/Validation";
 
 const ProposalForm = ({}) => {
     const [loading, setLoading] = useState(false);
+    const [loadingProposal, setLoadingProposal] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [showAddClientModal, setShowAddClientModal] = useState(false);
@@ -33,6 +36,10 @@ const ProposalForm = ({}) => {
     const [emails, setEmails] = useState([]);
     const [reloadFields, setReloadFields] = useState(false);
     const [initialState, setInitialState] = useState({global_value: "0"});
+    const [refreshClientPayment, setRefreshClientPayment] = useState(false);
+    const [refreshBankPayment, setRefreshBankPayment] = useState(false);
+    const [proposal, setProposal] = useState({});
+    const parameters = useParams();
 
     const [paymentsClient, setPaymentsClient] = useState([]);
     const [paymentsBank, setPaymentsBank] = useState([]);
@@ -49,10 +56,11 @@ const ProposalForm = ({}) => {
         const result = { ...state };
         result[action.type] = action.value;
 
-        if (action.type === "project_name") {
-            const project = projects.filter((p) => p.name === action.value)[0];
-            result["description"] = project.description;
-            result["project_id"] = project.id;   
+        if (action.type === "project_id") {
+            if (!parameters.id) {
+                const project = projects.filter((p) => p.id.toString() === action.value)[0];
+                result["description"] = project.description;
+            }
         }
         return result;
     };
@@ -83,23 +91,86 @@ const ProposalForm = ({}) => {
         getProjects();
     }, []);
 
+    useEffect(() => {
+        if (clients.length > 0) {
+            onChangeName({target: {name: "client_name", value: proposal.client.name}});
+            onChangeName({target: {name: "code", value: proposal.code}});
+            onChangeName({target: {name: "address_id", value: proposal.address_id}});
+            onChangeField({target: {name: "project_id", value: proposal.project_id}});
+            onChangeField({target: {name: "status", value: proposal.status}});
+            onChangeField({target: {name: "global_value", value: proposal.global_value}});
+            onChangeField({target: {name: "global_value2", value: getMoneyFormatted(proposal.global_value)}});
+            onChangeField({target: {name: "proposal_date", value: formatDate(proposal.proposal_date)}});
+            onChangeField({target: {name: "description", value: proposal.description}});
+            onChangeField({target: {name: "proposal_type", value: proposal.proposal_type}});
+            onChangeField({target: {name: "construction_type", value: proposal.construction_type}});
+            onChangeField({target: {name: "discount", value: proposal.discount}});
+            const number = proposal.address.number && proposal.address.number > 0 ? proposal.address.number : 1;
+            onChangeField({target: {name: "city_id", value: proposal.address.city_id}});
+            onChangeField({target: {name: "neighborhood", value: proposal.address.neighborhood}});
+            onChangeField({target: {name: "address", value: proposal.address.address}});
+            onChangeField({target: {name: "zipcode", value: proposal.address.zipcode}});
+            onChangeField({target: {name: "number", value: number}});
+            onChangeField({target: {name: "complement", value: proposal.address.complement}});
+
+            proposal.payments.forEach((p) => {
+                p.desired_date = formatDate(p.desired_date);
+            });
+
+            setPaymentsClient(proposal.payments.filter((p) => p.source === "Cliente"));
+            setPaymentsBank(proposal.payments.filter((p) => p.source === "Banco"));
+        }
+    }, [proposal]);
+
+    useEffect(() => {
+        if (parameters.id) {
+            const project = projects.filter((p) => p.id === proposal.project_id);
+            if (!project[0]) {
+                return;
+            }
+            onChangeField({target: {name: "project_name", value: project[0].name}});
+        }
+    }, [projects]);
+
+    const getProposal = (id, clients) => {
+        performRequest("GET", "/v1/proposals/"+id, null)
+        .then((res) => successGetProposal(res, clients))
+        .catch(errorResponse)
+        .finally(() => {setLoadingProposal(false)});
+    }
+
+    const successGetProposal = (res, clients) => {
+        const proposalData = res.data;
+        setLoadingProposal(false);
+        setProposal(proposalData);
+    }
+
     const getClients = () => {
+        setLoadingProposal(true);
         performRequest("GET", "/v1/clients", null)
         .then(successGetClients)
         .catch(errorResponse);
     }
 
     const successGetClients = (res) => {
-        setClients(res.data);
+        const clientsData = res.data;
+        setClients(clientsData);
+        if (parameters.id) {
+            getProposal(parameters.id, clientsData);
+        }
     }
 
     const errorResponse = (err) => {
-        if (err.data && err.data.message) {
-            setHttpError(err.data.message);
-        } else {
-            setHttpError(err.data);
-        }
         setLoading(false);
+        if (err.response) {
+            if (err.response.status === 404) {
+                setHttpError("Não foi possível conectar-se com o servidor.");
+                return;
+            }
+            setHttpError(err.response.data);
+            return;
+        }
+        setHttpError({message: "Não foi possível conectar-se com o servidor."});
     }
 
     const getProjects = () => {
@@ -125,7 +196,7 @@ const ProposalForm = ({}) => {
         dispatch({ type: name, value });
     };
 
-    const onChangeName = (evt) => {
+    const onChangeName = (evt, clientsArray) => {
         const { name, value } = evt.target;
         dispatch({ type: name, value });
 
@@ -157,6 +228,9 @@ const ProposalForm = ({}) => {
     }
 
     const onUpdateClientFields = (name, cpf) => {
+        if (parameters.id) {
+            return;
+        } 
         var client = clients.filter((client) => client.name === name && client.cpf === cpf)[0];
         const number = client.number && client.number > 0 ? client.number : 1;
 
@@ -215,11 +289,19 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Valor Global da Proposta não informado."});
             return;
         }
-        const gValue = state.global_value.replace(/,\d{2}/g, "").replace(".", "")
-        if (gValue <= 0) {
-            setHttpError({message: "Valor Global da Proposta inválida."});
+        const moneyValidation = validateMoney(state, "global_value", "Valor Global da Proposta", true);
+        if (!parameters.id && moneyValidation) {
+            setHttpError(moneyValidation);
             return;
         }
+        const moneyValidation3 = validateMoneyWithoutAllPatterns(state, "global_value", "global_value2", "Valor Global da Proposta");
+        if (parameters.id && (moneyValidation && moneyValidation3)) {
+            setHttpError(moneyValidation3);
+            return;
+        }
+
+        const gValue = state.global_value.replace(/,\d{2}/g, "").replace(".", "")
+        onChangeField({target: {name: "global_value2", value: gValue}});
         if (!state.proposal_date || state.proposal_date === "") {
             setHttpError({message: "Data da Proposta não informado."});
             return;
@@ -290,7 +372,6 @@ const ProposalForm = ({}) => {
     }
 
     const onAddClientPayment = () => {
-        console.log("adicionando pagamento do cliente");
         setHttpError(null);
         const paymentObj = {
             code: paymentsClient.length,
@@ -307,7 +388,12 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "client_payment_type", value: ""}});
             onChangeField({target: {name: "client_payment_date", value: ""}});
             onChangeField({target: {name: "client_payment_description", value: ""}});
+            setHttpSuccess(null);
             setHttpSuccess({message: "Pagamento Adicionado com Sucesso!"});
+            setRefreshClientPayment(true);
+            setTimeout(() => {
+                setRefreshClientPayment(false);
+            }, 10);
         }
     }
 
@@ -377,6 +463,10 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "bank", value: ""}});
             onChangeField({target: {name: "bank_payment_description", value: ""}});
             setHttpSuccess({message: "Pagamento Adicionado com Sucesso!"});
+            setRefreshBankPayment(false);
+            setTimeout(() => {
+                setRefreshBankPayment(false);
+            }, 10);
         }
     }
 
@@ -398,7 +488,7 @@ const ProposalForm = ({}) => {
         var payments = 0;
         var clientPayments = [];
         paymentsClient.forEach((p) => {
-            const value = Number(p.value.replace(".", "").replace(",", "."));
+            const value = Number(p.value.replace("R$ ", "").replace(".", "").replace(",", "."));
             payments = payments + value;
 
             const cPay = Object.assign({}, p);
@@ -408,7 +498,7 @@ const ProposalForm = ({}) => {
         });
         var bankPayments = [];
         paymentsBank.forEach((p) => {
-            const value = Number(p.value.replace(".", "").replace(",", "."));
+            const value = Number(p.value.replace("R$ ", "").replace(".", "").replace(",", "."));
             payments = payments + value;
 
             const bPay = Object.assign({}, p);
@@ -435,6 +525,13 @@ const ProposalForm = ({}) => {
         
         setLoading(true);
 
+        if (parameters.id) {
+            performRequest("PUT", "/v1/proposals/"+parameters.id, payload)
+            .then(onSuccessPutProposal)
+            .catch(errorResponse);
+            return;
+        }
+
         performRequest("POST", "/v1/proposals", payload)
         .then(onSuccessProposal)
         .catch(errorResponse);
@@ -446,6 +543,18 @@ const ProposalForm = ({}) => {
         dispatch({ type: "reset" });
         setStep(1);
         setSteps(initialSteps);
+    }
+
+    const onSuccessPutProposal = (res) => {
+        setHttpSuccess({message: "Proposta salva com sucesso!"});
+        setLoading(false);
+        setStep(1);
+        setSteps(initialSteps);
+        setProposal({});
+        setClients([]);
+        setProjects([]);
+        getClients();
+        getProjects();
     }
     
     return (
@@ -490,34 +599,63 @@ const ProposalForm = ({}) => {
                                     <i className="material-icons float-left">add</i>
                                     Proposta - Informações Gerais
                                 </Card.Title>
+                                {loadingProposal &&
+                                <Row>
+                                    <Col xs={4}></Col>
+                                    <Col style={{textAlign: 'center'}} xs={4}>
+                                        <Loading />
+                                    </Col>
+                                    <Col xs={4}></Col>
+                                </Row>
+                                }
                                 <Row>
                                     <Col lg={4}>
+                                        {!parameters.id &&
                                         <CustomInput key="client_name" type="select2"
                                             onChange={onChangeName}
                                             endpoint="clients" endpoint_field="name" value={state.client_name}
                                             placeholder="Nome do Cliente *" name="client_name" />
+                                        }
+                                        {!loadingProposal && parameters.id &&
+                                        <CustomInput key="client_name" type="text"
+                                            value={state.client_name} disabled={"true"}
+                                            placeholder="Nome do Cliente *" name="client_name" />
+                                        }
                                     </Col>
                                     {!reloadFields &&
                                     <>
                                     <Col lg={4}>
+                                        {!parameters.id &&
                                         <CustomInput key="client_cpf" type="select" 
                                             data={cpfs} onChange={onChangeCPF} value={state.client_cpf}
                                             placeholder="CPF do Cliente *" name="client_cpf" />
+                                        }
+                                        {!loadingProposal && parameters.id &&
+                                        <CustomInput key="client_cpf" type="text"
+                                            value={state.client_cpf} disabled={"true"}
+                                            placeholder="CPF do Cliente *" name="client_cpf" />
+                                        }
                                     </Col>
                                     </>
                                     }
                                 </Row>
                                 <Row>
+                                    {!parameters.id &&
+                                    <>
                                     <Col xs={3}>
                                         <CustomButton color="success" 
                                             onClick={() => setShowAddClientModal(true)} name={"+ Cadastrar Cliente"} />
                                     </Col>
                                     <Col xs={9}></Col>
+                                    </>
+                                    }
                                 </Row>
                                 <Row>
                                     <Col xs={10}></Col>
                                     <Col xs={2}>
+                                        {parameters.id && !loadingProposal &&
                                         <CustomButton color="success" onClick={onNext} name={"Próximo"} />
+                                        }
                                     </Col>
                                 </Row>
                                 </>
@@ -531,9 +669,9 @@ const ProposalForm = ({}) => {
                                 </Card.Title>
                                 <Row>
                                     <Col lg={4}>
-                                        <CustomInput key="project_name" type="select2"
+                                        <CustomInput key="project_id" type="select"
                                             endpoint={"projects"} endpoint_field={"name"}
-                                            placeholder="Projeto *" name="project_name" value={state.project_name}
+                                            placeholder="Projeto *" name="project_id" value={state.project_id}
                                             onChange={onChangeField} />
                                     </Col>
                                     <Col lg={4}>
@@ -645,6 +783,7 @@ const ProposalForm = ({}) => {
                                             <i className="material-icons float-left">attach_money</i>
                                                 Pagamentos - Entrada do Cliente
                                         </Card.Title>
+                                        {!refreshClientPayment &&
                                         <Row>
                                             <Col>
                                                 <CustomSelect name="client_payment_type" 
@@ -661,7 +800,8 @@ const ProposalForm = ({}) => {
                                                 name="client_payment_value" />
                                             </Col>
                                             <Col>
-                                                <CustomInput type={"date"} 
+                                                <CustomInput type={"mask"} mask={"99/99/9999"}
+                                                maskPlaceholder={"Data Prevista *"} 
                                                 placeholder={"Data Prevista *"}
                                                 value={state.client_payment_date}
                                                 onChange={onChangeField} 
@@ -683,6 +823,7 @@ const ProposalForm = ({}) => {
                                                 </Button>
                                             </Col>
                                         </Row>
+                                        }
                                         <Row>
                                             <Table striped responsive>
                                                 <thead>
@@ -702,7 +843,7 @@ const ProposalForm = ({}) => {
                                                     <tr>
                                                         <td>{payment.description}</td>
                                                         <td>{payment.type}</td>
-                                                        <td>R$ {payment.value}</td>
+                                                        <td>{formatMoney(payment.value)}</td>
                                                         <td>{payment.desired_date}</td>
                                                         <td>
                                                             <TableButton name="btnDelete" tooltip="Deletar" 
@@ -723,6 +864,7 @@ const ProposalForm = ({}) => {
                                             <i className="material-icons float-left">attach_money</i>
                                                 Pagamentos - Via Instituição Financeira
                                         </Card.Title>
+                                        {!refreshBankPayment &&
                                         <Row>
                                             <Col>
                                                 <CustomSelect name="bank" 
@@ -757,6 +899,7 @@ const ProposalForm = ({}) => {
                                                 </Button>
                                             </Col>
                                         </Row>
+                                        }
                                         <Row>
                                             <Table striped responsive>
                                                 <thead>
@@ -777,7 +920,7 @@ const ProposalForm = ({}) => {
                                                         <td>{payment.description}</td>
                                                         <td>{payment.bank}</td>
                                                         <td>{payment.type}</td>
-                                                        <td>{payment.value}</td>
+                                                        <td>{formatMoney(payment.value)}</td>
                                                         <td>
                                                             <TableButton name="btnDelete" tooltip="Deletar" 
                                                                 onClick={() => onDeleteBankPayment(payment)}

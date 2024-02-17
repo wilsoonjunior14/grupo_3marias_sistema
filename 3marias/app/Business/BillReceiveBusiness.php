@@ -48,6 +48,17 @@ class BillReceiveBusiness {
         return $bill;
     }
 
+    public function deleteByContractId(int $contractId) {
+        Logger::info("Iniciando a recuperação dos pagamentos por contrato.");
+        $bills = (new BillReceive())->getByContractId(id: $contractId);
+        foreach ($bills as $bill) {
+            $bill->deleted = true;
+            $bill->save();
+        }
+        Logger::info("Finalizando a exclusão dos pagamentos.");
+        return $bills;
+    }
+
     public function create(array $data) {
         Logger::info("Iniciando a criação do pagamento.");
         Logger::info("Salvando a pagamento.");

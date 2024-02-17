@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Models\BaseModel;
+
 class UpdateUtils
 {
     /**
@@ -32,5 +34,10 @@ class UpdateUtils
             $targetData[$key] = "";
         }
         return $targetData;
+    }
+
+    public static function convertModelToArray(BaseModel $baseModel) {
+        $encode = json_encode($baseModel);
+        return json_decode($encode, true);
     }
 }
