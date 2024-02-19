@@ -58,9 +58,7 @@ class User extends Authenticatable
         'name' => 'bail|required|max:255|min:3',
         'email' => 'required|email:strict|max:100|min:3',
         'password' => 'required|min:3',
-        // 'phoneNumber' => 'required|celular_com_ddd|max:20|min:10',
-        'group_id' => 'required',
-        // 'birthdate' => 'date'
+        'group_id' => 'required'
     ];
 
     static $rulesMessages = [
@@ -73,12 +71,7 @@ class User extends Authenticatable
          'email.min' => 'Campo email deve conter no mínimo 3 caracteres.',
          'password.required' => 'Campo senha é obrigatório.',
          'password.min' => 'Campo senha deve conter no mínimo 3 caracteres.',
-        //  'phoneNumber.required' => 'Campo de telefone é obrigatório.',
-        //  'phoneNumber.max' => 'Campo de telefone permite no máximo 20 caracteres.',
-        //  'phoneNumber.min' => 'Campo de telefone deve conter no mínimo 10 caracteres.',
-        //  'phoneNumber.celular_com_ddd' => 'Campo de telefone está inválido.',
-         'group_id.required' => 'Campo de grupo é obrigatório.',
-        //  'birthdate.date' => 'Campo de data de nascimento é inválido.'
+         'group_id.required' => 'Campo Identificador de grupo é obrigatório.',
     ];
 
     public function group() {
@@ -150,30 +143,30 @@ class User extends Authenticatable
             return $errors->first();
         }
 
-        if (preg_match("/\@|\!|\#|\$|\%|\&|\*|\(|\)|\-|\+|\/|\\|\=|\'|\<|\>|\?|\,|\`|\~|\ã/i", $data["name"]) !== 1) {
-            $errors = "Campo de nome está inválido com caracteres especiais (@!#$%^&*()-='/).";
-        }
+        // if (preg_match("/^[a-z A-Z áéíóúÁÉÍÓÚÂÊÎÔÛâêîôûãõÃÕ]+$/i", $data["name"]) !== 1) {
+        //     return "Campo nome está inválido. Caracteres especiais não são suportados.";
+        // }
 
         // if (preg_match("/^(\(\d{2}\))\d{5}\-\d{4}$/i", $data["phoneNumber"]) !== 1){
         //     $errors = "Campo número de telefone está inválido. Ex: (xx)xxxxx-xxxx.";
         // }
 
         if (isset($data["active"]) && empty("active")) {
-            $errors = "Campo de ativação do usuário não pode ser nulo";
+            return "Campo de ativação do usuário não pode ser nulo";
         }
 
         if (!isset($data["conf_password"]) || empty($data["conf_password"])) {
-            $errors = "Campo de confirmação de senha não informado.";
+            return "Campo de confirmação de senha não informado.";
         }
 
         if (strcmp($data["password"], $data["conf_password"])) {
-            $errors = "Senhas estão diferentes.";
+            return "Senhas estão diferentes.";
         }
 
         $group = new Group();
         $groupInstance = $group->getGroupById($data["group_id"]);
         if ($groupInstance === null) {
-            $errors = "Grupo informado não existe.";
+            return "Grupo informado não existe.";
         }
 
         return $errors;
