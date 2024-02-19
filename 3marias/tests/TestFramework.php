@@ -267,13 +267,13 @@ abstract class TestFramework extends TestCase
         DB::table("groups")->insert(['description' => $this->generateRandomString(), 'deleted' => false]);
         $group = DB::select("SELECT * FROM groups")[0];
 
+        $password = $this->generateRandomString();
         $json = [
             "name" => $this->generateRandomString(),
             "email" => $this->generateRandomEmail(),
-            "password" => $this->generateRandomString(),
-            "phoneNumber" => "(00)00000-0000",
+            "password" => $password,
+            "conf_password" => $password,
             "group_id" => $group->id,
-            "birthdate" => "2000-05-05",
             "active" => true
         ];
 

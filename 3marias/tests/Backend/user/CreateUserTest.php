@@ -18,6 +18,7 @@ class CreateUserTest extends TestFramework
 
     public function setUp() : void {
         parent::setUp();
+        parent::refreshToken();
     }
 
     protected function tearDown(): void {
@@ -87,6 +88,37 @@ class CreateUserTest extends TestFramework
     /**
      * @test
      */
+    public function negTest_createUser_without_confPassword(): void {
+        parent::createGroup();
+
+        $json = [
+            "name" => parent::generateRandomString(),
+            "email" => parent::generateRandomEmail(),
+            "group_id" => 1,
+            "password" => parent::generateRandomString()
+        ];
+        $this->postUser_badRequest($json, "Campo de confirmação de senha não informado.");
+    }
+
+    /**
+     * @test
+     */
+    public function negTest_createUser_with_different_passwords(): void {
+        parent::createGroup();
+        $password = parent::generateRandomString();
+        $json = [
+            "name" => parent::generateRandomString(),
+            "email" => parent::generateRandomEmail(),
+            "password" => $password,
+            "group_id" => 1,
+            "conf_password" => parent::generateRandomString()
+        ];
+        $this->postUser_badRequest($json, "Senhas estão diferentes.");
+    }
+
+    /**
+     * @test
+     */
     public function negTest_createUser_with_short_password(): void {
         $json = [
             "name" => parent::generateRandomString(),
@@ -99,95 +131,27 @@ class CreateUserTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createUser_without_phone(): void {
-        $json = [
-            "name" => parent::generateRandomString(),
-            "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString()
-        ];
-        $this->postUser_badRequest($json, 'Campo de telefone é obrigatório.');
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createUser_with_invalid_and_short_phone(): void {
-        $json = [
-            "name" => parent::generateRandomString(),
-            "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString(),
-            "phoneNumber" => "(00)00000"
-        ];
-        $this->postUser_badRequest($json, "Campo de telefone está inválido.");
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createUser_with_invalid_and_long_phone(): void {
-        $json = [
-            "name" => parent::generateRandomString(),
-            "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString(),
-            "phoneNumber" => parent::generateRandomString(21)
-        ];
-        $this->postUser_badRequest($json, "Campo de telefone está inválido.");
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createUser_without_group(): void {
         $json = [
             "name" => parent::generateRandomString(),
             "email" => parent::generateRandomEmail(),
             "password" => parent::generateRandomString(),
-            "phoneNumber" => "(00)00000-0000"
+            "conf_password" => parent::generateRandomString()
         ];
-        $this->postUser_badRequest($json, 'Campo de grupo é obrigatório.');
-    }
-
-    /**
-     * @test
-     */
-    // public function negTest_createUser_without_birthdate(): void {
-    //     parent::createGroup();
-    //     $json = [
-    //         "name" => parent::generateRandomString(),
-    //         "email" => parent::generateRandomEmail(),
-    //         "password" => parent::generateRandomString(),
-    //         "phoneNumber" => "(00)00000-0000",
-    //         "group_id" => 1
-    //     ];
-    //     $this->postUser_badRequest($json, 'Campo de data de nascimento é obrigatório.');
-    // }
-
-    /**
-     * @test
-     */
-    public function negTest_createUser_with_invalid_birthdate(): void {
-        $json = [
-            "name" => parent::generateRandomString(),
-            "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString(),
-            "phoneNumber" => "(00)00000-0000",
-            "group_id" => 1,
-            "birthdate" => "1293801293801"
-        ];
-        $this->postUser_badRequest($json, 'Campo de data de nascimento é inválido.');
+        $this->postUser_badRequest($json, 'Campo Identificador de grupo é obrigatório.');
     }
 
     /**
      * @test
      */
     public function negTest_createUser_with_non_existing_group(): void {
+        $password = parent::generateRandomString();
         $json = [
             "name" => parent::generateRandomString(),
             "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString(),
-            "phoneNumber" => "(00)00000-0000",
-            "group_id" => 1,
-            "birthdate" => "2000-05-05"
+            "password" => $password,
+            "group_id" => 100,
+            "conf_password" => $password
         ];
         $this->postUser_badRequest($json, 'Grupo informado não existe.');
     }
@@ -198,13 +162,13 @@ class CreateUserTest extends TestFramework
     public function posTest_createUser(): void {
         DB::table("groups")->insert(['description' => parent::generateRandomString(), 'deleted' => false]);
 
+        $password = parent::generateRandomString();
         $json = [
             "name" => parent::generateRandomString(),
             "email" => parent::generateRandomEmail(),
-            "password" => parent::generateRandomString(),
-            "phoneNumber" => "(00)00000-0000",
+            "password" => $password,
             "group_id" => 1,
-            "birthdate" => "2000-05-05"
+            "conf_password" => $password
         ];
 
         $response = $this
@@ -212,6 +176,52 @@ class CreateUserTest extends TestFramework
         ->post("/api/users", $json);
 
         $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $json["name"],
+            "email" => $json["email"],
+            "password" => $json["password"],
+            "group_id" => $json["group_id"],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createUser_with_noAccess(): void {
+        DB::table("groups")->insert(['description' => parent::generateRandomString(), 'deleted' => false]);
+
+        $password = parent::generateRandomString();
+        $json = [
+            "name" => parent::generateRandomString(),
+            "email" => parent::generateRandomEmail(),
+            "password" => $password,
+            "group_id" => 1,
+            "conf_password" => $password,
+            "active" => false
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/users", $json);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "active" => false,
+            "name" => $json["name"],
+            "email" => $json["email"],
+            "password" => $json["password"],
+            "group_id" => $json["group_id"],
+        ]);
+
+        $loginResponse = $this->post("/api/login", [
+            "email" => $json["email"],
+            "password" => $json["password"]
+        ]);
+
+        $loginResponse->assertStatus(400);
+        $loginResponse->assertJson([
+            "message" => "Usuário está sem acesso ao sistema."
+        ]);
     }
 
     private function postUser_badRequest(array $json, string $message): void {

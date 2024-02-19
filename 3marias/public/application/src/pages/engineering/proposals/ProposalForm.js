@@ -133,6 +133,7 @@ const ProposalForm = ({}) => {
     }, [projects]);
 
     const getProposal = (id, clients) => {
+        setLoadingProposal(true);
         performRequest("GET", "/v1/proposals/"+id, null)
         .then((res) => successGetProposal(res, clients))
         .catch(errorResponse)
@@ -146,7 +147,6 @@ const ProposalForm = ({}) => {
     }
 
     const getClients = () => {
-        setLoadingProposal(true);
         performRequest("GET", "/v1/clients", null)
         .then(successGetClients)
         .catch(errorResponse);
@@ -653,7 +653,7 @@ const ProposalForm = ({}) => {
                                 <Row>
                                     <Col xs={10}></Col>
                                     <Col xs={2}>
-                                        {parameters.id && !loadingProposal &&
+                                        {!loadingProposal &&
                                         <CustomButton color="success" onClick={onNext} name={"Próximo"} />
                                         }
                                     </Col>
