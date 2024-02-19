@@ -13,7 +13,7 @@ class Logger extends Model
 
     static function error(string $message, int $statusCode): void {
         if (strcmp(env('APP_ENV'), 'testing') !== 0) {
-            error_log($message);
+            return;
         }
 
         $log = new Logger();
@@ -27,6 +27,9 @@ class Logger extends Model
     }
 
     static function info(string $message): void {
+        if (strcmp(env('APP_ENV'), 'testing') !== 0) {
+            return;
+        }
         $log = new Logger();
         $log->type = "info";
         $log->message = $message;

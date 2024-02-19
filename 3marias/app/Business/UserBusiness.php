@@ -11,8 +11,8 @@ use App\Utils\ErrorMessage;
 class UserBusiness {
 
     public function create(array $data) {
+        $data["group_id"] = 2;
         $validation = User::validateUserData($data);
-
         if ($validation !== null){
             throw new InputValidationException($validation);
         }

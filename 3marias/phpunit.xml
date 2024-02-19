@@ -2,10 +2,10 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
   <testsuites>
     <testsuite name="Backend">
-      <directory suffix="Test.php">./tests/Backend</directory>
+      <directory suffix="Test.php">./tests/Backend/user</directory>
     </testsuite>
-    <testsuite name="City">
-      <directory suffix="Test.php">./tests/Backend/city</directory>
+    <testsuite name="User">
+      <directory suffix="Test.php">./tests/Backend/user</directory>
     </testsuite>
   </testsuites>
   <coverage>
