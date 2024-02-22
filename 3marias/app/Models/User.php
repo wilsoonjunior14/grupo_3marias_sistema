@@ -155,6 +155,10 @@ class User extends Authenticatable
             return "Campo de ativação do usuário não pode ser nulo";
         }
 
+        if (isset($data["deleted"]) && $data["deleted"]) {
+            return "Usuário não pode ser deletado por meio dessa operação.";
+        }
+
         if (!isset($data["conf_password"]) || empty($data["conf_password"])) {
             return "Campo de confirmação de senha não informado.";
         }

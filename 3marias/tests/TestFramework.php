@@ -282,6 +282,7 @@ abstract class TestFramework extends TestCase
         ->post("/api/users", $json);
 
         $response->assertStatus(201);
+        $json["id"] = $response->decodeResponseJson()["id"];
         return $json;
     }
 

@@ -3,6 +3,7 @@
 namespace App\Validation;
 
 use App\Exceptions\InputValidationException;
+use App\Models\Client;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use Illuminate\Support\Facades\Validator;
@@ -53,8 +54,7 @@ class ClientValidator extends ModelValidator
             return;
         }
         
-        $data = UpdateUtils::clearFields(targetData: $data, fields: ["name_dependent", "cpf_dependent", "rg_dependent",
-            "email_dependent", "phoneNumber_dependent", "ocupation_dependent", "nationality_dependent", "birthdate_dependent"]);
+        $data = UpdateUtils::clearFields(targetData: $data, fields: Client::$dependentFields);
     }
 
     private function validateDependentData(array $data) {
@@ -66,6 +66,12 @@ class ClientValidator extends ModelValidator
         }
         if (!isset($data["rg_dependent"]) || empty($data["rg_dependent"])) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "RG do Cônjugue"));
+        }
+        if (!isset($data["rg_dependent_organ"]) || empty($data["rg_dependent_organ"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Órgão do RG do Cônjugue"));
+        }
+        if (!isset($data["rg_dependent_date"]) || empty($data["rg_dependent_date"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Data de Emissão do RG do Cônjugue"));
         }
         if (!isset($data["ocupation_dependent"]) || empty($data["ocupation_dependent"])) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Profissão do Cônjugue"));
