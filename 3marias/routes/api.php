@@ -16,9 +16,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ObservabilityController;
-use App\Http\Controllers\RatingController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\ContractModelController;
 use App\Http\Controllers\DocumentTypeController;
@@ -32,6 +30,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\PurchaseOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,8 +62,6 @@ Route::post('/users/changePassword', [UserController::class, 'resetPasswordByTok
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{idCity}', [CategoryController::class, 'getByCity']);
-
-Route::get('/images/{folder}/{filename}', [ImageController::class, 'getImage']);
 
 Route::post('/enterprises', [EnterpriseController::class, 'create']);
 Route::post('/enterprises/search', [EnterpriseController::class, 'search']);
@@ -152,6 +149,8 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::post('/roles/search', [RoleController::class, 'search']);
     // Route api categories
     Route::apiResource('/categories', CategoryController::class);
+    // Route api purchaseOrders
+    Route::apiResource('/purchaseOrders', PurchaseOrderController::class);
     // Route api enterprises
     Route::apiResource('/enterprises', EnterpriseController::class);
     // Route api states
@@ -165,6 +164,4 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     // Route api observability
     Route::get('/observability/metrics', [ObservabilityController::class, 'getMetrics']);
     Route::post('/observability/logs', [ObservabilityController::class, 'getLogs']);
-    // Route api ratings
-    Route::apiResource('/ratings', RatingController::class);
 });

@@ -24,6 +24,9 @@ class ProductBusiness {
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de produto $id.");
         $product = (new Product())->getById($id);
+        if (is_null($product)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Produto"));
+        }
         Logger::info("Finalizando a recuperação de produto $id.");
         return $product;
     }
@@ -57,6 +60,7 @@ class ProductBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do produto.");
+        $data = $request->all();
         $product = (new Product())->getById($id);
         $productUpdated = UpdateUtils::processFieldsToBeUpdated($product, $request->all(), Product::$fieldsToBeUpdated);
         

@@ -79,6 +79,50 @@ abstract class TestFramework extends TestCase
         return $this->generateRandomString() . "@gmail.com";
     }
 
+    function createProject() {
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "description" => $this->generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/projects", $payload);
+
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createClient(string $state = "Solteiro") {
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => $this->generateRandomCpf(),
+            "state" => $state,
+            "sex" => "Outro",
+            "nationality" => "Brasileira",
+            "naturality" => "Ibiapina",
+            "ocupation" => $this->generateRandomString(),
+            "phone" => "(00)00000-0000",
+            "email" => $this->generateRandomEmail(),
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
     public function createGroup() {
         $json = [
             "description" => $this->generateRandomString(10)

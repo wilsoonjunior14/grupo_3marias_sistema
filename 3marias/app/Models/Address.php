@@ -24,7 +24,7 @@ class Address extends BaseModel
         'address.required' => 'Campo endereço é obrigatório.',
         'address.string' => 'Campo endereço está inválido.',
         'address.max' => 'Campo endereço permite no máximo 100 caracteres.',
-        'address.min' => 'Campo endereço deve conter no mínimo 3 caracteres.',
+        'address.min' => 'Campo endereço deve conter no mínimo 2 caracteres.',
         'neighborhood.required' => 'Campo bairro é obrigatório.',
         'neighborhood.string' => 'Campo bairro está inválido.',
         'neighborhood.max' => 'Campo bairro permite no máximo 100 caracteres.',
@@ -36,7 +36,7 @@ class Address extends BaseModel
         'city_id.regex' => 'Campo identificador de cidade está inválido. Este campo deve ser um número inteiro.',
         'zipcode.required' => 'Campo de cep é obrigatório.',
         'zipcode.regex' => 'Campo de cep é inválido.',
-        'zipcode.regex' => 'Campo de cep está inválido.'
+        'zipcode.string' => 'Campo de cep está inválido.'
     ];
 
     public function city() {

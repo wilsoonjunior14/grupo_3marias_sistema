@@ -2,10 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class PurchaseOrder extends Model
+class PurchaseOrder extends BaseModel
 {
-    use HasFactory;
+    protected $table = "purchase_orders";
+    protected $fillable = ["id", 
+    "description", "date", "status", "partner_id", "cost_center_id",
+    "deleted", "created_at", "updated_at"];
+
+    static $fieldsToBeUpdated = ["description", "date", "status", "partner_id", "cost_center_id"];
+
+    static $rules = [
+        'description' => 'required|max:100|min:3|string',
+        'date' => 'required|date',
+        'status' => 'required|in:0,1,2',
+        'partner_id' => 'required|integer',
+        'cost_center_id' => 'required|integer'
+    ];
+
+    static $rulesMessages = [
+        'description.required' => 'Campo Descrição da Ordem de Compra é obrigatório.',
+        'description.max' => 'Campo Descrição da Ordem de Compra permite no máximo 1000 caracteres.',
+        'description.min' => 'Campo Descrição da Ordem de Compra deve conter no mínimo 3 caracteres.',
+        'description.string' => 'Campo Descrição da Ordem de Compra está inválido.',
+        'date.required' => 'Campo Data da Ordem de Compra é obrigatório.',
+        'date.date' => 'Campo Data da Ordem de Compra está inválido.',
+        'partner_id.required' => 'Campo Identificador do Parceiro/Fornecedor é obrigatório.',
+        'partner_id.integer' => 'Campo Identificador do Parceiro/Fornecedor está inválido.',
+        'cost_center_id.required' => 'Campo Identificador do Centro de Custo é obrigatório.',
+        'cost_center_id.integer' => 'Campo Identificador do Centro de Custo está inválido.',
+        'status.required' => 'Campo Status da Ordem de Compra é obrigatório.',
+        'status.in' => 'Campo Status da Ordem de Compra está inválido.'
+    ];
 }
