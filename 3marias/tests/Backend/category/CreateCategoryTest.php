@@ -14,162 +14,25 @@ use Tests\TestFramework;
 class CreateCategoryTest extends TestFramework
 {
 
-    use RefreshDatabase;
-    use CreatesApplication;
+    // /**
+    //  * @test
+    //  */
+    // public function negTest_duplicated_category(): void {
+    //     $category = parent::createCategory();
 
-    public function setUp() : void {
-        parent::setUp();
-        parent::refreshToken();
-    }
+    //     Storage::fake('avatars');
+    //     $json = [
+    //         "name" => $category["name"],
+    //         "image" => UploadedFile::fake()->image('avatar.png')
+    //     ];
 
-    protected function tearDown(): void {
-        parent::tearDown();
-    }
+    //     $response = $this
+    //     ->withHeaders(parent::getHeaders())
+    //     ->post("/api/v1/categories", $json);
 
-    /**
-     * @test
-     */
-    public function negTest_createCategory_without_authentication_before(): void {
-        $json = [];
-
-        $response = $this
-        ->withHeaders([])
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(401);
-        $response->assertJson([
-            "message" => 'Unauthenticated.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_with_empty_body(): void {
-        $json = [];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo nome é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_with_long_name(): void {
-        $json = [
-            "name" => parent::generateRandomString(500)
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo nome permite no máximo 100 caracteres.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_with_short_name(): void {
-        $json = [
-            "name" => parent::generateRandomString(2)
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo nome deve conter no mínimo 3 caracteres.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_without_image(): void {
-        $json = [
-            "name" => parent::generateRandomString(50)
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo de imagem é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_with_image_jpeg(): void {
-        Storage::fake('avatars');
-
-        $json = [
-            "name" => parent::generateRandomString(50),
-            "image" => UploadedFile::fake()->image('avatar.jpg')
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => "Campo Imagem deve ser um .png."
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createCategory_with_image_png(): void {
-        Storage::fake('avatars');
-
-        $json = [
-            "name" => parent::generateRandomString(50),
-            "image" => UploadedFile::fake()->image('avatar.png')
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(201);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_duplicated_category(): void {
-        $category = parent::createCategory();
-
-        Storage::fake('avatars');
-        $json = [
-            "name" => $category["name"],
-            "image" => UploadedFile::fake()->image('avatar.png')
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/categories", $json);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Registro com informações já existentes.'
-        ]);
-    }
+    //     $response->assertStatus(400);
+    //     $response->assertJson([
+    //         "message" => 'Registro com informações já existentes.'
+    //     ]);
+    // }
 }

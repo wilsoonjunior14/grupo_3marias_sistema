@@ -17,15 +17,15 @@ class Proposal extends BaseModel
 
     static $rules = [
         'code' => 'required|max:100|min:3',
-        'construction_type' => 'required|max:100|min:3',
-        'proposal_type' => 'required|max:100|min:3',
+        'construction_type' => 'required|max:100|min:3|string',
+        'proposal_type' => 'required|max:100|min:3|string',
         'global_value' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'proposal_date' => 'required|date',
-        'description' => 'required|max:1000|min:3',
+        'description' => 'required|max:1000|min:3|string',
         'discount' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'address_id' => 'required',
         'client_id' => 'required',
-        'project_id' => 'required',
+        'project_id' => 'required|integer',
         'status' => 'required|in:0,1,2'
     ];
 
@@ -36,9 +36,11 @@ class Proposal extends BaseModel
         'construction_type.required' => 'Campo Tipo de Construção da Proposta é obrigatório.',
         'construction_type.max' => 'Campo Tipo de Construção da Proposta permite no máximo 100 caracteres.',
         'construction_type.min' => 'Campo Tipo de Construção da Proposta deve conter no mínimo 3 caracteres.',
+        'construction_type.string' => 'Campo Tipo de Construção da Proposta está inválido.',
         'proposal_type.required' => 'Campo Tipo da Proposta é obrigatório.',
         'proposal_type.max' => 'Campo Tipo da Proposta permite no máximo 100 caracteres.',
         'proposal_type.min' => 'Campo Tipo da Proposta deve conter no mínimo 3 caracteres.',
+        'proposal_type.string' => 'Campo Tipo da Proposta está inválido.',
         'global_value.required' => 'Campo Valor Global da Proposta é obrigatório.',
         'global_value.regex' => 'Campo Valor Global da Proposta está inválido.',
         'proposal_date.required' => 'Campo Data da Proposta é obrigatório.',
@@ -46,11 +48,13 @@ class Proposal extends BaseModel
         'description.required' => 'Campo Descrição da Proposta é obrigatório.',
         'description.max' => 'Campo Descrição da Proposta permite no máximo 1000 caracteres.',
         'description.min' => 'Campo Descrição da Proposta deve conter no mínimo 3 caracteres.',
+        'description.string' => 'Campo Descrição da Proposta está inválido.',
         'discount.required' => 'Campo Valor do Desconto da Proposta é obrigatório.',
         'discount.regex' => 'Campo Valor do Desconto da Proposta está inválido.',
         'address_id.required' => 'Campo Identificador do Endereço é obrigatório.',
         'client_id.required' => 'Campo Identificador do Cliente é obrigatório.',
         'project_id.required' => 'Campo Identificador do Projeto é obrigatório.',
+        'project_id.integer' => 'Campo Identificador do Projeto está inválido.',
         'status.required' => 'Campo Status da Proposta é obrigatório.',
         'status.in' => 'Campo Status da Proposta está inválido.'
     ];

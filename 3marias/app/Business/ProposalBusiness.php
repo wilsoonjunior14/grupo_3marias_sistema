@@ -110,12 +110,20 @@ class ProposalBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+
+        if ($data["global_value"] <= 0) {
+            throw new InputValidationException("Campo Valor Global da Proposta não pode ser menor ou igual a zero.");
+        }
+
+        // Validating the project id
+        (new ProjectBusiness())->getById(id: $data["project_id"]);
+
         // Validating the address data.
         Logger::info("Validando as informações de endereço.");
         (new AddressBusiness())->validateData(data: $data);
         // Validating the proposal payments.
         Logger::info("Validando as informações de pagamentos.");
-        if ( (!isset($data["clientPayments"]) && !isset($data["bankPayments"])) ) {
+        if ( (!isset($data["clientPayments"]) || !isset($data["bankPayments"])) ) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_NOT_PROVIDED, "Lista de Pagamentos"));
         }
         if ( (empty($data["clientPayments"]) && empty($data["bankPayments"])) ) {

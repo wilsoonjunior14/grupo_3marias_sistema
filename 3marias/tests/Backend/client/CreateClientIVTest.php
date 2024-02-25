@@ -1997,7 +1997,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo endereço deve conter no mínimo 3 caracteres.'
+            "message" => 'Campo endereço deve conter no mínimo 2 caracteres.'
         ]);
     }
 
@@ -2291,7 +2291,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo de cep está inválido.'
+            "message" => 'Campo de cep é inválido.'
         ]);
     }
 
@@ -2327,7 +2327,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo de cep está inválido.'
+            "message" => 'Campo de cep é inválido.'
         ]);
     }
 }

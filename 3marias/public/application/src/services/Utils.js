@@ -1,4 +1,5 @@
-import { formatDate } from "./Format";
+import { formatDate, formatDateToServer, formatDoubleValue } from "./Format";
+import MD5 from "crypto-js/md5";
 
 export function validateForm (id) {
     // Form Validation
@@ -37,28 +38,8 @@ export function formatDateField(key, data) {
     } 
 }
 
-// TODO: REMEMBER TO REMOVE IT
-// export function formatMoneyValue(key, data) {
-//     if (key === "value" || key === "value_performed") {
-//         setTimeout(() => {
-//             console.log(document.getElementById(key+"Input"));
-//             var element = document.getElementById(key+"Input");
-//             if (element) {
-//                 element.value = getMoney(data[key]);
-//                 return;
-//             }
-
-//             var element = document.getElementById(key);
-//             if (element) {
-//                 element.value = data[key];
-//                 return;
-//             }
-//         }, 3000);
-//     }
-// }
-
 export function formatMoney(key, data) {
-    if (key === "salary") {
+    if (key === "salary" || key === "value") {
         data[key] = Number(data[key]);
     }
 }
@@ -68,5 +49,25 @@ export function formatDataFrontend(data) {
         formatDateField(key, data);
         formatMoney(key, data);
     });
+    return data;
+}
+
+export function processDataBefore(data) {
+    const keys = Object.keys(data);
+    keys.forEach((key) => {
+        if (key === "birthdate" || key.indexOf("date") !== -1) {
+            data[key] = formatDateToServer(data[key]);
+        }
+        if (key.indexOf("password") !== -1) {
+            data[key] = MD5(data[key]).toString();
+        }
+        if (key.indexOf("value") !== -1 || key.indexOf("value_performed") !== -1) {
+            data[key] = formatDoubleValue(data[key]);
+        }
+        if (!data[key] || data[key] === null || data[key] === undefined) {
+            delete data[key];
+        }
+    });
+
     return data;
 }

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Jobs\CreateLog;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 class Logger extends Model
 {
@@ -12,9 +10,10 @@ class Logger extends Model
     protected $fillable = ["trace_id", "type", "message", "created_at", "updated_at", "timestamp", "statusCode"];
 
     static function error(string $message, int $statusCode): void {
-        if (strcmp(env('APP_ENV'), 'testing') !== 0) {
-            error_log($message);
+        if (strcmp(env('APP_ENV'), 'testing') === 0) {
+            return;
         }
+        error_log($message);
 
         $log = new Logger();
         $log->type = "error";
@@ -27,12 +26,14 @@ class Logger extends Model
     }
 
     static function info(string $message): void {
+        if (strcmp(env('APP_ENV'), 'testing') === 0) {
+            return;
+        }
         $log = new Logger();
         $log->type = "info";
         $log->message = $message;
         $log->trace_id = Logger::getTraceId();
         $log->timestamp = time();
-        error_log($message);
 
         $log->save();
     }

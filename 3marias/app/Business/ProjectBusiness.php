@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Project;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use App\Validation\projectValidator;
@@ -24,6 +25,9 @@ class ProjectBusiness {
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de projeto $id.");
         $project = (new Project())->getById($id);
+        if (is_null($project)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Projeto"));
+        }
         Logger::info("Finalizando a recuperação de projeto $id.");
         return $project;
     }

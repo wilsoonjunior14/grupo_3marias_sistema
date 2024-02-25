@@ -14,11 +14,11 @@ class ProposalPayment extends BaseModel
 
     static $rules = [
         'code' => 'required|max:100|min:3',
-        'type' => 'required|max:100|min:3',
+        'type' => 'required|max:100|min:3|string',
         'bank' => 'max:100|min:3',
         'value' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'description' => 'required|max:255|min:3',
-        'source' => 'required|max:100|min:3',
+        'source' => 'required|string|in:Cliente,Banco',
         'desired_date' => 'date',
         'proposal_id' => 'required',
         'status' => 'required|in:0,1,2'
@@ -31,6 +31,7 @@ class ProposalPayment extends BaseModel
         'type.required' => 'Campo Tipo de Pagamento é obrigatório.',
         'type.max' => 'Campo Tipo de Pagamento permite no máximo 100 caracteres.',
         'type.min' => 'Campo Tipo de Pagamento deve conter no mínimo 3 caracteres.',
+        'type.string' => 'Campo Tipo de Pagamento está inválido.',
         'bank.max' => 'Campo Banco permite no máximo 100 caracteres.',
         'bank.min' => 'Campo Banco deve conter no mínimo 3 caracteres.',
         'value.required' => 'Campo Valor do Pagamento é obrigatório.',
@@ -39,8 +40,8 @@ class ProposalPayment extends BaseModel
         'description.max' => 'Campo Descrição do Pagamento permite no máximo 255 caracteres.',
         'description.min' => 'Campo Descrição do Pagamento deve conter no mínimo 3 caracteres.',
         'source.required' => 'Campo Fonte do Pagamento é obrigatório.',
-        'source.max' => 'Campo Fonte do Pagamento permite no máximo 100 caracteres.',
-        'source.min' => 'Campo Fonte do Pagamento deve conter no mínimo 3 caracteres.',
+        'source.in' => 'Campo Fonte do Pagamento é inválido.',
+        'source.string' => 'Campo Fonte do Pagamento está inválido.',
         'desired_date.date' => 'Campo Data Prevista de Pagamento está inválido.',
         'proposal_id.required' => 'Campo Identificador da Proposta é obrigatório.',
         'status.required' => 'Campo Status do Pagamento é obrigatório.',
