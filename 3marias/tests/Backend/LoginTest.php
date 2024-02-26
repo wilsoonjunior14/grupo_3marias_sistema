@@ -94,22 +94,11 @@ class LoginTest extends TestFramework
      * @test
      */
     public function negTest_login_user_with_invalid_credentials(): void {
-        // todo: it should be improved
-        DB::table('groups')->insert(['description' => 'Desenvolvedor', 'deleted' => false]);
-        DB::table('users')->insert([
-            'name' => "Francisco Wilson Rodrigues Júnior",
-            'email' => "wjunior_msn@hotmail.com",
-            'password' => md5(12345),
-            'phoneNumber' => '(88)99924-1492',
-            'birthdate' => '1995-09-04',
-            'group_id' => 1,
-            'active' => true,
-            'deleted' => false
-          ]);
+        $user = parent::createUser();
 
         $json = [
-            "email" => "wjunior_msn@hotmail.com",
-            "password" => "anypassword"
+            "email" => $user["email"],
+            "password" => parent::generateRandomString(100)
         ];
 
         $response = $this->post('/api/login', $json);
