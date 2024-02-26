@@ -2666,7 +2666,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Valor do Pagamento está inválido."
+                "message" => "Campo Valor do Pagamento é obrigatório."
             ]
         );
     }

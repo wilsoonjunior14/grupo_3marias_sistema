@@ -100,6 +100,9 @@ class ClientBusiness {
         Logger::info("Alterando informações do cliente.");
         $client = (new Client())->getById($id);
         $clientUpdated = UpdateUtils::processFieldsToBeUpdated($client, $request->all(), Client::$fieldsToBeUpdated);
+        if (strcmp($clientUpdated->state, "Casado") !== 0) {
+            $clientUpdated = UpdateUtils::nullFields($clientUpdated, Client::$dependentFields);
+        }
         
         Logger::info("Validando as informações do cliente.");
         $clientValidator = new ClientValidator(Client::$rules, Client::$rulesMessages);
