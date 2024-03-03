@@ -1896,7 +1896,7 @@ class CreateClientIVTest extends TestFramework
             "ocupation" => parent::generateRandomString(),
             "phone" => "(00)00000-0000",
             "email" => parent::generateRandomEmail(),
-            "birthdate" => date('d/m/Y')
+            "birthdate" => date('d/m/Y') 
         ];
 
         $response = $this
@@ -1905,7 +1905,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo de Data de Nascimento do Cliente é inválido.'
+            "message" => 'Campo de Data de Nascimento do Cliente está inválido.'
         ]);
     }
 
