@@ -3215,7 +3215,7 @@ class CreateProposalIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createProposal_without_desired_date_client_payments(): void {
+    public function negTest_createProposal_with_different_values(): void {
         $client = parent::createClient();
         $project = parent::createProject();
         parent::createCity();
@@ -3254,6 +3254,65 @@ class CreateProposalIVTest extends TestFramework
         $response->assertJson(
             [
                 "message" => "O valor global da proposta diverge dos valores dos pagamentos fornecidos. Diferença de R$ 70000"
+            ]
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function negTest_createProposal_with_global_value_lower_than_payments(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 50000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson(
+            [
+                "message" => "O valor global da proposta diverge dos valores dos pagamentos fornecidos. Diferença de R$ -10000"
             ]
         );
     }
