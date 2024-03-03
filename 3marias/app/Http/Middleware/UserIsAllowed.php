@@ -32,27 +32,26 @@ class UserIsAllowed
 
         $roles = $roleObj->getRolesByRequestTypeAndEndpoint($dataRequest["request_method"], $dataRequest["endpoint"]);
 
-        // TODO: remove this comments
-        // if (count($roles) == 0){
-        //     return response()->json(
-        //         [
-        //             'errors' => [
-        //                 'request' => 'Operação desconhecida não pode ser realizada.'
-        //             ]
-        //         ]
-        //     , 404);
-        // }
+        if (count($roles) == 0){
+            return response()->json(
+                [
+                    'errors' => [
+                        'request' => 'Operação desconhecida não pode ser realizada.'
+                    ]
+                ]
+            , 404);
+        }
 
-        // $groupRoles = $groupRoleInstance->getGroupRolesByGroupForRequest(
-        //     $currentUser->group_id, $dataRequest["request_method"], $dataRequest["endpoint"]);
+        $groupRoles = $groupRoleInstance->getGroupRolesByGroupForRequest(
+            $currentUser->group_id, $dataRequest["request_method"], $dataRequest["endpoint"]);
 
-        // if (count($groupRoles) === 0) {
-        //     return response()->json(
-        //         [
-        //             "errors" => ["request" => "Você não tem permissão para realizar essa operação."]
-        //         ]
-        //     , 401);
-        // }
+        if (count($groupRoles) === 0) {
+            return response()->json(
+                [
+                    "errors" => ["request" => "Você não tem permissão para realizar essa operação."]
+                ]
+            , 401);
+        }
 
         return $next($request);
     }
