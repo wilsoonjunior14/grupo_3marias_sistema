@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertNotNull;
+
 abstract class TestFramework extends TestCase
 {
 
@@ -120,6 +122,65 @@ abstract class TestFramework extends TestCase
         ->post("/api/v1/clients", $payload);
 
         $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createProposal() {
+        $client = $this->createClient();
+        $project = $this->createProject();
+        $this->createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => $this->generateRandomString(),
+            "proposal_type" => $this->generateRandomString(),
+            "global_value" => 120000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => $this->generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => $project["id"],
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Banco"
+                ],
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/proposals", $payload);
+        $json = $response->decodeResponseJson();
+        assertNotNull($json["id"]);
+        assertNotNull($json["code"]);
         return $json;
     }
 

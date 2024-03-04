@@ -87,10 +87,9 @@ class ObservabilityController extends Controller
     /**
      * Storing server metrics.
      */
-    private function storeServerMetrics() {
+    public function storeServerMetrics() {
         Logger::info("Salvando métricas do sistema.");
-
-        $output = shell_exec("php ../artisan stethoscope:listen");
+        $output = shell_exec("php artisan stethoscope:listen");
         $serverMetrics = explode("\n", str_replace(" ", "",$output));
 
         foreach ($serverMetrics as $key) {
