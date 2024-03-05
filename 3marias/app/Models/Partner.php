@@ -13,23 +13,28 @@ class Partner extends BaseModel
     "social_reason", "phone", "email", "email", "website", "observation"];
 
     static $rules = [
-        'fantasy_name' => 'bail|required|max:255|min:3',
-        'partner_type' => 'required|in:Física,Jurídica',
-        'email' => 'email:strict|max:100|min:3',
-        'phone' => 'celular_com_ddd|max:20|min:10',
-        'social_reason' => 'bail|max:255|min:3',
-        'cnpj' => 'cnpj',
-        'website' => 'bail|max:255|url',
-        'observation' => 'bail|max:500|min:3',
+        'fantasy_name' => 'bail|string|required|max:255|min:3',
+        'partner_type' => 'required|string|in:Física,Jurídica',
+        'email' => 'email:strict|string|max:100|min:3',
+        'phone' => 'celular_com_ddd|max:20|min:10|string',
+        'social_reason' => 'bail|max:255|min:3|string',
+        'cnpj' => 'cnpj|required',
+        'website' => 'bail|max:255|url|string',
+        'observation' => 'bail|max:500|min:3|string',
     ];
 
     static $rulesMessages = [
         'fantasy_name.required' => 'Campo Nome Fantasia do Parceiro/Fornecedor é obrigatório.',
+        'fantasy_name.string' => 'Campo Nome Fantasia do Parceiro/Fornecedor está inválido.',
         'fantasy_name.max' => 'Campo Nome Fantasia do Parceiro/Fornecedor permite no máximo 255 caracteres.',
         'fantasy_name.min' => 'Campo Nome Fantasia do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
         'partner_type.required' => 'Campo Tipo de Parceiro/Fornecedor é obrigatório.',
+        'partner_type.string' => 'Campo Tipo de Parceiro/Fornecedor está inválido.',
         'partner_type.in' => 'Campo Tipo de Parceiro/Fornecedor é inválido.',
+        'cnpj.required' => 'Campo CNPJ do Parceiro/Fornecedor é obrigatório.',
+        'cnpj.cnpj' => 'Campo CNPJ do Parceiro/Fornecedor é inválido.',
         'email.required' => 'Campo Email do Parceiro/Fornecedor é obrigatório.',
+        'email.string' => 'Campo Email do Parceiro/Fornecedor está inválido.',
         'email.email' => 'Campo Email do Parceiro/Fornecedor está inválido.',
         'email.max' => 'Campo Email do Parceiro/Fornecedor permite no máximo 100 caracteres.',
         'email.min' => 'Campo Email do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
@@ -37,13 +42,16 @@ class Partner extends BaseModel
         'phone.max' => 'Campo Telefone do Parceiro/Fornecedor permite no máximo 20 caracteres.',
         'phone.min' => 'Campo Telefone do Parceiro/Fornecedor deve conter no mínimo 10 caracteres.',
         'phone.celular_com_ddd' => 'Campo Telefone do Parceiro/Fornecedor está inválido.',
-        'url.max' => 'Campo Website permite no máximo 255 caracteres.',
-        'url.url' => 'Campo Website é inválido.',
-        'social_reason.max' => 'Campo Nome Completo do Parceiro/Fornecedor permite no máximo 255 caracteres.',
-        'social_reason.min' => 'Campo Nome Completo do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
+        'phone.string' => 'Campo Telefone do Parceiro/Fornecedor está inválido.',
+        'website.max' => 'Campo Website permite no máximo 255 caracteres.',
+        'website.url' => 'Campo Website é inválido.',
+        'website.string' => 'Campo Website está inválido.',
+        'social_reason.max' => 'Campo Razão Social do Parceiro/Fornecedor permite no máximo 255 caracteres.',
+        'social_reason.min' => 'Campo Razão Social do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
+        'social_reason.string' => 'Campo Razão Social do Parceiro/Fornecedor está inválido.',
         'observation.max' => 'Campo Nome Completo do Parceiro/Fornecedor permite no máximo 500 caracteres.',
         'observation.min' => 'Campo Nome Completo do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
-        'cnpj.cnpj' => 'Campo CNPJ do Parceiro/Fornecedor é inválido.'
+        'observation.string' => 'Campo Nome Completo do Parceiro/Fornecedor está inválido.'
     ];
 
     public function address(): \Illuminate\Database\Eloquent\Relations\HasOne {

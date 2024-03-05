@@ -24,7 +24,13 @@ class PartnerBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de parceiro/fornecedor $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Parceiro/Fornecedor"));
+        }
         $partner = (new Partner())->getById($id);
+        if (is_null($partner)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Parceiro/Fornecedor"));
+        }
         Logger::info("Finalizando a recuperação de parceiro/fornecedor $id.");
         return $partner;
     }
@@ -47,7 +53,9 @@ class PartnerBusiness {
         if (!is_null($errors)) {
             throw new InputValidationException($errors);
         }
-        $this->existsEntity(cnpj: $data["cnpj"]);
+        if (isset($data["cnpj"]) || !empty($data["cnpj"])) {
+            $this->existsEntity(cnpj: $data["cnpj"]);
+        }
         
         Logger::info("Salvando o novo parceiro/fornecedor.");
         $partner = new Partner($data);
@@ -59,7 +67,7 @@ class PartnerBusiness {
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do parceiro/fornecedor.");
         $data = $request->all();
-        $partner = (new Partner())->getById($id);
+        $partner = $this->getById($id);
         $partnerUpdated = UpdateUtils::processFieldsToBeUpdated($partner, $request->all(), Partner::$fieldsToBeUpdated);
         
         Logger::info("Validando as informações do parceiro/fornecedor.");
@@ -79,7 +87,7 @@ class PartnerBusiness {
         $condition = [["cnpj", "=", $cnpj]];
         $exists = (new Partner())->existsEntity(condition: $condition, id: $id);
         if ($exists) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome do parceiro/fornecedor", "parceiro/fornecedores"));
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "CNPJ do Parceiro/Fornecedor", "Parceiro/Fornecedores"));
         }
         return $exists;
     }
