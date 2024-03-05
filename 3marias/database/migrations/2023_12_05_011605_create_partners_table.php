@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string("fantasy_name", 255);
             $table->enum("partner_type", ["Física", "Jurídica"]);
-            $table->string("cnpj", 20);
+            $table->string("cnpj", 20)->nullable();
             $table->string("social_reason", 255)->nullable();
             $table->string("phone", 20)->nullable();
             $table->string("email", 100)->nullable();

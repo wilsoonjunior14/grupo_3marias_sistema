@@ -61,6 +61,22 @@ abstract class TestFramework extends TestCase
         return CPFGenerator::cpfRandom("1");
     }
 
+    function generateRandomPeopleType() : string {
+        $values = ["Física", "Jurídica"];
+        return $values[random_int(0, 1)];
+    }
+
+    function generateURL() : string {
+        return "http://www." . $this->generateRandomString() . ".com"; 
+    }
+
+    function generateRandomPhoneNumber() : string {
+        $ddd = "(" . random_int(0,9) . random_int(0,9) . ")";
+        $middle = random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9);
+        $end = random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9);
+        return $ddd . $middle . "-" . $end;
+    }
+
     function generateRandomString(int $length = 10): string {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -79,6 +95,29 @@ abstract class TestFramework extends TestCase
 
     function generateRandomEmail(): string {
         return $this->generateRandomString() . "@gmail.com";
+    }
+
+    // TODO: create a random cnpj method
+    function createPartner(string $cnpj = "60.725.781/0001-03") {
+        $payload = [
+            "fantasy_name" => $this->generateRandomString(),
+            "partner_type" => $this->generateRandomPeopleType(),
+            "cnpj" => $cnpj
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/partners", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson(
+            [
+                "fantasy_name" => $payload["fantasy_name"],
+                "partner_type" => $payload["partner_type"]
+            ]
+        );
+        $json = $response->decodeResponseJson();
+        return $json;
     }
 
     function createProject() {
