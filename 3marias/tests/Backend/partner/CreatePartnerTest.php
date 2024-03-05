@@ -835,7 +835,6 @@ class CreatePartnerTest extends TestFramework
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
             "partner_type" => parent::generateRandomPeopleType(),
-            "cnpj" => "60.725.781/0001-03",
             "cnpj" => null
         ];
 
@@ -858,7 +857,6 @@ class CreatePartnerTest extends TestFramework
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
             "partner_type" => parent::generateRandomPeopleType(),
-            "cnpj" => "60.725.781/0001-03",
             "cnpj" => ""
         ];
 
@@ -881,7 +879,6 @@ class CreatePartnerTest extends TestFramework
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
             "partner_type" => parent::generateRandomPeopleType(),
-            "cnpj" => "60.725.781/0001-03",
             "cnpj" => 12345
         ];
 
@@ -904,7 +901,6 @@ class CreatePartnerTest extends TestFramework
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
             "partner_type" => parent::generateRandomPeopleType(),
-            "cnpj" => "60.725.781/0001-03",
             "cnpj" => parent::generateRandomString()
         ];
 
