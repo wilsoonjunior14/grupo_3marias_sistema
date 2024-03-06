@@ -79,7 +79,7 @@ class GetProposalTest extends TestFramework
         $proposal = parent::createProposal();
 
         $response = $this
-        ->get("/api/v1/proposals/" . $proposal["id"]);
+        ->get("/api/v1/proposals/1");
 
         $response->assertStatus(200);
         $response->assertJson([
