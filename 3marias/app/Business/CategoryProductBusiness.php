@@ -49,7 +49,10 @@ class CategoryProductBusiness {
             $data["category_products_father_id"] = $category->id;
         }
         $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
-        $categoryValidator->validate(data: $data);
+        $validation = $categoryValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $data["name"]);
         
         Logger::info("Salvando a nova categoria de produto.");
