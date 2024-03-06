@@ -52,12 +52,12 @@ class UpdateProposalIVTest extends TestFramework
             "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -95,7 +95,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -118,12 +118,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => "",
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -161,7 +161,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -184,12 +184,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => null,
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -227,7 +227,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -250,12 +250,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => 12345,
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -293,7 +293,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -316,12 +316,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(2),
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -359,7 +359,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -382,12 +382,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(1000),
-            "proposal_type" => $proposal["proposal_type"],
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -425,7 +425,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -448,11 +448,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -490,7 +490,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -514,11 +514,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => "",
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -556,7 +556,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -580,11 +580,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => null,
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -622,7 +622,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -646,11 +646,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => 12345,
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -688,7 +688,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -712,11 +712,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(2),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -754,7 +754,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -778,11 +778,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(10000),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -820,7 +820,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -840,7 +840,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], []);
+        ->put("/api/v1/proposals/1", []);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -863,11 +863,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -905,7 +905,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -927,11 +927,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_name" => $client["name"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -969,7 +969,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -992,11 +992,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => "",
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1034,7 +1034,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1057,11 +1057,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => parent::generateRandomString(),
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1099,7 +1099,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1122,11 +1122,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => parent::generateRandomCpf(),
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "global_value" => $proposal["global_value"],
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "global_value" => 50000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1164,7 +1164,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1188,10 +1188,10 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1229,7 +1229,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1254,10 +1254,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => null,
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1295,7 +1295,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1320,10 +1320,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => "",
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1361,7 +1361,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1386,10 +1386,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1427,7 +1427,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1452,10 +1452,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => "false",
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1493,7 +1493,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1517,10 +1517,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => "false",
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1558,7 +1558,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1583,10 +1583,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => "false",
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1624,7 +1624,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1649,10 +1649,10 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => 120000.00,
-            "proposal_date" => $proposal["proposal_date"],
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1690,7 +1690,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1715,9 +1715,9 @@ class UpdateProposalIVTest extends TestFramework
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1755,7 +1755,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1781,9 +1781,9 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_date" => null,
             "proposal_type" => parent::generateRandomString(),
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1821,7 +1821,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1847,9 +1847,9 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_type" => parent::generateRandomString(),
             "proposal_date" => "",
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1887,7 +1887,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1913,9 +1913,9 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_type" => parent::generateRandomString(),
             "proposal_date" => 12345,
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -1953,7 +1953,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -1979,9 +1979,9 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_type" => parent::generateRandomString(),
             "proposal_date" => date('d/m/Y'),
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2019,7 +2019,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2045,9 +2045,9 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_type" => parent::generateRandomString(),
             "proposal_date" => "9999-99-99",
             "global_value" => 120000.00,
-            "description" => $proposal["description"],
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2085,7 +2085,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2109,11 +2109,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
-            "status" => $proposal["status"],
+            "discount" => 0.00,
+            "project_id" => 1,
+            "status" => 0,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2151,7 +2151,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2175,11 +2175,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => null,
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2217,7 +2217,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2241,11 +2241,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "description" => "",
             "global_value" => 120000.00,
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2283,7 +2283,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2307,11 +2307,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => 12345,
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2349,7 +2349,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2373,11 +2373,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(2),
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2415,7 +2415,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2439,11 +2439,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(10000),
-            "discount" => $proposal["discount"],
-            "project_id" => $project["id"],
+            "discount" => 0.00,
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2481,7 +2481,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2505,10 +2505,10 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
-            "project_id" => $project["id"],
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2546,7 +2546,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2570,11 +2570,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => null,
-            "project_id" => $project["id"],
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2612,7 +2612,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2636,11 +2636,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => "",
-            "project_id" => $project["id"],
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2678,7 +2678,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2702,11 +2702,11 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => -5000.00,
-            "project_id" => $project["id"],
+            "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
@@ -2744,7 +2744,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2768,12 +2768,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => 150000.00,
-            "status" => $proposal["status"],
-            "project_id" => $project["id"],
+            "status" => 0,
+            "project_id" => 1,
             "address_id" => $proposal["address_id"],
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
@@ -2812,7 +2812,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(400);
         $response->assertJson(
@@ -2836,12 +2836,12 @@ class UpdateProposalIVTest extends TestFramework
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
             "proposal_type" => parent::generateRandomString(),
-            "proposal_date" => $proposal["proposal_date"],
+            "proposal_date" => date('Y-m-d'),
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
-            "project_id" => $project["id"],
-            "status" => $proposal["status"],
+            "project_id" => 1,
+            "status" => 0,
             "address_id" => $proposal["address_id"],
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
@@ -2869,7 +2869,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->put("/api/v1/proposals/1", $payload);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -2884,7 +2884,7 @@ class UpdateProposalIVTest extends TestFramework
 
         $getResponse = $this
         ->withHeaders(parent::getHeaders())
-        ->get("/api/v1/proposals/" . $proposal["id"], $payload);
+        ->get("/api/v1/proposals/1", $payload);
 
         // Assert fields of the proposal
         $getResponse->assertJson([
