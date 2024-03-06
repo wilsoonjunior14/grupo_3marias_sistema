@@ -341,7 +341,7 @@ class CreateProjectTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Projeto", "Projetos")
+                "message" => "Registro de Projeto já registrado em Projetos."
             ]
         );
     }
