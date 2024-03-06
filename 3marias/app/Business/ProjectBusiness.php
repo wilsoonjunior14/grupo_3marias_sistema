@@ -53,6 +53,7 @@ class ProjectBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        $this->existsEntity(name: $data["name"]);
         
         Logger::info("Salvando a nova projeto.");
         $project = new project($data);
@@ -73,10 +74,19 @@ class ProjectBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        $this->existsEntity(name: $data["name"], id: $id);
 
         Logger::info("Atualizando as informações do projeto.");
         $projectUpdated->save();
         return $this->getById(id: $projectUpdated->id);
     }
 
+    private function existsEntity(string $name, int $id = null) {
+        $condition = [["name", "=", $name]];
+        $exists = (new Project())->existsEntity(condition: $condition, id: $id);
+        if ($exists) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome do Projeto", "Projetos"));
+        }
+        return $exists;
+    }
 }
