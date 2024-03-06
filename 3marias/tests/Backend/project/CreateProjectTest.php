@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\user;
 
+use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
@@ -283,7 +284,7 @@ class CreateProjectTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createProject(): void {
+    public function posTest_createProject(): void {
         $payload = [
             "name" => parent::generateRandomString(),
             "description" => parent::generateRandomString()
@@ -320,6 +321,29 @@ class CreateProjectTest extends TestFramework
 
         $response->assertStatus(200);
         $response->assertJsonCount(1);
+    }
+
+    /**
+     * @test
+     */
+    public function negTest_createProject_with_same_name_existing(): void {
+        $project = parent::createProject();
+
+        $payload = [
+            "name" => $project["name"],
+            "description" => $project["description"]
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/projects", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson(
+            [
+                "message" => sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Projeto", "Projetos")
+            ]
+        );
     }
 
 }

@@ -49,7 +49,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "proposal_type" => $proposal["proposal_type"],
@@ -114,7 +114,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => "",
@@ -180,7 +180,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => null,
@@ -246,7 +246,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => 12345,
@@ -312,7 +312,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(2),
@@ -378,7 +378,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(1000),
@@ -444,7 +444,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -509,7 +509,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -575,7 +575,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -641,7 +641,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -773,7 +773,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1183,7 +1183,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1248,7 +1248,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1314,7 +1314,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1380,7 +1380,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1446,7 +1446,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1709,7 +1709,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1774,7 +1774,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1840,7 +1840,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1906,7 +1906,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -1972,7 +1972,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2038,7 +2038,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2104,7 +2104,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2170,7 +2170,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2236,7 +2236,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2302,7 +2302,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2368,7 +2368,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2434,7 +2434,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2500,7 +2500,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2565,7 +2565,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2631,7 +2631,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2697,7 +2697,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2763,7 +2763,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
@@ -2831,7 +2831,7 @@ class UpdateProposalIVTest extends TestFramework
         $project = parent::createProject();
 
         $payload = [
-            "code" => $proposal["code"],
+            "code" => parent::generateRandomString(),
             "client_name" => $client["name"],
             "client_cpf" => $client["cpf"],
             "construction_type" => parent::generateRandomString(),
