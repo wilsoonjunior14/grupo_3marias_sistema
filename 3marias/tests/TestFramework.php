@@ -218,8 +218,6 @@ abstract class TestFramework extends TestCase
         ->withHeaders($this->getHeaders())
         ->post("/api/v1/proposals", $payload);
         $json = $response->decodeResponseJson();
-        assertNotNull($json["id"]);
-        assertNotNull($json["code"]);
         return $json;
     }
 

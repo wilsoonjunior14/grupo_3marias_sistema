@@ -24,6 +24,9 @@ class ProjectBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de projeto $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Projeto"));
+        }
         $project = (new Project())->getById($id);
         if (is_null($project)) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Projeto"));
@@ -60,12 +63,13 @@ class ProjectBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do projeto.");
-        $project = (new Project())->getById($id);
-        $projectUpdated = UpdateUtils::processFieldsToBeUpdated($project, $request->all(), Project::$fieldsToBeUpdated);
+        $data = $request->all();
+        $project = $this->getById($id);
+        $projectUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Project::$fieldsToBeUpdated, model: $project, requestData: $request->all());
         
         Logger::info("Validando as informações do projeto.");
         $projectValidator = new ModelValidator(Project::$rules, Project::$rulesMessages);
-        $validation = $projectValidator->validate($projectUpdated);
+        $validation = $projectValidator->validate($data);
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
