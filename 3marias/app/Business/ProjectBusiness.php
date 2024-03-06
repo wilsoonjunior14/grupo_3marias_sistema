@@ -85,7 +85,7 @@ class ProjectBusiness {
         $condition = [["name", "=", $name]];
         $exists = (new Project())->existsEntity(condition: $condition, id: $id);
         if ($exists) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome do Projeto", "Projetos"));
+            throw new InputValidationException("Registro de Projeto já registrado em Projetos.");
         }
         return $exists;
     }
