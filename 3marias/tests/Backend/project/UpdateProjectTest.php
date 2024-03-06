@@ -320,7 +320,7 @@ class UpdateProjectTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->put("/api/v1/projects/1", $payload);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $response->assertJson(
             [
                 "name" => $payload["name"],
