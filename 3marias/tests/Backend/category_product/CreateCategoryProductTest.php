@@ -179,7 +179,70 @@ class CreateCategoryProductTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createCategoryProduct_with_existing_name(): void {
+    public function posTest_createCategoryProduct_with_null_father_id(): void {
+        parent::createCategoryProduct();
+
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "category_products_father_id" => null
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/categoryProducts", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador da Categoria de Produto está inválido."
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createCategoryProduct_with_empty_father_id(): void {
+        parent::createCategoryProduct();
+
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "category_products_father_id" => "   "
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/categoryProducts", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador da Categoria de Produto está inválido."
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createCategoryProduct_with_non_existing_father_id(): void {
+        parent::createCategoryProduct();
+
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "category_products_father_id" => parent::generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/categoryProducts", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria Associada")
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createCategoryProduct_with_existing_name(): void {
         $payload = [
             "name" => parent::generateRandomString()
         ];
@@ -203,6 +266,28 @@ class CreateCategoryProductTest extends TestFramework
                 "message" => sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome da Categoria", "Categorias de Produtos")
             ]
         );
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createCategoryProduct_with_father_id(): void {
+        $categoryProduct = parent::createCategoryProduct();
+
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "category_products_father_id" => $categoryProduct["name"]
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/categoryProducts", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "category_products_father_id" => 1
+        ]);
     }
 
 }

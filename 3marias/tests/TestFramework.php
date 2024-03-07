@@ -58,7 +58,11 @@ abstract class TestFramework extends TestCase
     }
 
     function generateRandomCpf(): string {
-        return CPFGenerator::cpfRandom("1");
+        return CPFGenerator::cpfRandom(mascara: "1");
+    }
+
+    function generateRandomCnpj(): string {
+        return CPFGenerator::cnpjRandom(mascara: "1");
     }
 
     function generateRandomPeopleType() : string {
@@ -87,6 +91,16 @@ abstract class TestFramework extends TestCase
         return $randomString;
     }
 
+    function generateRandomNumber(int $length = 10): string {
+        $digits = '0123456789';
+        $digitsLength = strlen($digits);
+        $randomDigits = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomDigits .= $digits[rand(0, $digitsLength - 1)];
+        }
+        return $randomDigits;
+    }
+
     function getRandomRequestMethod() : string {
         $index = random_int(0, 4);
         $methods = ["get", "post", "put", "patch", "delete"];
@@ -97,7 +111,6 @@ abstract class TestFramework extends TestCase
         return $this->generateRandomString() . "@gmail.com";
     }
 
-    // TODO: create a random cnpj method
     function createPartner(string $cnpj = "60.725.781/0001-03") {
         $payload = [
             "fantasy_name" => $this->generateRandomString(),

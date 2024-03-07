@@ -211,6 +211,7 @@ class UpdateCategoryProductTest extends TestFramework
      */
     public function posTest_updateCategoryProduct(): void {
         $category1 = parent::createCategoryProduct();
+        $category2 = parent::createCategoryProduct();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -224,7 +225,8 @@ class UpdateCategoryProductTest extends TestFramework
         ]);
 
         $payload = [
-            "name" => parent::generateRandomString()
+            "name" => parent::generateRandomString(),
+            "category_products_father_id" => $category2["name"]
         ];
 
         $response = $this
@@ -233,7 +235,8 @@ class UpdateCategoryProductTest extends TestFramework
 
         $response->assertStatus(200);
         $response->assertJson([
-            "name" => $payload["name"]
+            "name" => $payload["name"],
+            "category_products_father_id" => 2
         ]);
     }
 

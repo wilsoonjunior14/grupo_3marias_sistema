@@ -94,9 +94,6 @@ class ContractBusiness {
             throw new InputValidationException($validation);
         }
 
-        // Checks if witness one and witness two contains different values for name and cpf.
-        $this->validateWitnessData(data: $data);
-
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $data["proposal_id"], mergeFields: false);
         if (!($proposal->status === 2 && count($this->getByProposalId(id: $proposal->id)) === 0)) {
@@ -157,7 +154,6 @@ class ContractBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
-        $this->validateWitnessData(data: $request->all());
 
         Logger::info("Atualizando as informações de endereço.");
         (new AddressBusiness())->update($request->all(), id: $contract->address_id);
@@ -165,17 +161,6 @@ class ContractBusiness {
         Logger::info("Atualizando as informações do contrato.");
         $contractUpdated->save();
         return $this->getById(id: $contractUpdated->id);
-    }
-
-    private function validateWitnessData(array $data) {
-        Logger::info("Validando informações das testemunhas.");
-        // Checks if witness one and witness two contains different values for name and cpf.
-        if (strcmp($data["witness_one_name"], $data["witness_two_name"]) === 0) {
-            throw new InputValidationException("Testemunhas devem ser pessoas diferentes.");
-        }
-        if (strcmp($data["witness_one_cpf"], $data["witness_two_cpf"]) === 0) {
-            throw new InputValidationException("CPFs das testemunhas não podem ser idênticos.");
-        }
     }
 
 }
