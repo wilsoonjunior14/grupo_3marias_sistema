@@ -234,6 +234,18 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    public function createCategoryProduct() {
+        $json = [
+            "name" => $this->generateRandomString()
+        ];
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/categoryProducts", $json);
+
+        $response->assertStatus(201);
+        return $json;
+    }
+
     public function createCategory() {
         Storage::fake('avatars');
 
