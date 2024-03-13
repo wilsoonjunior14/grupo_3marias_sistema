@@ -471,4 +471,41 @@ abstract class TestFramework extends TestCase
 
         return $json;
     }
+
+    public function createContract() {
+        $this->createProposal();
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/proposals/approve/1");
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            "status" => 2
+        ]);
+
+        $this->createCity();
+
+        $payload = [
+            "building_type" => $this->generateRandomString(),
+            "description" => $this->generateRandomString(),
+            "meters" => $this->generateRandomString(),
+            "value" => 45000.00,
+            "witness_one_name" => $this->generateRandomString(),
+            "witness_one_cpf" => $this->generateRandomCpf(),
+            "witness_two_name" => $this->generateRandomString(),
+            "witness_two_cpf" => $this->generateRandomCpf(),
+            "proposal_id" => 1,
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "00000-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/contracts", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
+    }
 }
