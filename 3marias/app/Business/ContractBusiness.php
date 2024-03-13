@@ -6,6 +6,7 @@ use App\Exceptions\InputValidationException;
 use App\Models\Contract;
 use App\Models\Logger;
 use App\Models\ProposalPayment;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -41,7 +42,13 @@ class ContractBusiness {
 
     public function getById(int $id, bool $mergerFields = true) {
         Logger::info("Iniciando a recuperação de contrato $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contrato"));
+        }
         $contract = (new Contract())->getById($id);
+        if (is_null($contract)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contrato"));   
+        }
         if ($mergerFields) {
             $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
             $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
@@ -153,6 +160,12 @@ class ContractBusiness {
         $validation = $contractValidator->validate(data: UpdateUtils::convertModelToArray(baseModel: $contractUpdated));
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
+        }
+
+        // Checking if the proposal is available
+        $proposal = (new ProposalBusiness())->getById(id: $contractUpdated["proposal_id"], mergeFields: false);
+        if (!($proposal->status === 2 && count($this->getByProposalId(id: $proposal->id)) === 0)) {
+            throw new InputValidationException("Não foi possível criar o contrato. Proposta informada não foi aprovada ou já possui contrato associado.");
         }
 
         Logger::info("Atualizando as informações de endereço.");
