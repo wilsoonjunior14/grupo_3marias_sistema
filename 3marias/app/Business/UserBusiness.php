@@ -13,7 +13,7 @@ class UserBusiness {
     public function create(array $data) {
         $validation = User::validateUserData($data);
 
-        if ($validation !== null){
+        if (!is_null($validation)){
             throw new InputValidationException($validation);
         }
 

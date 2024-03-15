@@ -75,7 +75,7 @@ jobs:
       #     python3 check_coverage_backend.py
 
       - name: Publish Code Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend-code-coverage.zip
           path: ./3marias/scripts/coverage.zip
