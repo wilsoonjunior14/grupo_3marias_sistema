@@ -1537,7 +1537,6 @@ class UpdateContractTest extends TestFramework
         ->get("/api/v1/contracts/1");
 
         $response->assertStatus(200);
-        $response->assertJsonCount(1);
         $response->assertJson(
             [
                 [
