@@ -1049,7 +1049,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo de Data de Emissão do RG do Cônjugue está inválido."
+                "message" => "Campo de Data de Emissão do RG do Cônjugue é inválido."
             ]
         );
     }

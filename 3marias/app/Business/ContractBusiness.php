@@ -157,7 +157,7 @@ class ContractBusiness {
 
         Logger::info("Validando as informações do contrato.");
         $contractValidator = new ModelValidator(Contract::$rules, Contract::$rulesMessages);
-        $validation = $contractValidator->validate(data: UpdateUtils::convertModelToArray(baseModel: $contractUpdated));
+        $validation = $contractValidator->validate(data: $request->all());
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
