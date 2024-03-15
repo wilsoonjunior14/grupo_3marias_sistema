@@ -93,7 +93,7 @@ class DeleteContractTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->get("/api/v1/contracts/1");
 
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(
             [
                 "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contrato")

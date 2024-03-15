@@ -1905,7 +1905,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo de Data de Nascimento do Cliente está inválido.'
+            "message" => 'Campo de Data de Nascimento do Cliente é inválido.'
         ]);
     }
 
