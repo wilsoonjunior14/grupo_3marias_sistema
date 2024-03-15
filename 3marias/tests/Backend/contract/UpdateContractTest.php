@@ -1534,7 +1534,7 @@ class UpdateContractTest extends TestFramework
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->get("/api/v1/contracts/1");
+        ->get("/api/v1/contracts");
 
         $response->assertStatus(200);
         $response->assertJson(
