@@ -13,9 +13,15 @@ class StockBusiness {
 
     public function getById(int $id) {
         Logger::info("Recuperando centro de custo.");
-        $state = (new Stock())->getById($id);
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Centro de Custo"));
+        }
+        $stock = (new Stock())->getById($id);
+        if (is_null($stock)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Centro de Custo"));
+        }
         Logger::info("Finalizando a recuperação do centro de custo.");
-        return $state;
+        return $stock;
     }
 
     public function deleteByContractId(int $contractId) {
@@ -49,7 +55,6 @@ class StockBusiness {
     public function update(array $payload, int $id) {
         Logger::info("Iniciando a atualização do centro de custo.");
         Logger::info("Validando as informações fornecidas.");
-
         if ($id === 1) {
             throw new InputValidationException("Não é possível atualizar centro de custo da construtora.");
         }
@@ -65,6 +70,8 @@ class StockBusiness {
         if (!is_null($hasErrors)) {
             throw new InputValidationException($hasErrors);
         }
+        // Trying get the contract
+        (new ContractBusiness())->getById(id: $payload["contract_id"], mergerFields: false);
         
         Logger::info("Salvando o centro de custo.");
         $stockUpdated->save();
@@ -80,9 +87,6 @@ class StockBusiness {
 
         Logger::info("Recuperando centro de custo $id.");
         $stock = $this->getById(id: $id);
-        if (is_null($stock)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Centro de Custo"));
-        }
 
         Logger::info("Deletando centro de custo $id.");
         $stock->deleted = true;

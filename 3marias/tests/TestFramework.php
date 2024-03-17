@@ -485,11 +485,11 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
-    public function createContract() {
+    public function createContract(int $proposalId = 1) {
         $this->createProposal();
         $response = $this
         ->withHeaders($this->getHeaders())
-        ->post("/api/v1/proposals/approve/1");
+        ->post("/api/v1/proposals/approve/" . $proposalId);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -507,7 +507,7 @@ abstract class TestFramework extends TestCase
             "witness_one_cpf" => $this->generateRandomCpf(),
             "witness_two_name" => $this->generateRandomString(),
             "witness_two_cpf" => $this->generateRandomCpf(),
-            "proposal_id" => 1,
+            "proposal_id" => $proposalId,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
