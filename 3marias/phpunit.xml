@@ -4,8 +4,8 @@
     <testsuite name="Backend">
       <directory suffix="Test.php">./tests/Backend</directory>
     </testsuite>
-    <testsuite name="Product">
-      <directory suffix="Test.php">./tests/Backend/product</directory>
+    <testsuite name="Stock">
+      <directory suffix="Test.php">./tests/Backend/stock</directory>
     </testsuite>
   </testsuites>
   <coverage>

@@ -43,6 +43,8 @@ class StockController extends Controller implements APIController
      * Deletes a stocks models by id.
      */
     public function destroy($id) {
+        $stock = $this->stockBusiness->delete(id: $id);
+        return ResponseUtils::getResponse($stock, 200);
     }
 
     /**
