@@ -288,6 +288,28 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    public function createAccountant() {
+        $this->createEnterprise();
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "phone" => $this->generateRandomPhoneNumber(),
+            "enterprise_id" => 1,
+            "address" => $this->generateRandomString(),
+            "city_id" => 1,
+            "neighborhood" => $this->generateRandomString(),
+            "zipcode" => "00000-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/accountants", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
+    }
+
     public function createEnterpriseWithCategoryAndCity(int $cityId, int $categoryId) {
         $this->createGroup();
         $this->createGroup();
@@ -318,33 +340,36 @@ abstract class TestFramework extends TestCase
     }
 
     public function createEnterprise() {
-        $this->createGroup();
-        $this->createGroup();
-        $this->createGroup();
-        $this->createCategory();
         $this->createCity();
+        
+        DB::table('addresses')
+            ->insert([
+                'address' => "AVENIDA FERREIRA DE ASSIS",
+                'neighborhood' => "CENTRO",
+                'city_id' => 1,
+                'number' => 110,
+                'complement' => "APARTAMENTO 102 SALA 03",
+                'zipcode' => "62360-000",
+            ]);
 
-        $json = [
-            "name" => $this->generateRandomString(),
-            "description" => $this->generateRandomString(),
-            "email" => $this->generateRandomEmail(),
-            "phone" => "(00)00000-0000",
-            "status" => "waiting",
-            "category_id" => 1,
-            "address" => $this->generateRandomString(),
-            "neighborhood" => $this->generateRandomString(),
-            "number" => 1000,
-            "password" => "12345",
-            "complement" => $this->generateRandomString(100),
-            "city_id" => 1,
-            "zipcode" => "00000-000"
-        ];
-
-        $response = $this
-        ->post("/api/enterprises", $json);
-
-        $response->assertStatus(201);
-        return $json;
+        DB::table('enterprises')
+            ->insert([
+                'name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'fantasy_name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'social_reason' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'creci' => "000000",
+                'cnpj' => "17.236.500/0001-20",
+                'phone' => "(88)99733-7979",
+                'email' => "3mariasconstrutora@gmail.com",
+                'state_registration' => "0000",
+                'municipal_registration' => "0000",
+                'address_id' => 1,
+                'bank' => 'BANCO DO BRASIL',
+                'bank_agency' => '2093-1',
+                'bank_account' => '18929-4',
+                'pix' => "3mariasconstrutora@gmail.com",
+                'deleted' => false
+            ]);
     }
 
     public function createEnterpriseWithLinkedSystems() {
