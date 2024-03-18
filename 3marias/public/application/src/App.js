@@ -47,6 +47,7 @@ import ProjectList from './pages/admin/projects/ProjectList';
 import ProjectForm from './pages/admin/projects/ProjectForm';
 import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
 import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
+import AccountForm from './pages/account/AccountForm';
 
 console.disableYellowBox = true;
 
@@ -59,6 +60,8 @@ function App() {
           <Route path='recovery' element={<RecoveryPassword />}></Route>
           <Route path='login' element={<Login />}></Route>
           <Route path='home' element={<Home />}></Route>
+
+          <Route path='account' element={<AccountForm />}></Route>
 
           <Route path='admin/users' element={<UserList />}></Route>
           <Route path='admin/users/add' element={<UserForm />}></Route>
@@ -103,7 +106,6 @@ function App() {
           <Route path='admin/projects/add' element={<ProjectForm />}></Route>
           <Route path='admin/projects/edit/:id' element={<ProjectForm />}></Route>
 
-         
           <Route path='store/products' element={<ProductList />}></Route>
           <Route path='store/products/add' element={<ProductForm />}></Route>
           <Route path='store/products/edit/:id' element={<ProductForm />}></Route>
