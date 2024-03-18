@@ -259,6 +259,34 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    public function createCategoryService() {
+        $json = [
+            "name" => $this->generateRandomString()
+        ];
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/categoryServices", $json);
+
+        $response->assertStatus(201);
+        return $json;
+    }
+
+    public function createService() {
+        $categoryService = $this->createCategoryService();
+
+        $payload = [
+            "service" => $this->generateRandomString(),
+            "category_service_name" => $categoryService["name"]
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/services", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
+    }
+
     public function createProduct() {
         $category = $this->createCategoryProduct();
         $payload = [
