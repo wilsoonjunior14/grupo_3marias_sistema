@@ -79,6 +79,7 @@ class ServiceBusiness {
         }
         $category = (new CategoryServiceBusiness())->getByName(name: $data["category_service_name"]);
         $serviceUpdated["category_service_id"] = $category->id;
+        $data["category_service_id"] = $category->id;
         $serviceValidator = new ModelValidator(Service::$rules, Service::$rulesMessages);
         $errors = $serviceValidator->validate(data: $data);
         if (!is_null($errors)) {
