@@ -171,7 +171,7 @@ function VHeader() {
                     ))}
 
                     <Nav style={{position: "absolute", bottom: 15, left: 25}}>
-                        <Nav.Link href="/home" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
+                        <Nav.Link href="/account" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
                             <i style={{color: "white", fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">account_circle</i>
                         </Nav.Link>
                         <Tooltip style={{marginTop: "-5px"}} place="right" id="account_circle-item-tooltip" />
