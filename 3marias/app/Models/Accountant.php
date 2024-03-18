@@ -9,8 +9,7 @@ class Accountant extends BaseModel
     "phone", "enterprise_id",
     "deleted", "created_at", "updated_at"];
 
-    static $fieldsToBeUpdated = ["name",
-    "phone", "enterprise_id"];
+    static $fieldsToBeUpdated = ["name", "phone", "enterprise_id"];
 
     static $rules = [
         'name' => 'bail|required|string|max:255|min:3',

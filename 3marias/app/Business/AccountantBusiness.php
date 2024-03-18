@@ -6,6 +6,7 @@ use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\Accountant;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -23,7 +24,13 @@ class AccountantBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de contador $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contador"));
+        }
         $accountant = (new Accountant())->getById($id);
+        if (is_null($accountant)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contador"));
+        }
         if ($merge) {
             $address = (new AddressBusiness())->getById($accountant->address_id);
             $accountant = $this->mountClientAddressInline($accountant, $address);
@@ -63,12 +70,15 @@ class AccountantBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do contador.");
-        $accountant = (new Accountant())->getById($id);
-        $accountantUpdated = UpdateUtils::processFieldsToBeUpdated($accountant, $request->all(), Accountant::$fieldsToBeUpdated);
-        
+        $accountant = $this->getById(id: $id, merge: false);
+        $accountantUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Accountant::$fieldsToBeUpdated, model: $accountant, requestData: $request->all());
+
         Logger::info("Validando as informações do contador.");
         $accountantValidator = new ModelValidator(Accountant::$rules, Accountant::$rulesMessages);
-        $accountantValidator->validate(data: $request->all());
+        $validation = $accountantValidator->validate(data: $request->all());
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
 
         (new AddressBusiness())->update($request->all(), id: $accountant->address_id);
 
