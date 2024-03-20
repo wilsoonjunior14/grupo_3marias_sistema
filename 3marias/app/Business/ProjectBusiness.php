@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Project;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use App\Validation\projectValidator;
@@ -23,7 +24,13 @@ class ProjectBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de projeto $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Projeto"));
+        }
         $project = (new Project())->getById($id);
+        if (is_null($project)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Projeto"));
+        }
         Logger::info("Finalizando a recuperação de projeto $id.");
         return $project;
     }
@@ -46,6 +53,7 @@ class ProjectBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        $this->existsEntity(name: $data["name"]);
         
         Logger::info("Salvando a nova projeto.");
         $project = new project($data);
@@ -56,19 +64,29 @@ class ProjectBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do projeto.");
-        $project = (new Project())->getById($id);
-        $projectUpdated = UpdateUtils::processFieldsToBeUpdated($project, $request->all(), Project::$fieldsToBeUpdated);
+        $data = $request->all();
+        $project = $this->getById($id);
+        $projectUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Project::$fieldsToBeUpdated, model: $project, requestData: $request->all());
         
         Logger::info("Validando as informações do projeto.");
         $projectValidator = new ModelValidator(Project::$rules, Project::$rulesMessages);
-        $validation = $projectValidator->validate($projectUpdated);
+        $validation = $projectValidator->validate($data);
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        $this->existsEntity(name: $data["name"], id: $id);
 
         Logger::info("Atualizando as informações do projeto.");
         $projectUpdated->save();
         return $this->getById(id: $projectUpdated->id);
     }
 
+    private function existsEntity(string $name, int $id = null) {
+        $condition = [["name", "=", $name]];
+        $exists = (new Project())->existsEntity(condition: $condition, id: $id);
+        if ($exists) {
+            throw new InputValidationException("Registro de Projeto já registrado em Projetos.");
+        }
+        return $exists;
+    }
 }

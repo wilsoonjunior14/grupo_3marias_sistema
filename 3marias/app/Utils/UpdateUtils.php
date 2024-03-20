@@ -36,6 +36,22 @@ class UpdateUtils
         return $targetData;
     }
 
+    public static function nullFields($targetData, $fields) {
+        foreach ($fields as $key) {
+            $targetData[$key] = null;
+        }
+        return $targetData;
+    }
+
+    public static function deleteFields($targetData, $fields) {
+        foreach ($fields as $key) {
+            if (isset($targetData[$key])) {
+                unset($targetData[$key]);
+            }
+        }
+        return $targetData;
+    }
+
     public static function convertModelToArray(BaseModel $baseModel) {
         $encode = json_encode($baseModel);
         return json_decode($encode, true);

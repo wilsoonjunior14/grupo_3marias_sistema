@@ -24,3 +24,58 @@ Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 Route::get('/clientData/{id}', [PDFController::class, 'getClientDataPDF']);
 Route::get('/proposal/{id}', [PDFController::class, 'getProposalPDF']);
 Route::get('/contract/{id}', [PDFController::class, 'getContractPDF']);
+
+Route::get('/v', function() {
+    function getStringValue($value, $amount) {
+        switch ($amount) {
+            case 1:
+                return getUnityValue($value);
+            case 2:
+                return getDecimalValue($value);
+            case 3:
+                return getMilValue($value);
+            default:
+                break;
+        }
+    }
+
+    function getUnityValue($index) {
+        $u = array("1" => "um", "2" => "dois", "3" => "três", "4" => "quatro", "5" => "cinco", "6" => "seis", "7" => "sete", "8" => "oito", "9", "nove");
+        return $u[$index];
+    }
+
+    function getDecimalValue($index) {
+        $d = array("1" => "dez", "2" => "vinte", "3" => "trinta", "4" => "quarenta", "5" => "cinquenta", "6" => "sessenta", "7" => "setenta", "8" => "oitenta", "9", "noventa");
+        return $d[$index];
+    }
+
+    function getMilValue($index) {
+        $c = array("1" => "cento", "2" => "duzentos", "3" => "trezentos", "4" => "quatrocentos", "5" => "quinhentos", "6" => "seiscentos", "7" => "setecentos", "8" => "oitocentos", "9", "novecentos");
+        return $c[$index];
+    }
+
+    echo "testando imprimir valores por extenso" . "<br></br>";
+    $value = "175000.23";
+    echo $value . "<br></br>";
+
+    $getCents = explode(".", $value)[1];
+    if (!is_null($getCents)) {
+        $centsString = [];
+        $amountCents = strlen($getCents);
+        for ($i = 1; $i <= strlen($getCents); $i++) {
+            $centsValue = substr($getCents, $i - 1, $i);
+            $stringValue = getStringValue($centsValue, $amountCents);
+            $centsString[] = $stringValue;
+            $amountCents -= 1;
+        }
+        $centsString = join(" e ", $centsString) . " centavos";
+        echo $centsString;
+    }
+
+    $getValue = explode(".", $value)[0];
+    $valueString = [];
+    $amountValue = strlen($getValue);
+    
+    
+
+});

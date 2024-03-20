@@ -43,11 +43,19 @@ class ClientBusiness {
         return $client[0];
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de cliente $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "cliente"));
+        }
         $client = (new Client())->getById($id);
-        $address = (new AddressBusiness())->getById($client->address_id, merge: true);
-        $client = $this->mountClientAddressInline($client, $address);
+        if (is_null($client)) {
+            throw new InputValidationException(ErrorMessage::$ENTITY_NOT_FOUND);   
+        }
+        if ($mergeFields) {
+            $address = (new AddressBusiness())->getById($client->address_id, merge: $mergeFields);
+            $client = $this->mountClientAddressInline($client, $address);
+        }
         Logger::info("Finalizando a recuperação de cliente $id.");
         return $client;
     }
@@ -55,11 +63,11 @@ class ClientBusiness {
     public function delete(int $id) {
         Logger::info("Deletando o de cliente $id.");
         $proposal = (new ProposalBusiness())->getByClientId(clientId: $id);
-        if (!is_null($proposal)) {
+        if (count($proposal) > 0) {
             throw new InputValidationException("Cliente não pode ser excluído. Existe proposta desse cliente.");
         }
 
-        $client = $this->getById(id: $id);
+        $client = $this->getById(id: $id, mergeFields: false);
         Logger::info("Deletando o de cliente $id.");
         $client->deleted = true;
         $client->save();
@@ -76,7 +84,11 @@ class ClientBusiness {
 
         $address = (new AddressBusiness())->create($data);
         
-        Logger::info("Salvando a nova cliente.");
+        if (strcmp($data["state"], "Casado") !== 0) {
+            Logger::info("Removendo campos de dependented.");
+            $data = UpdateUtils::deleteFields(targetData: $data, fields: Client::$dependentFields);
+        }
+        Logger::info("Salvando o novo cliente.");
         $client = new Client($data);
         $client->address_id = $address->id;
         $client->save();
@@ -88,6 +100,9 @@ class ClientBusiness {
         Logger::info("Alterando informações do cliente.");
         $client = (new Client())->getById($id);
         $clientUpdated = UpdateUtils::processFieldsToBeUpdated($client, $request->all(), Client::$fieldsToBeUpdated);
+        if (strcmp($clientUpdated->state, "Casado") !== 0) {
+            $clientUpdated = UpdateUtils::nullFields($clientUpdated, Client::$dependentFields);
+        }
         
         Logger::info("Validando as informações do cliente.");
         $clientValidator = new ClientValidator(Client::$rules, Client::$rulesMessages);

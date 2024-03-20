@@ -131,20 +131,20 @@ export function validateMoney(array, field, fieldName, isRequired) {
         return;
     }
     const value = array[field];
-    const regMoney = new RegExp(/^(\d+\.)+(\d+\,\d+)$/g);
+    const regMoney = new RegExp(/^(\d+\.)+(\d+\,\d+)$|^(\d+)\,(\d+)$/g);
     if (!regMoney.test(value)) {
-        return returnMessage(fieldName + " não é válido. Tente utilizar o padrão XXX.XXX,XX");
+        return returnMessage(fieldName + " ("+value+") não é válido. Tente utilizar o padrão XXX.XXX,XX");
     }
 }
 
 export function validateMoneyWithoutAllPatterns(array, field, field2, fieldName) {
     const regMoney = new RegExp(/^(\d+\.)+(\d+)|(\d+)$/g);
     if (!regMoney.test(array[field])) {
-        return returnMessage(fieldName + " não é válido.");
+        return returnMessage(fieldName + "("+array[field]+") não é válido.");
     }
-    const regMoney2 = new RegExp(/^(\d+\.)+(\d+)$/g);
+    const regMoney2 = new RegExp(/^(\d+\.)+(\d+)$|^(\d+)$|^(\d+\,)+(\d+)$/g);
     if (!regMoney2.test(array[field2])) {
-        return returnMessage(fieldName + " não é válido...");
+        return returnMessage(fieldName + "("+array[field2]+") não é válido...");
     }
 }
 
@@ -159,7 +159,7 @@ function validateZipCode(array, field, fieldName) {
     }
 }
 
-function validateNumber(array, field, fieldName) {
+export function validateNumber(array, field, fieldName) {
     const regNumber = new RegExp(/^\d+$/g);
     if (!array[field]) {
         return;

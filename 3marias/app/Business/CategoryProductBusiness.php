@@ -49,7 +49,10 @@ class CategoryProductBusiness {
             $data["category_products_father_id"] = $category->id;
         }
         $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
-        $categoryValidator->validate(data: $data);
+        $validation = $categoryValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $data["name"]);
         
         Logger::info("Salvando a nova categoria de produto.");
@@ -69,11 +72,14 @@ class CategoryProductBusiness {
         if (isset($data["category_products_father_id"]) && !empty($data["category_products_father_id"])) {
             $category = $this->getByName(name: $data["category_products_father_id"]);
             $data["category_products_father_id"] = $category->id;
+            $categoryUpdated["category_products_father_id"] = $data["category_products_father_id"];
         }
         $categoryValidator = new ModelValidator(CategoryProduct::$rules, CategoryProduct::$rulesMessages);
-        $categoryValidator->validate(data: $data);
+        $validation = $categoryValidator->validate(data: $data);
+        if ($validation) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $categoryUpdated["name"], id: $id);
-        $categoryUpdated["category_products_father_id"] = $data["category_products_father_id"];
 
         Logger::info("Atualizando as informações do categoria de produto.");
         $categoryUpdated->save();

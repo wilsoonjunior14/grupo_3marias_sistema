@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\assertNotNull;
+
 abstract class TestFramework extends TestCase
 {
 
@@ -56,7 +58,27 @@ abstract class TestFramework extends TestCase
     }
 
     function generateRandomCpf(): string {
-        return CPFGenerator::cpfRandom("1");
+        return CPFGenerator::cpfRandom(mascara: "1");
+    }
+
+    function generateRandomCnpj(): string {
+        return CPFGenerator::cnpjRandom(mascara: "1");
+    }
+
+    function generateRandomPeopleType() : string {
+        $values = ["Física", "Jurídica"];
+        return $values[random_int(0, 1)];
+    }
+
+    function generateURL() : string {
+        return "http://www." . $this->generateRandomString() . ".com"; 
+    }
+
+    function generateRandomPhoneNumber() : string {
+        $ddd = "(" . random_int(0,9) . random_int(0,9) . ")";
+        $middle = random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9);
+        $end = random_int(0,9) . random_int(0,9) . random_int(0,9) . random_int(0,9);
+        return $ddd . $middle . "-" . $end;
     }
 
     function generateRandomString(int $length = 10): string {
@@ -69,6 +91,21 @@ abstract class TestFramework extends TestCase
         return $randomString;
     }
 
+    function generateRandomBank() {
+        $banks = ["Caixa Econômica", "Santander", "Bradesco", "Banco do Brasil", "Banco do Nordeste"];
+        return $banks[random_int(0, count($banks) - 1)];
+    }
+
+    function generateRandomNumber(int $length = 10): string {
+        $digits = '0123456789';
+        $digitsLength = strlen($digits);
+        $randomDigits = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomDigits .= $digits[rand(0, $digitsLength - 1)];
+        }
+        return $randomDigits;
+    }
+
     function getRandomRequestMethod() : string {
         $index = random_int(0, 4);
         $methods = ["get", "post", "put", "patch", "delete"];
@@ -77,6 +114,129 @@ abstract class TestFramework extends TestCase
 
     function generateRandomEmail(): string {
         return $this->generateRandomString() . "@gmail.com";
+    }
+
+    function createPartner(string $cnpj = "60.725.781/0001-03") {
+        $payload = [
+            "fantasy_name" => $this->generateRandomString(),
+            "partner_type" => $this->generateRandomPeopleType(),
+            "cnpj" => $cnpj
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/partners", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson(
+            [
+                "fantasy_name" => $payload["fantasy_name"],
+                "partner_type" => $payload["partner_type"]
+            ]
+        );
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createProject() {
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "description" => $this->generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/projects", $payload);
+
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createClient(string $state = "Solteiro") {
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => $this->generateRandomCpf(),
+            "state" => $state,
+            "sex" => "Outro",
+            "nationality" => "Brasileira",
+            "naturality" => "Ibiapina",
+            "ocupation" => $this->generateRandomString(),
+            "phone" => "(00)00000-0000",
+            "email" => $this->generateRandomEmail(),
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createProposal() {
+        $client = $this->createClient();
+        $project = $this->createProject();
+        $this->createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => $this->generateRandomString(),
+            "proposal_type" => $this->generateRandomString(),
+            "global_value" => 120000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => $this->generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => $project["id"],
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Banco"
+                ],
+                [
+                    "type" => $this->generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => $this->generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/proposals", $payload);
+        $json = $response->decodeResponseJson();
+        return $json;
     }
 
     public function createGroup() {
@@ -90,6 +250,59 @@ abstract class TestFramework extends TestCase
 
         $response->assertStatus(201);
         return $json;
+    }
+
+    public function createCategoryProduct() {
+        $json = [
+            "name" => $this->generateRandomString()
+        ];
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/categoryProducts", $json);
+
+        $response->assertStatus(201);
+        return $json;
+    }
+
+    public function createCategoryService() {
+        $json = [
+            "name" => $this->generateRandomString()
+        ];
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/categoryServices", $json);
+
+        $response->assertStatus(201);
+        return $json;
+    }
+
+    public function createService() {
+        $categoryService = $this->createCategoryService();
+
+        $payload = [
+            "service" => $this->generateRandomString(),
+            "category_service_name" => $categoryService["name"]
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/services", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
+    }
+
+    public function createProduct() {
+        $category = $this->createCategoryProduct();
+        $payload = [
+            "product" => $this->generateRandomString(),
+            "category_product_name" => $category["name"]
+        ];
+        $response = $this
+        ->post("/api/v1/products", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
     }
 
     public function createCategory() {
@@ -106,6 +319,28 @@ abstract class TestFramework extends TestCase
 
         $response->assertStatus(201);
         return $json;
+    }
+
+    public function createAccountant() {
+        $this->createEnterprise();
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "phone" => $this->generateRandomPhoneNumber(),
+            "enterprise_id" => 1,
+            "address" => $this->generateRandomString(),
+            "city_id" => 1,
+            "neighborhood" => $this->generateRandomString(),
+            "zipcode" => "00000-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/accountants", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
     }
 
     public function createEnterpriseWithCategoryAndCity(int $cityId, int $categoryId) {
@@ -138,33 +373,36 @@ abstract class TestFramework extends TestCase
     }
 
     public function createEnterprise() {
-        $this->createGroup();
-        $this->createGroup();
-        $this->createGroup();
-        $this->createCategory();
         $this->createCity();
+        
+        DB::table('addresses')
+            ->insert([
+                'address' => "AVENIDA FERREIRA DE ASSIS",
+                'neighborhood' => "CENTRO",
+                'city_id' => 1,
+                'number' => 110,
+                'complement' => "APARTAMENTO 102 SALA 03",
+                'zipcode' => "62360-000",
+            ]);
 
-        $json = [
-            "name" => $this->generateRandomString(),
-            "description" => $this->generateRandomString(),
-            "email" => $this->generateRandomEmail(),
-            "phone" => "(00)00000-0000",
-            "status" => "waiting",
-            "category_id" => 1,
-            "address" => $this->generateRandomString(),
-            "neighborhood" => $this->generateRandomString(),
-            "number" => 1000,
-            "password" => "12345",
-            "complement" => $this->generateRandomString(100),
-            "city_id" => 1,
-            "zipcode" => "00000-000"
-        ];
-
-        $response = $this
-        ->post("/api/enterprises", $json);
-
-        $response->assertStatus(201);
-        return $json;
+        DB::table('enterprises')
+            ->insert([
+                'name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'fantasy_name' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'social_reason' => "CONSTRUTORA E IMOBILIÁRIA 3 MARIAS",
+                'creci' => "000000",
+                'cnpj' => "17.236.500/0001-20",
+                'phone' => "(88)99733-7979",
+                'email' => "3mariasconstrutora@gmail.com",
+                'state_registration' => "0000",
+                'municipal_registration' => "0000",
+                'address_id' => 1,
+                'bank' => 'BANCO DO BRASIL',
+                'bank_agency' => '2093-1',
+                'bank_account' => '18929-4',
+                'pix' => "3mariasconstrutora@gmail.com",
+                'deleted' => false
+            ]);
     }
 
     public function createEnterpriseWithLinkedSystems() {
@@ -282,6 +520,7 @@ abstract class TestFramework extends TestCase
         ->post("/api/users", $json);
 
         $response->assertStatus(201);
+        $json["id"] = $response->decodeResponseJson()["id"];
         return $json;
     }
 
@@ -302,5 +541,42 @@ abstract class TestFramework extends TestCase
         $response->assertJson(["endpoint" => $json['endpoint']]);
 
         return $json;
+    }
+
+    public function createContract(int $proposalId = 1) {
+        $this->createProposal();
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/proposals/approve/" . $proposalId);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            "status" => 2
+        ]);
+
+        $this->createCity();
+
+        $payload = [
+            "building_type" => $this->generateRandomString(),
+            "description" => $this->generateRandomString(),
+            "meters" => $this->generateRandomString(),
+            "value" => 45000.00,
+            "witness_one_name" => $this->generateRandomString(),
+            "witness_one_cpf" => $this->generateRandomCpf(),
+            "witness_two_name" => $this->generateRandomString(),
+            "witness_two_cpf" => $this->generateRandomCpf(),
+            "proposal_id" => $proposalId,
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "00000-000"
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/contracts", $payload);
+
+        $response->assertStatus(201);
+        return $payload;
     }
 }

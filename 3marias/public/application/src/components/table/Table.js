@@ -139,7 +139,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
             return getStatusField(item[field]);
         }
         if (field.indexOf("value") !== -1) {
-            const v = Number(item[field].replace(".", "").replace(",", "."));
+            const v = Number(item[field].toString().replace(".", "").replace(",", "."));
             return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
         }
         return item[field];

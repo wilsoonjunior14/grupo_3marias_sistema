@@ -23,7 +23,13 @@ class ServiceBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de serviço $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Serviço"));
+        }
         $service = (new Service())->getById($id);
+        if (is_null($service)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Serviço"));
+        }
         Logger::info("Finalizando a recuperação de serviço $id.");
         return $service;
     }
@@ -41,6 +47,9 @@ class ServiceBusiness {
         Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
 
+        if (!isset($data["category_service_name"]) || empty($data["category_service_name"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Nome da Categoria de Serviço"));
+        }
         $category = (new CategoryServiceBusiness())->getByName(name: $data["category_service_name"]);
         $data["category_service_id"] = $category->id;
         $serviceValidator = new ModelValidator(Service::$rules, Service::$rulesMessages);
@@ -61,11 +70,15 @@ class ServiceBusiness {
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do serviço.");
         $data = $request->all();
-        $service = (new Service())->getById($id);
-        $serviceUpdated = UpdateUtils::processFieldsToBeUpdated($service, $request->all(), Service::$fieldsToBeUpdated);
-        
+        $service = $this->getById($id);
+        $serviceUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Service::$fieldsToBeUpdated, model: $service, requestData: $request->all());
+
         Logger::info("Validando as informações do serviço.");
+        if (!isset($data["category_service_name"]) || empty($data["category_service_name"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Nome da Categoria de Serviço"));
+        }
         $category = (new CategoryServiceBusiness())->getByName(name: $data["category_service_name"]);
+        $serviceUpdated["category_service_id"] = $category->id;
         $data["category_service_id"] = $category->id;
         $serviceValidator = new ModelValidator(Service::$rules, Service::$rulesMessages);
         $errors = $serviceValidator->validate(data: $data);

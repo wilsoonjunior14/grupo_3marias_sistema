@@ -23,7 +23,13 @@ class ProductBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de produto $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Produto"));
+        }
         $product = (new Product())->getById($id);
+        if (is_null($product)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Produto"));
+        }
         Logger::info("Finalizando a recuperação de produto $id.");
         return $product;
     }
@@ -41,10 +47,16 @@ class ProductBusiness {
         Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
 
+        if (!isset($data["category_product_name"]) || empty($data["category_product_name"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Nome da Categoria de Produto"));
+        }
         $category = (new CategoryProductBusiness())->getByName(name: $data["category_product_name"]);
         $data["category_product_id"] = $category->id;
         $productValidator = new ModelValidator(Product::$rules, Product::$rulesMessages);
-        $productValidator->validate(data: $data);
+        $validation = $productValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $data["product"]);
         (new CategoryProductBusiness())->getById(id: $data["category_product_id"]);
         
@@ -57,14 +69,21 @@ class ProductBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do produto.");
-        $product = (new Product())->getById($id);
+        $data = $request->all();
+        $product = $this->getById($id);
         $productUpdated = UpdateUtils::processFieldsToBeUpdated($product, $request->all(), Product::$fieldsToBeUpdated);
         
         Logger::info("Validando as informações do produto.");
+        if (!isset($data["category_product_name"]) || empty($data["category_product_name"])) {
+            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Nome da Categoria de Produto"));
+        }
         $category = (new CategoryProductBusiness())->getByName(name: $data["category_product_name"]);
         $data["category_product_id"] = $category->id;
         $productValidator = new ModelValidator(Product::$rules, Product::$rulesMessages);
-        $productValidator->validate(data: $request->all());
+        $validation = $productValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $productUpdated["product"], id: $id);
         (new CategoryProductBusiness())->getById(id: $productUpdated["category_product_id"]);
 

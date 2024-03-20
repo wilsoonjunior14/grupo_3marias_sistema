@@ -37,7 +37,13 @@ class ProposalBusiness {
 
     public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de proposta $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Proposta"));
+        }
         $proposal = (new Proposal())->getById($id);
+        if (is_null($proposal)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Proposta"));
+        }
         if ($mergeFields) {
             $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
             $proposal->address = (new AddressBusiness())->getById(id: $proposal->address_id, merge: false);
@@ -110,12 +116,28 @@ class ProposalBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+
+        if ($data["global_value"] <= 0) {
+            throw new InputValidationException("Campo Valor Global da Proposta não pode ser menor ou igual a zero.");
+        }
+
+        if ($data["discount"] < 0) {
+            throw new InputValidationException("Campo Desconto da Proposta não pode ser menor que zero.");
+        }
+
+        if ($data["discount"] > $data["global_value"]) {
+            throw new InputValidationException("Valor do desconto não pode ser superior ao valor da proposta.");
+        }
+
+        // Validating the project id
+        (new ProjectBusiness())->getById(id: $data["project_id"]);
+
         // Validating the address data.
         Logger::info("Validando as informações de endereço.");
         (new AddressBusiness())->validateData(data: $data);
         // Validating the proposal payments.
         Logger::info("Validando as informações de pagamentos.");
-        if ( (!isset($data["clientPayments"]) && !isset($data["bankPayments"])) ) {
+        if ( (!isset($data["clientPayments"]) || !isset($data["bankPayments"])) ) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_NOT_PROVIDED, "Lista de Pagamentos"));
         }
         if ( (empty($data["clientPayments"]) && empty($data["bankPayments"])) ) {
@@ -205,12 +227,12 @@ class ProposalBusiness {
         Logger::info("Iniciando a criação de proposta.");
         Logger::info("Validando as informações fornecidas.");
         $data = $this->validateProposalRequest(request: $request, id: $id);
+        $proposal = $this->getById(id: $id, mergeFields: false);
 
         // Updating the entities : Address, Proposal and ProposalPayments
         (new AddressBusiness())->update(id: $data["address_id"], data: $data);
 
         Logger::info("Salvando informações da proposta.");
-        $proposal = $this->getById(id: $id, mergeFields: false);
         $proposal = UpdateUtils::updateFields(Proposal::$fieldsToBeUpdated, $proposal, $data);
         $proposal->save();
 

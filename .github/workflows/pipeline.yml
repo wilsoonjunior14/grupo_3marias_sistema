@@ -7,9 +7,9 @@ jobs:
     name: Backend - Build & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Setup the python environment
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
@@ -52,7 +52,18 @@ jobs:
           cd 3marias
           ./vendor/bin/psalm --no-cache --show-info=false --show-snippet=true
 
-      # Check the code coverage
+      # Check tests
+      - name: E2E Tests
+        run: |
+          cd 3marias
+          php artisan config:clear
+          php artisan cache:clear
+          XDEBUG_MODE=coverage php artisan test --parallel --processes 8 --coverage --testsuite=Backend
+
+          cd scripts
+          zip -r coverage.zip ./coverage_reports
+      
+      # # Check the code coverage
       # - name: E2E Tests & Code Coverage
       #   run: |
       #     cd 3marias
@@ -62,6 +73,12 @@ jobs:
       #     cd scripts
       #     cd coverage
       #     python3 check_coverage_backend.py
+
+      - name: Publish Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-code-coverage.zip
+          path: ./3marias/scripts/coverage.zip
 
   Deploy:
     name: Release
