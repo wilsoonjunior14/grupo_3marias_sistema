@@ -23,7 +23,8 @@ class EnterpriseController extends Controller implements APIController
      * Gets all enterprises.
      */
     public function index() {
-        throw new MethodNotImplementedYet("Route Not Implemented.");
+        $enterprises = $this->enterpriseBusiness->get();
+        return ResponseUtils::getResponse($enterprises, 200);
     }
 
     /**
