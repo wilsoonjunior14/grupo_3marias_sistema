@@ -6,7 +6,7 @@ use App\Models\Address;
 use App\Models\Enterprise;
 use App\Models\Logger;
 use App\Utils\UpdateUtils;
-use App\Validation\enterpriseValidator;
+use App\Validation\EnterpriseValidator;
 use Illuminate\Http\Request;
 
 class EnterpriseBusiness {

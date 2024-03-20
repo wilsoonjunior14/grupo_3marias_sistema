@@ -129,6 +129,10 @@ class CreateEnterpriseTest extends TestFramework
      * @test
      */
     public function posTest_createEnterprise(): void {
+        parent::createCountry();
+        parent::createState();
+        parent::createCity();
+
         $payload = [
             "name" => parent::generateRandomString(),
             "fantasy_name" => parent::generateRandomString(),
@@ -212,14 +216,12 @@ class CreateEnterpriseTest extends TestFramework
             "pix" => $payload["pix"]
         ]);
         $getResponse->assertJson([
-            "address" => [
-                "address" => $payload["address"],
-                "neighborhood" => $payload["neighborhood"],
-                "zipcode" => $payload["zipcode"],
-                "city_id" => $payload["city_id"],
-                "complement" => null,
-                "number" => null
-            ]
+            "address" => $payload["address"],
+            "neighborhood" => $payload["neighborhood"],
+            "zipcode" => $payload["zipcode"],
+            "city_id" => $payload["city_id"],
+            "complement" => null,
+            "number" => null
         ]);
     }
 }
