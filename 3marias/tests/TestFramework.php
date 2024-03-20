@@ -91,6 +91,11 @@ abstract class TestFramework extends TestCase
         return $randomString;
     }
 
+    function generateRandomBank() {
+        $banks = ["Caixa Econômica", "Santander", "Bradesco", "Banco do Brasil", "Banco do Nordeste"];
+        return $banks[random_int(0, count($banks) - 1)];
+    }
+
     function generateRandomNumber(int $length = 10): string {
         $digits = '0123456789';
         $digitsLength = strlen($digits);

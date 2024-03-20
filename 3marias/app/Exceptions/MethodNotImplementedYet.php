@@ -9,7 +9,7 @@ use App\Utils\ResponseUtils;
 class MethodNotImplementedYet extends Exception
 {
     public function render($request) {
-         Logger::error($this->getMessage(), 400);
+         Logger::error($this->getMessage(), 404);
          return ResponseUtils::getResponse(
                 ["message" => $this->getMessage()],
                 404,
