@@ -45,7 +45,13 @@ class ClientBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de cliente $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "cliente"));
+        }
         $client = (new Client())->getById($id);
+        if (is_null($client)) {
+            throw new InputValidationException(ErrorMessage::$ENTITY_NOT_FOUND);   
+        }
         $address = (new AddressBusiness())->getById($client->address_id, merge: true);
         $client = $this->mountClientAddressInline($client, $address);
         Logger::info("Finalizando a recuperação de cliente $id.");
@@ -76,7 +82,11 @@ class ClientBusiness {
 
         $address = (new AddressBusiness())->create($data);
         
-        Logger::info("Salvando a nova cliente.");
+        if (strcmp($data["state"], "Casado") !== 0) {
+            Logger::info("Removendo campos de dependented.");
+            $data = UpdateUtils::deleteFields(targetData: $data, fields: Client::$dependentFields);
+        }
+        Logger::info("Salvando o novo cliente.");
         $client = new Client($data);
         $client->address_id = $address->id;
         $client->save();
