@@ -128,7 +128,7 @@ class CreateStateTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$FIELD_MUSTBE_STRING, "nome")
+            "message" => "Campo nome é obrigatório."
         ]);
     }
 

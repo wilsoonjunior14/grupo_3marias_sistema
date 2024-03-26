@@ -477,6 +477,7 @@ const ProposalForm = ({}) => {
             return;            
         }
 
+        // TODO: it can be improved by utility function
         const globalValue = Number(state.global_value.replace(".", "").replace(",", "."));
         const discount = Number(state.discount.replace(".", "").replace(",", "."));
 
