@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,6 +12,8 @@ import VHeaderAdmin from "./vHeaderAdmin";
 import VHeaderProposals from "./vHeaderProposals";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
+import { isLogged } from "../../services/Storage";
+import { Navigate } from "react-router-dom";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
@@ -90,6 +92,13 @@ function VHeader() {
             }
         }
     }
+
+    useEffect(() => {
+        const userIsLogged = isLogged();
+        if (!userIsLogged) {
+            Navigate("/login?message=Vm9jw6ogZGV2ZSByZWFsaXphciBvIGxvZ2luIG5vdmFtZW50ZQ==");
+        }
+    }, []);
 
     return (
         <>

@@ -268,7 +268,7 @@ abstract class TestFramework extends TestCase
 
     public function createCategoryService() {
         $json = [
-            "name" => $this->generateRandomString()
+            "name" => $this->generateRandomLetters()
         ];
         $response = $this
         ->withHeaders($this->getHeaders())

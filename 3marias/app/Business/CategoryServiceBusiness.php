@@ -23,6 +23,9 @@ class CategoryServiceBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de categoria $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Serviço"));
+        }
         $category = (new CategoryService())->getById($id);
         if (is_null($category)) {
             throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Serviço"));
@@ -45,7 +48,10 @@ class CategoryServiceBusiness {
         $data = $request->all();
 
         $categoryValidator = new ModelValidator(CategoryService::$rules, CategoryService::$rulesMessages);
-        $categoryValidator->validate(data: $data);
+        $validation = $categoryValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $data["name"]);
         
         Logger::info("Salvando a nova categoria de serviço.");
@@ -63,7 +69,10 @@ class CategoryServiceBusiness {
 
         Logger::info("Validando as informações do categoria de serviço.");
         $categoryValidator = new ModelValidator(CategoryService::$rules, CategoryService::$rulesMessages);
-        $categoryValidator->validate(data: $data);
+        $validation = $categoryValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
         $this->existsEntity(name: $categoryUpdated["name"], id: $id);
 
         Logger::info("Atualizando as informações do categoria de serviço.");
@@ -71,8 +80,8 @@ class CategoryServiceBusiness {
         return $this->getById(id: $categoryUpdated->id);
     }
 
-    private function existsEntity(string $name, int $id = null) {
-        $condition = [["name", "=", $name]];
+    private function existsEntity($name, int $id = null) {
+        $condition = [["name", "like", "%" . $name . "%"]];
         $exists = (new CategoryService())->existsEntity(condition: $condition, id: $id);
         if ($exists) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "Nome da Categoria", "Categorias de serviços"));
