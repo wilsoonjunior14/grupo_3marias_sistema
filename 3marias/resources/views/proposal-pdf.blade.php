@@ -1,6 +1,22 @@
 @extends('template')
 
 @section('content')
+<?php 
+    $MONTHS = [
+        "01" => "Janeiro",
+        "02" => "Fevereiro",
+        "03" => "Março",
+        "04" => "Abril",
+        "05" => "Maio",
+        "06" => "Junho",
+        "07" => "Julho",
+        "08" => "Agosto",
+        "09" => "Setembro",
+        "10" => "Outubro",
+        "11" => "Novembro",
+        "12" => "Dezembro"
+    ];
+?>
 
 <div class="row">
     <div class="col-12"><b>Dados da Proponente</b></div>
@@ -163,7 +179,11 @@
             <ul>
                 @foreach ($proposal->payments as $payment)
                     @if (strcmp("Cliente", $payment->source) === 0)
-                    <li>{{ mb_strtoupper($payment->type, 'UTF-8') . ": R$" . number_format($payment->value, 2, ',', '.') . " " . mb_strtoupper($payment->description, 'UTF-8') . " EM ". date_format(date_create($payment->desired_date),"d/m/Y") }}</li>
+                        @if (!is_null($payment->desired_date))
+                            <li>{{ mb_strtoupper($payment->type, 'UTF-8') . ": R$" . number_format($payment->value, 2, ',', '.') . " " . mb_strtoupper($payment->description, 'UTF-8') . " EM ". date_format(date_create($payment->desired_date),"d/m/Y") }}</li>
+                        @else
+                            <li>{{ mb_strtoupper($payment->type, 'UTF-8') . ": R$" . number_format($payment->value, 2, ',', '.') . " " . mb_strtoupper($payment->description, 'UTF-8') }}</li>
+                        @endif
                     @endif
                 @endforeach
             </ul>
@@ -181,7 +201,7 @@
 <div class="row" style="text-align: center;">
     <div class="col-12 row-colored">
         <?php date_default_timezone_set("America/Sao_Paulo"); ?>
-        <span>Ibiapina - Ceará, {{ date('d') }} de Fevereiro de {{ date('Y') }}</span> </br> </br>
+        <span>Ibiapina - Ceará, {{ date('d') }} de {{ $MONTHS[date('m')] }} de {{ date('Y') }}</span> </br> </br>
 
         <span style="border-top: 1px solid black">{{ mb_strtoupper($enterprise->fantasy_name, 'UTF-8') }}</span> </br>
         <span>CNPJ {{ mb_strtoupper($enterprise->cnpj, 'UTF-8') }}</span> </br>

@@ -23,4 +23,14 @@ class Country extends BaseModel
         'acronym.size' => 'Campo sigla deve conter 3 caracteres.',
         'acronym.alpha' => 'Campo sigla deve conter somente letras.',
     ];
+
+    public function withName($name) {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function withAcronym($acronym) {
+        $this->acronym = $acronym;
+        return $this;
+    }
 }

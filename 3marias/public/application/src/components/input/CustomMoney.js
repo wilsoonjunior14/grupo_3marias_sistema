@@ -26,6 +26,7 @@ const CustomMoney = ({placeholder, name, value, required, onChange, disabled, de
         groupSeparator='.'
         decimalSeparator=','
         fixedDecimalLength={2}
+        style={{marginTop: "-25px", paddingTop: "15px"}}
         />
         <InputErrorTag 
         required={required} 

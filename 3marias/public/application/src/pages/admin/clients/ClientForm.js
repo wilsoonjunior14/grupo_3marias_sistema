@@ -215,36 +215,6 @@ const ClientForm = ({disableHeader}) => {
             required: true
         },
         {
-            name: 'rg',
-            placeholder: 'RG *',
-            type: 'mask',
-            mask: '9999999999999',
-            maxlength: 100,
-            required: true
-        },
-        {
-            name: 'rg_organ',
-            placeholder: 'Órgão Expedidor do RG *',
-            type: 'text',
-            maxlength: 10,
-            required: true
-        },
-        {
-            name: 'rg_date',
-            placeholder: 'Data de Emissão do RG *',
-            type: 'mask',
-            maxlength: 10,
-            mask: "99/99/9999",
-            required: true
-        },
-        {
-            name: "sex",
-            placeholder: "Sexo *",
-            type: "select",
-            required: true,
-            data: ["Masculino", "Feminino"]
-        },
-        {
             name: 'cpf',
             placeholder: 'CPF *',
             type: 'mask',
@@ -253,40 +223,70 @@ const ClientForm = ({disableHeader}) => {
             mask: "999.999.999-99"
         },
         {
+            name: 'rg',
+            placeholder: 'RG',
+            type: 'mask',
+            mask: '9999999999999',
+            maxlength: 100,
+            required: false
+        },
+        {
+            name: 'rg_organ',
+            placeholder: 'Órgão Expedidor do RG',
+            type: 'text',
+            maxlength: 10,
+            required: false
+        },
+        {
+            name: 'rg_date',
+            placeholder: 'Data de Emissão do RG',
+            type: 'mask',
+            maxlength: 10,
+            mask: "99/99/9999",
+            required: false
+        },
+        {
+            name: "sex",
+            placeholder: "Sexo",
+            type: "select",
+            required: false,
+            data: ["Masculino", "Feminino"]
+        },
+        {
             name: 'ocupation',
-            placeholder: 'Profissão *',
+            placeholder: 'Profissão',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'email',
-            placeholder: 'Email *',
+            placeholder: 'Email',
             type: 'email',
             maxlength: 100,
-            required: true
+            required: false
         },
         {
             name: 'phone',
-            placeholder: 'Telefone *',
+            placeholder: 'Telefone',
             type: 'mask',
             maxlength: 14,
-            required: true,
+            required: false,
             mask: "(99)99999-9999"
         },
         {
             name: 'nationality',
-            placeholder: 'Nacionalidade *',
+            placeholder: 'Nacionalidade',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'naturality',
-            placeholder: 'Naturalidade *',
+            placeholder: 'Naturalidade',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'salary',
@@ -297,9 +297,9 @@ const ClientForm = ({disableHeader}) => {
         },
         {
             name: "state",
-            placeholder: "Estado Civil *",
+            placeholder: "Estado Civil",
             type: "select",
-            required: true,
+            required: false,
             data: ["Solteiro", "Casado", "Divorciado", "Viúvo"]
         },
         {
@@ -312,32 +312,32 @@ const ClientForm = ({disableHeader}) => {
         },
         {
             name: 'zipcode',
-            placeholder: 'CEP *',
+            placeholder: 'CEP',
             type: 'mask',
-            required: true,
+            required: false,
             mask: '99999-999'
         },  
         {
             name: 'city_id',
-            placeholder: 'Cidade *',
+            placeholder: 'Cidade',
             type: 'select',
-            required: true,
+            required: false,
             endpoint: "cities",
             endpoint_field: "name"
         },      
         {
             name: 'address',
-            placeholder: 'Endereço *',
+            placeholder: 'Endereço',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'neighborhood',
-            placeholder: 'Bairro *',
+            placeholder: 'Bairro',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'number',
@@ -395,69 +395,69 @@ const ClientForm = ({disableHeader}) => {
     const dependentFields = [
         {
             name: 'name_dependent',
-            placeholder: 'Nome Completo do Cônjugue *',
+            placeholder: 'Nome Completo do Cônjugue',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'rg_dependent',
-            placeholder: 'RG do Cônjugue *',
+            placeholder: 'RG do Cônjugue',
             type: 'mask',
             mask: '9999999999999',
             maxlength: 13,
-            required: true
+            required: false
         },
         {
             name: 'rg_dependent_organ',
-            placeholder: 'Órgão Expedidor do RG do Cônjugue *',
+            placeholder: 'Órgão Expedidor do RG do Cônjugue',
             type: 'text',
             maxlength: 10,
-            required: true
+            required: false
         },
         {
             name: 'rg_dependent_date',
-            placeholder: 'Data de Emissão do RG do Cônjugue *',
+            placeholder: 'Data de Emissão do RG do Cônjugue',
             type: 'mask',
             maxlength: 10,
-            required: true,
+            required: false,
             mask: "99/99/9999"
         },
         {
             name: "sex_dependent",
             placeholder: "Sexo",
             type: "select",
-            required: true,
+            required: false,
             data: ["Masculino", "Feminino"]
         },
         {
             name: 'cpf_dependent',
-            placeholder: 'CPF do Cônjugue *',
+            placeholder: 'CPF do Cônjugue',
             type: 'mask',
             maxlength: 14,
-            required: true,
+            required: false,
             mask: "999.999.999-99"
         },
         {
             name: 'nationality_dependent',
-            placeholder: 'Nacionalidade do Cônjugue *',
+            placeholder: 'Nacionalidade do Cônjugue',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'naturality_dependent',
-            placeholder: 'Naturalidade do Cônjugue *',
+            placeholder: 'Naturalidade do Cônjugue',
             type: 'text',
             maxlength: 255,
-            required: true
+            required: false
         },
         {
             name: 'ocupation_dependent',
-            placeholder: 'Profissão do Cônjugue *',
+            placeholder: 'Profissão do Cônjugue',
             type: 'text',
             maxlength: 255,
-            required: true,
+            required: false,
             mask: "999.999.999-99"
         },
         {

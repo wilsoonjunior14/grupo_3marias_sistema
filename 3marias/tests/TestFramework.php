@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-use function PHPUnit\Framework\assertNotNull;
-
 abstract class TestFramework extends TestCase
 {
 
@@ -81,29 +79,33 @@ abstract class TestFramework extends TestCase
         return $ddd . $middle . "-" . $end;
     }
 
+    function generateRandomBank() {
+        $banks = ["Caixa Econômica", "Santander", "Bradesco", "Banco do Brasil", "Banco do Nordeste"];
+        return $banks[random_int(0, count($banks) - 1)];
+    }
+
     function generateRandomString(int $length = 10): string {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return $this->generateRandom($characters, length: $length);
+    }
+
+    function generateRandomNumber(int $length = 10): string {
+        $digits = '0123456789';
+        return $this->generateRandom($digits, length: $length);
+    }
+
+    function generateRandomLetters(int $length = 10): string {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return $this->generateRandom($characters, length: $length);
+    }
+
+    function generateRandom($characters, int $length) {
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
-    }
-
-    function generateRandomBank() {
-        $banks = ["Caixa Econômica", "Santander", "Bradesco", "Banco do Brasil", "Banco do Nordeste"];
-        return $banks[random_int(0, count($banks) - 1)];
-    }
-
-    function generateRandomNumber(int $length = 10): string {
-        $digits = '0123456789';
-        $digitsLength = strlen($digits);
-        $randomDigits = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomDigits .= $digits[rand(0, $digitsLength - 1)];
-        }
-        return $randomDigits;
     }
 
     function getRandomRequestMethod() : string {

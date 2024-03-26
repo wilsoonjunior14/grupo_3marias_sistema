@@ -49,7 +49,7 @@ class ClientValidator extends ModelValidator
             }
         }
 
-        if (strcmp($data["state"], "Casado") === 0) {
+        if (isset($data["state"]) && strcmp($data["state"], "Casado") === 0) {
             $this->validateDependentData(data: $data);
             return;
         }

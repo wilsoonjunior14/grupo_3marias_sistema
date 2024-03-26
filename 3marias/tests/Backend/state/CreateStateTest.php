@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Feature\state;
-
 use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
@@ -10,7 +8,7 @@ use Tests\TestFramework;
 /**
  * This suite tests the GET /api/states
  */
-class CreateCountryTest extends TestFramework
+class CreateStateTest extends TestFramework
 {
 
     use RefreshDatabase;
@@ -119,7 +117,7 @@ class CreateCountryTest extends TestFramework
         parent::createCountry();
         
         $json = [
-            "name" => "12345",
+            "name" => null,
             "country_id" => 1,
             "acronym" => "ACD"
         ];
@@ -130,7 +128,7 @@ class CreateCountryTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$FIELD_MUSTBE_STRING, "nome")
+            "message" => "Campo nome é obrigatório."
         ]);
     }
 

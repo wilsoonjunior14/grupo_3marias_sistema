@@ -3316,4 +3316,63 @@ class CreateProposalIVTest extends TestFramework
             ]
         );
     }
+
+    /**
+     * @test
+     */
+    public function negTest_createProposal_with_zero_payment_values(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 0,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 0,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 0,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson(
+            [
+                "message" => sprintf(ErrorMessage::$FIELD_INVALID, "Valor de Pagamento de Cliente")
+            ]
+        );
+    }
 }

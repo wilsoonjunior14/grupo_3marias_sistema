@@ -377,10 +377,12 @@ const ProposalForm = ({}) => {
             code: paymentsClient.length,
             type: state.client_payment_type,
             value: state.client_payment_value,
-            desired_date: state.client_payment_date,
             description: state.client_payment_description,
             source: "Cliente" 
         };
+        if (state.client_payment_date && state.client_payment_date.toString().length > 0) {
+            paymentObj.desired_date = state.client_payment_date;
+        }
         const validated = onValidatePayment(paymentObj, false);
         if (validated) {
             paymentsClient.push(paymentObj);
@@ -417,12 +419,7 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Valor do Pagamento inválido."});
             return;
         }
-        if (!isBank) {
-            if (!obj.desired_date || obj.desired_date === "") {
-                setHttpError({message: "Data Prevista de Pagamento não informado."});
-                return;
-            }
-        }
+        // TODO: add validation for desired date
         if (!obj.description || obj.description === "") {
             setHttpError({message: "Descrição de Pagamento não informado."});
             return;
@@ -482,6 +479,7 @@ const ProposalForm = ({}) => {
             return;            
         }
 
+        // TODO: it can be improved by utility function
         const globalValue = Number(state.global_value.replace(".", "").replace(",", "."));
         const discount = Number(state.discount.replace(".", "").replace(",", "."));
 
@@ -493,7 +491,9 @@ const ProposalForm = ({}) => {
 
             const cPay = Object.assign({}, p);
             cPay.value = value;
-            cPay.desired_date = formatDateToServer(p.desired_date);
+            if (p.desired_date) {
+                cPay.desired_date = formatDateToServer(p.desired_date);
+            }
             clientPayments.push(cPay);
         });
         var bankPayments = [];
@@ -512,7 +512,6 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Pagamentos e Valor Global estão diferentes. Diferença de: "+diffFormated});
             return;
         }
-        
         setHttpSuccess(null);
         setHttpError(null);
 
@@ -800,20 +799,20 @@ const ProposalForm = ({}) => {
                                                 name="client_payment_value" />
                                             </Col>
                                             <Col>
-                                                <CustomInput type={"mask"} mask={"99/99/9999"}
-                                                maskPlaceholder={"Data Prevista *"} 
-                                                placeholder={"Data Prevista *"}
-                                                value={state.client_payment_date}
-                                                onChange={onChangeField} 
-                                                name="client_payment_date" />
-                                            </Col>
-                                            <Col>
                                                 <CustomInput type={"text"} 
                                                 placeholder={"Descrição *"} 
                                                 name={"client_payment_description"}
                                                 onChange={onChangeField}
                                                 value={state.client_payment_description}
                                                  />
+                                            </Col>
+                                            <Col>
+                                                <CustomInput type={"mask"} mask={"99/99/9999"}
+                                                maskPlaceholder={"Data Prevista"} 
+                                                placeholder={"Data Prevista"}
+                                                value={state.client_payment_date}
+                                                onChange={onChangeField} 
+                                                name="client_payment_date" />
                                             </Col>
                                             <Col>
                                                 <Button variant="success"
@@ -881,7 +880,7 @@ const ProposalForm = ({}) => {
                                                 value={state.bank_payment_type} />
                                             </Col>
                                             <Col>
-                                                <CustomInput type={"money"} placeholder={"Valor *"} 
+                                                <CustomInput type={"money"} placeholder={"Valor R$ *"} 
                                                 name="bank_payment_value"
                                                 onChange={onChangeField}
                                                 value={state.bank_payment_value2} />

@@ -20,11 +20,11 @@
 }
 
 .input-money-label { 
-    position: absolute !important;
+    position: relative !important;
+    top: 5px;
+    left: 12px;
     color: lightslategrey;
     font-size: 14px;
-    padding-left: 12px;
-    padding-top: 0px;
 }
 
 .input-money {
