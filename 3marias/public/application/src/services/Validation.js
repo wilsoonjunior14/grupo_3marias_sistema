@@ -8,10 +8,9 @@ export function validateRequired(array, field, fieldName) {
     }
 }
 
-export function validateRequiredString(array, field, maxlength, fieldName) {
-    const requiredFieldValidation = validateRequired(array, field, fieldName);
-    if (requiredFieldValidation) {
-        return requiredFieldValidation;
+export function validateString(array, field, maxlength, fieldName) {
+    if (!array[field]) {
+        return;
     }
     if (array[field].length < 3 || array[field].length > maxlength) {
         return returnMessage(fieldName + " deve conter entre 3 e 255 caracteres.");
@@ -19,6 +18,17 @@ export function validateRequiredString(array, field, maxlength, fieldName) {
     const regName = new RegExp(/^[a-z A-Z\u00C0-\u00FF]+$/g);
     if (!regName.test(array[field])) {
         return returnMessage(fieldName + " não é válido. Caracteres especiais ou números não são aceitos para este campo.");
+    }
+}
+
+export function validateRequiredString(array, field, maxlength, fieldName) {
+    const requiredFieldValidation = validateRequired(array, field, fieldName);
+    if (requiredFieldValidation) {
+        return requiredFieldValidation;
+    }
+    const validatedString = validateString(array, field, maxlength, fieldName);
+    if (validatedString) {
+        return validatedString;
     }
 }
 
@@ -39,6 +49,9 @@ function validateStringWithoutPattern(array, field, maxlength, fieldName) {
 }
 
 function validateRg(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     if (isRequired) {
         const requiredFieldValidation = validateRequired(array, field, fieldName);
         if (requiredFieldValidation) {
@@ -53,6 +66,9 @@ function validateRg(array, field, fieldName, isRequired) {
 }
 
 function validateRgOrgan(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     if (isRequired) {
         const requiredFieldValidation = validateRequired(array, field, fieldName);
         if (requiredFieldValidation) {
@@ -67,6 +83,9 @@ function validateRgOrgan(array, field, fieldName, isRequired) {
 }
 
 export function validateDate(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     if (isRequired) {
         const requiredFieldValidation = validateRequired(array, field, fieldName);
         if (requiredFieldValidation) {
@@ -95,7 +114,10 @@ export function validateCPF(array, field, fieldName) {
     }
 }
 
-export function validateEmail(array, field, fieldName) {
+export function validateEmail(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     const requiredFieldValidation = validateRequired(array, field, fieldName);
     if (requiredFieldValidation) {
         return requiredFieldValidation;
@@ -108,7 +130,10 @@ export function validateEmail(array, field, fieldName) {
     // }
 }
 
-export function validatePhone(array, field, fieldName) {
+export function validatePhone(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     const requiredFieldValidation = validateRequired(array, field, fieldName);
     if (requiredFieldValidation) {
         return requiredFieldValidation;
@@ -121,6 +146,9 @@ export function validatePhone(array, field, fieldName) {
 }
 
 export function validateMoney(array, field, fieldName, isRequired) {
+    if (!isRequired && !array[field]) {
+        return;
+    }
     if (isRequired) {
         const requiredFieldValidation = validateRequired(array, field, fieldName);
         if (requiredFieldValidation) {
@@ -204,27 +232,23 @@ export function validateClient(array) {
     if (clientNameValidation) {
         return clientNameValidation;
     }
-    const clientRGValidation = validateRg(array, "rg", "RG do Cliente", true);
-    if (clientRGValidation) {
-        return clientRGValidation;
-    }
-    const clientRGOrganValidation = validateRgOrgan(array, "rg_organ", "Òrgão do RG do Cliente", true);
-    if (clientRGOrganValidation) {
-        return clientRGOrganValidation;
-    }
-    const clientRGDateValidation = validateDate(array, "rg_date", "Data de Emissão do RG do Cliente", true);
-    if (clientRGDateValidation) {
-        return clientRGDateValidation;
-    }
-    const clientSexValidation = validateRequired(array, "sex", "Sexo do Cliente");
-    if (clientSexValidation) {
-        return clientSexValidation;
-    }
     const clientCPFValidation = validateCPF(array, "cpf", "CPF do Cliente");
     if (clientCPFValidation) {
         return clientCPFValidation;
     }
-    const clientOcupationValidation = validateRequiredString(array, "ocupation", 255, "Profissão do Cliente");
+    const clientRGValidation = validateRg(array, "rg", "RG do Cliente", false);
+    if (clientRGValidation) {
+        return clientRGValidation;
+    }
+    const clientRGOrganValidation = validateRgOrgan(array, "rg_organ", "Òrgão do RG do Cliente", false);
+    if (clientRGOrganValidation) {
+        return clientRGOrganValidation;
+    }
+    const clientRGDateValidation = validateDate(array, "rg_date", "Data de Emissão do RG do Cliente", false);
+    if (clientRGDateValidation) {
+        return clientRGDateValidation;
+    }
+    const clientOcupationValidation = validateString(array, "ocupation", 255, "Profissão do Cliente");
     if (clientOcupationValidation) {
         return clientOcupationValidation;
     }
@@ -240,22 +264,29 @@ export function validateClient(array) {
     if (clientSalaryValidation) {
         return clientSalaryValidation;
     }
-    const clientNaturalityValidation = validateRequiredString(array, "naturality", 100, "Naturalidade do Cliente");
+    const clientNaturalityValidation = validateString(array, "naturality", 100, "Naturalidade do Cliente");
     if (clientNaturalityValidation) {
         return clientNaturalityValidation;
     }
-    const clientNationalityValidation = validateRequiredString(array, "nationality", 100, "Nacionalidade do Cliente");
+    const clientNationalityValidation = validateString(array, "nationality", 100, "Nacionalidade do Cliente");
     if (clientNationalityValidation) {
         return clientNationalityValidation;
-    }
-    const clientStateValidation = validateRequired(array, "state", "Estado Civil do Cliente");
-    if (clientStateValidation) {
-        return clientStateValidation;
     }
     const clientBirthdateValidation = validateDate(array, "birthdate", "Data de Nascimento do Cliente", false);
     if (clientBirthdateValidation) {
         return clientBirthdateValidation;
     }
+
+    // if there is some field related to address, we need validate the all address fields.
+    if (!((array["address"] && array["address"].length > 0) || 
+        (array["neighborhood"] && array["neighborhood"].length > 0) || 
+        (array["zipcode"] && array["zipcode"].length > 0) || 
+        (array["city_id"] && array["city_id"].length > 0) || 
+        (array["complement"] && array["complement"].length > 0) || 
+        (array["number"] && array["number"].length > 0))) {
+            return;
+    } 
+
     const addressValidation = validateAddress(array);
     if (addressValidation) {
         return addressValidation;

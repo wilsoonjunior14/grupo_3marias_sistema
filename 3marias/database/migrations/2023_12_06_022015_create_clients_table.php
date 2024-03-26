@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name", 255);
-            $table->enum("state", ["Solteiro", "Casado", "Divorciado", "Viúvo"]);
-            $table->enum("sex", ["Masculino", "Feminino", "Outro"]);
-            $table->string("nationality", 255);
-            $table->string("naturality", 255);
-            $table->string("ocupation", 255);
-            $table->string("rg", 13);
-            $table->date("rg_date", 10);
-            $table->string("rg_organ", 10);
+            $table->enum("state", ["Solteiro", "Casado", "Divorciado", "Viúvo"])->nullable();
+            $table->enum("sex", ["Masculino", "Feminino", "Outro"])->nullable();
+            $table->string("nationality", 255)->nullable();
+            $table->string("naturality", 255)->nullable();
+            $table->string("ocupation", 255)->nullable();
+            $table->string("rg", 13)->nullable();
+            $table->date("rg_date", 10)->nullable();
+            $table->string("rg_organ", 10)->nullable();
             $table->string("cpf", 14);
             $table->date("birthdate")->nullable();
             $table->string("phone", 20)->nullable();
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string("has_fgts_dependent", 3)->nullable();
             $table->string("has_many_buyers_dependent", 3)->nullable();
 
-            $table->integer('address_id')->unsigned();
+            $table->integer('address_id')->unsigned()->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
 
             $table->boolean("deleted")->default(false);

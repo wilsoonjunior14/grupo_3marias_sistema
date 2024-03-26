@@ -1,7 +1,7 @@
 <?php
 
-namespace Tests\Feature\category;
-
+use App\Models\Country;
+use App\Utils\UpdateUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
@@ -28,11 +28,11 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_without_authentication_before(): void {
-        $json = [];
+        $country = new Country();
 
         $response = $this
         ->withHeaders([])
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(401);
         $response->assertJson([
@@ -60,13 +60,13 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_with_empty_name(): void {
-        $json = [
-            "name" => ""
-        ];
+        $country = new Country();
+        $country
+            ->withName("");
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -78,13 +78,13 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_with_null_name(): void {
-        $json = [
-            "name" => null
-        ];
+        $country = new Country();
+        $country
+            ->withName(null);
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -96,13 +96,13 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_with_short_name(): void {
-        $json = [
-            "name" => parent::generateRandomString(2)
-        ];
+        $country = new Country();
+        $country
+            ->withName(parent::generateRandomString(2));
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -114,13 +114,13 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_with_long_name(): void {
-        $json = [
-            "name" => parent::generateRandomString(500)
-        ];
+        $country = new Country();
+        $country
+            ->withName(parent::generateRandomString(500));
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -131,36 +131,14 @@ class CreateCountryTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createCountry_with_correct_name(): void {
-        $json = [
-            "name" => "Chile",
-            "acronym" => "CHI"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
-
-        $response->assertStatus(201);
-        $response->assertJson([
-            "name" => $json["name"]
-        ]);
-        $response->assertJson([
-            "deleted" => false
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createCountry_with_numbers_in_name(): void {
-        $json = [
-            "name" => "12345".parent::generateRandomString(10)
-        ];
+        $country = new Country();
+        $country
+            ->withName("12345".parent::generateRandomString(10));
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -172,13 +150,12 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function negTest_createCountry_with_special_chars_in_name(): void {
-        $json = [
-            "name" => "@#$%".parent::generateRandomString(10)
-        ];
+        $country = new Country();
+        $country->name = "@#$%".parent::generateRandomString(10);
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -190,21 +167,39 @@ class CreateCountryTest extends TestFramework
      * @test
      */
     public function posTest_createCountry_with_name_containing_spaces(): void {
-        $json = [
-            "name" => "Nova Zelândia",
-            "acronym" => "NZA"
-        ];
+        $country = new Country();
+        $country
+            ->withName(parent::generateRandomLetters(4) . " " . parent::generateRandomLetters(8))
+            ->withAcronym(strtoupper(parent::generateRandomLetters(3)));
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/countries", $json);
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
 
         $response->assertStatus(201);
         $response->assertJson([
-            "name" => $json["name"]
-        ]);
-        $response->assertJson([
+            "name" => $country->name,
             "deleted" => false
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createCountry_with_correct_name(): void {
+        $country = new Country();
+        $country
+            ->withName(parent::generateRandomLetters(5))
+            ->withAcronym(strtoupper(parent::generateRandomLetters(3)));
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/countries", UpdateUtils::convertModelToArray(baseModel: $country));
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $country->name,
+            "deleted" => $country->deleted
         ]);
     }
 }

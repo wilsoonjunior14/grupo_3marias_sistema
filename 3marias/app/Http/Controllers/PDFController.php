@@ -7,7 +7,6 @@ use App\Business\ContractBusiness;
 use App\Business\EnterpriseBusiness;
 use App\Business\EnterpriseOwnerBusiness;
 use App\Business\ProposalBusiness;
-use App\Models\EnterpriseOwner;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller

@@ -6,6 +6,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
 
+use function PHPUnit\Framework\assertNotNull;
+use function PHPUnit\Framework\assertNull;
+
 /**
  * This suite tests the POST /api/v1/clients
  */
@@ -292,5 +295,31 @@ class CreateClientTest extends TestFramework
             "birthdate_dependent" => $payload["birthdate_dependent"],
             "sex_dependent" => $payload["sex_dependent"]
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_required_fields(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf()
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $json = $response->decodeResponseJson();
+        $response->assertJson([
+            "address_id" => null,
+            "cpf" => $payload["cpf"],
+            "id" => 1,
+            "name" => $payload["name"]
+        ]);
+        assertNotNull($json["created_at"]);
+        assertNotNull($json["updated_at"]);
+        assertNull($json["address_id"]);
     }
 }

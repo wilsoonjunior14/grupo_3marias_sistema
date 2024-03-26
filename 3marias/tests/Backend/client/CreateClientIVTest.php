@@ -151,6 +151,7 @@ class CreateClientIVTest extends TestFramework
     public function negTest_createClients_with_null_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
             "rg" => null
         ];
 
@@ -160,7 +161,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo RG do Cliente é obrigatório.'
+            "message" => 'Campo RG do Cliente deve conter no mínimo 13 caracteres.'
         ]);
     }
         
@@ -170,6 +171,7 @@ class CreateClientIVTest extends TestFramework
     public function negTest_createClients_with_empty_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
             "rg" => ""
         ];
 
@@ -179,7 +181,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo RG do Cliente é obrigatório.'
+            "message" => 'Campo RG do Cliente deve conter no mínimo 13 caracteres.'
         ]);
     }
 
@@ -243,28 +245,10 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_rg_organ(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Órgão do RG do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
             "rg" => "2009999999999",
             "rg_organ" => null
         ];
@@ -275,7 +259,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Órgão do RG do Cliente é obrigatório.'
+            "message" => 'Campo Órgão RG do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -285,6 +269,7 @@ class CreateClientIVTest extends TestFramework
     public function negTest_createClients_with_empty_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
             "rg" => "2009999999999",
             "rg_organ" => ""
         ];
@@ -295,7 +280,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Órgão do RG do Cliente é obrigatório.'
+            "message" => 'Campo Órgão RG do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -402,26 +387,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_rgDate(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Data de Emissão do RG do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_rgDate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -436,7 +401,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Data de Emissão do RG do Cliente é obrigatório.'
+            "message" => 'Campo de Data de Emissão do RG do Cliente é inválido.'
         ]);
     }
 
@@ -457,7 +422,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Data de Emissão do RG do Cliente é obrigatório.'
+            "message" => 'Campo de Data de Emissão do RG do Cliente é inválido.'
         ]);
     }
 
@@ -594,28 +559,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_state(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf()
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Estado Civil do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_state(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -632,7 +575,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Estado Civil do Cliente é obrigatório.'
+            "message" => 'Campo Estado Civil do Cliente é inválido.'
         ]);
     }
 
@@ -655,7 +598,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Estado Civil do Cliente é obrigatório.'
+            "message" => 'Campo Estado Civil do Cliente é inválido.'
         ]);
     }
 
@@ -685,29 +628,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_sex(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Sexo do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_sex(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -725,7 +645,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Sexo do Cliente é obrigatório.'
+            "message" => 'Campo Sexo do Cliente é inválido.'
         ]);
     }
 
@@ -749,7 +669,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Sexo do Cliente é obrigatório.'
+            "message" => 'Campo Sexo do Cliente é inválido.'
         ]);
     }
 
@@ -780,30 +700,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_nationality(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro",
-            "sex" => "Outro"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Nacionalidade do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -822,7 +718,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Nacionalidade do Cliente é obrigatório.'
+            "message" => 'Campo Nacionalidade do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -847,7 +743,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Nacionalidade do Cliente é obrigatório.'
+            "message" => 'Campo Nacionalidade do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -929,31 +825,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_naturality(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro",
-            "sex" => "Outro",
-            "nationality" => "Brasileira"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Naturalidade do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_naturality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -973,7 +844,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Naturalidade do Cliente é obrigatório.'
+            "message" => 'Campo Naturalidade do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -999,7 +870,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Naturalidade do Cliente é obrigatório.'
+            "message" => 'Campo Naturalidade do Cliente deve conter no mínimo 3 caracteres.'
         ]);
     }
 
@@ -1026,32 +897,6 @@ class CreateClientIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson([
             "message" => 'Campo Naturalidade do Cliente está inválido.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_createClients_without_ocupation(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro",
-            "sex" => "Outro",
-            "nationality" => "Brasileira",
-            "naturality" => "Ibiapina"
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Profissão do Cliente é obrigatório.'
         ]);
     }
 
@@ -1139,33 +984,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_email(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro",
-            "sex" => "Outro",
-            "nationality" => "Brasileira",
-            "naturality" => "Ibiapina",
-            "ocupation" => parent::generateRandomString()
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo Email do Cliente é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_null_email(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1187,7 +1005,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Email do Cliente é obrigatório.'
+            "message" => 'Campo Email do Cliente está inválido.'
         ]);
     }
 
@@ -1250,7 +1068,7 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_phone(): void {
+    public function posTest_createClients_without_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
             "rg" => "2009999999999",
@@ -1269,9 +1087,19 @@ class CreateClientIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
+        $response->assertStatus(201);
         $response->assertJson([
-            "message" => 'Campo Telefone do Cliente é obrigatório.'
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"],
+            "nationality" => $payload["nationality"],
+            "naturality" => $payload["naturality"],
+            "ocupation" => $payload["ocupation"],
+            "email" => $payload["email"]
         ]);
     }
 
@@ -1300,7 +1128,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Telefone do Cliente é obrigatório.'
+            "message" => 'Campo Telefone do Cliente está inválido.'
         ]);
     }
 
@@ -1329,7 +1157,7 @@ class CreateClientIVTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Telefone do Cliente é obrigatório.'
+            "message" => 'Campo Telefone do Cliente está inválido.'
         ]);
     }
 
@@ -1912,36 +1740,6 @@ class CreateClientIVTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createClients_without_address(): void {
-        $payload = [
-            "name" => parent::generateRandomString(),
-            "rg" => "2009999999999",
-            "rg_organ" => "ssp/ce",
-            "rg_date" => "2024-02-10",
-            "cpf" => parent::generateRandomCpf(),
-            "state" => "Solteiro",
-            "sex" => "Outro",
-            "nationality" => "Brasileira",
-            "naturality" => "Ibiapina",
-            "ocupation" => parent::generateRandomString(),
-            "phone" => "(00)00000-0000",
-            "email" => parent::generateRandomEmail(),
-            "birthdate" => date('Y-m-d')
-        ];
-
-        $response = $this
-        ->withHeaders(parent::getHeaders())
-        ->post("/api/v1/clients", $payload);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            "message" => 'Campo endereço é obrigatório.'
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function negTest_createClients_with_wrong_type_address(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2328,6 +2126,280 @@ class CreateClientIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson([
             "message" => 'Campo de cep é inválido.'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_without_address(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro",
+            "sex" => "Outro",
+            "nationality" => "Brasileira",
+            "naturality" => "Ibiapina",
+            "ocupation" => parent::generateRandomString(),
+            "phone" => "(00)00000-0000",
+            "email" => parent::generateRandomEmail(),
+            "birthdate" => date('Y-m-d')
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"],
+            "nationality" => $payload["nationality"],
+            "naturality" => $payload["naturality"],
+            "ocupation" => $payload["ocupation"],
+            "phone" => $payload["phone"],
+            "email" => $payload["email"],
+            "birthdate" => $payload["birthdate"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality_naturality_ocupation(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro",
+            "sex" => "Outro",
+            "nationality" => "Brasileira",
+            "naturality" => "Ibiapina",
+            "ocupation" => parent::generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"],
+            "nationality" => $payload["nationality"],
+            "naturality" => $payload["naturality"],
+            "ocupation" => $payload["ocupation"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality_naturality(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro",
+            "sex" => "Outro",
+            "nationality" => "Brasileira",
+            "naturality" => "Ibiapina"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"],
+            "nationality" => $payload["nationality"],
+            "naturality" => $payload["naturality"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro",
+            "sex" => "Outro",
+            "nationality" => "Brasileira"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"],
+            "nationality" => $payload["nationality"]
+        ]);
+    }
+
+        /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro",
+            "sex" => "Outro"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"],
+            "sex" => $payload["sex"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate_state(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf(),
+            "state" => "Solteiro"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"],
+            "state" => $payload["state"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgorgan_rgdate(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce",
+            "rg_date" => "2024-02-10",
+            "cpf" => parent::generateRandomCpf()
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"],
+            "rg_date" => $payload["rg_date"],
+            "cpf" => $payload["cpf"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg_rgOrgan(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
+            "rg" => "2009999999999",
+            "rg_organ" => "ssp/ce"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "cpf" => $payload["cpf"],
+            "rg" => $payload["rg"],
+            "rg_organ" => $payload["rg_organ"]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function posTest_createClients_with_rg(): void {
+        $payload = [
+            "name" => parent::generateRandomString(),
+            "cpf" => parent::generateRandomCpf(),
+            "rg" => "2009999999999"
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/clients", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $payload["name"],
+            "cpf" => $payload["cpf"],
+            "rg" => $payload["rg"]
         ]);
     }
 }

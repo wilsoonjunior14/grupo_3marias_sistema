@@ -10,7 +10,6 @@ use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ClientValidator;
-use Exception;
 use Illuminate\Http\Request;
 
 class ClientBusiness {
@@ -23,8 +22,10 @@ class ClientBusiness {
             $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
             $client->birthdate = !is_null($client->birthdate) ? date_format(date_create($client->birthdate),"d/m/Y") : "";
             $client->rg_date = !is_null($client->rg_date) ? date_format(date_create($client->rg_date),"d/m/Y") : "";
-            $address = (new AddressBusiness())->getById($client->address_id);
-            $client = $this->mountClientAddressInline(client: $client, address: $address);
+            if (!is_null($client->address_id)) {
+                $address = (new AddressBusiness())->getById($client->address_id);
+                $client = $this->mountClientAddressInline(client: $client, address: $address);
+            }
         }
         Logger::info("Foram recuperados {$amount} clientes.");
         Logger::info("Finalizando a recuperação de clientes.");
@@ -52,7 +53,7 @@ class ClientBusiness {
         if (is_null($client)) {
             throw new InputValidationException(ErrorMessage::$ENTITY_NOT_FOUND);   
         }
-        if ($mergeFields) {
+        if ($mergeFields && !is_null($client->address_id)) {
             $address = (new AddressBusiness())->getById($client->address_id, merge: $mergeFields);
             $client = $this->mountClientAddressInline($client, $address);
         }
@@ -82,15 +83,19 @@ class ClientBusiness {
         $clientValidator = new ClientValidator(Client::$rules, Client::$rulesMessages);
         $clientValidator->validateData(request: $request);
 
-        $address = (new AddressBusiness())->create($data);
+        $addressId = null;
+        if (isset($data["address"])) {
+            $address = (new AddressBusiness())->create($data);
+            $addressId = $address->id;
+        }
         
-        if (strcmp($data["state"], "Casado") !== 0) {
+        if (!isset($data["state"]) || strcmp($data["state"], "Casado") !== 0) {
             Logger::info("Removendo campos de dependented.");
             $data = UpdateUtils::deleteFields(targetData: $data, fields: Client::$dependentFields);
         }
         Logger::info("Salvando o novo cliente.");
         $client = new Client($data);
-        $client->address_id = $address->id;
+        $client->address_id = $addressId;
         $client->save();
         Logger::info("Finalizando a atualização de cliente.");
         return $client;
