@@ -74,8 +74,6 @@ Route::get('/states/{id}', [StateController::class, 'getByCountry']);
  * Protected routes
  */
 Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed']], function() {
-    // Contract Model api routes
-    Route::apiResource('/contractsModels', ContractModelController::class);
 
     // Stocks api routes
     Route::apiResource('/stocks', StockController::class);
@@ -99,9 +97,6 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // EnterpriseFiles api routes
     Route::apiResource('/enterpriseFiles', EnterpriseFileController::class);
-
-    // DocumentTypes api routes
-    Route::apiResource('/documentTypes', DocumentTypeController::class);
 
     // Products api routes
     Route::apiResource('/products', ProductController::class);

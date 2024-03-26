@@ -377,10 +377,12 @@ const ProposalForm = ({}) => {
             code: paymentsClient.length,
             type: state.client_payment_type,
             value: state.client_payment_value,
-            desired_date: state.client_payment_date,
             description: state.client_payment_description,
             source: "Cliente" 
         };
+        if (state.client_payment_date && state.client_payment_date.toString().length > 0) {
+            paymentObj.desired_date = state.client_payment_date;
+        }
         const validated = onValidatePayment(paymentObj, false);
         if (validated) {
             paymentsClient.push(paymentObj);
