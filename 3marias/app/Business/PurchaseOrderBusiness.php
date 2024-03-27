@@ -143,4 +143,30 @@ class PurchaseOrderBusiness {
         }
     }
 
+    public function reject(int $id) {
+        Logger::info("Rejeitando uma ordem de compra $id.");
+        $purchase = $this->getById(id: $id, mergeFields: false);
+        if ($purchase->status !== 0) {
+            throw new InputValidationException("Status da Ordem de Compra não pode ser modificada.");
+        }
+        $purchase->status = 1;
+        $purchase->save();
+        Logger::info("Finalizando rejeição de ordem de compra $id.");
+        return $purchase;
+    }
+
+    public function approve(int $id) {
+        Logger::info("Aprovando uma ordem de compra $id.");
+        $purchase = $this->getById(id: $id, mergeFields: false);
+        if ($purchase->status !== 0) {
+            throw new InputValidationException("Status da Ordem de Compra não pode ser modificada.");
+        }
+        $purchase->status = 2;
+        $purchase->save();
+        
+        // TODO: need clone the purchase order items to cost center items
+        Logger::info("Finalizando aprovação de ordem de compra $id.");
+        return $purchase;
+    }
+
 }

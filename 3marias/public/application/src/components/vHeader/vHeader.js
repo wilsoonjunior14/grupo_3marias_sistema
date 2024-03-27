@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import '../../App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -13,10 +13,11 @@ import VHeaderProposals from "./vHeaderProposals";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
 import { isLogged } from "../../services/Storage";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
+    const navigate = useNavigate();
     const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red"; 
     const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
     const initialStateItems = [
@@ -93,12 +94,13 @@ function VHeader() {
         }
     }
 
-    useEffect(() => {
+    const onCheckUserIsLogged = () => {
         const userIsLogged = isLogged();
         if (!userIsLogged) {
-            Navigate("/login?message=Vm9jw6ogZGV2ZSByZWFsaXphciBvIGxvZ2luIG5vdmFtZW50ZQ==");
+            window.location.href = "/login?message=RGV2ZS1zZSByZWFsaXphciBvIGxvZ2luIG5vdmFtZW50ZSE=";
         }
-    }, []);
+    }
+    onCheckUserIsLogged();
 
     return (
         <>

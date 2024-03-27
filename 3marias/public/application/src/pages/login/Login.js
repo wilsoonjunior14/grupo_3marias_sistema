@@ -19,6 +19,7 @@ function Login() {
     const [isLoading, setLoading] = useState(false);
     const [inputData, setInputData] = useState({});
     const [httpError, setHttpError] = useState(null);
+    const [loginValidated, setLoginValidated] = useState(false);
     const navigate = useNavigate();
 
     const submit = (event) => {
@@ -60,6 +61,20 @@ function Login() {
         const value = e.target.value;
         setInputData(values => ({...values, [name]: value}));
     };
+
+    const onSetErrorMessage = () => {
+        if (loginValidated) {
+            return;
+        }
+        setLoginValidated(true);
+        const message = (new URLSearchParams(window.location.search)).get("message");
+        if (message) {
+            setHttpError({message: atob(message)});
+        }
+    }
+    setTimeout(() => {
+        onSetErrorMessage();
+    }, 2000);
 
     return (
         <div className="Display">
