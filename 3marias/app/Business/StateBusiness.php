@@ -34,6 +34,7 @@ class StateBusiness {
         $state = new State($data);
         $state->save();
         Logger::info("Finalizando a atualização da entidade.");
+        return $state;
     }
 
     public function getById(int $id) {
@@ -54,6 +55,7 @@ class StateBusiness {
         $state->deleted = true;
         $state->save();
         Logger::info("Finalizando a deleção da entidade {$id}.");
+        return $state;
     }
 
     public function update(int $id, Request $request) {
@@ -70,6 +72,7 @@ class StateBusiness {
         Logger::info("Salvando as atualizações.");
         $stateUpdated->save();
         Logger::info("Finalizando a atualização de país.");
+        return $stateUpdated;
     }
 
     /**

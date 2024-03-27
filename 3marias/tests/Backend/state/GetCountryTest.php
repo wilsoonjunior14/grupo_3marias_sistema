@@ -75,7 +75,7 @@ class GetCountryTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "estados")
+            "message" => "Identificador de Estado não existe."
         ]);
     }
 
