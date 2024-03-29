@@ -35,7 +35,7 @@ class StockController extends Controller implements APIController
      * Gets a stocks model by id.
      */
     public function show($id) {
-        $stock = $this->stockBusiness->getById(id: $id);
+        $stock = $this->stockBusiness->getById(id: $id, mergeFields: true);
         return ResponseUtils::getResponse($stock, 200);
     }
 

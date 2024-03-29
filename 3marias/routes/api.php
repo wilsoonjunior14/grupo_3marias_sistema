@@ -146,6 +146,8 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/categories', CategoryController::class);
     // Route api purchaseOrders
     Route::apiResource('/purchaseOrders', PurchaseOrderController::class);
+    Route::post('/purchaseOrders/approve/{id}', [PurchaseOrderController::class, 'approve']);
+    Route::post('/purchaseOrders/reject/{id}', [PurchaseOrderController::class, 'reject']);
     // Route api enterprises
     Route::apiResource('/enterprises', EnterpriseController::class);
     // Route api states

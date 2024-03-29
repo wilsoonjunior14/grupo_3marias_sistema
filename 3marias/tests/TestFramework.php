@@ -140,10 +140,11 @@ abstract class TestFramework extends TestCase
     }
 
     function createPurchaseOrder() {
-        $this->createPartner(); // id = 1
+        $this->createPartner(cnpj: $this->generateRandomCnpj()); // id = 1
         $this->createStock(); // id = 1
         $this->createProduct(); // id = 1
         $this->createProduct(); // id = 2
+        $this->createProduct(); // id = 3
 
         $purchase = new PurchaseOrder();
         $purchase

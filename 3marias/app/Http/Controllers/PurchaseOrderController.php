@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Business\PurchaseOrderBusiness;
-use App\Exceptions\MethodNotImplementedYet;
 use Illuminate\Http\Request;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
@@ -63,6 +62,22 @@ class PurchaseOrderController extends Controller implements APIController
      */
     public function create(Request $request) {
         return $this->store(request: $request);
+    }
+
+    /**
+     * Approves a purchase by id.
+     */
+    public function approve($id) {
+        $purchase = $this->purchaseBusiness->approve(id: $id);
+        return ResponseUtils::getResponse($purchase, 200);
+    }
+
+    /**
+     * Rejects a purchase by id.
+     */
+    public function reject($id) {
+        $purchase = $this->purchaseBusiness->reject(id: $id);
+        return ResponseUtils::getResponse($purchase, 200);
     }
 
 }
