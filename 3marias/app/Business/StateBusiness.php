@@ -9,7 +9,6 @@ use App\Models\State;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
-use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
 
 class StateBusiness {
@@ -80,14 +79,11 @@ class StateBusiness {
      */
     private function validateStateData(Request $request, int $id = null) {
         $data = $request->all();
-        $validator = new ModelValidator(State::$rules, State::$rulesMessages);
-        $stateValidation = $validator->validate($data);
-        if ($stateValidation !== null) {
-            throw new InputValidationException($stateValidation);
-        }
+        $state = new State($data);
+        $state->validate(rules: State::$rules, rulesMessages: State::$rulesMessages);
 
         $condition = [["name", "like", "%" . $data["name"] . "%"]];
-        $existsState = (new State())->existsEntity(condition: $condition, id: $id);
+        $existsState = $state->existsEntity(condition: $condition, id: $id);
         if ($existsState) {
             throw new EntityAlreadyExistsException(ErrorMessage::$ENTITY_EXISTS);
         }

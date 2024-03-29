@@ -44,18 +44,6 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    private function sendPutRequest(string $url, array $headers, BaseModel $model) {
-        return $this
-        ->withHeaders($headers)
-        ->put($url, UpdateUtils::convertModelToArray(baseModel: $model));
-    }
-
-    private function sendGetRequest(string $url, array $headers) {
-        return $this
-        ->withHeaders($headers)
-        ->get($url);
-    }
-
     /**
      * @test
      */

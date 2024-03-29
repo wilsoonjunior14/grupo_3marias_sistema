@@ -46,7 +46,8 @@ class PurchaseOrderController extends Controller implements APIController
      * Deletes a purchase by id.
      */
     public function destroy($id) {
-        throw new MethodNotImplementedYet("Método não implementado ainda.");
+        $purchase = $this->purchaseBusiness->delete(id: $id);
+        return ResponseUtils::getResponse($purchase, 200);
     }
 
     /**

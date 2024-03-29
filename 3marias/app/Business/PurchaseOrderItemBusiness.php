@@ -4,11 +4,8 @@ namespace App\Business;
 
 use App\Exceptions\InputValidationException;
 use App\Models\Logger;
-use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use App\Utils\ErrorMessage;
-use App\Validation\ModelValidator;
-use Illuminate\Http\Request;
 
 class PurchaseOrderItemBusiness {
 
@@ -29,6 +26,13 @@ class PurchaseOrderItemBusiness {
         $purchaseItem->save();
         Logger::info("Finalizando Deleção de um item $id da ordem de compra.");
         return $purchaseItem;
+    }
+
+    public function getByPurchaseId(int $id) {
+        Logger::info("Iniciando a recuperação de itens da ordem de compra.");
+        $items = (new PurchaseOrderItem())->getByPurchaseOrder(id: $id);
+        Logger::info("Finalizando a recuperação de itens da ordem de compra.");
+        return $items;
     }
 
     public function deleteByPurchaseId(int $id) {

@@ -1,9 +1,7 @@
 <?php
 
-use App\Models\BaseModel;
 use App\Models\CategoryService;
 use App\Utils\ErrorMessage;
-use App\Utils\UpdateUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
@@ -42,12 +40,6 @@ class CreateCategoryServiceTest extends TestFramework
         $response->assertJson([
             "message" => 'Unauthenticated.'
         ]);
-    }
-
-    private function sendPostRequest(string $url, array $headers, BaseModel $model) {
-        return $this
-        ->withHeaders($headers)
-        ->post($url, UpdateUtils::convertModelToArray(baseModel: $model));
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\InputValidationException;
+use App\Utils\UpdateUtils;
+use App\Validation\ModelValidator;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
@@ -44,4 +47,14 @@ class BaseModel extends Model
         return count($entities) > 0;
     }
 
+    /**
+     * Checks if the model validation is ok.
+     */
+    public function validate(array $rules, array $rulesMessages) {
+        $modelValidator = new ModelValidator($rules, $rulesMessages);
+        $hasErrors = $modelValidator->validate(data: UpdateUtils::convertModelToArray(baseModel: $this));
+        if (!is_null($hasErrors)) {
+            throw new InputValidationException($hasErrors);
+        }
+    }
 }

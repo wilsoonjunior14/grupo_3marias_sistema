@@ -13,10 +13,10 @@ class PurchaseOrder extends BaseModel
 
     static $rules = [
         'description' => 'required|max:100|min:3|string',
-        'date' => 'required|date',
+        'date' => 'required|date|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
         'status' => 'required|in:0,1,2',
-        'partner_id' => 'required|integer',
-        'cost_center_id' => 'required|integer'
+        'partner_id' => 'required|integer|gt:0',
+        'cost_center_id' => 'required|integer|gt:0'
     ];
 
     static $rulesMessages = [
@@ -26,11 +26,44 @@ class PurchaseOrder extends BaseModel
         'description.string' => 'Campo Descrição da Ordem de Compra está inválido.',
         'date.required' => 'Campo Data da Ordem de Compra é obrigatório.',
         'date.date' => 'Campo Data da Ordem de Compra está inválido.',
+        'date.regex' => 'Campo Data da Ordem de Compra está inválido.',
         'partner_id.required' => 'Campo Identificador do Parceiro/Fornecedor é obrigatório.',
         'partner_id.integer' => 'Campo Identificador do Parceiro/Fornecedor está inválido.',
+        'partner_id.gt' => 'Campo Identificador do Parceiro/Fornecedor está inválido.',
         'cost_center_id.required' => 'Campo Identificador do Centro de Custo é obrigatório.',
         'cost_center_id.integer' => 'Campo Identificador do Centro de Custo está inválido.',
+        'cost_center_id.gt' => 'Campo Identificador do Centro de Custo está inválido.',
         'status.required' => 'Campo Status da Ordem de Compra é obrigatório.',
         'status.in' => 'Campo Status da Ordem de Compra está inválido.'
     ];
+
+    public function withDescription($description) {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function withDate($date) {
+        $this->date = $date;
+        return $this;
+    }
+
+    public function withPartnerId($partnerId) {
+        $this->partner_id = $partnerId;
+        return $this;
+    }
+
+    public function withCostCenterId($cost_center_id) {
+        $this->cost_center_id = $cost_center_id;
+        return $this;
+    }
+
+    public function withStatus($status) {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function withProducts($products) {
+        $this->products = $products;
+        return $this;
+    }
 }

@@ -65,6 +65,17 @@ class PurchaseOrderBusiness {
         return $purchase;
     }
 
+    public function delete(int $id) {
+        $purchase = $this->getById(id: $id);
+        Logger::info("Deletando a ordem de compra $id.");
+        $purchase->deleted = true;
+        $purchase->save();
+
+        Logger::info("Deletando itens da ordem de compra $id.");
+        (new PurchaseOrderItemBusiness())->deleteByPurchaseId(id: $id);
+        return $purchase;
+    }
+
     public function create(Request $request) {
         Logger::info("Iniciando a criação de ordem de compra.");
         Logger::info("Validando as informações fornecidas.");
@@ -127,13 +138,14 @@ class PurchaseOrderBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        (new PartnerBusiness())->getById(id: $data["partner_id"]);
 
         // Validating the purchase order items
         if (!isset($data["products"]) || empty($data["products"]) || !is_array($data["products"])) {
             throw new InputValidationException(sprintf(ErrorMessage::$FIELD_NOT_PROVIDED, "Lista de Produtos"));
         }
         foreach ($data["products"] as $product) {
-            $product["purchase_order_id"] = 0; // Using 0 for validate the purchase order item
+            $product["purchase_order_id"] = 1; // Using 1 only for validate the purchase order item
             $purchaseOrderItemValidator = new ModelValidator(PurchaseOrderItem::$rules, PurchaseOrderItem::$rulesMessages);
             $itemValidation = $purchaseOrderItemValidator->validate($product);
             if (!is_null($itemValidation)) {
@@ -163,8 +175,17 @@ class PurchaseOrderBusiness {
         }
         $purchase->status = 2;
         $purchase->save();
+
+        // Updating the items of the Matriz Cost Center
+        $purchaseOrderItemBusiness = new PurchaseOrderItemBusiness();
+        $stockBusiness = new StockBusiness();
+        $purchaseItems = $purchaseOrderItemBusiness->getByPurchaseId(id: $purchase->id);
+        $stockMatriz = $stockBusiness->getById(id: 1, mergeFields: true);
+
+        foreach ($purchaseItems as $purchaseItem) {
+            $stockBusiness->refreshStockItem(purchaseItem: $purchaseItem, stock: $stockMatriz);
+        }
         
-        // TODO: need clone the purchase order items to cost center items
         Logger::info("Finalizando aprovação de ordem de compra $id.");
         return $purchase;
     }

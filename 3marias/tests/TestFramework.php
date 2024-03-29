@@ -2,6 +2,9 @@
 
 namespace Tests;
 
+use App\Models\BaseModel;
+use App\Models\PurchaseOrder;
+use App\Utils\UpdateUtils;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -53,6 +56,24 @@ abstract class TestFramework extends TestCase
 
     public function setToken(string $newToken = "") {
         $this->token = $newToken;
+    }
+
+    public function sendPostRequest(string $url, BaseModel $model, array $headers = []) {
+        return $this
+        ->withHeaders($headers)
+        ->post($url, UpdateUtils::convertModelToArray(baseModel: $model));
+    }
+
+    public function sendPutRequest(string $url, BaseModel $model, array $headers = []) {
+        return $this
+        ->withHeaders($headers)
+        ->put($url, UpdateUtils::convertModelToArray(baseModel: $model));
+    }
+
+    public function sendGetRequest(string $url, array $headers = []) {
+        return $this
+        ->withHeaders($headers)
+        ->get($url);
     }
 
     function generateRandomCpf(): string {
@@ -116,6 +137,41 @@ abstract class TestFramework extends TestCase
 
     function generateRandomEmail(): string {
         return $this->generateRandomString() . "@gmail.com";
+    }
+
+    function createPurchaseOrder() {
+        $this->createPartner(); // id = 1
+        $this->createStock(); // id = 1
+        $this->createProduct(); // id = 1
+        $this->createProduct(); // id = 2
+
+        $purchase = new PurchaseOrder();
+        $purchase
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withPartnerId(1)
+            ->withCostCenterId(1)
+            ->withStatus(0)
+            ->withProducts([
+                [
+                    "product_id" => 1,
+                    "quantity" => 1,
+                    "value" => 1.0
+                ],
+                [
+                    "product_id" => 2,
+                    "quantity" => 1,
+                    "value" => 1.0
+                ]
+            ]);
+
+        $response = $this->sendPostRequest(url: "/api/v1/purchaseOrders", model: $purchase, headers: $this->getHeaders());
+        $response->assertStatus(201);
+        return $purchase;
+    }
+
+    function createStock() {
+        DB::table('cost_centers')->insert(['name' => "Matriz", 'status' => 'Ativo', 'deleted' => false]);
     }
 
     function createPartner(string $cnpj = "60.725.781/0001-03") {
