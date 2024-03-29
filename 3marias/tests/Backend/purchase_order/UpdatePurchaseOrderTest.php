@@ -18,12 +18,12 @@ class UpdatePurchaseOrderTest extends TestFramework
     private string $url = "/api/v1/purchaseOrders";
 
     public function setUp() : void {
-        $this->setUp();
-        $this->refreshToken();
+        parent::setUp();
+        parent::refreshToken();
     }
 
     protected function tearDown(): void {
-        $this->tearDown();
+        parent::tearDown();
     }
 
     /**
