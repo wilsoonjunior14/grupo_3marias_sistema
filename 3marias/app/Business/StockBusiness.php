@@ -6,14 +6,11 @@ use App\Exceptions\InputValidationException;
 use App\Models\Stock;
 use App\Models\Logger;
 use App\Models\PurchaseOrderItem;
-use App\Models\StockItem;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 
 class StockBusiness {
-
-    private $stockItemBusiness = new StockItemBusiness();
 
     public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Recuperando centro de custo.");
@@ -29,7 +26,7 @@ class StockBusiness {
             return $stock;
         }
         Logger::info("Recuperando itens do centro de custo.");
-        $stock->items = $this->stockItemBusiness->getItemsByStock(id: $id);
+        $stock->items = (new StockItemBusiness())->getItemsByStock(id: $id);
         Logger::info("Finalizando a recuperação do centro de custo.");
         return $stock;
     }
@@ -135,7 +132,7 @@ class StockBusiness {
     public function refreshStockItem(PurchaseOrderItem $purchaseItem, Stock $stock) {
         $itemFound = $this->getItemOnStock(purchaseItem: $purchaseItem, stock: $stock);
         if (is_null($itemFound)) {
-            $this->stockItemBusiness->create([
+            (new StockItemBusiness())->create([
                 "quantity" => $purchaseItem->quantity,
                 "value" => $purchaseItem->value,
                 "product_id" => $purchaseItem->product_id,
@@ -143,7 +140,7 @@ class StockBusiness {
             ]); 
         } else {
             $itemFound->quantity = $itemFound->quantity + $purchaseItem->quantity;
-            $this->stockItemBusiness->update($itemFound->id, [
+            (new StockItemBusiness())->update($itemFound->id, [
                 "quantity" => $itemFound->quantity,
                 "value" => $itemFound->value,
                 "product_id" => $itemFound->product_id,
