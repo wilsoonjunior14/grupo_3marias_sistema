@@ -889,7 +889,7 @@ class UpdatePurchaseOrderTest extends TestFramework
         $purchase
             ->withDescription($this->generateRandomString())
             ->withDate(date('Y-m-d'))
-            ->withPartnerId(1)
+            ->withPartnerId(2)
             ->withCostCenterId(1)
             ->withStatus(0)
             ->withProducts([
