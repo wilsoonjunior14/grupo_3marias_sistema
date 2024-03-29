@@ -970,8 +970,9 @@ class UpdatePurchaseOrderTest extends TestFramework
             ]
         ]);
 
-        $getAllResponse = $this->sendGetRequest(url: $this->url . "/1", headers: $this->getHeaders());
+        $getAllResponse = $this->sendGetRequest(url: $this->url, headers: $this->getHeaders());
         $getAllResponse->assertStatus(200);
+        $getAllResponse->assertJsonCount(1);
         $getAllResponse->assertJson([[
             "id" => 1,
             "description" => $purchase->description,
