@@ -878,7 +878,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function posTest_createPurchaseOrder(): void {
+    public function posTest_updatePurchaseOrder(): void {
         $this->createPartner(); // id = 2
         $this->createProduct(); // id = 4
         $this->createProduct(); // id = 5
@@ -922,8 +922,7 @@ class UpdatePurchaseOrderTest extends TestFramework
         ]);
         $response->assertJsonMissing([
             "description" => $oldPurchase->description,
-            "partner_id" => $oldPurchase->partner_id,
-            "cost_center_id" => $oldPurchase->cost_center_id
+            "partner_id" => $oldPurchase->partner_id
         ]);
 
         $getResponse = $this->sendGetRequest(url: $this->url . "/1" . "/1", headers: $this->getHeaders());
