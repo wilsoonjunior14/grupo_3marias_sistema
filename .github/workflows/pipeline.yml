@@ -58,7 +58,7 @@ jobs:
           cd 3marias
           php artisan config:clear
           php artisan cache:clear
-          XDEBUG_MODE=coverage php artisan test --parallel --processes 8 --coverage --testsuite=Backend
+          XDEBUG_MODE=coverage php artisan test --parallel --processes 10 --coverage --testsuite=Backend
 
           cd scripts
           zip -r coverage.zip ./coverage_reports
