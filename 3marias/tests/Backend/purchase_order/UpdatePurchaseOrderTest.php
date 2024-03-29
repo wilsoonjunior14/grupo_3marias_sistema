@@ -912,7 +912,7 @@ class UpdatePurchaseOrderTest extends TestFramework
 
         $response = $this->sendPutRequest(url: $this->url . "/1", model: $purchase, headers: $this->getHeaders());
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $response->assertJson([
             "description" => $purchase->description,
             "date" => $purchase->date,
