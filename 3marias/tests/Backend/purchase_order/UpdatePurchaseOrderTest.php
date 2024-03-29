@@ -29,7 +29,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_unauthorized(): void {
+    public function negTest_updatePurchaseOrder_unauthorized(): void {
         $response = $this->sendPutRequest(url: $this->url . "/1", headers: [], model: new PurchaseOrder());
 
         $response->assertStatus(401);
@@ -41,7 +41,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_empty_payload(): void {
+    public function negTest_updatePurchaseOrder_with_empty_payload(): void {
         $this->createPurchaseOrder();
         $response = $this->sendPutRequest(url: $this->url . "/1", headers: $this->getHeaders(), model: new PurchaseOrder());
 
@@ -54,7 +54,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_description(): void {
+    public function negTest_updatePurchaseOrder_with_null_description(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -88,7 +88,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_empty_description(): void {
+    public function negTest_updatePurchaseOrder_with_empty_description(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -122,7 +122,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_short_description(): void {
+    public function negTest_updatePurchaseOrder_with_short_description(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -156,7 +156,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_long_description(): void {
+    public function negTest_updatePurchaseOrder_with_long_description(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -190,7 +190,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_wrong_type_description(): void {
+    public function negTest_updatePurchaseOrder_with_wrong_type_description(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -224,7 +224,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_date(): void {
+    public function negTest_updatePurchaseOrder_with_null_date(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -258,7 +258,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_invalid_date(): void {
+    public function negTest_updatePurchaseOrder_with_invalid_date(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -292,7 +292,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_invalid_format_date(): void {
+    public function negTest_updatePurchaseOrder_with_invalid_format_date(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -326,7 +326,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_partner_id(): void {
+    public function negTest_updatePurchaseOrder_with_null_partner_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -360,7 +360,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_non_existing_partner_id(): void {
+    public function negTest_updatePurchaseOrder_with_non_existing_partner_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -394,7 +394,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_zero_partner_id(): void {
+    public function negTest_updatePurchaseOrder_with_zero_partner_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -428,7 +428,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_wrong_type_partner_id(): void {
+    public function negTest_updatePurchaseOrder_with_wrong_type_partner_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -462,7 +462,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_without_products(): void {
+    public function negTest_updatePurchaseOrder_without_products(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -484,7 +484,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_products(): void {
+    public function negTest_updatePurchaseOrder_with_null_products(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -507,7 +507,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_empty_products(): void {
+    public function negTest_updatePurchaseOrder_with_empty_products(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -530,7 +530,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_product_id(): void {
+    public function negTest_updatePurchaseOrder_with_null_product_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -559,7 +559,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_empty_product_id(): void {
+    public function negTest_updatePurchaseOrder_with_empty_product_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -588,7 +588,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_non_existing_product_id(): void {
+    public function negTest_updatePurchaseOrder_with_non_existing_product_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -617,7 +617,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_wrong_type_product_id(): void {
+    public function negTest_updatePurchaseOrder_with_wrong_type_product_id(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -646,7 +646,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_quantity(): void {
+    public function negTest_updatePurchaseOrder_with_null_quantity(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -675,7 +675,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_empty_quantity(): void {
+    public function negTest_updatePurchaseOrder_with_empty_quantity(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -704,7 +704,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_zero_quantity(): void {
+    public function negTest_updatePurchaseOrder_with_zero_quantity(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -733,7 +733,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_wrong_type_quantity(): void {
+    public function negTest_updatePurchaseOrder_with_wrong_type_quantity(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -762,7 +762,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_negative_quantity(): void {
+    public function negTest_updatePurchaseOrder_with_negative_quantity(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -791,7 +791,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_null_value(): void {
+    public function negTest_updatePurchaseOrder_with_null_value(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -820,7 +820,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_zero_value(): void {
+    public function negTest_updatePurchaseOrder_with_zero_value(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
@@ -849,7 +849,7 @@ class UpdatePurchaseOrderTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_createPurchaseOrder_with_wrong_type_value(): void {
+    public function negTest_updatePurchaseOrder_with_wrong_type_value(): void {
         $this->createPurchaseOrder();
 
         $purchase = new PurchaseOrder();
