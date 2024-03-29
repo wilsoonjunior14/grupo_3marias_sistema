@@ -925,7 +925,7 @@ class UpdatePurchaseOrderTest extends TestFramework
             "partner_id" => $oldPurchase->partner_id
         ]);
 
-        $getResponse = $this->sendGetRequest(url: $this->url . "/1" . "/1", headers: $this->getHeaders());
+        $getResponse = $this->sendGetRequest(url: $this->url . "/1", headers: $this->getHeaders());
         $getResponse->assertStatus(200);
         $getResponse->assertJson([
             "id" => 1,
@@ -971,7 +971,7 @@ class UpdatePurchaseOrderTest extends TestFramework
             ]
         ]);
 
-        $getAllResponse = $this->sendGetRequest(url: $this->url . "/1");
+        $getAllResponse = $this->sendGetRequest(url: $this->url . "/1", headers: $this->getHeaders());
         $getAllResponse->assertStatus(200);
         $getAllResponse->assertJson([[
             "id" => 1,
