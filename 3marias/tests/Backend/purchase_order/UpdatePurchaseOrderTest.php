@@ -954,7 +954,6 @@ class UpdatePurchaseOrderTest extends TestFramework
             ]
         ]);
         $getResponse->assertJsonMissing([
-            "id" => 1,
             "description" => $oldPurchase->description,
             "partner_id" => $oldPurchase->partner_id,
             "items" => [
