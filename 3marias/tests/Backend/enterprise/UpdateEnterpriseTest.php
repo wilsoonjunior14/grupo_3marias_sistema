@@ -72,7 +72,81 @@ class UpdateEnterpriseTest extends TestFramework
     /**
      * @test
      */
-    public function negTest_updateEnterprise_with_existing_cnpj(): void { }
+    public function negTest_updateEnterprise_with_existing_cnpj(): void {
+        $this->createEnterprise();
+        $this->createCountry();
+        $this->createState();
+        $this->createCity();
+
+        $enterprise2 = [
+            "name" => parent::generateRandomString(),
+            "fantasy_name" => parent::generateRandomString(),
+            "email" => parent::generateRandomEmail(),
+            "social_reason" => parent::generateRandomString(),
+            "cnpj" => parent::generateRandomCnpj(),
+            "creci" => parent::generateRandomString(),
+            "phone" => parent::generateRandomPhoneNumber(),
+            "state_registration" => parent::generateRandomString(),
+            "municipal_registration" => parent::generateRandomString(),
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "zipcode" => "00000-000",
+            "city_id" => 1,
+            "bank" => parent::generateRandomBank(),
+            "bank_agency" => parent::generateRandomString(5),
+            "bank_account" => parent::generateRandomString(5),
+            "pix" => parent::generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/enterprises", $enterprise2);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "name" => $enterprise2["name"],
+            "fantasy_name" => $enterprise2["fantasy_name"],
+            "email" => $enterprise2["email"],
+            "social_reason" => $enterprise2["social_reason"],
+            "cnpj" => $enterprise2["cnpj"],
+            "creci" => $enterprise2["creci"],
+            "phone" => $enterprise2["phone"],
+            "state_registration" => $enterprise2["state_registration"],
+            "municipal_registration" => $enterprise2["municipal_registration"],
+            "bank" => $enterprise2["bank"],
+            "bank_agency" => $enterprise2["bank_agency"],
+            "bank_account" => $enterprise2["bank_account"],
+            "pix" => $enterprise2["pix"]
+        ]);
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "fantasy_name" => $this->generateRandomString(),
+            "email" => $this->generateRandomEmail(),
+            "social_reason" => $this->generateRandomString(),
+            "cnpj" => $enterprise2["cnpj"],
+            "creci" => $this->generateRandomString(),
+            "phone" => $this->generateRandomPhoneNumber(),
+            "state_registration" => $this->generateRandomString(),
+            "municipal_registration" => $this->generateRandomString(),
+            "address_id" => 1,
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "zipcode" => "00000-000",
+            "city_id" => 2,
+            "bank" => $this->generateRandomBank(),
+            "bank_agency" => $this->generateRandomString(5),
+            "bank_account" => $this->generateRandomString(5),
+            "pix" => $this->generateRandomString()
+        ];
+
+        $updateEnterpriseResponse = $this->sendPutRequestWithArray(url: "/api/v1/enterprises/1", 
+         payload: $payload, headers: $this->getHeaders());
+        $updateEnterpriseResponse->assertStatus(400);
+        $updateEnterpriseResponse->assertJson([
+            "message" => "Campo CNPJ já existente na base de dados."
+        ]);
+    }
 
     /**
      * @test
@@ -137,5 +211,76 @@ class UpdateEnterpriseTest extends TestFramework
     /**
      * @test
      */
-    public function posTest_updateEnterprise_all_fields(): void { }
+    public function posTest_updateEnterprise_all_fields(): void {
+        $this->createEnterprise();
+        $this->createCountry();
+        $this->createState();
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "fantasy_name" => $this->generateRandomString(),
+            "email" => $this->generateRandomEmail(),
+            "social_reason" => $this->generateRandomString(),
+            "cnpj" => $this->generateRandomCnpj(),
+            "creci" => $this->generateRandomString(),
+            "phone" => $this->generateRandomPhoneNumber(),
+            "state_registration" => $this->generateRandomString(),
+            "municipal_registration" => $this->generateRandomString(),
+            "address_id" => 1,
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "zipcode" => "00000-000",
+            "city_id" => 2,
+            "bank" => $this->generateRandomBank(),
+            "bank_agency" => $this->generateRandomString(5),
+            "bank_account" => $this->generateRandomString(5),
+            "pix" => $this->generateRandomString()
+        ];
+
+        $updateEnterpriseResponse = $this->sendPutRequestWithArray(url: "/api/v1/enterprises/1", 
+            payload: $payload, headers: $this->getHeaders());
+        $updateEnterpriseResponse->assertStatus(200);
+        $updateEnterpriseResponse->assertJson([
+            "name" => $payload["name"],
+            "fantasy_name" => $payload["fantasy_name"],
+            "email" => $payload["email"],
+            "social_reason" => $payload["social_reason"],
+            "cnpj" => $payload["cnpj"],
+            "creci" => $payload["creci"],
+            "phone" => $payload["phone"],
+            "state_registration" => $payload["state_registration"],
+            "municipal_registration" => $payload["municipal_registration"],
+            "bank" => $payload["bank"],
+            "bank_agency" => $payload["bank_agency"],
+            "bank_account" => $payload["bank_account"],
+            "pix" => $payload["pix"]
+        ]);
+
+        $getResponse = $this->sendGetRequest(url: "/api/v1/enterprises/1", headers: $this->getHeaders());
+        $getResponse->assertStatus(200);
+        $getResponse->assertJson([
+            "name" => $payload["name"],
+            "fantasy_name" => $payload["fantasy_name"],
+            "email" => $payload["email"],
+            "social_reason" => $payload["social_reason"],
+            "cnpj" => $payload["cnpj"],
+            "creci" => $payload["creci"],
+            "phone" => $payload["phone"],
+            "state_registration" => $payload["state_registration"],
+            "municipal_registration" => $payload["municipal_registration"],
+            "bank" => $payload["bank"],
+            "bank_agency" => $payload["bank_agency"],
+            "bank_account" => $payload["bank_account"],
+            "pix" => $payload["pix"]
+        ]);
+        $getResponse->assertJson([
+            "address" => $payload["address"],
+            "neighborhood" => $payload["neighborhood"],
+            "zipcode" => $payload["zipcode"],
+            "city_id" => $payload["city_id"],
+            "complement" => null,
+            "number" => null
+        ]);
+    }
 }

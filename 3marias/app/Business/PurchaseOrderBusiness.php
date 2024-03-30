@@ -181,9 +181,9 @@ class PurchaseOrderBusiness {
         $stockBusiness = new StockBusiness();
         $purchaseItems = $purchaseOrderItemBusiness->getByPurchaseId(id: $purchase->id);
         $stockMatriz = $stockBusiness->getById(id: 1, mergeFields: true);
-
         foreach ($purchaseItems as $purchaseItem) {
-            $stockBusiness->refreshStockItem(purchaseItem: $purchaseItem, stock: $stockMatriz);
+            $stockBusiness->refreshStockItem(productId: $purchaseItem->product_id, value: $purchaseItem->value,
+            quantity: $purchaseItem->quantity, stock: $stockMatriz);
         }
         
         Logger::info("Finalizando aprovação de ordem de compra $id.");

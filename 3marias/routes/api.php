@@ -77,6 +77,7 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // Stocks api routes
     Route::apiResource('/stocks', StockController::class);
+    Route::post('/stocks/share', [StockController::class, 'share']);
 
     // Clients api routes
     Route::apiResource('/clients', ClientController::class);

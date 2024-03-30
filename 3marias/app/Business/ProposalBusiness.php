@@ -187,7 +187,6 @@ class ProposalBusiness {
 
     private function createPayments(array $payments, int $counter, int $proposalId, int $contractId = null) {
         foreach ($payments as $payment) {
-            error_log("creating");
             unset($payment["id"]);
             if (strcmp($payment["source"], "Banco") === 0) {
                 unset($payment["desired_date"]);

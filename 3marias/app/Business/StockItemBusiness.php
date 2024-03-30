@@ -4,6 +4,7 @@ namespace App\Business;
 
 use App\Exceptions\InputValidationException;
 use App\Models\Logger;
+use App\Models\Stock;
 use App\Models\StockItem;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
@@ -27,8 +28,7 @@ class StockItemBusiness {
         Logger::info("Iniciando a criação de item do centro de custo.");
         Logger::info("Validando as informações fornecidas.");
 
-        $stockItem = new StockItem($payload);
-        $stockItem->validate(rules: StockItem::$rules, rulesMessages: StockItem::$rulesMessages);
+        $this->validateStockItem(payload: $payload);
         
         Logger::info("Salvando o item do centro de custo.");
         $instance = new StockItem($payload);
@@ -42,8 +42,7 @@ class StockItemBusiness {
         Logger::info("Validando as informações fornecidas.");
 
         $stockItem = $this->getById(id: $id);
-        $stockUpdated = new StockItem($payload);
-        $stockUpdated->validate(rules: StockItem::$rules, rulesMessages: StockItem::$rulesMessages);
+        $this->validateStockItem(payload: $payload);
 
         Logger::info("Atualizando o item do centro de custo.");
         $stockUpdated = UpdateUtils::processFieldsToBeUpdated($stockItem, $payload, StockItem::$fieldsToBeUpdated);
@@ -59,6 +58,13 @@ class StockItemBusiness {
         $items = (new StockItem())->getItemsByStock(id: $id);
         Logger::info("Finalizando a recuperação de itens do centro de custo.");
         return $items;
+    }
+
+    public function validateStockItem(array $payload) {
+        $stockUpdated = new StockItem($payload);
+        $stockUpdated->validate(rules: StockItem::$rules, rulesMessages: StockItem::$rulesMessages);
+        (new ProductBusiness())->getById(id: $stockUpdated->product_id);
+        (new StockBusiness())->getById(id: $stockUpdated->cost_center_id);
     }
 
 }

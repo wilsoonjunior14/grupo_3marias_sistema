@@ -70,6 +70,12 @@ abstract class TestFramework extends TestCase
         ->put($url, UpdateUtils::convertModelToArray(baseModel: $model));
     }
 
+    public function sendPutRequestWithArray(string $url, array $payload, array $headers = []) {
+        return $this
+        ->withHeaders($headers)
+        ->put($url, $payload);
+    }
+
     public function sendGetRequest(string $url, array $headers = []) {
         return $this
         ->withHeaders($headers)

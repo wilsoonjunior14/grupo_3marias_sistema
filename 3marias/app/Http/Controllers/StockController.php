@@ -61,4 +61,12 @@ class StockController extends Controller implements APIController
     public function create(Request $request) {
         return $this->store(request: $request);
     }
+
+    /**
+     * Shares products among stocks.
+     */
+    public function share(Request $request) {
+        $stock = $this->stockBusiness->shareProductsAmongCostCenters(payload: $request->all());
+        return ResponseUtils::getResponse($stock, 200);
+    }
 }
