@@ -55,18 +55,15 @@ class GroupController extends Controller implements APIController
      */
     public function show($id) {
         Logger::info("Iniciando a busca pelo grupo: {$id}.");
-
         if ($id <= 0) {
             throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "grupo"));
         }
-
         Logger::info("Recuperando o grupo pelo id {$id}.");
         $group = $this->groupInstance->getGroupById($id);
 
         if ($group === null) {
             throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
         }
-
         Logger::info("Encerrando a busca pelo grupo {$id}.");
         return ResponseUtils::getResponse($group, 200);
     }

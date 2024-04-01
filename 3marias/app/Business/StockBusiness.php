@@ -77,7 +77,7 @@ class StockBusiness {
             throw new InputValidationException($hasErrors);
         }
         // Trying get the contract
-        (new ContractBusiness())->getById(id: $payload["contract_id"], mergerFields: false);
+        (new ContractBusiness())->getById(id: $payload["contract_id"], mergeFields: false);
         
         Logger::info("Salvando o centro de custo.");
         $stockUpdated->save();
@@ -121,6 +121,7 @@ class StockBusiness {
             } else {
                 $stock["contract"] = (new ContractBusiness())->getById(id: $stock->contract_id);
             }
+            $stock["items"] = (new StockItemBusiness())->getItemsByStock(id: $stock->id);
         }
 
         Logger::info("Foram recuperados {$amount} estoques.");
@@ -152,10 +153,9 @@ class StockBusiness {
     private function getItemOnStock(int $productId, float $value, Stock $stock) {
         $item = null;
         foreach ($stock->items as $stockItem) {
-            if ($productId === $stockItem->product_id && 
-                $value === $stockItem->value) {
+            if (strcmp(strval($productId), strval($stockItem->product_id)) === 0 &&
+                strcmp(strval($value), strval($stockItem->value)) === 0) {
                 $item = $stockItem;
-                break;
             }
         }
         return $item;

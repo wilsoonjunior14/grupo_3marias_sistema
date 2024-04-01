@@ -340,7 +340,7 @@ const PurchaseOrdersForm = ({}) => {
                                     <Col>
                                         <CustomInput 
                                             key="date" 
-                                            placeholder="Data" 
+                                            placeholder="Data *" 
                                             type="mask" 
                                             name="date" 
                                             mask="99/99/9999"

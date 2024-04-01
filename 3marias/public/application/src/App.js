@@ -48,6 +48,7 @@ import ProjectForm from './pages/admin/projects/ProjectForm';
 import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
 import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
 import AccountForm from './pages/account/AccountForm';
+import StockItems from './pages/contracts/stocks/StockItems';
 
 console.disableYellowBox = true;
 
@@ -124,6 +125,7 @@ function App() {
           <Route path='contracts/stocks' element={<StockList />}></Route>
           <Route path='contracts/stocks/add' element={<StockForm />}></Route> 
           <Route path='contracts/stocks/edit/:id' element={<StockForm />}></Route> 
+          <Route path='contracts/stocks/items/:id' element={<StockItems />}></Route> 
           
           <Route path='engineering/projects' element={<ProjectList />}></Route>
           <Route path='engineering/projects/add' element={<ProjectForm />}></Route>

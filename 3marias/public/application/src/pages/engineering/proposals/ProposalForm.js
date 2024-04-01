@@ -40,7 +40,6 @@ const ProposalForm = ({}) => {
     const [refreshBankPayment, setRefreshBankPayment] = useState(false);
     const [proposal, setProposal] = useState({});
     const parameters = useParams();
-
     const [paymentsClient, setPaymentsClient] = useState([]);
     const [paymentsBank, setPaymentsBank] = useState([]);
 

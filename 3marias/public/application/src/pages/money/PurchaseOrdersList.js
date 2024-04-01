@@ -3,21 +3,28 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
-import Success from "../../components/success/Success";
-import Error from "../../components/error/Error";
-import Button from 'react-bootstrap/esm/Button';
-import Loading from '../../components/loading/Loading';
 import CustomButton from '../../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import Table from "react-bootstrap/esm/Table";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { getMoney } from "../../services/Utils";
+import Button from 'react-bootstrap/esm/Button';
+import Loading from '../../components/loading/Loading';
+import Success from "../../components/success/Success";
+import Error from "../../components/error/Error";
+import { performRequest } from "../../services/Api";
 
 export default function PurchaseOrdersList() {
 
     const [showItemsModal, setShowItemsModal] = useState(false);
-    const [purchase, setPurchase] = useState(null);
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showApproveModal, setShowApproveModal] = useState(false);
+    const [isRejecting, setIsRejecting] = useState(false);
+    const [isApproving, setIsApproving] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [purchase, setPurchase] = useState({description: "", value: "", items: []});
 
     const fields = [
         {
@@ -40,13 +47,13 @@ export default function PurchaseOrdersList() {
             name: "approve_purchase_order",
             tooltip: "Efetuar Ordem de Compra",
             icon: "thumb_up",
-            onClick: (evt) => {}
+            onClick: (evt) => {setPurchase(evt); setShowApproveModal(true);}
         },
         {
             name: "cancel_purchase_order",
             tooltip: "Cancelar Ordem de Compra",
             icon: "thumb_down",
-            onClick: (evt) => {}
+            onClick: (evt) => {setPurchase(evt); setShowRejectModal(true);}
         },
         {
             name: "see_purchase_order",
@@ -60,6 +67,43 @@ export default function PurchaseOrdersList() {
         setPurchase(purchase);
         setShowItemsModal(true);
     };
+
+    const onApprove = () => {
+        setIsApproving(true);
+        setSuccessMessage(null);
+        setErrorMessage(null)
+        
+        performRequest("POST", "/v1/purchaseOrders/approve/"+purchase.id)
+        .then(onSuccessResponse)
+        .catch(onErrorResponse);
+    }
+
+    const onReject = () => {
+        setIsRejecting(true);
+        setSuccessMessage(null);
+        setErrorMessage(null)
+        
+        performRequest("POST", "/v1/purchaseOrders/reject/"+purchase.id)
+        .then(onSuccessResponse)
+        .catch(onErrorResponse);
+    }
+
+    const onSuccessResponse = (res) => {
+        setIsRejecting(false);
+        setShowRejectModal(false);
+        setIsApproving(false);
+        setShowApproveModal(false);
+        setSuccessMessage("Operação realizada com sucesso!");
+    }
+
+    // todo: it can be standardized
+    const onErrorResponse = (res) => {
+        setIsRejecting(false);
+        setShowRejectModal(false);
+        setIsApproving(false);
+        setShowApproveModal(false);
+        setErrorMessage("Não foi possível concluir a operação.");
+    }
     
     return (
         <>
@@ -111,6 +155,75 @@ export default function PurchaseOrdersList() {
                 </Modal.Footer>
             </Modal>
 
+            <Modal 
+                size={"lg"}
+                centered 
+                show={showRejectModal} onHide={() => {setShowRejectModal(false)}}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Atenção</Modal.Title>
+                </Modal.Header>
+                        
+                <Modal.Body>
+                    Você deseja realmente rejeitar a ordem de compra <b>{purchase.description}</b>?
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <CustomButton name="Cancelar" color="light" onClick={() => {setShowRejectModal(false)}}></CustomButton>
+                    {!isRejecting &&
+                        <CustomButton name="Rejeitar" 
+                            color="danger" onClick={onReject}></CustomButton>
+                    }
+                    {isRejecting &&
+                        <Button variant="danger"
+                        size="lg"
+                        disabled={isRejecting}>
+                        {isRejecting ? <Loading />
+                                    : 
+                                    'Rejeitar'}
+                        </Button>
+                    }
+                </Modal.Footer>
+            </Modal>
+
+            <Modal 
+                size={"lg"}
+                centered 
+                show={showApproveModal} onHide={() => {setShowApproveModal(false)}}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Atenção</Modal.Title>
+                </Modal.Header>
+                        
+                <Modal.Body>
+                    Você deseja realmente efetuar a ordem de compra <b>{purchase.description}</b>?
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <CustomButton name="Cancelar" color="light" onClick={() => {setShowApproveModal(false)}}></CustomButton>
+                    {!isApproving &&
+                        <CustomButton name="Aprovar" 
+                            color="success" onClick={onApprove}></CustomButton>
+                    }
+                    {isApproving &&
+                        <Button variant="success"
+                        size="lg"
+                        disabled={isApproving}>
+                        {isApproving ? <Loading />
+                                    : 
+                                    'Aprovar'}
+                        </Button>
+                    }
+                </Modal.Footer>
+            </Modal>
+
+            {successMessage &&
+                <Success message={successMessage} />
+            }
+
+            {errorMessage &&
+                <Error message={errorMessage} />
+            } 
+
+            {!isRejecting && !isApproving &&
                 <CustomTable 
                     tableName="Compras" 
                     tableIcon="shopping_cart" 
@@ -119,6 +232,7 @@ export default function PurchaseOrdersList() {
                     tableFields={table}
                     searchFields={fields}
                     customOptions={customOptions} />
+            }
 
             </Container>
         </>

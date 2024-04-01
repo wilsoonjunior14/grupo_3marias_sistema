@@ -33,9 +33,14 @@ class StockItem extends BaseModel
         'cost_center_id.gt' => 'Campo Identificador do Centro de Custo está inválido.',
     ];
 
+    public function product(): \Illuminate\Database\Eloquent\Relations\HasOne {
+        return $this->hasOne(Product::class, "id", "product_id");
+    }
+
     public function getItemsByStock(int $id) {
         return $this::where("deleted", false)
         ->where("cost_center_id", $id)
+        ->with("product")
         ->get();
     }
 }

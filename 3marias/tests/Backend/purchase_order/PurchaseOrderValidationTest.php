@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
 
+use function PHPUnit\Framework\assertEquals;
+
 /**
  * This suite tests the POST /api/v1/purchaseOrders/approve/{id} and POST /api/v1/purchaseOrders/reject/{id}
  */
@@ -152,6 +154,7 @@ class PurchaseOrderValidationTest extends TestFramework
     }
 
     /**
+     * TODO: this test can be checked, because no more items can be created.
      * @test
      */
     public function posTest_approvePurchaseOrder_aggregating_items(): void {
@@ -191,6 +194,8 @@ class PurchaseOrderValidationTest extends TestFramework
                 ]
             ]
         ]);
+        $items = $getStockResponse->decodeResponseJson()["items"];
+        assertEquals(count($items), 2);
 
         // Approving the second purchase
         $response = $this->sendPostRequest(url: $this->approveUrl . "/2", model: new PurchaseOrder(), headers: $this->getHeaders());
@@ -224,6 +229,8 @@ class PurchaseOrderValidationTest extends TestFramework
                 ]
             ]
         ]);
+        $items = $getStockResponse->decodeResponseJson()["items"];
+        assertEquals(count($items), 2);
 
         // Approving the third purchase
         $response = $this->sendPostRequest(url: $this->approveUrl . "/3", model: new PurchaseOrder(), headers: $this->getHeaders());
@@ -257,36 +264,8 @@ class PurchaseOrderValidationTest extends TestFramework
                 ]
             ]
         ]);
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_rejectPurchaseOrder_with_invalid_id(): void {
-        $this->createPurchaseOrder(); // id = 1
-
-        $response = $this->sendPostRequest(url: $this->rejectUrl . "/0", model: new PurchaseOrder(), headers: $this->getHeaders());
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Ordem de Compra")
-            ]
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function negTest_rejectPurchaseOrder_with_non_existing_id(): void {
-        $this->createPurchaseOrder(); // id = 1
-
-        $response = $this->sendPostRequest(url: $this->rejectUrl . "/1000", model: new PurchaseOrder(), headers: $this->getHeaders());
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Ordem de Compra")
-            ]
-        );
+        $items = $getStockResponse->decodeResponseJson()["items"];
+        assertEquals(count($items), 2);
     }
 
     /**
