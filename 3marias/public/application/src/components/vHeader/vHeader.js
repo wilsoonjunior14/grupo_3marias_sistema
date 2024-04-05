@@ -13,12 +13,11 @@ import VHeaderProposals from "./vHeaderProposals";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
 import { isLogged } from "../../services/Storage";
-import { useNavigate } from "react-router-dom";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
-    const navigate = useNavigate();
-    const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red"; 
+    const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red";
+    const accountColor = window.location.pathname.indexOf("account") == -1 ? "white" : "red"; 
     const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
     const initialStateItems = [
         {
@@ -170,7 +169,7 @@ function VHeader() {
                     </Navbar.Brand>
 
                     <Nav.Link href="/home" style={{marginLeft: "-20px", paddingRight: "10px"}}
-                        data-tooltip-id="dashboard-item-tooltip" data-tooltip-content="Dashboard">
+                        data-tooltip-id="dashboard-item-tooltip" data-tooltip-content="Página Inicial">
                         <i style={{color: dashboardColor, fontSize: "30px", marginBottom: "20px"}} className="material-icons float-left">dashboard</i>
                     </Nav.Link>
                     <Tooltip style={{marginTop: "-5px"}} place="right" id="dashboard-item-tooltip" />
@@ -183,7 +182,7 @@ function VHeader() {
 
                     <Nav style={{position: "absolute", bottom: 15, left: 25}}>
                         <Nav.Link href="/account" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
-                            <i style={{color: "white", fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">account_circle</i>
+                            <i style={{color: accountColor, fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">account_circle</i>
                         </Nav.Link>
                         <Tooltip style={{marginTop: "-5px"}} place="right" id="account_circle-item-tooltip" />
 

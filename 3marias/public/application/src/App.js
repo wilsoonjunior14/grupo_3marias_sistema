@@ -47,6 +47,7 @@ import ProjectList from './pages/admin/projects/ProjectList';
 import ProjectForm from './pages/admin/projects/ProjectForm';
 import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
 import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
+import MoneyDashboard from './pages/money/MoneyDashboard';
 import AccountForm from './pages/account/AccountForm';
 import StockItems from './pages/contracts/stocks/StockItems';
 
@@ -131,6 +132,7 @@ function App() {
           <Route path='engineering/projects/add' element={<ProjectForm />}></Route>
           <Route path='engineering/projects/edit/:id' element={<ProjectForm />}></Route>
 
+          <Route path='money/dashboard' element={<MoneyDashboard />}></Route>
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
           <Route path='money/billsReceive/edit/:id' element={<BillsReceiveForm />}></Route>
           <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
