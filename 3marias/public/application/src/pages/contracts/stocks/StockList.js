@@ -3,9 +3,10 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 export default function StockList() {
-
+    const navigate = useNavigate();
     const fields = [
         {
             id: 'name',
@@ -20,6 +21,15 @@ export default function StockList() {
         amountOptions: 1,
         bodyFields: ["id", "name", "contract.code", "contract.proposal.client.name", "contract.building_type", "created_at", "updated_at"]
     };
+
+    const customOptions = [
+        {
+            name: "see_items_stock",
+            icon: "visibility",
+            tooltip: "Ver Itens do Centro de Custo",
+            onClick: (item) => {navigate("/contracts/stocks/items/"+item.id)}
+        }
+    ];
     
     return (
         <>
@@ -32,6 +42,7 @@ export default function StockList() {
                     fieldNameDeletion="name" 
                     disableAdd={true}
                     disableDelete={true}
+                    customOptions={customOptions}
                     url="/stocks" 
                     tableFields={table}
                     searchFields={fields} />

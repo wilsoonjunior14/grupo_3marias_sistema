@@ -29,7 +29,7 @@ class Group extends BaseModel
      */
     public function getGroupById($id) {
         return Group::where("id", $id)
-        ->with("roles")
+        ->with("roles.role")
         ->get()
         ->first();
     }

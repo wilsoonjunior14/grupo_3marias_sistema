@@ -5,7 +5,7 @@
       <directory suffix="Test.php">./tests/Backend</directory>
     </testsuite>
     <testsuite name="Test">
-      <directory suffix="Test.php">./tests/Backend/client</directory>
+      <directory suffix="Test.php">./tests/Backend/purchase_order</directory>
     </testsuite>
   </testsuites>
   <coverage>

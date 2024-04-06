@@ -40,7 +40,7 @@ class ContractBusiness {
         return $contracts;
     }
 
-    public function getById(int $id, bool $mergerFields = true) {
+    public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de contrato $id.");
         if ($id <= 0) {
             throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contrato"));
@@ -49,7 +49,7 @@ class ContractBusiness {
         if (is_null($contract)) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contrato"));   
         }
-        if ($mergerFields) {
+        if ($mergeFields) {
             $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
             $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
         }
@@ -59,7 +59,7 @@ class ContractBusiness {
 
     public function changeGlobalValue(int $id, float $globalValue) {
         Logger::info("Atualizando o valor global do contrato $id.");
-        $contract = $this->getById(id: $id, mergerFields: false);
+        $contract = $this->getById(id: $id, mergeFields: false);
         $contract->value = $globalValue;
         $contract->save();
         Logger::info("Finalizando atualização do contrato $id.");
@@ -80,7 +80,7 @@ class ContractBusiness {
         Logger::info("Excluindo centro de custo do contrato $id.");
         (new StockBusiness())->deleteByContractId(contractId: $id);
 
-        $contract = $this->getById(id: $id, mergerFields: false);
+        $contract = $this->getById(id: $id, mergeFields: false);
         $contract->deleted = true;
         $contract->save();
         return $contract;

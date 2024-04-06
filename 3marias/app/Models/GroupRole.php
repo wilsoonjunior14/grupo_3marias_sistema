@@ -43,8 +43,8 @@ class GroupRole extends BaseModel
         ->where("group_id", $groupId)
         ->with("role")
         ->whereHas("role", function($query) use ($requestMethod, $endpoint) {
-            $query->where("request_type", $requestMethod)
-                ->where("endpoint", $endpoint);
+            $query->where("request_type", "like", "%" . $requestMethod . "%")
+            ->where("endpoint", "like", "%" . $endpoint . "%");
         })
         ->with("group")
         ->get();

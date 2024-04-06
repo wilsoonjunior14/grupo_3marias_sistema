@@ -309,7 +309,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 169; $i++) {
+        for ($i = 1; $i<= 172; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }

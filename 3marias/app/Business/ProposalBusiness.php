@@ -163,7 +163,6 @@ class ProposalBusiness {
         $shouldExcludeProposalId = false;
         $totalPayments = 0;
         foreach ($payments as $payment) {
-            error_log("validating");
             if ($proposalId === 0) {
                 $shouldExcludeProposalId = true;
             }
@@ -176,7 +175,6 @@ class ProposalBusiness {
             if (isset($payment["desired_date"]) && is_null($payment["desired_date"])) {
                 $payment["desired_date"] = "";
             }
-            error_log(json_encode($payment));
             $payment["proposal_id"] = $proposalId;
             $payment["code"] = $counter . "" . random_int(10000, 99999) . "3MPGT";
             $payment["status"] = 0;
@@ -189,7 +187,6 @@ class ProposalBusiness {
 
     private function createPayments(array $payments, int $counter, int $proposalId, int $contractId = null) {
         foreach ($payments as $payment) {
-            error_log("creating");
             unset($payment["id"]);
             if (strcmp($payment["source"], "Banco") === 0) {
                 unset($payment["desired_date"]);

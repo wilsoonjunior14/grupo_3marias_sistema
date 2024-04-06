@@ -1,7 +1,6 @@
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, useReducer } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import VHeader from '../../../components/vHeader/vHeader';
@@ -11,9 +10,12 @@ import '../../../App.css';
 import Loading from "../../../components/loading/Loading";
 import { performRequest } from "../../../services/Api";
 import { useParams } from "react-router-dom";
-import CustomPagination from "../../../components/table/Pagination";
 import CustomButton from "../../../components/button/Button";
+import CustomInput from "../../../components/input/CustomInput";
 import './GroupRoles.css';
+import Table from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
+import TableButton from "../../../components/button/TableButton";
 
 function GroupRoles() {
 
@@ -21,9 +23,9 @@ function GroupRoles() {
     const [loadingRoles, setLoadingRoles] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
-    const [group, setGroup] = useState({});
+    const [group, setGroup] = useState({roles: []});
     const [roles, setRoles] = useState([]);
-    const [itemsPerPage, setItemsPerPage] = useState([]);
+    const [initialState, setInitialState] = useState({});
     const parameters = useParams();
 
     const table = {
@@ -32,42 +34,38 @@ function GroupRoles() {
         bodyFields: ["id", "description", "created_at", "updated_at"]
     };
 
+    const reducer = (state, action) => {
+        if (action.type === "reset") {
+            return initialState;
+        }
+        if (action.type === "data") {
+            return action.data;
+        }
+        const result = { ...state };
+        result[action.type] = action.value;
+
+        return result;
+    };
+    const [state, dispatch] = useReducer(reducer, initialState);
+
     useEffect(() => {
         setLoading(true);
         getGroup(parameters.id);
+        getRoles();
     }, []);
 
-    useEffect(() => {
-        setDataPagination(1, 10, roles);
-    }, [roles]);
-
-    const setDataPagination = (page, pageSize, items) => {
-        const begin = (page - 1) * pageSize;
-        const end = page * pageSize;
-
-        var data = [];
-        for (var i=begin; i<end; i++) {
-            if (items[i]) {
-                data.push(items[i]);
-            }
-        }
-        setItemsPerPage(data);
-    };
-
-    const getRoles = (group) => {
-        setLoadingRoles(true);
+    const getRoles = () => {
         performRequest("GET", "/v1/roles")
-        .then((res) => successGetRoles(res, group))
+        .then(successGetRoles)
         .catch(errorGet);
-    };
-
-    const successGetRoles = (response, group) => {
-        setLoadingRoles(false);
-        postProcessing(group, response.data);
     }
-    
+
+    const successGetRoles = (res) => {
+        setRoles(res.data);
+    }
 
     const getGroup = (id) => {
+        setLoading(true);
         setHttpError(null);
 
         performRequest("GET", "/v1/groups/"+id)
@@ -79,7 +77,6 @@ function GroupRoles() {
         setLoading(false);
         const group = response.data;
         setGroup(group);
-        getRoles(group);
     }
 
     const errorGet = (response) => {
@@ -97,23 +94,28 @@ function GroupRoles() {
         setHttpError({message: "Não foi possível conectar-se com o servidor."});
     }
 
-    const postProcessing = (group, roles) => {
-        roles.forEach((role) => {
-            const hasMatch = group.roles.some((item) => {
-                return item.role_id.toString() === role.id.toString();
-            });
-            role.enabled = hasMatch;
-        });
+    const onChangeField = (e) => {
+        const { name, value } = e.target;
+        dispatch({ type: name, value });
+    };
 
-        setRoles(roles);
-    }
-
-    const addRole = (item) => {
+    const onSubmit = () => {
         setLoading(true);
+        setHttpError(null);
+        setHttpSuccess(null);
 
+        if (!state.role_description) {
+            setHttpError({message: "Permissão não informada."});
+            return;
+        }
+        const roleSelected = roles.filter((r) => r.description === state.role_description);
+        if (!roleSelected || roleSelected.length === 0) {
+            setHttpError({message: "Permissão não encontrada."});
+            return;
+        }
         const payload = {
             group_id: group.id,
-            role_id: item.id
+            role_id: roleSelected[0].id
         };
 
         performRequest("POST", "/v1/roles/groups", payload)
@@ -121,24 +123,24 @@ function GroupRoles() {
         .catch(errorGet);
     }
 
-    const successAddRoleToGroup = (response) => {
+    const successAddRoleToGroup = (res) => {
+        setHttpSuccess({message: "Permissão adicionada com sucesso!"});
+        dispatch({ type: "reset" });
+        setLoading(false);
         getGroup(parameters.id);
     }
 
-    const removeRole = (item) => {
+    const onDeleteItem = (item) => {
         setLoading(true);
-        const roleGroup = group.roles.find((role) => {
-            return role.role_id === item.id
-        });
 
-        if (roleGroup) {
-            performRequest("DELETE", "/v1/roles/groups/"+roleGroup.id)
-            .then(successDeleteRole)
-            .catch(errorGet);
-        }
+        performRequest("DELETE", "/v1/roles/groups/" + item.id)
+        .then(successDeleteRoleGroup)
+        .catch(errorGet);
     }
 
-    const successDeleteRole = (response) => {
+    const successDeleteRoleGroup = (res) => {
+        setHttpSuccess({message: "Permissão removida com sucesso!"});
+        setLoading(false);
         getGroup(parameters.id);
     }
 
@@ -149,7 +151,6 @@ function GroupRoles() {
                 {!loading && httpError &&
                     <Error message={httpError.message} />
                 }
-
                 {!loading && httpSuccess &&
                     <Success message={httpSuccess.message} />
                 }
@@ -192,11 +193,30 @@ function GroupRoles() {
                         <Card>
                             <Card.Body>
                                 <Card.Title>
-                                <i className="material-icons float-left">lock</i>
-                                <p>Gerenciar Permissões</p>
+                                <i className="material-icons float-left">add</i>
+                                <p>Adicionar Permissão</p>
                                 </Card.Title>
 
-                                {!(!loadingRoles && !loading) && 
+                                {!loading &&
+                                <Form id='addRoleForm' onSubmit={onSubmit} noValidate={true} > 
+                                    <Row>
+                                        <Col xs={4}>
+                                            <CustomInput key="role_description" type="select2"
+                                                endpoint={"roles"} endpoint_field={"description"}
+                                                placeholder="Permissão *" name="role_description" 
+                                                required={true}
+                                                value={state.role_description}
+                                                onChange={onChangeField} />
+                                        </Col>
+                                        <Col xs={2}>
+                                            <CustomButton color="success"
+                                                onClick={onSubmit} name={"+ Adicionar"} />
+                                        </Col>
+                                    </Row>
+                                </Form>
+                                }
+
+                                {loading && 
                                     <>
                                     <Col></Col>
                                     <Col style={{textAlign: 'center'}}>
@@ -205,60 +225,56 @@ function GroupRoles() {
                                     <Col></Col>
                                     </>
                                 }
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
 
-                                {!loadingRoles && !loading &&
-                                <>
+                <br></br>
+
+                <Row>
+                    <Col>
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>
+                                <i className="material-icons float-left">lock</i>
+                                <p>Lista de Permissões</p>
+                                </Card.Title>
+                                {loading &&
+                                    <>
+                                    <Col></Col>
+                                    <Col style={{textAlign: 'center'}}>
+                                        <Loading />
+                                    </Col>
+                                    <Col></Col>
+                                    </>
+                                }
+                                {!loading &&
                                 <Row>
                                     <Col>
                                         <Table responsive striped>
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Permissão</th>
-                                                    <th>Status</th>
+                                                    <th>Descrição</th>
                                                     <th>Opções</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {itemsPerPage.length > 0 && itemsPerPage.map((item) => 
-                                                <tr>
-                                                    <td>{item.id}</td>
-                                                    <td>{item.description}</td>
-                                                    <td>
-                                                        {item.enabled &&
-                                                        <i className="material-icons text-success">check_circle</i>
-                                                        }
-                                                        {!item.enabled &&
-                                                        <i className="material-icons text-danger">remove_circle</i>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        <Row>
-                                                            <Col xs={6} sm={1} md={6} lg={2}>
-                                                                <CustomButton onClick={() => addRole(item)} disabled={item.enabled} name={"add"} tooltip={"Adicionar Permissão"} icon={"add"} color={"light"} />
-                                                            </Col>
-                                                            <Col xs={6} sm={1} md={6} lg={2}>
-                                                                <CustomButton onClick={() => removeRole(item)} disabled={!item.enabled} name={"remove"} tooltip={"Remover Permissão"} icon={"remove"} color={"danger"} />
-                                                            </Col>
-                                                        </Row>
-                                                    </td>
-                                                </tr>
+                                                {group.roles.map((role) => 
+                                                    <tr>
+                                                        <td>{role.id}</td>
+                                                        <td>{role.role.description}</td>
+                                                        <td>
+                                                            <TableButton name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(role)}
+                                                                icon="delete" color="light" />
+                                                        </td>
+                                                    </tr>
                                                 )}
-                                                {itemsPerPage.length === 0 &&
-                                                <tr>
-                                                    <td colSpan="4">Nenhuma permissão encontrada.</td>
-                                                </tr>
-                                                }
                                             </tbody>
                                         </Table>
                                     </Col>
-                                    <Col xs="12">
-                                        {itemsPerPage.length !== 0 &&
-                                        <CustomPagination data={roles} setDataCallback={setDataPagination} />
-                                        }
-                                    </Col>
                                 </Row>
-                                </>
                                 }
                             </Card.Body>
                         </Card>

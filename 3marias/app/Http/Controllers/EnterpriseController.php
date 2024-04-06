@@ -39,7 +39,7 @@ class EnterpriseController extends Controller implements APIController
      * Gets a enterprise by id.
      */
     public function show($id) {
-        $enterprise = $this->enterpriseBusiness->getById(id: $id);
+        $enterprise = $this->enterpriseBusiness->getById(id: $id, mergeFields: true);
         return ResponseUtils::getResponse($enterprise, 200);
     }
 

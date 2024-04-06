@@ -20,9 +20,13 @@ class EnterpriseBusiness {
         return $enterprises;
     }
 
-    public function getById(int $id) {
+    public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação de empresa $id.");
         $enterprise = (new Enterprise())->getById($id);
+        if (!$mergeFields) {
+            Logger::info("Finalizando a recuperação de empresa $id.");
+            return $enterprise;
+        }
         $address = (new AddressBusiness())->getById($enterprise->address_id, merge: true);
         $enterprise = $this->mountenterpriseAddressInline($enterprise, $address);
         $enterprise["accountants"] = (new AccountantBusiness())->get(enterpriseId: $id);
@@ -62,21 +66,21 @@ class EnterpriseBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do empresa.");
-        $enterprise = (new Enterprise())->getById($id);
-        $enterpriseModel = ((array) new Enterprise($request->all()));
-        $enterpriseUpdated = UpdateUtils::processFieldsToBeUpdated($enterprise, $enterpriseModel, enterprise::$fieldsToBeUpdated);
+        $enterprise = $this->getById($id);
+        $enterpriseToBeUpdated = new Enterprise($request->all());
+        $enterpriseToBeUpdated->validate(rules:Enterprise::$rules, rulesMessages:Enterprise::$rulesMessages);
+        $enterpriseUpdated = UpdateUtils::processFieldsToBeUpdated($enterprise, $request->all(), Enterprise::$fieldsToBeUpdated);
         
         Logger::info("Validando as informações do empresa.");
-        $enterpriseValidator = new EnterpriseValidator(enterprise::$rules, enterprise::$rulesMessages);
-        $enterpriseValidator->validateUpdate(request: $request);
-
+        $enterpriseUpdated->validate(rules:Enterprise::$rules, rulesMessages:Enterprise::$rulesMessages);
         (new AddressBusiness())->update($request->all(), id: $enterprise->address_id);
 
         Logger::info("Atualizando as informações do empresa.");
         $enterpriseUpdated->save();
-        return $this->getById(id: $enterpriseUpdated->id);
+        return $this->getById(id: $id);
     }
 
+    // TODO: this class can be generalized because it can be used in one or more places
     private function mountenterpriseAddressInline(enterprise $enterprise, Address $address) {
         $enterprise["address"] = $address->address;
         $enterprise["neighborhood"] = $address->neighborhood;
