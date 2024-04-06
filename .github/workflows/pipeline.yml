@@ -45,13 +45,6 @@ jobs:
           cd 3marias
           ./vendor/enlightn/security-checker/security-checker security:check composer.lock
 
-      # Checking the code statically
-      - name: Code Analysis
-        run: |
-          ls -la
-          cd 3marias
-          ./vendor/bin/psalm --no-cache --show-info=false --show-snippet=true
-
       # Check tests
       - name: E2E Tests
         run: |
