@@ -164,7 +164,7 @@ class StockBusiness {
     public function shareProductsAmongCostCenters(array $payload) {
         Logger::info("Validando os dados fornecidos para compartilhamento entre centros de custo.");
         $rules = [
-            'cost_center_id' => 'required|integer|gt:1',
+            'cost_center_id' => 'required|integer|gt:0',
             'products' => 'required|array|min:1|distinct',
             'products.*.product_id' => 'distinct'
         ];
@@ -182,10 +182,10 @@ class StockBusiness {
         if (!is_null($hasErrors)) {
             throw new InputValidationException($hasErrors);
         }
+        $stockDestination = $this->getById(id: $payload["cost_center_id"], mergeFields: true);
         // Validate if the stock items and quantity are correct
         Logger::info("Validando produtos a serem compartilhados entre centros de custo.");
         $this->validateStockItemsToBeShared(stockItems: $payload["products"]);
-        $stockDestination = (new StockBusiness())->getById(id: $payload["cost_center_id"], mergeFields: true);
 
         return $this->shareItems(destination: $stockDestination, stockItems: $payload["products"]);
     }
