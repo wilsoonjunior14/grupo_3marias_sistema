@@ -21,40 +21,70 @@ class ServiceController extends Controller implements APIController
      * Gets all services.
      */
     public function index() {
-        $services = $this->serviceBusiness->get();
-        return ResponseUtils::getResponse($services, 200);
+        try {
+            $services = $this->serviceBusiness->get();
+            return ResponseUtils::getResponse($services, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a service.
      */
     public function store(Request $request) {
-        $service = $this->serviceBusiness->create(request: $request);
-        return ResponseUtils::getResponse($service, 201);
+        try {
+            $service = $this->serviceBusiness->create(request: $request);
+            return ResponseUtils::getResponse($service, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a service by id.
      */
     public function show($id) {
-        $service = $this->serviceBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($service, 200);
+        try {
+            $service = $this->serviceBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($service, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a service by id.
      */
     public function destroy($id) {
-        $service = $this->serviceBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($service, 200);
+        try {
+            $service = $this->serviceBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($service, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a service.
      */
     public function update(Request $request, $id) {
-        $service = $this->serviceBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($service, 200);
+        try {
+            $service = $this->serviceBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($service, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

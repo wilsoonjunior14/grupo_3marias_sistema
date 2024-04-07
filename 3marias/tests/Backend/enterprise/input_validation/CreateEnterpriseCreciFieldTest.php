@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/enterprises
@@ -22,9 +23,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_null_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -56,9 +55,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_empty_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -90,9 +87,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_short_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -124,9 +119,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_long_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -158,9 +151,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_wrong_type_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -192,9 +183,7 @@ class CreateEnterpriseCreciFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_wrong_type_object_creci(): void {
         $payload = [
             "name" => parent::generateRandomString(),

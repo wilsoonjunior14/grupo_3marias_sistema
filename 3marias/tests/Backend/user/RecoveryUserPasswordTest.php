@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/users/recovery
@@ -25,9 +26,7 @@ class RecoveryUserPasswordTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_withoutEmail(): void {
         $payload = [];
         $response = $this
@@ -41,9 +40,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_with_emptyEmail(): void {
         $payload = [
             "email" => ""
@@ -59,9 +56,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_with_shortEmail(): void {
         $payload = [
             "email" => parent::generateRandomString(2)
@@ -77,9 +72,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_with_longEmail(): void {
         $payload = [
             "email" => parent::generateRandomString(120) . "@gmail.com"
@@ -95,9 +88,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_with_invalidEmail(): void {
         $payload = [
             "email" => parent::generateRandomString(120)
@@ -113,9 +104,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_without_existingUser(): void {
         $payload = [
             "email" => parent::generateRandomEmail()
@@ -131,9 +120,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_recoveryPassword(): void {
         $user = parent::createUser();
 
@@ -151,9 +138,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_emptyPayload(): void {
         $payload = [
         ];
@@ -168,9 +153,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_emptyId(): void {
         $payload = [
             "id" => ""
@@ -186,9 +169,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_emptyPassword(): void {
         $payload = [
             "id" => 1,
@@ -205,9 +186,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_emptyShortPassword(): void {
         $payload = [
             "id" => 1,
@@ -224,9 +203,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_nonExistingUser(): void {
         $payload = [
             "id" => 0,
@@ -243,9 +220,7 @@ class RecoveryUserPasswordTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_recoveryPassword_resetPassword_tokenExpired(): void {
         $user = parent::createUser();
 

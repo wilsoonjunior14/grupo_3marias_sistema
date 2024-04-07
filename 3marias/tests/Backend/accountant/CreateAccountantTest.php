@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/accountants
@@ -22,9 +23,7 @@ class CreateAccountantTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountants_without_authorization(): void {
         $response = $this
         ->post("/api/v1/accountants", []);
@@ -37,9 +36,7 @@ class CreateAccountantTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_null_payload(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -56,9 +53,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_empty_payload(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -75,9 +70,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_null_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -102,9 +95,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_empty_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -129,9 +120,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_wrong_type_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -156,9 +145,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_wrong_type_object_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -183,9 +170,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_short_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -210,9 +195,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_long_name(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -237,9 +220,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_null_phone(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -264,9 +245,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createAccountant_with_wrong_phone(): void {
         parent::createEnterprise();
         parent::createCity();
@@ -291,9 +270,7 @@ class CreateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createAccountant(): void {
         parent::createEnterprise();
         parent::createCity();

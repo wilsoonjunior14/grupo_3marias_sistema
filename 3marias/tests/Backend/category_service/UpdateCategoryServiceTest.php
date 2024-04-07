@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\BaseModel;
 use App\Models\CategoryService;
 use App\Utils\ErrorMessage;
-use App\Utils\UpdateUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertNotNull;
 
@@ -30,9 +29,7 @@ class UpdateCategoryServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_without_authentication_before(): void {
         $category = new CategoryService();
 
@@ -44,9 +41,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_empty_name(): void {
         $category = new CategoryService();
         $category
@@ -60,9 +55,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_null_name(): void {
         $category = new CategoryService();
         $category
@@ -76,9 +69,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_short_name(): void {
         $category = new CategoryService();
         $category
@@ -92,9 +83,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_long_name(): void {
         $category = new CategoryService();
         $category
@@ -108,9 +97,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_numbers_in_name(): void {
         $category = new CategoryService();
         $category
@@ -124,9 +111,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_special_chars_in_name(): void {
         $category = new CategoryService();
         $category
@@ -140,9 +125,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_name_containing_spaces(): void {
         $category = new CategoryService();
         $category
@@ -156,9 +139,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_with_wrong_type_name(): void {
         $category = new CategoryService();
         $category
@@ -172,9 +153,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryService_existing_name(): void {
         $json = parent::createCategoryService();
         $json2 = parent::createCategoryService();
@@ -191,9 +170,7 @@ class UpdateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateCategoryService(): void {
         parent::createCategoryService();
 

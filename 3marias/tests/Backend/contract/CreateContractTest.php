@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/contracts
@@ -25,9 +26,7 @@ class CreateContractTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_authorization(): void {
         $response = $this
         ->post("/api/v1/contracts", []);
@@ -40,9 +39,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_payload(): void {
         $payload = [];
 
@@ -58,9 +55,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_payload(): void {
         $payload = [null];
 
@@ -76,9 +71,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_building_type(): void {
         $payload = [
             "building_type" => null
@@ -96,9 +89,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_building_type(): void {
         $payload = [
             "building_type" => ""
@@ -116,9 +107,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_building_type(): void {
         $payload = [
             "building_type" => 12345
@@ -136,9 +125,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_building_type(): void {
         $payload = [
             "building_type" => parent::generateRandomString(2)
@@ -156,9 +143,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_building_type(): void {
         $payload = [
             "building_type" => parent::generateRandomString(1000)
@@ -176,9 +161,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString()
@@ -196,9 +179,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -217,9 +198,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -238,9 +217,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -259,9 +236,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -280,9 +255,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_description(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -301,9 +274,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -322,9 +293,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -344,9 +313,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -366,9 +333,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -388,9 +353,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -410,9 +373,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_meters(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -432,9 +393,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_value(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -454,9 +413,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_value(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -477,9 +434,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_value(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -500,9 +455,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -524,9 +477,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -549,9 +500,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -574,9 +523,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -599,9 +546,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -624,9 +569,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_witness_one_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -649,9 +592,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -674,9 +615,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -700,9 +639,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -726,9 +663,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -752,9 +687,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -778,9 +711,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_witness_one_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -805,9 +736,7 @@ class CreateContractTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_witness_one_two(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -831,9 +760,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_witness_two_name(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -858,9 +785,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_witness_one_two(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -885,9 +810,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_witness_one_two(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -912,9 +835,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_witness_one_two(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -939,9 +860,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_witness_one_two(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -966,9 +885,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -993,9 +910,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_null_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1021,9 +936,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_empty_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1049,9 +962,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_wrong_type_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1077,9 +988,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_short_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1105,9 +1014,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_long_witness_two_cpf(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1133,9 +1040,7 @@ class CreateContractTest extends TestFramework
         );
     }
         
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_without_proposal_id(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1161,9 +1066,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_non_existing_proposal_id(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1190,9 +1093,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_invalid_proposal_id(): void {
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1219,9 +1120,7 @@ class CreateContractTest extends TestFramework
         );
     }
        
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_proposal_not_approved(): void {
         parent::createProposal();
         parent::createCity();
@@ -1255,9 +1154,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_proposal_rejected(): void {
         parent::createProposal();
         parent::createCity();
@@ -1300,9 +1197,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createContract_with_proposal_deleted(): void {
         parent::createProposal();
         parent::createCity();
@@ -1345,9 +1240,7 @@ class CreateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createContract(): void {
         parent::createProposal();
         parent::createCity();

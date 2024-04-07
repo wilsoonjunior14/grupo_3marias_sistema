@@ -5,6 +5,7 @@ namespace Tests\Feature\middleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the userIsAllowed middleware
@@ -24,9 +25,7 @@ class UserIsAllowedTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_usingMiddleware_userIsAllowed_withoutExistingRoles(): void {
         $this->withMiddleware(\App\Http\Middleware\UserIsAllowed::class);
 
@@ -49,9 +48,7 @@ class UserIsAllowedTest extends TestFramework
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_usingMiddleware_userIsAllowed_withoutPermissions(): void {
         $json = [
             "description" => "POST /api/v1/groups",

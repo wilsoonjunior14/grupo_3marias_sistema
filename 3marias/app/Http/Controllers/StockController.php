@@ -21,8 +21,14 @@ class StockController extends Controller implements APIController
      * Gets all stocks.
      */
     public function index() {
-        $stocks = $this->stockBusiness->getAll();
-        return ResponseUtils::getResponse($stocks, 200);
+        try {
+            $stocks = $this->stockBusiness->getAll();
+            return ResponseUtils::getResponse($stocks, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -35,24 +41,42 @@ class StockController extends Controller implements APIController
      * Gets a stocks model by id.
      */
     public function show($id) {
-        $stock = $this->stockBusiness->getById(id: $id, mergeFields: true);
-        return ResponseUtils::getResponse($stock, 200);
+        try {
+            $stock = $this->stockBusiness->getById(id: $id, mergeFields: true);
+            return ResponseUtils::getResponse($stock, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a stocks models by id.
      */
     public function destroy($id) {
-        $stock = $this->stockBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($stock, 200);
+        try {
+            $stock = $this->stockBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($stock, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a stocks model.
      */
     public function update(Request $request, $id) {
-        $stock = $this->stockBusiness->update(payload: $request->all(), id: $id);
-        return ResponseUtils::getResponse($stock, 200);
+        try {
+            $stock = $this->stockBusiness->update(payload: $request->all(), id: $id);
+            return ResponseUtils::getResponse($stock, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -66,7 +90,13 @@ class StockController extends Controller implements APIController
      * Shares products among stocks.
      */
     public function share(Request $request) {
-        $stock = $this->stockBusiness->shareProductsAmongCostCenters(payload: $request->all());
-        return ResponseUtils::getResponse($stock, 200);
+        try {
+            $stock = $this->stockBusiness->shareProductsAmongCostCenters(payload: $request->all());
+            return ResponseUtils::getResponse($stock, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 }

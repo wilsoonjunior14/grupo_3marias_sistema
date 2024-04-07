@@ -1,9 +1,9 @@
 <?php
 
-use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/stocks
@@ -23,9 +23,7 @@ class CreateStockTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createStock(): void {
         parent::createContract();
 

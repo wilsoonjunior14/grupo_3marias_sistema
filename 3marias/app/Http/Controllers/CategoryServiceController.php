@@ -21,40 +21,70 @@ class CategoryServiceController extends Controller implements APIController
      * Gets all categories.
      */
     public function index() {
-        $categories = $this->categoryServiceBusiness->get();
-        return ResponseUtils::getResponse($categories, 200);
+        try {
+            $categories = $this->categoryServiceBusiness->get();
+            return ResponseUtils::getResponse($categories, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a category.
      */
     public function store(Request $request) {
-        $category = $this->categoryServiceBusiness->create(request: $request);
-        return ResponseUtils::getResponse($category, 201);
+        try {
+            $category = $this->categoryServiceBusiness->create(request: $request);
+            return ResponseUtils::getResponse($category, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a category by id.
      */
     public function show($id) {
-        $category = $this->categoryServiceBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($category, 200);
+        try {
+            $category = $this->categoryServiceBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($category, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a category by id.
      */
     public function destroy($id) {
-        $category = $this->categoryServiceBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($category, 200);
+        try {
+            $category = $this->categoryServiceBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($category, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a category.
      */
     public function update(Request $request, $id) {
-        $categoryUpdated = $this->categoryServiceBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($categoryUpdated, 200);
+        try {
+            $categoryUpdated = $this->categoryServiceBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($categoryUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

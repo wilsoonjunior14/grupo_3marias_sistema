@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/clients
@@ -25,9 +26,7 @@ class GetClientTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getClients_without_authorization(): void {
         $response = $this
         ->get("/api/v1/clients");
@@ -40,9 +39,7 @@ class GetClientTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getClients_single_results(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -51,9 +48,6 @@ class GetClientTest extends TestFramework
         $response->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
     // TODO: needs create parent::createClient()
     // public function posTest_getClients_results_found(): void {
     //     parent::createUser();
@@ -66,9 +60,7 @@ class GetClientTest extends TestFramework
     //     $response->assertStatus(200);
     // }
 
-    /**
-     * @test
-     */
+        #[Test]
     public function negTest_getClientById_without_authorization(): void {
         $response = $this
         ->get("/api/v1/clients/1");
@@ -79,9 +71,7 @@ class GetClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getClientById_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -93,9 +83,7 @@ class GetClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getClientById_non_existing_client(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -107,9 +95,7 @@ class GetClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getClientById_results_not_found(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())

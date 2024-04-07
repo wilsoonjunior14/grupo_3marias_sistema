@@ -21,40 +21,70 @@ class ContractController extends Controller implements APIController
      * Gets all contracts.
      */
     public function index() {
-        $contracts = $this->contractBusiness->get();
-        return ResponseUtils::getResponse($contracts, 200);
+        try {
+            $contracts = $this->contractBusiness->get();
+            return ResponseUtils::getResponse($contracts, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a contract.
      */
     public function store(Request $request) {
-        $contract = $this->contractBusiness->create(request: $request);
-        return ResponseUtils::getResponse($contract, 201);
+        try {
+            $contract = $this->contractBusiness->create(request: $request);
+            return ResponseUtils::getResponse($contract, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a contract by id.
      */
     public function show($id) {
-        $contract = $this->contractBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($contract, 200);
+        try {
+            $contract = $this->contractBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($contract, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a contract by id.
      */
     public function destroy($id) {
-        $contract = $this->contractBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($contract, 200);
+        try {
+            $contract = $this->contractBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($contract, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a contract.
      */
     public function update(Request $request, $id) {
-        $contractUpdated = $this->contractBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($contractUpdated, 200);
+        try {
+            $contractUpdated = $this->contractBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($contractUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

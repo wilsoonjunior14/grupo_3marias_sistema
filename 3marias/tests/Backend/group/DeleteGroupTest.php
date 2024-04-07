@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/groups/{$id}
@@ -25,9 +26,7 @@ class DeleteGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteGroup_without_authentication(): void {
         $response = $this
         ->delete("/api/v1/groups/2");
@@ -38,9 +37,7 @@ class DeleteGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteGroup_with_invalidId(): void {
         parent::createGroup();
 
@@ -54,9 +51,7 @@ class DeleteGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteGroup_non_existing_group(): void {
         parent::createGroup();
 
@@ -70,9 +65,7 @@ class DeleteGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteGroup(): void {
         parent::createGroup();
 

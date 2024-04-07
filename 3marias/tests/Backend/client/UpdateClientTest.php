@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/clients
@@ -24,9 +25,7 @@ class UpdateClientTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateClients_without_authorization(): void {
         $response = $this
         ->put("/api/v1/clients/1");
@@ -39,9 +38,7 @@ class UpdateClientTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateClients_all_client_fields(): void {
         parent::createCity();
 
@@ -127,9 +124,7 @@ class UpdateClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateClients_required_client_fields(): void {
         parent::createCity();
 
@@ -194,9 +189,7 @@ class UpdateClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateClients_married_client_fields_to_single_client_fields(): void {
         parent::createCity();
         $payload = [
@@ -400,9 +393,7 @@ class UpdateClientTest extends TestFramework
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateClients_single_client_fields_to_married_client_fields(): void {
         parent::createCity();
 

@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/users/search
@@ -24,9 +25,7 @@ class SearchUserTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_searchUsers_without_authorization(): void {
         $data = [];
         $response = $this
@@ -40,9 +39,7 @@ class SearchUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchUsers_with_empty_data(): void {
         $data = [];
         $response = $this
@@ -53,9 +50,7 @@ class SearchUserTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchUsers_using_name(): void {
         $user1 = parent::createUser();
 
@@ -70,9 +65,7 @@ class SearchUserTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchUsers_using_email(): void {
         $user1 = parent::createUser();
 
@@ -87,9 +80,7 @@ class SearchUserTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchUsers_all_fields(): void {
         $user1 = parent::createUser();
 

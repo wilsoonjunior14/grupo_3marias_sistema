@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/products
@@ -23,9 +24,7 @@ class CreateProductTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_without_authorization(): void {
         $response = $this
         ->post("/api/v1/products");
@@ -38,9 +37,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_null_payload(): void {
         $payload = [null];
         $response = $this
@@ -55,9 +52,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_empty_payload(): void {
         $payload = [];
         $response = $this
@@ -72,9 +67,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_null_product(): void {
         $category = parent::createCategoryProduct();
 
@@ -94,9 +87,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_empty_product(): void {
         $category = parent::createCategoryProduct();
         $payload = [
@@ -115,9 +106,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_wrong_type_product(): void {
         $category = parent::createCategoryProduct();
         $payload = [
@@ -136,9 +125,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_short_product(): void {
         $category = parent::createCategoryProduct();
         $payload = [
@@ -157,9 +144,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_long_product(): void {
         $category = parent::createCategoryProduct();
         $payload = [
@@ -178,9 +163,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_without_category_product_name(): void {
         $payload = [
             "product" => parent::generateRandomString()
@@ -197,9 +180,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_null_category_product_name(): void {
         $payload = [
             "product" => parent::generateRandomString(),
@@ -217,9 +198,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_empty_category_product_name(): void {
         $payload = [
             "product" => parent::generateRandomString(),
@@ -237,9 +216,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_wrong_type_category_product_name(): void {
         $payload = [
             "product" => parent::generateRandomString(),
@@ -257,9 +234,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProduct_with_invalid_category_product_name(): void {
         $payload = [
             "product" => parent::generateRandomString(),
@@ -277,9 +252,7 @@ class CreateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createProduct(): void {
         $category = parent::createCategoryProduct();
         $payload = [

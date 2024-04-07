@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\user;
 
-use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/partners
@@ -26,9 +25,7 @@ class CreatePartnerTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_without_authorization(): void {
         $response = $this
         ->post("/api/v1/partners");
@@ -41,9 +38,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_payload(): void {
         $payload = [];
 
@@ -59,9 +54,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_payload(): void {
         $payload = [null];
 
@@ -77,9 +70,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_fantasy_name_required_field(): void {
         $payload = [
             "fantasy_name" => null
@@ -97,9 +88,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_fantasy_name_required_field(): void {
         $payload = [
             "fantasy_name" => ""
@@ -117,9 +106,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_fantasy_name_required_field(): void {
         $payload = [
             "fantasy_name" => 12345
@@ -137,9 +124,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_short_fantasy_name_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(2)
@@ -157,9 +142,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_long_fantasy_name_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(10000)
@@ -177,9 +160,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_without_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString()
@@ -197,9 +178,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -218,9 +197,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_type_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -239,9 +216,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
     
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -260,9 +235,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_short_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -281,9 +254,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_long_partner_type_required_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -302,9 +273,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_email_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -324,9 +293,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_email_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -346,9 +313,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_email_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -368,9 +333,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_invalid_email_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -390,9 +353,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_phone_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -413,9 +374,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_phone_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -436,9 +395,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_invalid_phone_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -460,9 +417,7 @@ class CreatePartnerTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_phone_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -483,9 +438,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_url_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -506,9 +459,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_url_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -529,9 +480,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_url_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -552,9 +501,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_short_url_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -575,9 +522,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_long_url_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -598,9 +543,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_social_reason_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -621,9 +564,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_social_reason_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -644,9 +585,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_social_reason_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -667,9 +606,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_short_social_reason_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -690,9 +627,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_long_social_reason_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -713,9 +648,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_observation_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -736,9 +669,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_observation_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -759,9 +690,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_observation_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -782,9 +711,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_short_observation_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -805,9 +732,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_long_observation_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -828,9 +753,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_null_cnpj_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -850,9 +773,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_empty_cnpj_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -872,9 +793,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_wrong_type_cnpj_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -894,9 +813,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_with_invalid_cnpj_optional_field(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -916,9 +833,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPartner_duplicated(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -951,9 +866,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createPartner_with_required_fields_and_optional_fields(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -985,9 +898,7 @@ class CreatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createPartner_with_required_fields_and_url(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -1015,9 +926,7 @@ class CreatePartnerTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createPartner_with_required_fields_and_social_reason(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),
@@ -1044,9 +953,7 @@ class CreatePartnerTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createPartner_with_required_fields_and_observation(): void {
         $payload = [
             "fantasy_name" => parent::generateRandomString(),

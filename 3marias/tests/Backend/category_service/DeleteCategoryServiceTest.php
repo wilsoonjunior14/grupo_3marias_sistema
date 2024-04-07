@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/categoryServices/{id}
@@ -23,9 +24,7 @@ class DeleteCategoryServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryService_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/categoryServices/1");
@@ -38,9 +37,7 @@ class DeleteCategoryServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryService_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -54,9 +51,7 @@ class DeleteCategoryServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryService_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -70,9 +65,7 @@ class DeleteCategoryServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteCategoryService(): void {
         $category = parent::createCategoryService();
 

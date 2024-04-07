@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/clients
@@ -24,9 +25,7 @@ class CreateClientIVTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_without_authorization(): void {
         $response = $this
         ->get("/api/v1/clients");
@@ -39,9 +38,7 @@ class CreateClientIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_data(): void {
         $payload = [];
 
@@ -55,9 +52,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_null_name(): void {
         $payload = [
             "name" => null
@@ -73,9 +68,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_name(): void {
         $payload = [
             "name" => ""
@@ -91,9 +84,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_name(): void {
         $payload = [
             "name" => "ab"
@@ -109,9 +100,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_name(): void {
         $payload = [
             "name" => parent::generateRandomString(500)
@@ -127,9 +116,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_name(): void {
         $payload = [
             "name" => 10000
@@ -145,9 +132,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -165,9 +150,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
         
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -185,9 +168,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -204,9 +185,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -223,9 +202,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -242,9 +219,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -263,9 +238,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -284,9 +257,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -304,9 +275,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -324,9 +293,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -344,9 +311,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_pattern_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -364,9 +329,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_pattern_numbers_rg_organ(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -384,9 +347,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_rgDate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -405,9 +366,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_rgDate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -426,9 +385,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_rgDate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -447,9 +404,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_without_cpf(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -468,9 +423,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_cpf(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -490,9 +443,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_cpf(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -512,9 +463,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_cpf(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -534,9 +483,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_letters_cpf(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -556,9 +503,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_state(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -579,9 +524,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_state(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -602,9 +545,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_state(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -625,9 +566,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_sex(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -649,9 +588,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_sex(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -673,9 +610,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_sex(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -697,9 +632,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -722,9 +655,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -747,9 +678,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -772,9 +701,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -797,9 +724,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -822,9 +747,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_naturality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -848,9 +771,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_naturality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -874,9 +795,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_naturality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -900,9 +819,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_ocupation(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -927,9 +844,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_ocupation(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -954,9 +869,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_ocupation(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -981,9 +894,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_email(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1009,9 +920,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_email(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1037,9 +946,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_email(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1065,9 +972,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_without_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1103,9 +1008,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_null_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1132,9 +1035,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_empty_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1161,9 +1062,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1190,9 +1089,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_phone(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1219,9 +1116,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_person_service(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1249,9 +1144,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_person_service(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1279,9 +1172,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_person_service(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1309,9 +1200,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_person_service(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1339,9 +1228,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_letters_salary(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1370,9 +1257,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_invalid_salary(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1401,9 +1286,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_indication(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1433,9 +1316,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_indication(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1465,9 +1346,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_isPublicEmployee(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1495,9 +1374,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with__isPublicEmployee(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1526,9 +1403,7 @@ class CreateClientIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_hasFGTS(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1556,9 +1431,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_has_fgts(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1587,9 +1460,7 @@ class CreateClientIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_hasManyBuyers(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1617,9 +1488,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_has_many_buyers(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1647,9 +1516,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_wrong_type_birthdate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1677,9 +1544,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_invalid_birthdate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1738,9 +1603,7 @@ class CreateClientIVTest extends TestFramework
     //     ]);
     // }
 
-    /**
-     * @test
-     */
+        #[Test]
     public function negTest_createClients_with_wrong_type_address(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1769,9 +1632,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_address(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1800,9 +1661,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_address(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1831,9 +1690,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_without_neighborhood(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1862,9 +1719,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_neighborhood(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1894,9 +1749,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_short_neighborhood(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1926,9 +1779,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_long_neighborhood(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1958,9 +1809,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_without_city_id(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -1990,9 +1839,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_with_wrong_type_city_id(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2023,9 +1870,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_without_zipcode(): void {
         parent::createCity();
 
@@ -2058,9 +1903,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_invalid_zipcode(): void {
         parent::createCity();
 
@@ -2094,9 +1937,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_wrong_type_zipcode(): void {
         parent::createCity();
 
@@ -2130,9 +1971,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_without_address(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2172,9 +2011,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality_naturality_ocupation(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2208,9 +2045,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality_naturality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2242,9 +2077,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex_nationality(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2274,9 +2107,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-        /**
-     * @test
-     */
+        #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate_state_sex(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2304,9 +2135,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate_state(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2332,9 +2161,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgorgan_rgdate(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2358,9 +2185,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg_rgOrgan(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -2382,9 +2207,7 @@ class CreateClientIVTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_with_rg(): void {
         $payload = [
             "name" => parent::generateRandomString(),

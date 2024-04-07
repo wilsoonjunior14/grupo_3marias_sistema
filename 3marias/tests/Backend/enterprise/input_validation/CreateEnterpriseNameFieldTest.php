@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/enterprises
@@ -22,9 +23,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_null_name(): void {
         $payload = [
             "name" => null,
@@ -56,9 +55,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_empty_name(): void {
         $payload = [
             "name" => "",
@@ -90,9 +87,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_short_name(): void {
         $payload = [
             "name" => parent::generateRandomString(2),
@@ -124,9 +119,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_long_name(): void {
         $payload = [
             "name" => parent::generateRandomString(10000),
@@ -158,9 +151,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_wrong_type_name(): void {
         $payload = [
             "name" => 12345,
@@ -192,9 +183,7 @@ class CreateEnterpriseNameFieldTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_wrong_type_object_name(): void {
         $payload = [
             "name" => 12345,

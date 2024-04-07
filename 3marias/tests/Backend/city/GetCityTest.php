@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\group;
 
-use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/cities
@@ -25,9 +25,7 @@ class GetCityTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getCities_without_authentication(): void {
         $response = $this
         ->withHeaders([])
@@ -39,9 +37,7 @@ class GetCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCities_emptyResults(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -51,9 +47,7 @@ class GetCityTest extends TestFramework
         $response->assertJson([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCities(): void {
         parent::createCity();
         parent::createCity();
@@ -66,9 +60,7 @@ class GetCityTest extends TestFramework
         $response->assertJsonCount(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCityById(): void {
         $city = parent::createCity();
 

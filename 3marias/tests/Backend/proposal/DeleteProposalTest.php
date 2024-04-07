@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/proposals/{id}
@@ -25,9 +26,7 @@ class DeleteProposalTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProposal_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/proposals/1");
@@ -40,9 +39,7 @@ class DeleteProposalTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProposal_with_zero_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -54,9 +51,7 @@ class DeleteProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProposal_with_non_existing_id(): void {
         $proposal = parent::createProposal();
 
@@ -76,9 +71,7 @@ class DeleteProposalTest extends TestFramework
      */
     public function negTest_deleteProposal_with_contract_associated(): void {}
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteProposal_without_contract(): void {
         $proposal = parent::createProposal();
 

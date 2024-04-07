@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/users
@@ -25,17 +26,13 @@ class CreateUserTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_withEmptyData_shouldReturnError(): void {
         $data = [];
         $this->postUser_badRequest($data, "Campo nome é obrigatório.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_withoutEmail(): void {
         $json = [
             "name" => parent::generateRandomString()
@@ -43,9 +40,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo email é obrigatório.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_short_name(): void {
         $json = [
             "name" => "a"
@@ -53,9 +48,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo nome deve conter no mínimo 3 caracteres.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_long_name(): void {
         $json = [
             "name" => parent::generateRandomString(500)
@@ -63,9 +56,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo nome permite no máximo 255 caracteres.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_invalid_email(): void {
         $json = [
             "name" => parent::generateRandomString(),
@@ -74,9 +65,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo email está inválido.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_without_password(): void {
         $json = [
             "name" => parent::generateRandomString(),
@@ -85,9 +74,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo senha é obrigatório.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_without_confPassword(): void {
         parent::createGroup();
 
@@ -100,9 +87,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo de confirmação de senha não informado.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_different_passwords(): void {
         parent::createGroup();
         $password = parent::generateRandomString();
@@ -116,9 +101,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Senhas estão diferentes.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_short_password(): void {
         $json = [
             "name" => parent::generateRandomString(),
@@ -128,9 +111,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, "Campo senha deve conter no mínimo 3 caracteres.");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_without_group(): void {
         $json = [
             "name" => parent::generateRandomString(),
@@ -141,9 +122,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, 'Campo Identificador de grupo é obrigatório.');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createUser_with_non_existing_group(): void {
         $password = parent::generateRandomString();
         $json = [
@@ -156,9 +135,7 @@ class CreateUserTest extends TestFramework
         $this->postUser_badRequest($json, 'Grupo informado não existe.');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createUser(): void {
         DB::table("groups")->insert(['description' => parent::generateRandomString(), 'deleted' => false]);
 
@@ -184,9 +161,7 @@ class CreateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createUser_with_noAccess(): void {
         DB::table("groups")->insert(['description' => parent::generateRandomString(), 'deleted' => false]);
 

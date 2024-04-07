@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/products
@@ -23,9 +24,7 @@ class UpdateProductTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_without_authorization(): void {
         $response = $this
         ->put("/api/v1/products/1");
@@ -38,9 +37,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_null_payload(): void {
         parent::createProduct();
 
@@ -57,9 +54,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_empty_payload(): void {
         parent::createProduct();
 
@@ -76,9 +71,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_null_product(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -99,9 +92,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_empty_product(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -122,9 +113,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_wrong_type_product(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -145,9 +134,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_short_product(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -168,9 +155,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_long_product(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -191,9 +176,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_without_category_product_name(): void {
         parent::createProduct();
         $payload = [
@@ -211,9 +194,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_null_category_product_name(): void {
         parent::createProduct();
         $payload = [
@@ -232,9 +213,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_empty_category_product_name(): void {
         parent::createProduct();
         $payload = [
@@ -253,9 +232,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_wrong_type_category_product_name(): void {
         parent::createProduct();
         $payload = [
@@ -274,9 +251,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_invalid_category_product_name(): void {
         parent::createProduct();
         $payload = [
@@ -296,9 +271,7 @@ class UpdateProductTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_invalid_product_id(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -318,9 +291,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProduct_with_non_existing_product_id(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -340,9 +311,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateProduct(): void {
         $category = parent::createCategoryProduct();
         parent::createProduct();
@@ -363,9 +332,7 @@ class UpdateProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateProduct_without_change_fields(): void {
         $category = parent::createCategoryProduct();
         $payload = [

@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/users/{id}
@@ -25,9 +26,7 @@ class UpdateUserTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_without_authorization(): void {
         $json = [];
         $response = $this
@@ -41,9 +40,7 @@ class UpdateUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser_invalidId(): void {
         $json = parent::createUser();
 
@@ -57,9 +54,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser_non_existingId(): void {
         $json = parent::createUser();
 
@@ -73,9 +68,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser(): void {
         $json = parent::createUser();
 
@@ -86,9 +79,7 @@ class UpdateUserTest extends TestFramework
         $response->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser_change_only_email(): void {
         $json = parent::createUser();
 
@@ -109,9 +100,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser_change_only_name(): void {
         $json = parent::createUser();
 
@@ -132,9 +121,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateUser_change_only_password(): void {
         $json = parent::createUser();
 
@@ -156,9 +143,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_invalid_name(): void {
         $json = parent::createUser();
 
@@ -175,9 +160,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_long_name(): void {
         $json = parent::createUser();
 
@@ -194,9 +177,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_null_name(): void {
         $json = parent::createUser();
 
@@ -213,9 +194,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_empty_email(): void {
         $json = parent::createUser();
 
@@ -232,9 +211,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_password_email(): void {
         $json = parent::createUser();
 
@@ -251,9 +228,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_without_provide_confPassword(): void {
         $json = parent::createUser();
 
@@ -271,9 +246,7 @@ class UpdateUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateUser_trying_delete_user(): void {
         $json = parent::createUser();
 

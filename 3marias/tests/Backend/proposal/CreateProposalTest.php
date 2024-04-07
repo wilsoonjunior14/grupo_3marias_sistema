@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/proposals
@@ -24,9 +25,7 @@ class CreateProposalTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createProposal_with_only_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -79,9 +78,7 @@ class CreateProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createProposal_with_only_bank_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -134,9 +131,7 @@ class CreateProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createProposal_with_both_payments_methods(): void {
         $client = parent::createClient();
         $project = parent::createProject();

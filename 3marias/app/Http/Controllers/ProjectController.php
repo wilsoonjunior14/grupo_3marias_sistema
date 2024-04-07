@@ -21,40 +21,70 @@ class ProjectController extends Controller implements APIController
      * Gets all projects.
      */
     public function index() {
-        $projects = $this->projectBusiness->get();
-        return ResponseUtils::getResponse($projects, 200);
+        try {
+            $projects = $this->projectBusiness->get();
+            return ResponseUtils::getResponse($projects, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a project.
      */
     public function store(Request $request) {
-        $project = $this->projectBusiness->create(request: $request);
-        return ResponseUtils::getResponse($project, 201);
+        try {
+            $project = $this->projectBusiness->create(request: $request);
+            return ResponseUtils::getResponse($project, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a project by id.
      */
     public function show($id) {
-        $project = $this->projectBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($project, 200);
+        try {
+            $project = $this->projectBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($project, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a project by id.
      */
     public function destroy($id) {
-        $project = $this->projectBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($project, 200);
+        try {
+            $project = $this->projectBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($project, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a project.
      */
     public function update(Request $request, $id) {
-        $projectUpdated = $this->projectBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($projectUpdated, 200);
+        try {
+            $projectUpdated = $this->projectBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($projectUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

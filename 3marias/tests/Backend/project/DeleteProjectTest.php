@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/projects/{id}
@@ -25,9 +26,7 @@ class DeleteProjectTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProject_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/projects/1");
@@ -40,9 +39,7 @@ class DeleteProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProject_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class DeleteProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteProject_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -72,10 +67,7 @@ class DeleteProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     * TODO: it can be updated to project
-     */
+    #[Test]
     public function posTest_deleteProject(): void {
         $project = parent::createProject();
 

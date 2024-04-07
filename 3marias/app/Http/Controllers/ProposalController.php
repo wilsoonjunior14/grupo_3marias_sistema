@@ -21,56 +21,98 @@ class ProposalController extends Controller implements APIController
      * Gets all proposals.
      */
     public function index() {
-        $proposals = $this->proposalBusiness->get();
-        return ResponseUtils::getResponse($proposals, 200);
+        try {
+            $proposals = $this->proposalBusiness->get();
+            return ResponseUtils::getResponse($proposals, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a proposal.
      */
     public function store(Request $request) {
-        $proposal = $this->proposalBusiness->create(request: $request);
-        return ResponseUtils::getResponse($proposal, 201);
+        try {
+            $proposal = $this->proposalBusiness->create(request: $request);
+            return ResponseUtils::getResponse($proposal, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a proposal by id.
      */
     public function show($id) {
-        $proposal = $this->proposalBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($proposal, 200);
+        try {
+            $proposal = $this->proposalBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($proposal, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a proposal by id.
      */
     public function destroy($id) {
-        $proposal = $this->proposalBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($proposal, 200);
+        try {
+            $proposal = $this->proposalBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($proposal, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Approves a proposal by id.
      */
     public function approve($id) {
-        $proposal = $this->proposalBusiness->approve(id: $id);
-        return ResponseUtils::getResponse($proposal, 200);
+        try {
+            $proposal = $this->proposalBusiness->approve(id: $id);
+            return ResponseUtils::getResponse($proposal, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Rejects a proposal by id.
      */
     public function reject($id) {
-        $proposal = $this->proposalBusiness->reject(id: $id);
-        return ResponseUtils::getResponse($proposal, 200);
+        try {
+            $proposal = $this->proposalBusiness->reject(id: $id);
+            return ResponseUtils::getResponse($proposal, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a proposal.
      */
     public function update(Request $request, $id) {
-        $proposalUpdated = $this->proposalBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($proposalUpdated, 200);
+        try {
+            $proposalUpdated = $this->proposalBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($proposalUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

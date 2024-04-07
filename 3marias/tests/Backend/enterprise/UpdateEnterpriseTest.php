@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/enterprises/{id}
@@ -22,9 +23,7 @@ class UpdateEnterpriseTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateEnterprise_without_authorization(): void {
         $response = $this
         ->put("/api/v1/enterprises/1", []);
@@ -37,9 +36,7 @@ class UpdateEnterpriseTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateEnterprise_with_null_payload(): void {
         $payload = [null];
 
@@ -53,9 +50,7 @@ class UpdateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateEnterprise_with_empty_payload(): void {
         $payload = [];
 
@@ -69,9 +64,7 @@ class UpdateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateEnterprise_with_existing_cnpj(): void {
         $this->createEnterprise();
         $this->createCountry();
@@ -148,69 +141,43 @@ class UpdateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_name(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_cnpj(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_bank(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_bank_agency(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_bank_account(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_creci(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_email(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_fantasy_name(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_municipal_registration(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_state_registration(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_pix(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_only_social_reason(): void { }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateEnterprise_all_fields(): void {
         $this->createEnterprise();
         $this->createCountry();

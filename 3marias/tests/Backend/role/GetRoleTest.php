@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/roles | /api/v1/roles/{id}
@@ -25,9 +26,7 @@ class GetRoleTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getRoles_without_authentication_before(): void {
         $response = $this
         ->get("/api/v1/roles");
@@ -38,9 +37,7 @@ class GetRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getRoleById_without_authentication_before(): void {
         $response = $this
         ->get("/api/v1/roles/1");
@@ -51,9 +48,7 @@ class GetRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getRoles_without_existing_roles(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -63,9 +58,7 @@ class GetRoleTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getRoles_with_existing_roles(): void {
         $role1 = parent::createRole();
         $role2 = parent::createRole();
@@ -78,9 +71,7 @@ class GetRoleTest extends TestFramework
         $response->assertJsonCount(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getRoleById_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -92,9 +83,7 @@ class GetRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getRoleById_with_notExistingRole(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -106,9 +95,7 @@ class GetRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getRoleById(): void {
         $role1 = parent::createRole();
 

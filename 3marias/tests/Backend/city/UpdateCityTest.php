@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/cities
@@ -25,9 +26,7 @@ class UpdateCityTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCity_without_authentication_before(): void {
         // Arrange
         $json = [];
@@ -44,9 +43,7 @@ class UpdateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCity_with_emptyData(): void {
         parent::createCity();
         // Arrange
@@ -64,9 +61,7 @@ class UpdateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateCity(): void {
         $city = parent::createCity();
         // Arrange

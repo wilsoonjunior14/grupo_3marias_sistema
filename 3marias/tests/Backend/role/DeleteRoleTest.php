@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/roles/{id}
@@ -25,9 +26,7 @@ class DeleteRoleTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteRole_without_authentication_before(): void {
         $response = $this
         ->withHeaders([])
@@ -39,9 +38,7 @@ class DeleteRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteRole_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -53,9 +50,7 @@ class DeleteRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteRole_non_existingRole(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -67,9 +62,7 @@ class DeleteRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteRole_existingRole(): void {
         parent::createRole();
 

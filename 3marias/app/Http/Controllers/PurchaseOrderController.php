@@ -21,40 +21,70 @@ class PurchaseOrderController extends Controller implements APIController
      * Gets all purchases.
      */
     public function index() {
-        $purchases = $this->purchaseBusiness->get();
-        return ResponseUtils::getResponse($purchases, 200);
+        try {
+            $purchases = $this->purchaseBusiness->get();
+            return ResponseUtils::getResponse($purchases, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a purchase.
      */
     public function store(Request $request) {
-        $purchase = $this->purchaseBusiness->create(request: $request);
-        return ResponseUtils::getResponse($purchase, 201);
+        try {
+            $purchase = $this->purchaseBusiness->create(request: $request);
+            return ResponseUtils::getResponse($purchase, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a purchase by id.
      */
     public function show($id) {
-        $purchase = $this->purchaseBusiness->getById(id: $id, mergeFields: true);
-        return ResponseUtils::getResponse($purchase, 200);
+        try {
+            $purchase = $this->purchaseBusiness->getById(id: $id, mergeFields: true);
+            return ResponseUtils::getResponse($purchase, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a purchase by id.
      */
     public function destroy($id) {
-        $purchase = $this->purchaseBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($purchase, 200);
+        try {
+            $purchase = $this->purchaseBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($purchase, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a purchase.
      */
     public function update(Request $request, $id) {
-        $purchase = $this->purchaseBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($purchase, 200);
+        try {
+            $purchase = $this->purchaseBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($purchase, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -68,16 +98,28 @@ class PurchaseOrderController extends Controller implements APIController
      * Approves a purchase by id.
      */
     public function approve($id) {
-        $purchase = $this->purchaseBusiness->approve(id: $id);
-        return ResponseUtils::getResponse($purchase, 200);
+        try {
+            $purchase = $this->purchaseBusiness->approve(id: $id);
+            return ResponseUtils::getResponse($purchase, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Rejects a purchase by id.
      */
     public function reject($id) {
-        $purchase = $this->purchaseBusiness->reject(id: $id);
-        return ResponseUtils::getResponse($purchase, 200);
+        try {
+            $purchase = $this->purchaseBusiness->reject(id: $id);
+            return ResponseUtils::getResponse($purchase, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
 }

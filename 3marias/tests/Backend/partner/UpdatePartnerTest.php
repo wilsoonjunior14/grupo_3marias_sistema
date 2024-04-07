@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/partners/{id}
@@ -25,9 +26,7 @@ class UpdatePartnerTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_without_authorization(): void {
         $response = $this
         ->put("/api/v1/partners/1");
@@ -40,9 +39,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_payload(): void {
         $partner = parent::createPartner();
 
@@ -60,9 +57,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_payload(): void {
         $partner = parent::createPartner();
 
@@ -80,9 +75,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_fantasy_name_required_field(): void {
         $partner = parent::createPartner();
 
@@ -102,9 +95,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_fantasy_name_required_field(): void {
         $partner = parent::createPartner();
 
@@ -124,9 +115,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_fantasy_name_required_field(): void {
         $partner = parent::createPartner();
 
@@ -146,9 +135,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_short_fantasy_name_required_field(): void {
         $partner = parent::createPartner();
 
@@ -168,9 +155,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_long_fantasy_name_required_field(): void {
         $partner = parent::createPartner();
 
@@ -190,9 +175,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_without_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -212,9 +195,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -235,9 +216,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_type_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -258,9 +237,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
     
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -281,9 +258,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_short_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -304,9 +279,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_long_partner_type_required_field(): void {
         $partner = parent::createPartner();
 
@@ -327,9 +300,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_email_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -351,9 +322,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_email_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -375,9 +344,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_email_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -399,9 +366,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_invalid_email_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -423,9 +388,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_phone_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -448,9 +411,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_phone_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -473,9 +434,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_invalid_phone_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -499,9 +458,7 @@ class UpdatePartnerTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_phone_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -524,9 +481,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_url_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -549,9 +504,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_url_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -574,9 +527,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_url_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -599,9 +550,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_short_url_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -624,9 +573,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_long_url_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -649,9 +596,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_social_reason_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -674,9 +619,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_social_reason_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -699,9 +642,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_social_reason_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -724,9 +665,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_short_social_reason_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -749,9 +688,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_long_social_reason_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -774,9 +711,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_observation_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -799,9 +734,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_observation_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -824,9 +757,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_observation_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -849,9 +780,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_short_observation_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -874,9 +803,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_long_observation_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -899,9 +826,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_null_cnpj_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -923,9 +848,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_empty_cnpj_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -947,9 +870,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_wrong_type_cnpj_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -971,9 +892,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_invalid_cnpj_optional_field(): void {
         $partner = parent::createPartner();
 
@@ -995,9 +914,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_invalid_id(): void {
         $partner = parent::createPartner();
 
@@ -1019,9 +936,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_with_non_existing_id(): void {
         $partner = parent::createPartner();
 
@@ -1043,9 +958,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updatePartner_duplicated(): void {
         $partner = parent::createPartner();
         $partner2 = parent::createPartner(cnpj: "14.395.688/0001-60");
@@ -1068,9 +981,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updatePartner_with_required_fields_and_optional_fields(): void {
         $partner = parent::createPartner();
 
@@ -1104,9 +1015,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updatePartner_with_required_fields_and_url(): void {
         $partner = parent::createPartner();
 
@@ -1132,9 +1041,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updatePartner_with_required_fields_and_social_reason(): void {
         $partner = parent::createPartner();
 
@@ -1159,9 +1066,7 @@ class UpdatePartnerTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updatePartner_with_required_fields_and_observation(): void {
         $partner = parent::createPartner();
 

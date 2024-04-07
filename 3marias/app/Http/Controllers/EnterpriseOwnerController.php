@@ -21,40 +21,70 @@ class EnterpriseOwnerController extends Controller implements APIController
      * Gets all EnterpriseOwners.
      */
     public function index() {
-        $enterpriseOwners = $this->enterpriseOwnerBusiness->get(enterpriseId: 1);
-        return ResponseUtils::getResponse($enterpriseOwners, 200);
+        try {
+            $enterpriseOwners = $this->enterpriseOwnerBusiness->get(enterpriseId: 1);
+            return ResponseUtils::getResponse($enterpriseOwners, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a EnterpriseOwner.
      */
     public function store(Request $request) {
-        $entepriseOwner = $this->enterpriseOwnerBusiness->create(request: $request);
-        return ResponseUtils::getResponse($entepriseOwner, 201);
+        try {
+            $entepriseOwner = $this->enterpriseOwnerBusiness->create(request: $request);
+            return ResponseUtils::getResponse($entepriseOwner, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a EnterpriseOwner by id.
      */
     public function show($id) {
-        $entepriseOwner = $this->enterpriseOwnerBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($entepriseOwner, 200);
+        try {
+            $entepriseOwner = $this->enterpriseOwnerBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($entepriseOwner, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a EnterpriseOwner by id.
      */
     public function destroy($id) {
-        $entepriseOwner = $this->enterpriseOwnerBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($entepriseOwner, 200);
+        try {
+            $entepriseOwner = $this->enterpriseOwnerBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($entepriseOwner, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a EnterpriseOwner.
      */
     public function update(Request $request, $id) {
-        $entepriseOwnerUpdated = $this->enterpriseOwnerBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($entepriseOwnerUpdated, 200);
+        try {
+            $entepriseOwnerUpdated = $this->enterpriseOwnerBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($entepriseOwnerUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

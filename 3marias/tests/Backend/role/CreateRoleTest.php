@@ -5,6 +5,7 @@ namespace Tests\Feature\role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/roles
@@ -24,9 +25,7 @@ class CreateRoleTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_without_authentication_before(): void {
         $json = [];
 
@@ -40,9 +39,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_empty_data(): void {
         $json = [];
 
@@ -56,9 +53,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_empty_description(): void {
         $json = [
             "description" => ""
@@ -74,9 +69,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_long_description(): void {
         $json = [
             "description" => parent::generateRandomString(500)
@@ -92,9 +85,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_short_description(): void {
         $json = [
             "description" => parent::generateRandomString(2)
@@ -110,9 +101,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_without_requestType(): void {
         $json = [
             "description" => parent::generateRandomString()
@@ -128,9 +117,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_without_endpoint(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -147,9 +134,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_short_endpoint(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -167,9 +152,7 @@ class CreateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRole_with_long_endpoint(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -187,9 +170,7 @@ class CreateRoleTest extends TestFramework
         $response->assertJson(["endpoint" => $json['endpoint']]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRole_with_put_request(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -207,9 +188,7 @@ class CreateRoleTest extends TestFramework
         $response->assertJson(["endpoint" => $json['endpoint']]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRole_with_get_request(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -227,9 +206,7 @@ class CreateRoleTest extends TestFramework
         $response->assertJson(["endpoint" => $json['endpoint']]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRole_with_delete_request(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -247,9 +224,7 @@ class CreateRoleTest extends TestFramework
         $response->assertJson(["endpoint" => $json['endpoint']]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRole_with_patch_request(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -267,9 +242,7 @@ class CreateRoleTest extends TestFramework
         $response->assertJson(["endpoint" => $json['endpoint']]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRole_with_invalid_request_type(): void {
         $json = [
             "description" => parent::generateRandomString(),

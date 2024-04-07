@@ -23,24 +23,42 @@ class EnterpriseController extends Controller implements APIController
      * Gets all enterprises.
      */
     public function index() {
-        $enterprises = $this->enterpriseBusiness->get();
-        return ResponseUtils::getResponse($enterprises, 200);
+        try {
+            $enterprises = $this->enterpriseBusiness->get();
+            return ResponseUtils::getResponse($enterprises, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a enterprise.
      */
     public function store(Request $request) {
-        $enterprise = $this->enterpriseBusiness->create(request: $request);
-        return ResponseUtils::getResponse($enterprise, 201);
+        try {
+            $enterprise = $this->enterpriseBusiness->create(request: $request);
+            return ResponseUtils::getResponse($enterprise, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a enterprise by id.
      */
     public function show($id) {
-        $enterprise = $this->enterpriseBusiness->getById(id: $id, mergeFields: true);
-        return ResponseUtils::getResponse($enterprise, 200);
+        try {
+            $enterprise = $this->enterpriseBusiness->getById(id: $id, mergeFields: true);
+            return ResponseUtils::getResponse($enterprise, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -54,8 +72,14 @@ class EnterpriseController extends Controller implements APIController
      * Updates a enterprise.
      */
     public function update(Request $request, $id) {
-        $enterpriseUpdated = $this->enterpriseBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($enterpriseUpdated, 200);
+        try {
+            $enterpriseUpdated = $this->enterpriseBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($enterpriseUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

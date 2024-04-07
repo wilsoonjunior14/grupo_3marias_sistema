@@ -5,6 +5,7 @@ namespace Tests\Feature\role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/roles/search
@@ -24,9 +25,7 @@ class SearchRoleTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_searchRoles_without_authentication_before(): void {
         $json = [];
         $response = $this
@@ -38,9 +37,7 @@ class SearchRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_empty_payload_and_empty_results(): void {
         $payload = [];
         $response = $this
@@ -51,9 +48,7 @@ class SearchRoleTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_empty_payload(): void {
         $role1 = parent::createRole();
 
@@ -73,9 +68,7 @@ class SearchRoleTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_search_by_wrong_description(): void {
         $role1 = parent::createRole();
 
@@ -90,9 +83,7 @@ class SearchRoleTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_search_by_wrong_request_type(): void {
         $role1 = parent::createRole();
 
@@ -107,9 +98,7 @@ class SearchRoleTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_search_by_wrong_endpoint(): void {
         $role1 = parent::createRole();
 
@@ -124,9 +113,7 @@ class SearchRoleTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_searchRoles_search_using_endpoint_field(): void {
         $role1 = parent::createRole();
 

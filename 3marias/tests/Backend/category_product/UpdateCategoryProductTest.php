@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/categoryProducts/{id}
@@ -25,9 +26,7 @@ class UpdateCategoryProductTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProducts_without_authorization(): void {
         $response = $this
         ->put("/api/v1/categoryProducts/1", []);
@@ -40,9 +39,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_empty_payload(): void {
         parent::createCategoryProduct();
         $payload = [];
@@ -59,9 +56,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_null_payload(): void {
         parent::createCategoryProduct();
         $payload = [null];
@@ -78,9 +73,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_null_name(): void {
         parent::createCategoryProduct();
         $payload = [
@@ -99,9 +92,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_empty_name(): void {
         parent::createCategoryProduct();
         $payload = [
@@ -120,9 +111,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_wrong_type_name(): void {
         parent::createCategoryProduct();
         $payload = [
@@ -141,9 +130,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_short_name(): void {
         parent::createCategoryProduct();
         $payload = [
@@ -162,9 +149,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_long_name(): void {
         parent::createCategoryProduct();
         $payload = [
@@ -183,9 +168,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCategoryProduct_with_existing_name(): void {
         $category1 = parent::createCategoryProduct();
         $category2 = parent::createCategoryProduct();
@@ -206,9 +189,7 @@ class UpdateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateCategoryProduct(): void {
         $category1 = parent::createCategoryProduct();
         $category2 = parent::createCategoryProduct();

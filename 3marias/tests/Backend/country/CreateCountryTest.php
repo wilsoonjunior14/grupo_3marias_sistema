@@ -5,6 +5,7 @@ use App\Utils\UpdateUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/countries
@@ -24,9 +25,7 @@ class CreateCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_without_authentication_before(): void {
         $country = new Country();
 
@@ -40,9 +39,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_empty_data(): void {
         $json = [];
 
@@ -56,9 +53,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_empty_name(): void {
         $country = new Country();
         $country
@@ -74,9 +69,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_null_name(): void {
         $country = new Country();
         $country
@@ -92,9 +85,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_short_name(): void {
         $country = new Country();
         $country
@@ -110,9 +101,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_long_name(): void {
         $country = new Country();
         $country
@@ -128,9 +117,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_numbers_in_name(): void {
         $country = new Country();
         $country
@@ -146,9 +133,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCountry_with_special_chars_in_name(): void {
         $country = new Country();
         $country->name = "@#$%".parent::generateRandomString(10);
@@ -163,9 +148,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCountry_with_name_containing_spaces(): void {
         $country = new Country();
         $country
@@ -183,9 +166,7 @@ class CreateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCountry_with_correct_name(): void {
         $country = new Country();
         $country

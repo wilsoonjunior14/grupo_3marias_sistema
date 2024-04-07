@@ -45,6 +45,13 @@ jobs:
           cd 3marias
           ./vendor/enlightn/security-checker/security-checker security:check composer.lock
 
+      # Checking the code statically
+      - name: Code Analysis
+        run: |
+          ls -la
+          cd 3marias
+          ./vendor/bin/phpstan analyse app tests --level=1
+
       # Check tests
       - name: E2E Tests
         run: |

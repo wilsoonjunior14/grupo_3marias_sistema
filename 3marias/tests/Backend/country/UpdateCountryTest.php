@@ -5,6 +5,7 @@ namespace Tests\Feature\category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/countries
@@ -24,9 +25,7 @@ class UpdateCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCountry_without_authentication_before(): void {
         $json = [];
 
@@ -40,9 +39,7 @@ class UpdateCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateCountry_with_empty_data(): void {
         parent::createState();
         $json = [];
@@ -57,9 +54,7 @@ class UpdateCountryTest extends TestFramework
         ]);
     }
     
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateCountry(): void {
         $json = parent::createState();
         $json["name"] = "state updated";
