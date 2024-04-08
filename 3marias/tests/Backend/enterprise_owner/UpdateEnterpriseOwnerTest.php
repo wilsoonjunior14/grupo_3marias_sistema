@@ -8,9 +8,9 @@ use Tests\TestFramework;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
- * This suite tests the POST /api/v1/enterpriseOwners
+ * This suite tests the PUT /api/v1/enterpriseOwners
  */
-class CreateEnterpriseOwnerTest extends TestFramework
+class UpdateEnterpriseOwnerTest extends TestFramework
 {
 
     use RefreshDatabase;
@@ -28,9 +28,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_authorization(): void {
+    public function negTest_updateEnterpriseOwner_without_authorization(): void {
         $model = new EnterpriseOwner();
-        $response = $this->sendPostRequest($this->url, $model);
+        $response = $this->sendPutRequest($this->url . "/1", $model);
         $response->assertStatus(401);
         $response->assertJson(
             [
@@ -40,7 +40,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_name(): void {
+    public function negTest_updateEnterpriseOwner_without_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withPhone($this->generateRandomPhoneNumber())
@@ -55,7 +57,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -65,7 +67,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_name(): void {
+    public function negTest_updateEnterpriseOwner_with_null_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName(null)
@@ -81,7 +85,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -91,7 +95,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_name(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName("")
@@ -107,7 +113,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -117,7 +123,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_short_name(): void {
+    public function negTest_updateEnterpriseOwner_with_short_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString(2))
@@ -133,7 +141,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -143,7 +151,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_long_name(): void {
+    public function negTest_updateEnterpriseOwner_with_long_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString(1000))
@@ -159,7 +169,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -169,7 +179,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_wrong_type_name(): void {
+    public function negTest_updateEnterpriseOwner_with_wrong_type_name(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName(12345)
@@ -185,7 +197,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -195,7 +207,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_phone(): void {
+    public function negTest_updateEnterpriseOwner_without_phone(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
@@ -210,7 +224,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -220,7 +234,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_phone(): void {
+    public function negTest_updateEnterpriseOwner_with_null_phone(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
@@ -236,7 +252,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -246,7 +262,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_phone(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_phone(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
@@ -262,7 +280,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -272,7 +290,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_invalid_phone(): void {
+    public function negTest_updateEnterpriseOwner_with_invalid_phone(): void {
+        $this->createEnterpriseOwner();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
@@ -288,7 +308,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -298,7 +318,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_without_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -314,7 +336,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -324,7 +346,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_with_null_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -341,7 +365,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -351,7 +375,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -368,7 +394,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -378,7 +404,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_zero_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_with_zero_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -395,7 +423,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -405,7 +433,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_non_existing_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_with_non_existing_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -422,7 +452,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -432,7 +462,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_wrong_type_enterprise_id(): void {
+    public function negTest_updateEnterpriseOwner_with_wrong_type_enterprise_id(): void {
+        $this->createEnterpriseOwner();
+
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -449,7 +481,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -459,8 +491,10 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_state(): void {
+    public function negTest_updateEnterpriseOwner_without_state(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
+
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
@@ -475,7 +509,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -485,7 +519,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_state(): void {
+    public function negTest_updateEnterpriseOwner_with_null_state(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -502,7 +537,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -512,7 +547,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_state(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_state(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -529,7 +565,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -539,7 +575,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_invalid_state(): void {
+    public function negTest_updateEnterpriseOwner_with_invalid_state(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -556,7 +593,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -566,7 +603,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_wrong_type_state(): void {
+    public function negTest_updateEnterpriseOwner_with_wrong_type_state(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -583,7 +621,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -593,7 +631,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_without_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -609,7 +648,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -619,7 +658,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_with_null_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -636,7 +676,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -646,7 +686,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -663,7 +704,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -673,7 +714,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_short_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_with_short_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -690,7 +732,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -700,7 +742,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_long_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_with_long_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -717,7 +760,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -727,7 +770,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_wrong_type_ocupation(): void {
+    public function negTest_updateEnterpriseOwner_with_wrong_type_ocupation(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -744,7 +788,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -754,7 +798,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_email(): void {
+    public function negTest_updateEnterpriseOwner_without_email(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -770,7 +815,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -780,7 +825,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_email(): void {
+    public function negTest_updateEnterpriseOwner_with_null_email(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -797,7 +843,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -807,7 +853,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_email(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_email(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -824,7 +871,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -834,7 +881,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_invalid_email(): void {
+    public function negTest_updateEnterpriseOwner_with_invalid_email(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -851,7 +899,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -861,7 +909,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_without_cpf(): void {
+    public function negTest_updateEnterpriseOwner_without_cpf(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -878,7 +927,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -888,7 +937,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_cpf(): void {
+    public function negTest_updateEnterpriseOwner_with_null_cpf(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -906,7 +956,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -916,7 +966,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_cpf(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_cpf(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -934,7 +985,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -944,7 +995,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_wrong_type_cpf(): void {
+    public function negTest_updateEnterpriseOwner_with_wrong_type_cpf(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -962,7 +1014,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -972,7 +1024,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_invalid_cpf(): void {
+    public function negTest_updateEnterpriseOwner_with_invalid_cpf(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -990,7 +1043,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -1000,7 +1053,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_null_rg(): void {
+    public function negTest_updateEnterpriseOwner_with_null_rg(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -1019,7 +1073,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -1029,7 +1083,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_invalid_rg(): void {
+    public function negTest_updateEnterpriseOwner_with_invalid_rg(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -1048,7 +1103,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -1058,7 +1113,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_with_empty_rg(): void {
+    public function negTest_updateEnterpriseOwner_with_empty_rg(): void {
+        $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
@@ -1077,7 +1133,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -1087,8 +1143,9 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEnterpriseOwner_repeatedCPF(): void {
-        $enterpriseOwner = $this->createEnterpriseOwner();
+    public function negTest_updateEnterpriseOwner_repeatedCPF(): void {
+        $enterpriseOwner1 = $this->createEnterpriseOwner();
+        $enterpriseOwner2 = $this->createEnterpriseOwner();
 
         $model = new EnterpriseOwner();
         $model
@@ -1098,7 +1155,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withState("Casado")
             ->withOcupation($this->generateRandomString())
             ->withEmail($this->generateRandomEmail())
-            ->withCPF($enterpriseOwner["cpf"])
+            ->withCPF($enterpriseOwner2["cpf"])
             ->withAddress($this->generateRandomString())
             ->withNeighborhood($this->generateRandomString())
             ->withCityId(1)
@@ -1106,7 +1163,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(400);
         $response->assertJson(
             [
@@ -1116,13 +1173,15 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function posTest_createEnterpriseOwner_required_fields(): void {
+    public function posTest_updateEnterpriseOwner_required_fields(): void {
+        $entOwner = $this->createEnterpriseOwner();
         $this->createEnterpriseEntity();
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
             ->withPhone($this->generateRandomPhoneNumber())
-            ->withEnterpriseId(1)
+            ->withEnterpriseId($entOwner["enterprise_id"])
+            ->withAddressId($entOwner["address_id"])
             ->withState("Casado")
             ->withOcupation($this->generateRandomString())
             ->withEmail($this->generateRandomEmail())
@@ -1134,8 +1193,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
-        $response->assertStatus(201);
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
+        $response->assertStatus(200);
         $response->assertJson(
             [
                 "name" => $model->name,
@@ -1144,7 +1203,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
                 "state" => $model->state,
                 "ocupation" => $model->ocupation,
                 "email" => $model->email,
-                "cpf" => $model->cpf
+                "cpf" => $model->cpf,
+                "address_id" => $model->address_id
             ]
         );
 
@@ -1160,6 +1220,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
                 "ocupation" => $model->ocupation,
                 "email" => $model->email,
                 "cpf" => $model->cpf,
+                "address_id" => $model->address_id,
                 "address" => [
                     "address" => $model->address,
                     "neighborhood" => $model->neighborhood,
@@ -1178,6 +1239,7 @@ class CreateEnterpriseOwnerTest extends TestFramework
                 "name" => $model->name,
                 "phone" => $model->phone,
                 "enterprise_id" => $model->enterprise_id,
+                "address_id" => $model->address_id,
                 "state" => $model->state,
                 "ocupation" => $model->ocupation,
                 "email" => $model->email,
@@ -1192,13 +1254,15 @@ class CreateEnterpriseOwnerTest extends TestFramework
     }
 
     #[Test]
-    public function posTest_createEnterpriseOwner_all_fields(): void {
+    public function posTest_updateEnterpriseOwner_all_fields(): void {
         $this->createEnterpriseEntity();
+        $entOwner = $this->createEnterpriseOwner();
         $model = new EnterpriseOwner();
         $model
             ->withName($this->generateRandomString())
             ->withPhone($this->generateRandomPhoneNumber())
             ->withEnterpriseId(1)
+            ->withAddressId($entOwner["address_id"])
             ->withState("Casado")
             ->withOcupation($this->generateRandomString())
             ->withEmail($this->generateRandomEmail())
@@ -1215,8 +1279,8 @@ class CreateEnterpriseOwnerTest extends TestFramework
             ->withNumber(1)
             ->withComplement($this->generateRandomString());
 
-        $response = $this->sendPostRequest($this->url, $model, $this->getHeaders());
-        $response->assertStatus(201);
+        $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
+        $response->assertStatus(200);
         $response->assertJson(
             [
                 "name" => $model->name,

@@ -41,7 +41,6 @@ class EnterpriseOwnerController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            error_log($e->getMessage());
             return ResponseUtils::getErrorResponse();
         }
     }
@@ -56,6 +55,7 @@ class EnterpriseOwnerController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
+            error_log($e);
             return ResponseUtils::getErrorResponse();
         }
     }

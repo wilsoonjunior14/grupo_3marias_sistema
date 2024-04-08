@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\BaseModel;
 use App\Models\EnterpriseBranch;
+use App\Models\EnterpriseOwner;
 use App\Models\EnterprisePartner;
 use App\Models\PurchaseOrder;
 use App\Utils\UpdateUtils;
@@ -470,6 +471,29 @@ abstract class TestFramework extends TestCase
                 'pix' => "3mariasconstrutora@gmail.com",
                 'deleted' => false
             ]);
+    }
+
+    public function createEnterpriseOwner() {
+        $this->createEnterpriseEntity();
+        $model = new EnterpriseOwner();
+        $model
+            ->withName($this->generateRandomString())
+            ->withPhone($this->generateRandomPhoneNumber())
+            ->withEnterpriseId(1)
+            ->withState("Casado")
+            ->withOcupation($this->generateRandomString())
+            ->withEmail($this->generateRandomEmail())
+            ->withCPF($this->generateRandomCpf())
+            ->withAddress($this->generateRandomString())
+            ->withNeighborhood($this->generateRandomString())
+            ->withCityId(1)
+            ->withZipCode("00000-000")
+            ->withNumber(1)
+            ->withComplement($this->generateRandomString());
+
+        $response = $this->sendPostRequest("/api/v1/enterpriseOwners", $model, $this->getHeaders());
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
     }
 
     public function createEnterpriseEntity() {

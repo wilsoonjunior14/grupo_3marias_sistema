@@ -65,11 +65,19 @@ class DeleteProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * TODO: create this test when parent::createContract be available
-     * @test
-     */
-    public function negTest_deleteProposal_with_contract_associated(): void {}
+    #[Test]
+    public function negTest_deleteProposal_with_contract_associated(): void {
+        $this->createContract();
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->delete("/api/v1/proposals/1");
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Proposta não pode ser excluída. Existe um contrato associado a proposta."
+        ]);
+    }
 
     #[Test]
     public function posTest_deleteProposal_without_contract(): void {

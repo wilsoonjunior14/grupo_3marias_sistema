@@ -6,13 +6,14 @@ class EnterpriseOwner extends BaseModel
 {
     protected $table = "enterprise_owners";
     protected $fillable = ["id", "name",
-    "email", "ocupation", "state",
+    "email", "ocupation", "state", "cpf", "naturality", "nationality",
+    "rg", "rg_date", "rg_organ",
     "phone", "address_id", "enterprise_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["name",
-    "email", "ocupation", "state",
-    "phone", "address_id", "enterprise_id"];
+    "email", "ocupation", "state", "cpf", "naturality", "nationality",
+    "rg", "rg_date", "rg_organ", "phone", "address_id", "enterprise_id",];
 
     static $rules = [
         'name' => 'bail|required|string|max:255|min:3',
@@ -21,6 +22,12 @@ class EnterpriseOwner extends BaseModel
         'state' => 'required|in:Solteiro,Casado,Divorciado,Viúvo',
         'ocupation' => 'bail|required|string|max:255|min:3',
         'email' => 'required|email:strict|max:100|min:3',
+        'nationality' => 'bail|max:255|min:3|regex:/^([a-zA-Z])+$/',
+        'naturality' => 'bail|max:255|min:3|regex:/^([a-zA-Z])+$/',
+        'rg' => 'min:13|max:14|regex:/^\d+$/',
+        'rg_organ' => 'min:3|max:11|regex:/^([a-zA-Z]){3}\/([a-zA-Z]){2}$/',
+        'rg_date' => 'date|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
+        'cpf' => 'required|cpf',
     ];
 
     static $rulesMessages = [
@@ -45,7 +52,26 @@ class EnterpriseOwner extends BaseModel
         'email.required' => 'Campo Email do Representante Legal é obrigatório.',
         'email.email' => 'Campo Email do Representante Legal está inválido.',
         'email.max' => 'Campo Email do Representante Legal permite no máximo 100 caracteres.',
-        'email.min' => 'Campo Email do Representante Legal deve conter no mínimo 3 caracteres.'
+        'email.min' => 'Campo Email do Representante Legal deve conter no mínimo 3 caracteres.',
+        'rg.max' => 'Campo RG do Representante Legal permite no máximo 14 caracteres.',
+        'rg.min' => 'Campo RG do Representante Legal deve conter no mínimo 13 caracteres.',
+        'rg.regex' => 'Campo RG do Representante Legal está inválido.',
+        'rg_organ.max' => 'Campo Órgão RG do Representante Legal permite no máximo 11 caracteres.',
+        'rg_organ.min' => 'Campo Órgão RG do Representante Legal deve conter no mínimo 3 caracteres.',
+        'rg_organ.regex' => 'Campo Órgão RG do Representante Legal está inválido.',
+        'rg_date.date' => 'Campo de Data de Emissão do RG do Representante Legal é inválido.',
+        'rg_date.regex' => 'Campo de Data de Emissão do RG do Representante Legal está inválido.',
+        'cpf.required' => 'Campo CPF do Representante Legal é obrigatório.',
+        'cpf.cpf' => 'Campo CPF é inválido.',
+        'cpf.unique' => 'Campo CPF já existente na base de dados.',
+        'nationality.required' => 'Campo Nacionalidade do Representante Legal é obrigatório.',
+        'nationality.max' => 'Campo Nacionalidade do Representante Legal permite no máximo 255 caracteres.',
+        'nationality.min' => 'Campo Nacionalidade do Representante Legal deve conter no mínimo 3 caracteres.',
+        'nationality.regex' => 'Campo Nacionalidade do Representante Legal está inválido.',
+        'naturality.required' => 'Campo Naturalidade do Representante Legal é obrigatório.',
+        'naturality.max' => 'Campo Naturalidade do Representante Legal permite no máximo 255 caracteres.',
+        'naturality.min' => 'Campo Naturalidade do Representante Legal deve conter no mínimo 3 caracteres.',
+        'naturality.regex' => 'Campo Naturalidade do Representante Legal está inválido.',
     ];
 
     public function address() {
@@ -75,6 +101,11 @@ class EnterpriseOwner extends BaseModel
         return $this;
     }
 
+    public function withAddressId($address_id) {
+        $this->address_id = $address_id; // @phpstan-ignore-line
+        return $this;
+    }
+
     public function withState($state) {
         $this->state = $state; // @phpstan-ignore-line
         return $this;
@@ -87,6 +118,36 @@ class EnterpriseOwner extends BaseModel
 
     public function withEmail($email) {
         $this->email = $email; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withCPF($cpf) {
+        $this->cpf = $cpf; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withNationality($nationality) {
+        $this->nationality = $nationality; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withNaturality($naturality) {
+        $this->naturality = $naturality; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withRg($rg) {
+        $this->rg = $rg; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withRgOrgan($rg_organ) {
+        $this->rg_organ = $rg_organ; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withRGDate($rg_date) {
+        $this->rg_date = $rg_date; // @phpstan-ignore-line
         return $this;
     }
 
