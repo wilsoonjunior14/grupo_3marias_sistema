@@ -18,8 +18,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\StateController;
-use App\Http\Controllers\ContractModelController;
-use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EnterpriseBranchController;
 use App\Http\Controllers\EnterpriseFileController;
 use App\Http\Controllers\EnterpriseOwnerController;
@@ -54,14 +52,9 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/login/isAuthorized', [UserController::class, 'isAuthorized'])->middleware('auth:sanctum');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::post('/feedbacks', [FeedbackController::class, 'create']);
-
 Route::post('/users', [UserController::class, 'create']);
 Route::post('/users/recovery', [UserController::class, 'recoveryPassword']);
 Route::post('/users/changePassword', [UserController::class, 'resetPasswordByToken']);
-
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{idCity}', [CategoryController::class, 'getByCity']);
 
 Route::post('/enterprises', [EnterpriseController::class, 'create']);
 Route::post('/enterprises/search', [EnterpriseController::class, 'search']);
@@ -143,8 +136,6 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::post('/roles/groups', [RoleController::class, 'addRoleToGroup']);
     Route::delete('/roles/groups/{id}', [RoleController::class, 'removeRoleToGroup']);
     Route::post('/roles/search', [RoleController::class, 'search']);
-    // Route api categories
-    Route::apiResource('/categories', CategoryController::class);
     // Route api purchaseOrders
     Route::apiResource('/purchaseOrders', PurchaseOrderController::class);
     Route::post('/purchaseOrders/approve/{id}', [PurchaseOrderController::class, 'approve']);
@@ -157,8 +148,6 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
-    // Route api feedbacks
-    Route::apiResource('/feedbacks', FeedbackController::class);
     // Route api observability
     Route::get('/observability/metrics', [ObservabilityController::class, 'getMetrics']);
     Route::post('/observability/logs', [ObservabilityController::class, 'getLogs']);

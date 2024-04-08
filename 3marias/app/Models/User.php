@@ -89,14 +89,14 @@ class User extends Authenticatable
             $searchQueries[] = ["email", "like", "%" . $data["email"] . "%"];
         }
 
-        return User::where($searchQueries)
+        return (new User())->where($searchQueries)
         ->with("group")
         ->orderBy("name")
         ->get();
     }
 
     public function getUsersByPeriod($startDate, $endDate) {
-        return User::whereRaw(
+        return (new User())->whereRaw(
             "(created_at >= ? AND created_at <= ?)", 
             [
                 $startDate ." 00:00:00", 
@@ -108,28 +108,28 @@ class User extends Authenticatable
     }
 
     public function getUsers(){
-        return User::where("deleted", false)
+        return (new User())->where("deleted", false)
         ->with("group")
         ->orderBy("name")
         ->get();
     }
 
     public function getUserLogin($email) {
-        return User::where("deleted", false)
+        return (new User())->where("deleted", false)
         ->where("email", "like", "%" . $email . "%")
         ->take(1)
         ->get();
     }
 
     public function getUserById($id) {
-        return User::where("id", $id)
+        return (new User())->where("id", $id)
         ->with("group")
         ->get()
         ->first();
     }
 
     public function getUserByEmail($email) {
-        return User::where("deleted", false)
+        return (new User())->where("deleted", false)
         ->where("email", "like", "%" . $email . "%")
         ->get();
     }

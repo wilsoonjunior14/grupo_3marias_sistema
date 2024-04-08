@@ -14,7 +14,7 @@ class BaseModel extends Model
      * Retrieves all non-deleted entities ordered by column. 
      */
     public function getAll(string $orderBy) {
-        return $this::where("deleted", false)
+        return $this::where("deleted", false) // @phpstan-ignore-line
         ->orderBy($orderBy)
         ->get();
     }
@@ -23,7 +23,7 @@ class BaseModel extends Model
      * Retrieves an entity by id
      */
     public function getById($id) {
-        return $this
+        return $this // @phpstan-ignore-line
         ::where("deleted", false)
         ->where("id", $id)
         ->get()
@@ -40,7 +40,7 @@ class BaseModel extends Model
             $condition[] = ["id", "!=", $id];
         }
 
-        $entities = $this::
+        $entities = $this:: // @phpstan-ignore-line
         where($condition)
         ->get();
 

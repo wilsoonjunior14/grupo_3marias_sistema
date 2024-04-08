@@ -44,30 +44,6 @@ class ModelValidator
     }
 
     /**
-     * Method used to validate enterprise entity
-     */
-    public function validateEnterprise($data, bool $isUpdate = false) {
-        if (empty($_FILES) || !isset($_FILES) 
-            || !isset($_FILES["image"]) || empty($_FILES["image"])
-            || empty($_FILES["image"]["name"])
-            ) {
-            $data["image"] = "default.png";
-        }
-
-        $validation = $this->validate($data);
-        if ($validation !== null) {
-            return $validation;
-        }
-
-        if (!$isUpdate) {
-            $enterprisesList = (new Enterprise())->getByNameOrEmail($data["name"], $data["email"]);
-            if (count($enterprisesList) > 0) {
-                return "Empresa com nome ou email já existentes.";
-            }
-        }
-    }
-
-    /**
      * Method to be used to validate all input data and image attached.
      */
     public function validateWithImage(Request $request) {

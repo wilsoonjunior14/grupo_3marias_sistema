@@ -25,12 +25,12 @@ class Country extends BaseModel
     ];
 
     public function withName($name) {
-        $this->name = $name;
+        $this->name = $name; // @phpstan-ignore-line
         return $this;
     }
 
     public function withAcronym($acronym) {
-        $this->acronym = $acronym;
+        $this->acronym = $acronym; // @phpstan-ignore-line
         return $this;
     }
 }

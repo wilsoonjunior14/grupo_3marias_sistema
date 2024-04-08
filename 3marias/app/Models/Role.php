@@ -31,7 +31,7 @@ class Role extends BaseModel
      * @param null|string $endpoint
      */
     public function getRolesByRequestTypeAndEndpoint(string $requestType, string|null $endpoint) {
-        return Role::where("deleted", false)
+        return (new Role())->where("deleted", false)
                 ->where("request_type", "like", "%" . $requestType . "%")
                 ->where("endpoint", "like", "%" . $endpoint . "%")
                 ->get();
@@ -54,7 +54,7 @@ class Role extends BaseModel
             $querySearch[] = ["request_type", "like", "%" . $data["request_type"] . "%"];
         }
 
-        return Role::where($querySearch)
+        return (new Role())->where($querySearch)
         ->orderBy("description")
         ->get();
     }

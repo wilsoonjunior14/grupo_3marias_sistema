@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\user;
+namespace Tests\Feature\purchase_order;
 
 use App\Models\PurchaseOrder;
 use App\Utils\ErrorMessage;
@@ -142,10 +142,7 @@ class PurchaseOrderValidationTest extends TestFramework
         ]);
     }
 
-    /**
-     * TODO: this test can be checked, because no more items can be created.
-     * @test
-     */
+    #[Test]
     public function posTest_approvePurchaseOrder_aggregating_items(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1

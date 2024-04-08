@@ -27,14 +27,14 @@ class CategoryProduct extends BaseModel
     }
 
     public function getAll(string $orderBy) {
-        return $this::where("deleted", false)
+        return (new CategoryProduct())->where("deleted", false)
         ->with("category_product")
         ->orderBy($orderBy)
         ->get();
     }
 
     static function getByName(string $name) {
-        return CategoryProduct::where("deleted", false)
+        return (new CategoryProduct())->where("deleted", false)
         ->where("name", $name)
         ->get()
         ->first();

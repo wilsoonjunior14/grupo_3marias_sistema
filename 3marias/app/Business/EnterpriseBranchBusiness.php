@@ -6,6 +6,7 @@ use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\EnterpriseBranch;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -23,7 +24,13 @@ class EnterpriseBranchBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de filial $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Filial da Empresa"));
+        }
         $enterpriseBranch = (new EnterpriseBranch())->getById($id);
+        if (is_null($enterpriseBranch)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Filial da Empresa"));
+        }
         if ($merge) {
             $address = (new AddressBusiness())->getById($enterpriseBranch->address_id);
             $enterpriseBranch = $this->mountClientAddressInline($enterpriseBranch, $address);
@@ -50,7 +57,7 @@ class EnterpriseBranchBusiness {
         if (!is_null($hasErrors)) {
             throw new InputValidationException($hasErrors);
         }
-
+        $this->existsEntity(cnpj: $data["cnpj"]);
         $address = (new AddressBusiness())->create($data);
         
         Logger::info("Salvando a nova filial.");
@@ -63,14 +70,17 @@ class EnterpriseBranchBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do filial.");
-        $enterpriseBranch = (new EnterpriseBranch())->getById($id);
+        $enterpriseBranch = $this->getById($id, merge: false);
         $enterpriseBranchUpdated = UpdateUtils
             ::processFieldsToBeUpdated($enterpriseBranch, $request->all(), EnterpriseBranch::$fieldsToBeUpdated);
         
         Logger::info("Validando as informações do filial.");
         $enterpriseBranchValidator = new ModelValidator(EnterpriseBranch::$rules, EnterpriseBranch::$rulesMessages);
-        $enterpriseBranchValidator->validate(data: $request->all());
-
+        $hasErrors = $enterpriseBranchValidator->validate(data: $request->all());
+        if (!is_null($hasErrors)) {
+            throw new InputValidationException($hasErrors);
+        }
+        $this->existsEntity(cnpj: $enterpriseBranch["cnpj"], id: $id);
         (new AddressBusiness())->update($request->all(), id: $enterpriseBranch->address_id);
 
         Logger::info("Atualizando as informações do filial.");
@@ -86,6 +96,15 @@ class EnterpriseBranchBusiness {
         $enterpriseBranch["city_id"] = $address->city_id;
         $enterpriseBranch["zipcode"] = $address->zipcode;
         return $enterpriseBranch;
+    }
+
+    private function existsEntity(string $cnpj, int $id = null) {
+        $condition = [["cnpj", "=", $cnpj]];
+        $exists = (new EnterpriseBranch())->existsEntity(condition: $condition, id: $id);
+        if ($exists) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "CNPJ da Filial", "Filiais"));
+        }
+        return $exists;
     }
 
 }

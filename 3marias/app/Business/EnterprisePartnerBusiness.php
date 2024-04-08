@@ -6,6 +6,7 @@ use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\EnterprisePartner;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -23,7 +24,13 @@ class EnterprisePartnerBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de sócio $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Sócio da Empresa"));
+        }
         $enteprisePartner = (new EnterprisePartner())->getById($id);
+        if (is_null($enteprisePartner)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Sócio da Empresa"));
+        }
         if ($merge) {
             $address = (new AddressBusiness())->getById($enteprisePartner->address_id);
             $enteprisePartner = $this->mountClientAddressInline($enteprisePartner, $address);
@@ -69,8 +76,10 @@ class EnterprisePartnerBusiness {
         
         Logger::info("Validando as informações do sócio.");
         $enteprisePartnerValidator = new ModelValidator(EnterprisePartner::$rules, EnterprisePartner::$rulesMessages);
-        $enteprisePartnerValidator->validate(data: $request->all());
-
+        $hasErrors = $enteprisePartnerValidator->validate(data: $request->all());
+        if (!is_null($hasErrors)) {
+            throw new InputValidationException($hasErrors);
+        }
         (new AddressBusiness())->update($request->all(), id: $enteprisePartner->address_id);
 
         Logger::info("Atualizando as informações do sócio.");

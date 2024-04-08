@@ -3,6 +3,8 @@
 namespace Tests;
 
 use App\Models\BaseModel;
+use App\Models\EnterpriseBranch;
+use App\Models\EnterprisePartner;
 use App\Models\PurchaseOrder;
 use App\Utils\UpdateUtils;
 use Illuminate\Http\UploadedFile;
@@ -468,6 +470,80 @@ abstract class TestFramework extends TestCase
                 'pix' => "3mariasconstrutora@gmail.com",
                 'deleted' => false
             ]);
+    }
+
+    public function createEnterpriseEntity() {
+        $this->createCountry();
+        $this->createState();
+        $this->createCity();
+
+        $payload = [
+            "name" => $this->generateRandomString(),
+            "fantasy_name" => $this->generateRandomString(),
+            "email" => $this->generateRandomEmail(),
+            "social_reason" => $this->generateRandomString(),
+            "cnpj" => $this->generateRandomCnpj(),
+            "creci" => $this->generateRandomString(),
+            "phone" => $this->generateRandomPhoneNumber(),
+            "state_registration" => $this->generateRandomString(),
+            "municipal_registration" => $this->generateRandomString(),
+            "address" => $this->generateRandomString(),
+            "neighborhood" => $this->generateRandomString(),
+            "zipcode" => "00000-000",
+            "city_id" => 1,
+            "bank" => $this->generateRandomBank(),
+            "bank_agency" => $this->generateRandomString(5),
+            "bank_account" => $this->generateRandomString(5),
+            "pix" => $this->generateRandomString()
+        ];
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/enterprises", $payload);
+
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
+    }
+
+    public function createEnterprisePartner() {
+        $this->createEnterprise();
+
+        $model = new EnterprisePartner();
+        $model
+            ->withName($this->generateRandomString())
+            ->withPhone($this->generateRandomPhoneNumber())
+            ->withEnterpriseId(1)
+            ->withState("Solteiro")
+            ->withOcupation($this->generateRandomString())
+            ->withEmail($this->generateRandomEmail())
+            ->withAddress($this->generateRandomString())
+            ->withNeighborhood($this->generateRandomString())
+            ->withCityId(1)
+            ->withZipCode("00000-000")
+            ->withNumber(10)
+            ->withComplement($this->generateRandomString());
+
+        $response = $this->sendPostRequest("/api/v1/enterprisePartners", $model, $this->getHeaders());
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
+    }
+
+    public function createEnterpriseBranch() {
+        $this->createEnterprise();
+        $model = new EnterpriseBranch();
+        $model
+            ->withName($this->generateRandomString())
+            ->withCnpj($this->generateRandomCnpj())
+            ->withPhone($this->generateRandomPhoneNumber())
+            ->withEnterpriseId(1)
+            ->withAddress($this->generateRandomString())
+            ->withNeighborhood($this->generateRandomString())
+            ->withCityId(1)
+            ->withZipCode("00000-000");
+
+        $response = $this->sendPostRequest("/api/v1/enterpriseBranches", $model, $this->getHeaders());
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
     }
 
     public function createEnterpriseWithLinkedSystems() {

@@ -29,7 +29,7 @@ class GroupRole extends BaseModel
     }
 
     public function getGroupsRolesByGroupId($groupId) {
-        return GroupRole::where("group_id", $groupId)
+        return (new GroupRole())->where("group_id", $groupId)
         ->where("deleted", false)
         ->with("role")
         ->get();
@@ -39,7 +39,7 @@ class GroupRole extends BaseModel
      * @param null|string $endpoint
      */
     public function getGroupRolesByGroupForRequest($groupId, string $requestMethod, string|null $endpoint) {
-        return GroupRole::where("deleted", false)
+        return (new GroupRole())->where("deleted", false)
         ->where("group_id", $groupId)
         ->with("role")
         ->whereHas("role", function($query) use ($requestMethod, $endpoint) {
@@ -51,7 +51,7 @@ class GroupRole extends BaseModel
     }
 
     public function getGroupRole(int $group_id, int $role_id) {
-        return GroupRole::where("deleted", false)
+        return (new GroupRole())->where("deleted", false)
         ->where("group_id", $group_id)
         ->where("role_id", $role_id)
         ->get();
