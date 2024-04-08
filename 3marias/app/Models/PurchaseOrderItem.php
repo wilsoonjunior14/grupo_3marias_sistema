@@ -34,7 +34,7 @@ class PurchaseOrderItem extends BaseModel
     ];
 
     public function getByPurchaseOrder(int $id) {
-        return $this::where("deleted", false)
+        return (new PurchaseOrderItem())->where("deleted", false)
         ->where("purchase_order_id", $id)
         ->get();
     }

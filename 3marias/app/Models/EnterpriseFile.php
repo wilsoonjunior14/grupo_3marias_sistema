@@ -32,7 +32,7 @@ class EnterpriseFile extends BaseModel
     ];
 
     public function getByEnterprise(int $enterpriseId) {
-        return $this::where("deleted", false)
+        return (new EnterpriseFile())->where("deleted", false)
         ->where("enterprise_id", $enterpriseId)
         ->orderBy("name")
         ->get();

@@ -41,7 +41,7 @@ class EnterpriseBranch extends BaseModel
     }
 
     public function getByEnterprise(int $enterpriseId) {
-        return $this::where("deleted", false)
+        return (new EnterpriseBranch())->where("deleted", false)
         ->with("address")
         ->where("enterprise_id", $enterpriseId)
         ->orderBy("name")
@@ -49,42 +49,42 @@ class EnterpriseBranch extends BaseModel
     }
 
     public function withName($name) {
-        $this->name = $name;
+        $this->name = $name; // @phpstan-ignore-line
         return $this;
     }
 
     public function withCnpj($cnpj) {
-        $this->cnpj = $cnpj;
+        $this->cnpj = $cnpj; // @phpstan-ignore-line
         return $this;
     }
 
     public function withPhone($phone) {
-        $this->phone = $phone;
+        $this->phone = $phone; // @phpstan-ignore-line
         return $this;
     }
 
     public function withEnterpriseId($id) {
-        $this->enterprise_id = $id;
+        $this->enterprise_id = $id; // @phpstan-ignore-line
         return $this;
     }
 
     public function withAddress($address) {
-        $this->address = $address;
+        $this->address = $address; // @phpstan-ignore-line
         return $this;
     }
 
     public function withNeighborhood($neighborhood) {
-        $this->neighborhood = $neighborhood;
+        $this->neighborhood = $neighborhood; // @phpstan-ignore-line
         return $this;
     }
 
     public function withCityId($city_id) {
-        $this->city_id = $city_id;
+        $this->city_id = $city_id; // @phpstan-ignore-line
         return $this;
     }
 
     public function withZipCode($zipcode) {
-        $this->zipcode = $zipcode;
+        $this->zipcode = $zipcode; // @phpstan-ignore-line
         return $this;
     }
 }

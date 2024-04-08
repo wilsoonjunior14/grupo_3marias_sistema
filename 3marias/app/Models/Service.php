@@ -28,7 +28,7 @@ class Service extends BaseModel
     }
 
     public function getAll(string $orderBy) {
-        return $this::where("deleted", false)
+        return (new Service())->where("deleted", false)
         ->with("category_service")
         ->orderBy($orderBy)
         ->get();

@@ -28,7 +28,7 @@ class File extends BaseModel
     ];
 
     static function getByClientId(int $clientId) {
-        return File::where("deleted", false)
+        return (new File())->where("deleted", false)
         ->where("client_id", $clientId)
         ->orderBy("description")
         ->get();

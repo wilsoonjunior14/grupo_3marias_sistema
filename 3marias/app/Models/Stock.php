@@ -26,7 +26,7 @@ class Stock extends BaseModel
     static $fieldsToBeUpdated = ["name", "status"];
 
     public function getByContractId(int $id) {
-        return $this::where("deleted", false)
+        return (new Stock())->where("deleted", false)
         ->where("contract_id", $id)
         ->get();
     }

@@ -50,7 +50,6 @@ class EnterpriseOwnerBusiness {
         if (!is_null($hasErrors)) {
             throw new InputValidationException($hasErrors);
         }
-
         $address = (new AddressBusiness())->create($data);
         
         Logger::info("Salvando a nova representante legal.");

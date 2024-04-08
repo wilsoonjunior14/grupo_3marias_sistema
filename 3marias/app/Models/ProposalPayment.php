@@ -49,7 +49,7 @@ class ProposalPayment extends BaseModel
     ];
 
     public function getByProposalId(int $id) {
-        return $this::where("deleted", false)
+        return (new ProposalPayment())->where("deleted", false)
         ->where("proposal_id", $id)
         ->get();
     }

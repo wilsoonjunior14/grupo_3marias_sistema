@@ -32,7 +32,7 @@ class State extends BaseModel
     }
 
     public function getByCountry(int $idCountry) {
-        return State::where("deleted", false)
+        return (new State())->where("deleted", false)
         ->where("country_id", $idCountry)
         ->with("cities")
         ->orderBy("name")

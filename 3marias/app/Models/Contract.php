@@ -83,7 +83,7 @@ class Contract extends BaseModel
     }
 
     public function getAll(string $orderBy) {
-        return $this::where("deleted", false)
+        return (new Contract())->where("deleted", false)
         ->with("proposal")
         ->with("address")
         ->orderBy($orderBy)
@@ -91,7 +91,7 @@ class Contract extends BaseModel
     }
 
     public function getByProposalId(int $id) {
-        return $this::where("deleted", false)
+        return (new Contract())->where("deleted", false)
         ->where("proposal_id", $id)
         ->get();
     }

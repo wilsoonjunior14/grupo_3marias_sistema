@@ -61,7 +61,7 @@ class Proposal extends BaseModel
     ];
 
     public function getByClientId(int $clientId) {
-        return $this::where("deleted", false)
+        return (new Proposal())->where("deleted", false)
         ->where("client_id", $clientId)
         ->get();
     }
