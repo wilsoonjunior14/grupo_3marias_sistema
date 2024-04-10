@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\BillsReceiveController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
@@ -15,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\EnterpriseBranchController;
@@ -29,6 +27,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ServiceOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +139,8 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/purchaseOrders', PurchaseOrderController::class);
     Route::post('/purchaseOrders/approve/{id}', [PurchaseOrderController::class, 'approve']);
     Route::post('/purchaseOrders/reject/{id}', [PurchaseOrderController::class, 'reject']);
+    // Route api serviceOrders
+    Route::apiResource('/serviceOrders', ServiceOrderController::class);
     // Route api enterprises
     Route::apiResource('/enterprises', EnterpriseController::class);
     // Route api states

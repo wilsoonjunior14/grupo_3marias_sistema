@@ -172,7 +172,7 @@ class UpdatePurchaseOrderTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Descrição da Ordem de Compra permite no máximo 1000 caracteres.'
+            "message" => 'Campo Descrição da Ordem de Compra permite no máximo 100 caracteres.'
         ]);
     }
 

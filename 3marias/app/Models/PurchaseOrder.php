@@ -21,7 +21,7 @@ class PurchaseOrder extends BaseModel
 
     static $rulesMessages = [
         'description.required' => 'Campo Descrição da Ordem de Compra é obrigatório.',
-        'description.max' => 'Campo Descrição da Ordem de Compra permite no máximo 1000 caracteres.',
+        'description.max' => 'Campo Descrição da Ordem de Compra permite no máximo 100 caracteres.',
         'description.min' => 'Campo Descrição da Ordem de Compra deve conter no mínimo 3 caracteres.',
         'description.string' => 'Campo Descrição da Ordem de Compra está inválido.',
         'date.required' => 'Campo Data da Ordem de Compra é obrigatório.',
