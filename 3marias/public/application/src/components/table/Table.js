@@ -73,6 +73,10 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                 setHttpError({message: "Você precisa estar logado na aplicação para efetuar essa operação.", statusCode: res.status});
                 return;
             }
+            if (res.status === 404) {
+                setHttpError({message: "Operação desconhecida não pode ser realizada.", statusCode: res.status});
+                return;
+            }
             setHttpError({message: res.data.message, statusCode: res.status});
             return;
         }

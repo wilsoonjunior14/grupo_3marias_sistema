@@ -50,6 +50,8 @@ import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
 import MoneyDashboard from './pages/money/MoneyDashboard';
 import AccountForm from './pages/account/AccountForm';
 import StockItems from './pages/contracts/stocks/StockItems';
+import ServiceOrdersList from './pages/money/ServiceOrdersList';
+import ServiceOrdersForm from './pages/money/ServiceOrdersForm';
 
 console.disableYellowBox = true;
 
@@ -138,6 +140,9 @@ function App() {
           <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
           <Route path='money/purchaseOrders/add' element={<PurchaseOrdersForm />}></Route>
           <Route path='money/purchaseOrders/edit/:id' element={<PurchaseOrdersForm />}></Route>
+          <Route path='money/serviceOrders' element={<ServiceOrdersList />}></Route>
+          <Route path='money/serviceOrders/add' element={<ServiceOrdersForm />}></Route>
+          <Route path='money/serviceOrders/edit/:id' element={<ServiceOrdersForm />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

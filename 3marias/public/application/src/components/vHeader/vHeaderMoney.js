@@ -18,7 +18,7 @@ function VHeaderMoney() {
             </Col>
         </Row>
         <Row style={{width: "100%"}}>
-            <Col><Nav.Link href="/money/purchaseOrders">
+            <Col><Nav.Link href="/money/serviceOrders">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Ordens de Serviços</Nav.Link>
             </Col>
