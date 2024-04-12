@@ -4,7 +4,6 @@ namespace App\Business;
 
 use App\Exceptions\InputValidationException;
 use App\Models\BillReceive;
-use App\Models\ProposalPayment;
 use App\Models\Logger;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;

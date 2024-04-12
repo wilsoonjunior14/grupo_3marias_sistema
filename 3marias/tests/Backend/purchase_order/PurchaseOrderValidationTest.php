@@ -140,6 +140,17 @@ class PurchaseOrderValidationTest extends TestFramework
                 ]
             ]
         ]);
+
+        // Check if the bills were generated
+        $getBillsResponse = $this->sendGetRequest(url: "/api/v1/billsPay", headers: $this->getHeaders());
+        $getBillsResponse->assertStatus(200);
+        $getBillsResponse->assertJson([
+            [
+                "description" => $purchase->description,
+                "value" => ($purchase->products[0]["value"] * $purchase->products[0]["quantity"]) + ($purchase->products[1]["value"] * $purchase->products[1]["quantity"]),
+                "status" => 0
+            ]
+        ]);
     }
 
     #[Test]

@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Feature\user;
-
 use App\Models\ServiceOrder;
 use App\Utils\UpdateUtils;
 use Illuminate\Foundation\Testing\RefreshDatabase;

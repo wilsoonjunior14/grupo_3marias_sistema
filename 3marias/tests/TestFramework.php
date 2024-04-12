@@ -7,6 +7,7 @@ use App\Models\EnterpriseBranch;
 use App\Models\EnterpriseOwner;
 use App\Models\EnterprisePartner;
 use App\Models\PurchaseOrder;
+use App\Models\ServiceOrder;
 use App\Utils\UpdateUtils;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -358,6 +359,26 @@ abstract class TestFramework extends TestCase
 
         $response->assertStatus(201);
         return $payload;
+    }
+
+    public function createServiceOrder() {
+        $this->createService();
+        $this->createStock();
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1);
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post("/api/v1/serviceOrders", ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
     }
 
     public function createProduct() {

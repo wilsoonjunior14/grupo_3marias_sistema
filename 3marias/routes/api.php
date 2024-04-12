@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountantController;
+use App\Http\Controllers\BillsPayController;
 use App\Http\Controllers\BillsReceiveController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
@@ -113,6 +114,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // contracts api routes
     Route::apiResource('/contracts', ContractController::class);
+
+    // bills to pay api routes
+    Route::apiResource('/billsPay', BillsPayController::class);
 
     // billsReceive api routes
     //Route::apiResource('/billsReceive', BillsReceiveController::class);

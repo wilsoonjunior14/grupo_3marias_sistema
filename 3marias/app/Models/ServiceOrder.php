@@ -47,6 +47,14 @@ class ServiceOrder extends BaseModel
         'status.in' => 'Campo Status da Ordem de Serviço está inválido.'
     ];
 
+    public function getServiceByStock(int $id) {
+        return (new ServiceOrder())
+            ->where("deleted", false)
+            ->where("cost_center_id", $id)
+            ->where("status", 2)
+            ->get();
+    }
+
     public function withDescription($description) {
         $this->description = $description;// @phpstan-ignore-line
         return $this;

@@ -4,7 +4,6 @@ namespace App\Business;
 
 use App\Exceptions\InputValidationException;
 use App\Models\Logger;
-use App\Models\Stock;
 use App\Models\StockItem;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;

@@ -3,9 +3,9 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
+use App\Models\BillPay;
 use App\Models\Logger;
 use App\Models\ServiceOrder;
-use App\Models\Stock;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
@@ -19,6 +19,13 @@ class ServiceOrderBusiness {
         $amount = count($services);
         Logger::info("Foram recuperados {$amount} serviços.");
         Logger::info("Finalizando a recuperação de serviços.");
+        return $services;
+    }
+
+    public function getServicesByStock(int $id) {
+        Logger::info("Iniciando a recuperação de itens do centro de custo.");
+        $services = (new ServiceOrder())->getServiceByStock(id: $id);
+        Logger::info("Finalizando a recuperação de itens do centro de custo.");
         return $services;
     }
 
@@ -37,6 +44,11 @@ class ServiceOrderBusiness {
 
     public function delete(int $id) {
         $service = $this->getById(id: $id);
+        $bills = (new BillPayBusiness())->getBillsByService(serviceId: $id);
+        if (count($bills) > 0) {
+            throw new InputValidationException("Operação não permitida. Existem contas a pagar dessa ordem de serviço.");
+        }
+
         Logger::info("Deletando ordem de serviço $id.");
         $service->deleted = true;
         $service->save();
@@ -84,6 +96,25 @@ class ServiceOrderBusiness {
     }
 
     public function update(int $id, Request $request) {
+        Logger::info("Inicializando a atualização da ordem de serviço.");
+        $serviceOrder = $this->getById($id);
+        if ($serviceOrder->status !== 0) {
+            throw new InputValidationException("Operação não permitida. Ordem de Serviço já validada ou cancelada.");
+        }
+        
+        $serviceOrderUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: ServiceOrder::$fieldsToBeUpdated, model: $serviceOrder, requestData: $request->all());
+        Logger::info("Validando as informações da ordem de serviço.");
+        $serviceOrderUpdated->validate(ServiceOrder::$rules, ServiceOrder::$rulesMessages);
+        (new StockBusiness())->getById(id: $serviceOrder->cost_center_id, mergeFields: false);
+        (new ServiceBusiness())->getById(id: $serviceOrder->cost_center_id);
+
+        Logger::info("Atualizando a ordem de serviço.");
+        $serviceOrderUpdated->save();
+
+        // Creating bills to pay
+        // TODO: it needs appear on stock screen
+        (new BillPayBusiness())->createBillPay(baseModel: $serviceOrderUpdated);
+        return $serviceOrderUpdated;
     }
 
 }
