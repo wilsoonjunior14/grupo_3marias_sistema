@@ -19,9 +19,7 @@ export function clearForm(formId) {
     const moneyFields = form.getElementsByClassName("input-money");
     if (moneyFields && moneyFields.length > 0) {
         for (var i=0; i<moneyFields.length; i++) {
-            console.log(moneyFields[i].value);
             moneyFields[i].value = "";
-            console.log(moneyFields[i].value);
         }
     }
 }

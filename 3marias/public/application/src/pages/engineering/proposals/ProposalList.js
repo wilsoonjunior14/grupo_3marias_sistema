@@ -65,7 +65,7 @@ export default function ProposalList() {
         
         performRequest("POST", "/v1/proposals/reject/"+proposal.id)
         .then(onSuccessResponse)
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     }
 
     const onApproveProposal = () => {
@@ -73,7 +73,7 @@ export default function ProposalList() {
         
         performRequest("POST", "/v1/proposals/approve/"+proposal.id)
         .then(onSuccessResponse)
-        .catch((err) => console.log(err));
+        .catch((err) => {});
     }
 
     const onSuccessResponse = (res) => {

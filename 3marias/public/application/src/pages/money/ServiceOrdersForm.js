@@ -20,6 +20,7 @@ import Button from "react-bootstrap/esm/Button";
 import { validateDate, validateMoney, validateMoneyWithoutAllPatterns, validateNumber, validateRequired, validateRequiredString, validateRequiredStringWithoutPattern } from "../../services/Validation";
 import { useParams } from "react-router-dom";
 import { formatMoney } from "../../services/Format";
+import CustomMoney from "../../components/input/CustomMoney";
 
 const ServiceOrdersForm = ({}) => {
     const [loading, setLoading] = useState(false);
@@ -40,6 +41,9 @@ const ServiceOrdersForm = ({}) => {
     const [refreshAddData, setRefreshAddData] = useState(false);
     const [services, setServices] = useState([]);
     const [stocks, setStocks] = useState([]);
+    const [loadingOrder, setLoadingOrder] = useState(false);
+    const [serviceOrder, setServiceOrder] = useState({});
+
 
     const onAddServiceOrder = () => {
         const findService = services.find((s) => s.id.toString() === state.service_id);
@@ -63,16 +67,9 @@ const ServiceOrdersForm = ({}) => {
         getServices();
         getStocks();
         if (parameters.id) {
-            getPurchaseOrder(parameters.id);
+            getServiceOrder(parameters.id);
         }
     }, []);
-
-    useEffect(() => {
-        if (!parameters.id) {
-            return;
-        }
-        updateItemsSelected(items);
-    }, [products]);
 
     const updateItemsSelected = (items) => {
         const itemsToBeSelected = items.map((item) => {
@@ -92,18 +89,17 @@ const ServiceOrdersForm = ({}) => {
         setItemsSelected(itemsToBeSelected);
     }
 
-    const getPurchaseOrder = (id) => {
-        setLoadingPurchase(true);
-        performRequest("GET", "/v1/purchaseOrders/" + id)
+    const getServiceOrder = (id) => {
+        setLoadingOrder(true);
+        performRequest("GET", "/v1/serviceOrders/" + id)
         .then(onSuccessGetPurchase)
-        .catch(onErrorResponse);
+        .catch((err) => {onErrorResponse(err); setLoadingOrder(false);});
     }
 
     const onSuccessGetPurchase = (res) => {
-        setLoadingPurchase(false);
+        setLoadingOrder(false);
+        setServiceOrder(res.data);
         const data = formatDataFrontend(res.data);
-        setItems(data.items);
-        updateItemsSelected(data.items);
         dispatch({ type: "data", data });
     }
 
@@ -187,10 +183,19 @@ const ServiceOrdersForm = ({}) => {
             setHttpError(quantityRequired);
             return true;
         }
-        const moneyValidation = validateMoney(state, "value", "Valor Unitário", true);
-        if (moneyValidation) {
-            setHttpError(moneyValidation);
-            return true;
+
+        if (parameters.id) {
+            const moneyValidation = validateMoneyWithoutAllPatterns(state, "value", "value");
+            if (moneyValidation) {
+                setHttpError(moneyValidation);
+                return true;
+            }
+        } else {
+            const moneyValidation = validateMoney(state, "value", "Valor Unitário", true);
+            if (moneyValidation) {
+                setHttpError(moneyValidation);
+                return true;
+            }
         }
     }
     
@@ -205,38 +210,25 @@ const ServiceOrdersForm = ({}) => {
         if (dataValidation) {
             return;
         }
+
+        if (parameters.id) {
+            setLoading(true);
+            let payload = Object.assign({}, state);
+            payload = processDataBefore(payload);
+            payload.status = serviceOrder.status;
+
+            performRequest("PUT", "/v1/serviceOrders/" + parameters.id, payload)
+            .then(onSuccessPutServiceOrderResponse)
+            .catch(onErrorResponse);
+            return;
+        }
         onAddServiceOrder();
-
-        // var payload = Object.assign({}, state);
-        // payload.products = itemsSelected.map((p) => {
-        //     return processDataBefore({
-        //         product_id: p.id,
-        //         quantity: p.quantity,
-        //         value: p.value
-        //     })
-        // });
-        // payload = processDataBefore(payload);
-
-        // if (parameters.id) {
-        //     setLoading(true);
-        //     performRequest("PUT", "/v1/purchaseOrders/" + parameters.id, payload)
-        //     .then(onSuccessPutPurchaseResponse)
-        //     .catch(onErrorResponse);
-        //     return;
-        // }
-
-        // setLoading(true);
-        // setHttpError(null);
-        // setHttpSuccess(null);
-        
-        // performRequest("POST", "/v1/purchaseOrders", payload)
-        // .then(onSuccessPurchaseResponse)
-        // .catch(onErrorResponse);
     };
 
-    const onSuccessPutPurchaseResponse = (res) => {
+    const onSuccessPutServiceOrderResponse = (res) => {
         setLoading(false);
-        setHttpSuccess({message: "Ordem de Compra Salva com Sucesso!"});
+        setHttpSuccess({message: "Ordem de Serviço Salva com Sucesso!"});
+        getServiceOrder(parameters.id);
     };
 
     const onSuccessServiceOrderResponse = (res) => {
@@ -303,11 +295,19 @@ const ServiceOrdersForm = ({}) => {
                     <Form id="serviceOrderForm" noValidate={true} onSubmit={onSubmit}>
                         <Card>
                             <Card.Body>
+                                {!parameters.id &&
                                 <Card.Title>
                                     <i className="material-icons float-left">add</i>
                                     Adicionar Nova Ordem de Serviço
                                 </Card.Title>
-                                {!refreshAddData &&
+                                }
+                                {parameters.id &&
+                                <Card.Title>
+                                    <i className="material-icons float-left">edit</i>
+                                    Editar Ordem de Serviço
+                                </Card.Title>
+                                }
+                                {!refreshAddData && !loadingOrder &&
                                 <Row>
                                     <Col xs={4}>
                                         <CustomInput 
@@ -343,7 +343,7 @@ const ServiceOrdersForm = ({}) => {
                                             onChange={changeField} />
                                     </Col>
                                     <Col xs={4}>
-                                        <CustomInput 
+                                        {/* <CustomInput 
                                             key="value" 
                                             type="money" 
                                             placeholder="Valor Unitário *" 
@@ -351,7 +351,16 @@ const ServiceOrdersForm = ({}) => {
                                             maxlength="255"
                                             required={false}
                                             value={state.value}
-                                            onChange={changeField} />
+                                            onChange={changeField} /> */}
+                                        <CustomMoney 
+                                            key={"value"}
+                                            defaultValue={state.value}
+                                            placeholder={"Valor Unitário *"}
+                                            name={"value"}
+                                            onChange={changeField}
+                                            required={true}
+                                            value={state.value}
+                                        />
                                     </Col>
                                     <Col xs={4}>
                                         <CustomInput 
@@ -380,7 +389,17 @@ const ServiceOrdersForm = ({}) => {
                                     </Col>
                                 </Row>
                                 }
+                                {loadingOrder &&
+                                    <Row>
+                                        <Col xs={5}></Col>
+                                        <Col xs={2} style={{textAlign: "center"}}>
+                                            <Loading />
+                                        </Col>
+                                        <Col xs={5}></Col>
+                                    </Row>
+                                }
                                 <Row>
+                                    {!parameters.id &&
                                     <Col xs={3}>
                                         <div className="d-grid gap-2" style={{marginBottom: '12px'}}>
                                             <Button variant="success"
@@ -391,6 +410,21 @@ const ServiceOrdersForm = ({}) => {
                                             </Button>
                                         </div>
                                     </Col>
+                                    }
+                                    {parameters.id && !loadingOrder &&
+                                    <Col xs={3}>
+                                        <div className="d-grid gap-2" style={{marginBottom: '12px'}}>
+                                            <Button variant="success"
+                                                type="submit"
+                                                size="lg"
+                                                disabled={loading}>
+                                                {loading ? <Loading />
+                                                            : 
+                                                            'Salvar'}
+                                            </Button>
+                                        </div>
+                                    </Col>
+                                    }
                                 </Row>
                             </Card.Body>
                         </Card>
@@ -399,6 +433,7 @@ const ServiceOrdersForm = ({}) => {
                 <br></br>
                 <Col xs={12}></Col>
                 <br></br>
+                {!parameters.id &&
                 <Col xs={12}>
                     <Card>
                         <Card.Body>
@@ -478,6 +513,7 @@ const ServiceOrdersForm = ({}) => {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
             </Row>
         </Container>
         }

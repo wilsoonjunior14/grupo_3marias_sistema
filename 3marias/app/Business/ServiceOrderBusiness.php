@@ -3,7 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\BillPay;
 use App\Models\Logger;
 use App\Models\ServiceOrder;
 use App\Utils\ErrorMessage;
@@ -13,10 +12,30 @@ use Illuminate\Http\Request;
 
 class ServiceOrderBusiness {
 
+    // TODO: these functions can be generalized
+    private function setStatusIcon(ServiceOrder $serviceOrder) {
+        if ($serviceOrder->status === 0) {
+            $serviceOrder["icon"] = "access_time";
+            $serviceOrder["icon_color"] = "gray";
+        }
+        if ($serviceOrder->status === 1) {
+            $serviceOrder["icon"] = "thumb_down";
+            $serviceOrder["icon_color"] = "red";
+        }
+        if ($serviceOrder->status === 2) {
+            $serviceOrder["icon"] = "thumb_up";
+            $serviceOrder["icon_color"] = "green";
+        }
+    }
+
     public function get() {
         Logger::info("Iniciando a recuperação de serviços.");
         $services = (new ServiceOrder())->getAll("date");
         $amount = count($services);
+        foreach ($services as $service) {
+            $service->total_value = str_replace(".", ",", "" . $service->value * $service->quantity);
+            $this->setStatusIcon(serviceOrder: $service);
+        }
         Logger::info("Foram recuperados {$amount} serviços.");
         Logger::info("Finalizando a recuperação de serviços.");
         return $services;

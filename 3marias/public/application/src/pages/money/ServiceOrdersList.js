@@ -27,7 +27,7 @@ export default function ServiceOrdersList() {
 
     const fields = [
         {
-            id: 'code',
+            id: 'id',
             placeholder: 'Código',
             type: 'text',
             maxlength: 255
@@ -41,22 +41,22 @@ export default function ServiceOrdersList() {
     ];
 
     const table = {
-        fields: ["Status", "Código", "Descrição", "Valor", "Data"],
+        fields: ["Status", "Código", "Descrição", "Total", "Data"],
         amountOptions: 1,
-        bodyFields: ["icon", "id", "description", "value", "date"]
+        bodyFields: ["icon", "id", "description", "total_value", "date"]
     };
 
     // TODO: only admin or developer can approve or cancel a purchase order
     const customOptions = [
         {
             name: "approve_purchase_order",
-            tooltip: "Efetuar Ordem de Compra",
+            tooltip: "Efetuar Ordem de Serviço",
             icon: "thumb_up",
             onClick: (evt) => {setPurchase(evt); setShowApproveModal(true);}
         },
         {
             name: "cancel_purchase_order",
-            tooltip: "Cancelar Ordem de Compra",
+            tooltip: "Cancelar Ordem de Serviço",
             icon: "thumb_down",
             onClick: (evt) => {setPurchase(evt); setShowRejectModal(true);}
         }
@@ -66,8 +66,11 @@ export default function ServiceOrdersList() {
         setIsApproving(true);
         setSuccessMessage(null);
         setErrorMessage(null)
+
+        let payload = Object.assign({}, purchase);
+        payload.status = 2;
         
-        performRequest("POST", "/v1/purchaseOrders/approve/"+purchase.id)
+        performRequest("PUT", "/v1/serviceOrders/"+purchase.id, payload)
         .then(onSuccessResponse)
         .catch(onErrorResponse);
     }
@@ -76,8 +79,11 @@ export default function ServiceOrdersList() {
         setIsRejecting(true);
         setSuccessMessage(null);
         setErrorMessage(null)
+
+        let payload = Object.assign({}, purchase);
+        payload.status = 1;
         
-        performRequest("POST", "/v1/purchaseOrders/reject/"+purchase.id)
+        performRequest("PUT", "/v1/serviceOrders/"+purchase.id, payload)
         .then(onSuccessResponse)
         .catch(onErrorResponse);
     }
@@ -113,7 +119,7 @@ export default function ServiceOrdersList() {
                 </Modal.Header>
                         
                 <Modal.Body>
-                    Você deseja realmente rejeitar a ordem de compra <b>{purchase.description}</b>?
+                    Você deseja realmente rejeitar a ordem de serviço <b>{purchase.description}</b>?
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -143,7 +149,7 @@ export default function ServiceOrdersList() {
                 </Modal.Header>
                         
                 <Modal.Body>
-                    Você deseja realmente efetuar a ordem de compra <b>{purchase.description}</b>?
+                    Você deseja realmente aprovar a ordem de serviço <b>{purchase.description}</b>?
                 </Modal.Body>
 
                 <Modal.Footer>

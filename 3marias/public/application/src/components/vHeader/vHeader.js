@@ -12,10 +12,11 @@ import VHeaderAdmin from "./vHeaderAdmin";
 import VHeaderProposals from "./vHeaderProposals";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
-import { isLogged } from "../../services/Storage";
+import { isLogged, removeUserData } from "../../services/Storage";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
+    const [logged, setLogged] = useState(true);
     const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red";
     const accountColor = window.location.pathname.indexOf("account") == -1 ? "white" : "red"; 
     const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
@@ -91,6 +92,11 @@ function VHeader() {
                 containerElement.style.opacity = "1";
             }
         }
+    }
+
+    const onLogout = () => {
+        removeUserData();
+        setLogged(false);
     }
 
     const onCheckUserIsLogged = () => {
@@ -186,7 +192,8 @@ function VHeader() {
                         </Nav.Link>
                         <Tooltip style={{marginTop: "-5px"}} place="right" id="account_circle-item-tooltip" />
 
-                        <Nav.Link href="/home" data-tooltip-id="exit_to_app-item-tooltip" data-tooltip-content="Sair">
+                        <Nav.Link href="/home" onClick={onLogout}
+                            data-tooltip-id="exit_to_app-item-tooltip" data-tooltip-content="Sair">
                             <i style={{color: "white", fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">exit_to_app</i>
                         </Nav.Link>
                         <Tooltip style={{marginTop: "-5px"}} place="right" id="exit_to_app-item-tooltip" />

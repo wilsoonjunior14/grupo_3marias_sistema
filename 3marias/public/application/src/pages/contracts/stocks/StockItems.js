@@ -19,12 +19,13 @@ import Accordion from 'react-bootstrap/Accordion';
 import { getMoney } from "../../../services/Utils";
 import TableButton from "../../../components/button/TableButton";
 import Button from "react-bootstrap/esm/Button";
+import NoEntity from "../../../components/table/NoEntity";
 
 function StockItems() {
 
     const parameters = useParams();
     const [initialState, setInitialState] = useState({items: []});
-    const [stock, setStock] = useState({items: []});
+    const [stock, setStock] = useState({items: [], services: []});
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
@@ -39,6 +40,9 @@ function StockItems() {
     const calculateTotalValue = (stock) => {
         let value = 0;
         stock.items.forEach((item) => {
+            value = value + (item.quantity * item.value);
+        });
+        stock.services.forEach((item) => {
             value = value + (item.quantity * item.value);
         });
         setTotal(value);
@@ -265,7 +269,60 @@ function StockItems() {
                 <br></br>
 
                 <Accordion>
-                    <Accordion.Item eventKey="0" style={{marginBottom: 22}}>
+                <Accordion.Item eventKey="0" style={{marginBottom: 22}}>
+                        <Accordion.Header>
+                            <i className="material-icons float-left">build</i>
+                            <h5>Serviços</h5>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            <Row>
+                                <Col>
+                                    {loading &&
+                                        <>
+                                        <Col></Col>
+                                        <Col style={{textAlign: 'center'}}>
+                                            <Loading />
+                                        </Col>
+                                        <Col></Col>
+                                        </>
+                                    }
+                                    {!loading &&
+                                    <Row>
+                                        <Col>
+                                            <Table responsive striped>
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Descrição</th>
+                                                        <th>Quantidade</th>
+                                                        <th>Valor Unitário</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {stock.services.map((item) => 
+                                                        <tr>
+                                                            <td>{item.id}</td>
+                                                            <td>{item.description}</td>
+                                                            <td>{item.quantity}</td>
+                                                            <td>{getMoney(item.value.toString().replace(".", ","))}</td>
+                                                            <td>{getMoney((item.value * item.quantity).toString().replace(".", ","))}</td>
+                                                        </tr>
+                                                    )}
+                                                    {stock.services.length === 0 &&
+                                                        <NoEntity message={"Nenhum serviço encontrado."} count={5} />
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                    }
+                                </Col>
+                            </Row>
+                        </Accordion.Body>
+                    </Accordion.Item>
+
+                    <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
                         <Accordion.Header>
                             <i className="material-icons float-left">assignment</i>
                             <h5>Lista de Produtos</h5>
@@ -305,6 +362,9 @@ function StockItems() {
                                                             <td>{getMoney((item.value * item.quantity).toString().replace(".", ","))}</td>
                                                         </tr>
                                                     )}
+                                                    {stock.services.length === 0 &&
+                                                        <NoEntity message={"Nenhum produto encontrado."} count={5} />
+                                                    }
                                                 </tbody>
                                             </Table>
                                         </Col>
@@ -315,7 +375,7 @@ function StockItems() {
                         </Accordion.Body>
                     </Accordion.Item>
 
-                    <Accordion.Item eventKey="1">
+                    <Accordion.Item eventKey="2">
                         <Accordion.Header>
                             <i className="material-icons float-left">sync</i>
                             <h5>Transferência de Produtos</h5>
