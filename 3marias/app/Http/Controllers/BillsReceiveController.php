@@ -24,16 +24,28 @@ class BillsReceiveController extends Controller implements APIController
      * Gets all bills.
      */
     public function index() {
-        $bills = $this->billsReceiveBusiness->getAll();
-        return ResponseUtils::getResponse($bills, 200);
+        try {
+            $bills = $this->billsReceiveBusiness->getAll();
+            return ResponseUtils::getResponse($bills, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets all bills in progress.
      */
     public function inprogress() {
-        $bills = $this->billsReceiveBusiness->getBillsInProgress();
-        return ResponseUtils::getResponse($bills, 200);
+        try {
+            $bills = $this->billsReceiveBusiness->getBillsInProgress();
+            return ResponseUtils::getResponse($bills, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -47,8 +59,14 @@ class BillsReceiveController extends Controller implements APIController
      * Gets a bill by id.
      */
     public function show($id) {
-        $bill = $this->billsReceiveBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($bill, 200);
+        try {
+            $bill = $this->billsReceiveBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($bill, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -62,8 +80,14 @@ class BillsReceiveController extends Controller implements APIController
      * Updates a bill.
      */
     public function update(Request $request, $id) {
-        $bill = $this->billsReceiveBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($bill, 200);
+        try {
+            $bill = $this->billsReceiveBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($bill, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

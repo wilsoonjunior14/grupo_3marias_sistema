@@ -45,7 +45,7 @@ export default function MoneyDashboard() {
     const [billReceive, setBillReceive] = useState("0,000.00");
     const [loadingBills, setLoadingBills] = useState(false);
 
-    const [billPay, setBillPay] = useState(0);
+    const [billPay, setBillPay] = useState("0,000.00");
     const [loadingBillPay, setLoadingBillPay] = useState(false);
 
     const [balance, setBalance] = useState(0);
@@ -56,6 +56,7 @@ export default function MoneyDashboard() {
     useEffect(() => {
         getProposals();
         getBillsToReceiveInProgress();
+        getBillsToPay();
     }, []);
 
     const getProposals = () => {
@@ -105,6 +106,26 @@ export default function MoneyDashboard() {
         }
     }
 
+    const getBillsToPay = () => {
+        setHttpError(null);
+        setLoadingBillPay(true);
+        performRequest("GET", "/v1/billsPay")
+        .then(onSuccessGetBillsToPay)
+        .catch((err) => {onErrorGetBillsToReceive(err); setLoadingBillPay(false);});
+    };
+
+    const onSuccessGetBillsToPay = (res) => {
+        var globalValue = 0;
+        const responseData = res.data;
+        responseData.forEach((bill) => {
+            if (bill.status === 0) {
+                globalValue += Math.abs(Number(bill.value_performed) - Number(bill.value));
+            }
+        });
+        setLoadingBillPay(false);
+        setBillPay(formatMoney(globalValue.toString()));
+    }
+
     const getBillsToReceiveInProgress = () => {
         setHttpError(null);
         setLoadingBills(true);
@@ -135,6 +156,7 @@ export default function MoneyDashboard() {
     const onErrorGetBillsToReceive = (err) => {
         setLoadingBills(false);
         setBillReceive("Erro");
+        setBillPay("Erro");
         setHttpError({message: "Não foi possível conectar-se com o servidor para recuperar os pagamentos. Tente atualizar a página."});
     }
 
@@ -183,11 +205,20 @@ export default function MoneyDashboard() {
                                             Contas a Pagar
                                             <i className="material-icons float-left">attach_money</i>
                                         </Card.Title>
+                                        {loadingBills &&
+                                        <Row>
+                                            <Col></Col>
+                                            <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
+                                            <Col></Col>
+                                        </Row>
+                                        }
+                                        {!loadingBills &&
                                         <Row>
                                             <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> - R$ {billPay}</b>
+                                                <b>- {billPay}</b>
                                             </Col>
                                         </Row>
+                                        }
                                     </Card.Body>
                                 </Card>
                             </Col>

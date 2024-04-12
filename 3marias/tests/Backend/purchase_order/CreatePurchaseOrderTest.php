@@ -5,6 +5,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/purchaseOrders
@@ -26,9 +27,7 @@ class CreatePurchaseOrderTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_unauthorized(): void {
         $response = $this->sendPostRequest(url: $this->url, headers: [], model: new PurchaseOrder());
 
@@ -38,9 +37,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_empty_payload(): void {
         $response = $this->sendPostRequest(url: $this->url, headers: parent::getHeaders(), model: new PurchaseOrder());
 
@@ -50,9 +47,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_description(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -87,9 +82,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_empty_description(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -124,9 +117,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_short_description(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -161,9 +152,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_long_description(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -194,13 +183,11 @@ class CreatePurchaseOrderTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Campo Descrição da Ordem de Compra permite no máximo 1000 caracteres.'
+            "message" => 'Campo Descrição da Ordem de Compra permite no máximo 100 caracteres.'
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_wrong_type_description(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -235,9 +222,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_date(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -272,9 +257,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_invalid_date(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -309,9 +292,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_invalid_format_date(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -346,9 +327,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_partner_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -383,9 +362,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_non_existing_partner_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -420,9 +397,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_zero_partner_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -457,9 +432,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_wrong_type_partner_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -494,9 +467,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_without_products(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -519,9 +490,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_products(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -545,9 +514,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_empty_products(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -571,9 +538,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_product_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -603,9 +568,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_empty_product_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -635,9 +598,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_non_existing_product_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -667,9 +628,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_wrong_type_product_id(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -699,9 +658,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_quantity(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -731,9 +688,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_empty_quantity(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -763,9 +718,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_zero_quantity(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -795,9 +748,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_wrong_type_quantity(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -827,9 +778,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_negative_quantity(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -859,9 +808,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_null_value(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -891,9 +838,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_zero_value(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -923,9 +868,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createPurchaseOrder_with_wrong_type_value(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1
@@ -955,9 +898,7 @@ class CreatePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createPurchaseOrder(): void {
         parent::createPartner(); // id = 1
         parent::createStock(); // id = 1

@@ -67,6 +67,10 @@ class PurchaseOrderBusiness {
 
     public function delete(int $id) {
         $purchase = $this->getById(id: $id);
+        $bills = (new BillPayBusiness())->getBillsByPurchase(purchaseId: $id);
+        if (count($bills) > 0) {
+            throw new InputValidationException("Operação não permitida. Existem contas a pagar dessa ordem de compra.");
+        }
         Logger::info("Deletando a ordem de compra $id.");
         $purchase->deleted = true;
         $purchase->save();
@@ -185,6 +189,8 @@ class PurchaseOrderBusiness {
             $stockBusiness->refreshStockItem(productId: $purchaseItem->product_id, value: $purchaseItem->value,
             quantity: $purchaseItem->quantity, stock: $stockMatriz);
         }
+        // Creates the bill to pay
+        (new BillPayBusiness())->createBillPay(baseModel: $purchase);
         
         Logger::info("Finalizando aprovação de ordem de compra $id.");
         return $purchase;

@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/countries
@@ -25,9 +26,7 @@ class DeleteCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCountries_unauthorized(): void {
         $response = $this
         ->delete("/api/v1/countries/1");
@@ -38,9 +37,7 @@ class DeleteCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCountries_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -52,9 +49,7 @@ class DeleteCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCountries_nonExistingId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -66,9 +61,7 @@ class DeleteCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteCountries(): void {
         parent::createState();
 

@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/clients
@@ -23,9 +24,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_withoud_name_dependent(): void {
         parent::createCity();
 
@@ -60,9 +59,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_name_dependent(): void {
         parent::createCity();
 
@@ -98,9 +95,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_name_dependent(): void {
         parent::createCity();
 
@@ -136,9 +131,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_wrong_type_name_dependent(): void {
         parent::createCity();
 
@@ -174,9 +167,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_short_name_dependent(): void {
         parent::createCity();
 
@@ -212,9 +203,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_long_name_dependent(): void {
         parent::createCity();
 
@@ -250,9 +239,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_without_cpf_dependent(): void {
         parent::createCity();
 
@@ -288,9 +275,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_cpf_dependent(): void {
         parent::createCity();
 
@@ -327,9 +312,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_cpf_dependent(): void {
         parent::createCity();
 
@@ -366,9 +349,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_invalid_cpf_dependent(): void {
         parent::createCity();
 
@@ -405,9 +386,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_wrong_type_cpf_dependent(): void {
         parent::createCity();
 
@@ -444,9 +423,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_cpf_dependent_equals_to_client(): void {
         parent::createCity();
 
@@ -484,9 +461,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_without_rg_dependent(): void {
         parent::createCity();
 
@@ -523,9 +498,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_rg_dependent(): void {
         parent::createCity();
 
@@ -563,9 +536,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_rg_dependent(): void {
         parent::createCity();
 
@@ -603,9 +574,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_wrong_type_rg_dependent(): void {
         parent::createCity();
 
@@ -643,9 +612,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_rg_dependent_equals_to_client(): void {
         parent::createCity();
 
@@ -683,9 +650,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_without_rg_dependent_organ(): void {
         parent::createCity();
 
@@ -723,9 +688,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_rg_dependent_organ(): void {
         parent::createCity();
 
@@ -764,9 +727,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_rg_dependent_organ(): void {
         parent::createCity();
 
@@ -805,9 +766,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_wrong_type_rg_dependent_organ(): void {
         parent::createCity();
 
@@ -846,9 +805,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_short_rg_dependent_organ(): void {
         parent::createCity();
 
@@ -887,9 +844,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_without_rg_dependent_date(): void {
         parent::createCity();
 
@@ -928,9 +883,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_rg_dependent_date(): void {
         parent::createCity();
 
@@ -970,9 +923,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_rg_dependent_date(): void {
         parent::createCity();
 
@@ -1055,9 +1006,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     //     );
     // }
 
-    /**
-     * @test
-     */
+        #[Test]
     public function negTest_createClients_married_with_null_salary(): void {
         parent::createCity();
 
@@ -1098,9 +1047,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_salary(): void {
         parent::createCity();
 
@@ -1141,9 +1088,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_invalid_salary(): void {
         parent::createCity();
 
@@ -1184,9 +1129,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_without_ocupation(): void {
         parent::createCity();
 
@@ -1226,9 +1169,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_null_ocupation(): void {
         parent::createCity();
 
@@ -1269,9 +1210,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_empty_ocupation(): void {
         parent::createCity();
 
@@ -1312,9 +1251,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_short_ocupation(): void {
         parent::createCity();
 
@@ -1356,9 +1293,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_long_ocupation(): void {
         parent::createCity();
 
@@ -1399,9 +1334,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_with_wrong_type_ocupation(): void {
         parent::createCity();
 
@@ -1442,9 +1375,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_wrong_type_email(): void {
         parent::createCity();
 
@@ -1486,9 +1417,7 @@ class CreateClientWithDependentIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createClients_married_invalid_email(): void {
         parent::createCity();
 

@@ -53,13 +53,13 @@ class BillReceive extends BaseModel
     ];
 
     public function getByContractId(int $id) {
-        return $this::where("deleted", false)
+        return (new BillReceive())->where("deleted", false)
         ->where("contract_id", $id)
         ->get();
     }
 
     public function getBillsNotDone() {
-        return $this::where("deleted", false)
+        return (new BillReceive())->where("deleted", false)
         ->where("status", 0)
         ->orderBy("desired_date")
         ->get();

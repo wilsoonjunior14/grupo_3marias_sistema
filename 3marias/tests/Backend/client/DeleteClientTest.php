@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/clients
@@ -25,9 +26,7 @@ class DeleteClientTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteClients_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/clients/1");
@@ -40,9 +39,7 @@ class DeleteClientTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteClients_client_id_invalid(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -54,9 +51,7 @@ class DeleteClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteClients_client_not_found(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -89,9 +84,7 @@ class DeleteClientTest extends TestFramework
     //     ]);
     // }
 
-    /**
-     * @test
-     */
+        #[Test]
     public function posTest_deleteClients_client_without_proposal(): void {
         $client = parent::createClient();
 

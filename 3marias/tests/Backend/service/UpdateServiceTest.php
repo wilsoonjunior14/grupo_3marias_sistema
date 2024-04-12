@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/services/{id}
@@ -25,9 +26,7 @@ class UpdateServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_without_authorization(): void {
         $response = $this
         ->put("/api/v1/services/1");
@@ -40,9 +39,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_null_payload(): void {
         parent::createService();
 
@@ -60,9 +57,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_empty_payload(): void {
         parent::createService();
 
@@ -80,9 +75,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_null_service(): void {
         parent::createService();
 
@@ -105,9 +98,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_empty_service(): void {
         parent::createService();
 
@@ -130,9 +121,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_wrong_type_service(): void {
         parent::createService();
 
@@ -155,9 +144,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_short_service(): void {
         parent::createService();
 
@@ -180,9 +167,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_long_service(): void {
         parent::createService();
 
@@ -205,9 +190,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_wrong_type_object_service(): void {
         parent::createService();
 
@@ -230,9 +213,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_without_category_service_name(): void {
         parent::createService();
 
@@ -252,9 +233,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_null_category_service_name(): void {
         parent::createService();
 
@@ -275,9 +254,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_empty_category_service_name(): void {
         parent::createService();
 
@@ -298,9 +275,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_wrong_type_category_service_name(): void {
         parent::createService();
 
@@ -321,9 +296,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateService_with_non_existing_service_name(): void {
         parent::createService();
 
@@ -344,9 +317,7 @@ class UpdateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateService(): void {
         $service = parent::createService();
 

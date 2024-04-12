@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/groups/{id}
@@ -25,9 +26,7 @@ class UpdateGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_without_authentication_before(): void {
         $json = [];
 
@@ -41,9 +40,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_empty_body(): void {
         $json = [];
 
@@ -57,9 +54,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_empty_description(): void {
         $json = [
             "description" => ""
@@ -75,9 +70,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_description_with_invalid_type(): void {
         $json = [
             "description" => 12345
@@ -93,9 +86,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_long_description(): void {
         $json = [
             "description" => parent::generateRandomString(500)
@@ -111,9 +102,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_short_description(): void {
         $json = [
             "description" => parent::generateRandomString(2)
@@ -129,9 +118,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_invalidId(): void {
         $json = [
             "description" => parent::generateRandomString()
@@ -147,9 +134,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateGroup_with_non_existing_group(): void {
         $json = [
             "description" => parent::generateRandomString()
@@ -165,9 +150,7 @@ class UpdateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateGroup(): void {
         parent::createGroup();
 

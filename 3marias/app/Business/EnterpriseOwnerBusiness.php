@@ -6,6 +6,7 @@ use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\EnterpriseOwner;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -23,7 +24,13 @@ class EnterpriseOwnerBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de representante legal $id.");
+        if ($id <= 0) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Representante Legal"));
+        }
         $enterpriseOwner = (new EnterpriseOwner())->getById($id);
+        if (is_null($enterpriseOwner)) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Representante Legal"));
+        }
         if ($merge) {
             $address = (new AddressBusiness())->getById($enterpriseOwner->address_id);
             $enterpriseOwner = $this->mountClientAddressInline($enterpriseOwner, $address);
@@ -50,7 +57,7 @@ class EnterpriseOwnerBusiness {
         if (!is_null($hasErrors)) {
             throw new InputValidationException($hasErrors);
         }
-
+        $this->existsEntity(cpf: $data["cpf"]);
         $address = (new AddressBusiness())->create($data);
         
         Logger::info("Salvando a nova representante legal.");
@@ -69,7 +76,11 @@ class EnterpriseOwnerBusiness {
         
         Logger::info("Validando as informações do representante legal.");
         $enterpriseOwnerValidator = new ModelValidator(EnterpriseOwner::$rules, EnterpriseOwner::$rulesMessages);
-        $enterpriseOwnerValidator->validate(data: $request->all());
+        $hasErrors = $enterpriseOwnerValidator->validate(data: $request->all());
+        if (!is_null($hasErrors)) {
+            throw new InputValidationException($hasErrors);
+        }
+        $this->existsEntity(cpf: $enterpriseOwner["cpf"], id: $id);
 
         (new AddressBusiness())->update($request->all(), id: $enterpriseOwner->address_id);
 
@@ -89,6 +100,15 @@ class EnterpriseOwnerBusiness {
         $enterpriseOwner["state_name"] = $address->state_name;
         $enterpriseOwner["state_acronym"] = $address->state_acronym;
         return $enterpriseOwner;
+    }
+
+    private function existsEntity(string $cpf, int $id = null) {
+        $condition = [["cpf", "=", $cpf]];
+        $exists = (new EnterpriseOwner())->existsEntity(condition: $condition, id: $id);
+        if ($exists) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_DUPLICATED, "CPF do Representante Legal", "Representantes Legais"));
+        }
+        return $exists;
     }
 
 }

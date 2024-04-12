@@ -45,7 +45,7 @@ class BotManController extends Controller
      * Does the chatbot process the email to recovery password.
      */
     private function sayRecoveryPassword($botman) {
-        $botman->ask("Qual seu email? </br>", function (Answer $answer) {
+        $botman->ask("Qual seu email? </br>", function (Answer $answer, $botman) {
             $emailRules = ["email" => "email:strict"];
             $emailRulesMessages = ["email.email" => "Email inválido."];
             $emailValidator = new ModelValidator($emailRules, $emailRulesMessages);
@@ -53,10 +53,10 @@ class BotManController extends Controller
 
             $emailValidated = $emailValidator->validate(["email" => $email]);
             if ($emailValidated !== null){
-                $this->say("<p style='color: red'>O email informado é inválido. Por favor, tente novamente.</p>");
+                $botman->say("<p style='color: red'>O email informado é inválido. Por favor, tente novamente.</p>");
                 return;
             }
-            $this->say("Okay! Este é seu email - ".$email);
+            $botman->say("Okay! Este é seu email - ".$email);
         });
     }
 

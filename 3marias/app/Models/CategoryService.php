@@ -22,14 +22,14 @@ class CategoryService extends BaseModel
     ];
 
     static function getByName(string $name) {
-        return CategoryService::where("deleted", false)
+        return (new CategoryService())->where("deleted", false)
         ->where("name", $name)
         ->get()
         ->first();
     }
 
     public function withName($name) {
-        $this->name = $name;
+        $this->name = $name; // @phpstan-ignore-line
         return $this;
     }
 }

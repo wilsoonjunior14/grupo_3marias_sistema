@@ -21,40 +21,70 @@ class CategoryProductController extends Controller implements APIController
      * Gets all contracts.
      */
     public function index() {
-        $categories = $this->categoryProductBusiness->get();
-        return ResponseUtils::getResponse($categories, 200);
+        try {
+            $categories = $this->categoryProductBusiness->get();
+            return ResponseUtils::getResponse($categories, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a category.
      */
     public function store(Request $request) {
-        $category = $this->categoryProductBusiness->create(request: $request);
-        return ResponseUtils::getResponse($category, 201);
+        try {
+            $category = $this->categoryProductBusiness->create(request: $request);
+            return ResponseUtils::getResponse($category, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a category by id.
      */
     public function show($id) {
-        $category = $this->categoryProductBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($category, 200);
+        try {
+            $category = $this->categoryProductBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($category, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a category by id.
      */
     public function destroy($id) {
-        $category = $this->categoryProductBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($category, 200);
+        try {
+            $category = $this->categoryProductBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($category, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a category.
      */
     public function update(Request $request, $id) {
-        $categoryUpdated = $this->categoryProductBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($categoryUpdated, 200);
+        try {
+            $categoryUpdated = $this->categoryProductBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($categoryUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

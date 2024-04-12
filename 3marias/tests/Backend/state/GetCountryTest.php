@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/states
@@ -25,9 +26,7 @@ class GetCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getStates_unauthorized(): void {
         $response = $this
         ->get("/api/v1/states");
@@ -38,9 +37,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getStates_empty(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -50,9 +47,7 @@ class GetCountryTest extends TestFramework
         $response->assertJson([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getStates(): void {
         $state1 = parent::createState();
         $state2 = parent::createState();
@@ -65,9 +60,7 @@ class GetCountryTest extends TestFramework
         $response->assertJsonCount(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getStateById_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -79,9 +72,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getStateById_nonExistingId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -93,9 +84,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getStateById(): void {
         $state = parent::createState();
 

@@ -184,7 +184,7 @@ class Client extends BaseModel
     }
 
     public function getByNameAndCPF(string $name, string $cpf) {
-        return $this::where("deleted", false)
+        return (new Client())->where("deleted", false)
         ->where("name", "like", "%" . $name . "%")
         ->where("cpf", "like", "%" . $cpf . "%")
         ->get();

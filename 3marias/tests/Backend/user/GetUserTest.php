@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/users
@@ -25,9 +26,7 @@ class GetUserTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getUsers_without_authorization(): void {
         $response = $this
         ->get("/api/v1/users");
@@ -40,9 +39,7 @@ class GetUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getUsers_single_results(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -52,9 +49,7 @@ class GetUserTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getUsers_results_found(): void {
         parent::createUser();
         parent::createUser();
@@ -67,9 +62,7 @@ class GetUserTest extends TestFramework
         $response->assertJsonCount(3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getUserById_without_authorization(): void {
         $response = $this
         ->get("/api/v1/users/1");
@@ -80,9 +73,7 @@ class GetUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getUserById_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -94,9 +85,7 @@ class GetUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getUserById_non_existing_user(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -108,9 +97,7 @@ class GetUserTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getUserById_results_found(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())

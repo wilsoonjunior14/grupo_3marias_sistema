@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/categoryProducts/{id}
@@ -25,9 +26,7 @@ class DeleteCategoryProductTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryProducts_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/categoryProducts/1");
@@ -40,9 +39,7 @@ class DeleteCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryProducts_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class DeleteCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteCategoryProducts_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -72,9 +67,7 @@ class DeleteCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteCategoryProducts(): void {
         $payload = [
             "name" => parent::generateRandomString()

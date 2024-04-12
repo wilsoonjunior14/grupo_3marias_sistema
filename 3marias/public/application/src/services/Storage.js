@@ -4,6 +4,10 @@ export function storeUserData(userdata) {
     localStorage.setItem(userKey, JSON.stringify(userdata));
 }
 
+export function removeUserData() {
+    localStorage.removeItem(userKey);
+}
+
 export function isLogged() {
     const data = retrieveUserData();
     if (!data) {

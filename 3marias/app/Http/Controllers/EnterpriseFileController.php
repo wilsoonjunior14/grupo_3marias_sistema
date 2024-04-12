@@ -29,8 +29,14 @@ class EnterpriseFileController extends Controller implements APIController
      * Creates a EnterpriseFile.
      */
     public function store(Request $request) {
-        $entepriseFile = $this->enterpriseFileBusiness->create(request: $request);
-        return ResponseUtils::getResponse($entepriseFile, 201);
+        try {
+            $entepriseFile = $this->enterpriseFileBusiness->create(request: $request);
+            return ResponseUtils::getResponse($entepriseFile, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
@@ -44,8 +50,14 @@ class EnterpriseFileController extends Controller implements APIController
      * Deletes a EnterpriseFile by id.
      */
     public function destroy($id) {
-        $entepriseFile = $this->enterpriseFileBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($entepriseFile, 200);
+        try {
+            $entepriseFile = $this->enterpriseFileBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($entepriseFile, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

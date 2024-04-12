@@ -38,7 +38,7 @@ class Accountant extends BaseModel
     }
 
     public function getByEnterprise(int $enterpriseId) {
-        return $this::where("deleted", false)
+        return (new Accountant())->where("deleted", false)
         ->with("address")
         ->where("enterprise_id", $enterpriseId)
         ->orderBy("name")

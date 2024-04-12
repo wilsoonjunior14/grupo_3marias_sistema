@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/states/{idCountry}
@@ -25,9 +26,7 @@ class GetByCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getStates_byCountry_with_invalidCountryId(): void {
         $response = $this
         ->get("/api/states/0");
@@ -40,9 +39,7 @@ class GetByCountryTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getStates_byCountry_with_nonExistingCountryId(): void {
         $response = $this
         ->get("/api/states/100");
@@ -55,9 +52,7 @@ class GetByCountryTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getStates_byCountry_with_emptyResults(): void {
         parent::createCountry();
 
@@ -68,9 +63,7 @@ class GetByCountryTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getStates_byCountry(): void {
         $state1 = parent::createState();
         $state2 = parent::createState();

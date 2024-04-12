@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/proposals
@@ -25,9 +26,7 @@ class CreateProposalIVTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_authorization(): void {
         $response = $this
         ->post("/api/v1/proposals", []);
@@ -40,9 +39,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_payload(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_client_name(): void {
         $payload = [
             "client_name" => ""
@@ -76,9 +71,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_client_cpf(): void {
         $payload = [
             "client_name" => parent::generateRandomString()
@@ -96,9 +89,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_client_cpf(): void {
         $payload = [
             "client_name" => parent::generateRandomString(),
@@ -117,9 +108,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_not_valid_data_client(): void {
         $payload = [
             "client_name" => 12345,
@@ -138,9 +127,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_client_not_found(): void {
         $payload = [
             "client_name" => parent::generateRandomString(),
@@ -159,9 +146,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_proposal_data(): void {
         $client = parent::createClient();
         
@@ -182,9 +167,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_construction_type(): void {
         $client = parent::createClient();
         
@@ -206,9 +189,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_construction_type(): void {
         $client = parent::createClient();
         
@@ -230,9 +211,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_construction_type(): void {
         $client = parent::createClient();
         
@@ -254,9 +233,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_construction_type(): void {
         $client = parent::createClient();
         
@@ -278,9 +255,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_construction_type(): void {
         $client = parent::createClient();
         
@@ -302,9 +277,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_construction_type(): void {
         $client = parent::createClient();
         
@@ -326,9 +299,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_proposal_type(): void {
         $client = parent::createClient();
         
@@ -350,9 +321,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_proposal_type(): void {
         $client = parent::createClient();
         
@@ -375,9 +344,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_proposal_type(): void {
         $client = parent::createClient();
         
@@ -400,9 +367,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_proposal_type(): void {
         $client = parent::createClient();
         
@@ -425,9 +390,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_proposal_type(): void {
         $client = parent::createClient();
         
@@ -450,9 +413,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_proposal_type(): void {
         $client = parent::createClient();
         
@@ -475,9 +436,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_proposal_type(): void {
         $client = parent::createClient();
         
@@ -500,9 +459,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_global_value(): void {
         $client = parent::createClient();
         
@@ -525,9 +482,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_global_value(): void {
         $client = parent::createClient();
         
@@ -551,9 +506,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_global_value(): void {
         $client = parent::createClient();
         
@@ -577,9 +530,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_global_value(): void {
         $client = parent::createClient();
         
@@ -603,9 +554,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_global_value(): void {
         $client = parent::createClient();
         
@@ -629,9 +578,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_global_value(): void {
         $client = parent::createClient();
         
@@ -655,9 +602,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_proposal_date(): void {
         $client = parent::createClient();
         
@@ -681,9 +626,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_proposal_date(): void {
         $client = parent::createClient();
         
@@ -708,9 +651,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_proposal_date(): void {
         $client = parent::createClient();
         
@@ -735,9 +676,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_proposal_date(): void {
         $client = parent::createClient();
         
@@ -762,9 +701,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_proposal_date(): void {
         $client = parent::createClient();
         
@@ -789,9 +726,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_pattern_proposal_date(): void {
         $client = parent::createClient();
         
@@ -816,9 +751,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_description(): void {
         $client = parent::createClient();
         
@@ -843,9 +776,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_description(): void {
         $client = parent::createClient();
         
@@ -871,9 +802,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_description(): void {
         $client = parent::createClient();
         
@@ -899,9 +828,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_description(): void {
         $client = parent::createClient();
         
@@ -927,9 +854,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_description(): void {
         $client = parent::createClient();
         
@@ -955,9 +880,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_description(): void {
         $client = parent::createClient();
         
@@ -983,9 +906,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_description(): void {
         $client = parent::createClient();
         
@@ -1011,9 +932,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_discount(): void {
         $client = parent::createClient();
         
@@ -1039,9 +958,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_discount(): void {
         $client = parent::createClient();
         
@@ -1069,9 +986,7 @@ class CreateProposalIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_discount(): void {
         $client = parent::createClient();
         
@@ -1099,9 +1014,7 @@ class CreateProposalIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_discount(): void {
         $client = parent::createClient();
         
@@ -1129,9 +1042,7 @@ class CreateProposalIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_discount(): void {
         $client = parent::createClient();
         
@@ -1159,9 +1070,7 @@ class CreateProposalIVTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_project_id(): void {
         $client = parent::createClient();
         
@@ -1188,9 +1097,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_project_id(): void {
         $client = parent::createClient();
         
@@ -1218,9 +1125,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_project_id(): void {
         $client = parent::createClient();
         
@@ -1248,9 +1153,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_project_id(): void {
         $client = parent::createClient();
         
@@ -1278,9 +1181,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_non_existing_project_id(): void {
         $client = parent::createClient();
         
@@ -1308,9 +1209,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_zero_global_value(): void {
         $client = parent::createClient();
         
@@ -1338,9 +1237,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1369,9 +1266,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1401,9 +1296,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1433,9 +1326,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1465,9 +1356,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1497,9 +1386,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1529,9 +1416,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_address(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1561,9 +1446,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1593,9 +1476,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1626,9 +1507,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1659,9 +1538,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1692,9 +1569,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_bool_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1725,9 +1600,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1758,9 +1631,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_neighborhood(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1791,9 +1662,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_city_id(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1824,9 +1693,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_city_id(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1858,9 +1725,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_city_id(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1892,9 +1757,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_city_id(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1926,9 +1789,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_city_id(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1960,9 +1821,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_zipcode(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -1995,9 +1854,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_zipcode(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2031,9 +1888,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_zipcode(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2067,9 +1922,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_zipcode(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2103,9 +1956,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_zipcode(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2139,9 +1990,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_number(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2176,9 +2025,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2213,9 +2060,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2251,9 +2096,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_bank_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2289,9 +2132,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2328,9 +2169,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_payment_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2369,9 +2208,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_type_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2412,9 +2249,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_type_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2455,9 +2290,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_type_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2498,9 +2331,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_type_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2541,9 +2372,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_type_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2584,9 +2413,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_value_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2627,9 +2454,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_value_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2671,9 +2496,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_value_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2715,9 +2538,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_value_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2759,9 +2580,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_description_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2803,9 +2622,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_description_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2848,9 +2665,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_description_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2893,9 +2708,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_short_description_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2938,9 +2751,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_long_description_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -2983,9 +2794,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_without_source_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3028,9 +2837,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_null_source_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3074,9 +2881,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_empty_source_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3120,9 +2925,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_invalid_source_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3166,9 +2969,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_wrong_type_source_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3212,9 +3013,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_different_values(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3258,9 +3057,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_global_value_lower_than_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();
@@ -3317,9 +3114,7 @@ class CreateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProposal_with_zero_payment_values(): void {
         $client = parent::createClient();
         $project = parent::createProject();

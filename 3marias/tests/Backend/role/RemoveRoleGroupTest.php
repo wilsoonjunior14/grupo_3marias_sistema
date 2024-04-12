@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/roles/groups/{id}
@@ -25,9 +26,7 @@ class RemoveRoleGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_removeRoleGroup_without_authentication_before(): void {
         $response = $this
         ->delete("/api/v1/roles/groups/1");
@@ -38,9 +37,7 @@ class RemoveRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_removeRoleGroup_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -52,9 +49,7 @@ class RemoveRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_removeRoleGroup_with_nonExistingRoleGroup(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -66,9 +61,7 @@ class RemoveRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_removeRoleGroup(): void {
         parent::createGroup();
         parent::createRole();

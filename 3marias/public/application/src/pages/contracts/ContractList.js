@@ -33,7 +33,7 @@ export default function ContractList() {
             name: "attach_money",
             tooltip: "Pagamentos do Contrato",
             icon: "attach_money",
-            onClick: (evt) => {console.log(evt);}
+            onClick: (evt) => {}
         }
     ];
 

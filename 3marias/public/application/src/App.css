@@ -6,10 +6,11 @@
   background-color: #0C3472;
 }
 
+/*
 .card {
-  animation: slideInUp !important; /* referring directly to the animation's @keyframe declaration */
-  animation-duration: 1s !important; /* don't forget to set a duration! */
-}
+  animation: slideInUp !important;
+  animation-duration: 1s !important;
+}*/
 
 thead tr th, .btn-success{
   color: white !important;

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\user;
 
-use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/projects
@@ -25,9 +25,7 @@ class CreateProjectTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_without_authorization(): void {
         $response = $this
         ->post("/api/v1/projects");
@@ -40,9 +38,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_empty_payload(): void {
         $payload = [];
 
@@ -58,9 +54,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_null_payload(): void {
         $payload = [null];
 
@@ -76,9 +70,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_null_name(): void {
         $payload = [
             "name" => null
@@ -96,9 +88,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_empty_name(): void {
         $payload = [
             "name" => ""
@@ -116,9 +106,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_wrong_type_name(): void {
         $payload = [
             "name" => 12345
@@ -136,9 +124,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_short_name(): void {
         $payload = [
             "name" => parent::generateRandomString(2)
@@ -156,9 +142,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_long_name(): void {
         $payload = [
             "name" => parent::generateRandomString(10000)
@@ -176,9 +160,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-        /**
-     * @test
-     */
+        #[Test]
     public function negTest_createProject_with_null_description(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -197,9 +179,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_empty_description(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -218,9 +198,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_wrong_type_description(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -239,9 +217,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_short_description(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -260,9 +236,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_long_description(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -281,9 +255,7 @@ class CreateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createProject(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -323,9 +295,7 @@ class CreateProjectTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createProject_with_same_name_existing(): void {
         $project = parent::createProject();
 

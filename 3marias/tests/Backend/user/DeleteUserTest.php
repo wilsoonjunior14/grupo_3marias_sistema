@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/users
@@ -25,9 +26,7 @@ class DeleteUserTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteUser_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/users/1");
@@ -40,9 +39,7 @@ class DeleteUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteUser_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class DeleteUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteUser_non_existing_user(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -72,9 +67,7 @@ class DeleteUserTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteUser(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())

@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Feature\user;
+namespace Tests\Feature\purchase_order;
 
 use App\Models\PurchaseOrder;
 use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -31,9 +32,7 @@ class PurchaseOrderValidationTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_approvePurchaseOrder_without_authorization(): void {
         $response = $this->sendPostRequest(url: $this->approveUrl . "/1", model: new PurchaseOrder(), headers: []);
         $response->assertStatus(401);
@@ -44,9 +43,7 @@ class PurchaseOrderValidationTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_rejectPurchaseOrder_without_authorization(): void {
         $response = $this->sendPostRequest(url: $this->rejectUrl . "/1", model: new PurchaseOrder(), headers: []);
         $response->assertStatus(401);
@@ -57,9 +54,7 @@ class PurchaseOrderValidationTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_approvePurchaseOrder_with_invalid_id(): void {
         $this->createPurchaseOrder(); // id = 1
 
@@ -72,9 +67,7 @@ class PurchaseOrderValidationTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_approvePurchaseOrder_with_non_existing_id(): void {
         $this->createPurchaseOrder(); // id = 1
 
@@ -87,9 +80,7 @@ class PurchaseOrderValidationTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_approvePurchaseOrder_already_approved(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1
@@ -113,9 +104,7 @@ class PurchaseOrderValidationTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_approvePurchaseOrder_creating_new_stock_items(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1
@@ -151,12 +140,20 @@ class PurchaseOrderValidationTest extends TestFramework
                 ]
             ]
         ]);
+
+        // Check if the bills were generated
+        $getBillsResponse = $this->sendGetRequest(url: "/api/v1/billsPay", headers: $this->getHeaders());
+        $getBillsResponse->assertStatus(200);
+        $getBillsResponse->assertJson([
+            [
+                "description" => $purchase->description,
+                "value" => ($purchase->products[0]["value"] * $purchase->products[0]["quantity"]) + ($purchase->products[1]["value"] * $purchase->products[1]["quantity"]),
+                "status" => 0
+            ]
+        ]);
     }
 
-    /**
-     * TODO: this test can be checked, because no more items can be created.
-     * @test
-     */
+    #[Test]
     public function posTest_approvePurchaseOrder_aggregating_items(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1
@@ -268,9 +265,7 @@ class PurchaseOrderValidationTest extends TestFramework
         assertEquals(count($items), 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_rejectPurchaseOrder_already_rejected(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1
@@ -296,9 +291,7 @@ class PurchaseOrderValidationTest extends TestFramework
 
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_rejectPurchaseOrder(): void {
         $this->createStock(); // id = 1
         $purchase = $this->createPurchaseOrder(); // id = 1

@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertNotNull;
 use function PHPUnit\Framework\assertNull;
@@ -27,9 +28,7 @@ class CreateClientTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_single_state(): void {
         parent::createCity();
 
@@ -92,9 +91,7 @@ class CreateClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_viuvo_state(): void {
         parent::createCity();
 
@@ -157,9 +154,7 @@ class CreateClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_single_divorced_state(): void {
         parent::createCity();
 
@@ -222,9 +217,7 @@ class CreateClientTest extends TestFramework
         ]);
     }
     
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_single_state_with_dependent_fields(): void {
         parent::createCity();
 
@@ -297,9 +290,7 @@ class CreateClientTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createClients_required_fields(): void {
         $payload = [
             "name" => parent::generateRandomString(),

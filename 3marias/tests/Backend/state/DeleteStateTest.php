@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/states
@@ -25,9 +26,7 @@ class DeleteStateTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStates_unauthorized(): void {
         $response = $this
         ->delete("/api/v1/states/1");
@@ -38,9 +37,7 @@ class DeleteStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStates_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -52,9 +49,7 @@ class DeleteStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStates_nonExistingId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -66,9 +61,7 @@ class DeleteStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteStates(): void {
         parent::createState();
 

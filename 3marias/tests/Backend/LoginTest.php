@@ -3,9 +3,10 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestFramework;
 use Illuminate\Support\Facades\DB;
+use Tests\TestFramework;
 use Tests\CreatesApplication;
+use PHPUnit\Framework\Attributes\Test;
 
 class LoginTest extends TestFramework
 {
@@ -24,9 +25,7 @@ class LoginTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_login_withoutEmailAndPassword(): void
     {
         $response = $this->post('/api/login', []);
@@ -37,9 +36,7 @@ class LoginTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_login_withEmptyEmailAndPassword(): void
     {
         $data = [
@@ -55,9 +52,7 @@ class LoginTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_login_withNonExistingEmailAndPassword(): void
     {
         $data = [
@@ -73,9 +68,7 @@ class LoginTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_login_withNotExistingUser(): void
     {
         $data = [
@@ -90,9 +83,7 @@ class LoginTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_login_user_with_invalid_credentials(): void {
         $user = parent::createUser();
 
@@ -109,41 +100,45 @@ class LoginTest extends TestFramework
         ]);
     }
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function negTest_login_inactive_user() : void {
-        // Arrange
-        $payload = parent::createUser();
-        $payload["active"] = false;
+        DB::table("groups")->insert(['description' => parent::generateRandomString(), 'deleted' => false]);
+
+        $password = parent::generateRandomString();
+        $json = [
+            "name" => parent::generateRandomString(),
+            "email" => parent::generateRandomEmail(),
+            "password" => $password,
+            "group_id" => 1,
+            "conf_password" => $password,
+            "active" => false
+        ];
 
         $response = $this
         ->withHeaders(parent::getHeaders())
-        ->put("/api/v1/users/1", $payload);
+        ->post("/api/users", $json);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $response->assertJson([
-            "name"   => $payload["name"],
-            "email"  => $payload["email"],
-            "active" => false
-        ]);
-        
-        // Act
-        $loginResponse = $this->post('/api/login', [
-            "email" => $payload["email"],
-            "password" => $payload["password"]
+            "active" => false,
+            "name" => $json["name"],
+            "email" => $json["email"],
+            "password" => $json["password"],
+            "group_id" => $json["group_id"],
         ]);
 
-        // Assert
+        $loginResponse = $this->post("/api/login", [
+            "email" => $json["email"],
+            "password" => $json["password"]
+        ]);
+
         $loginResponse->assertStatus(400);
         $loginResponse->assertJson([
-            "message" => config("messages.general.inactive_user")
+            "message" => "Usuário está sem acesso ao sistema."
         ]);
     }
 
-    /**
-     * @Test
-     */
+    #[Test]
     public function posTest_login_successfull() : void {
         // Arrange
         $payload = parent::createUser();

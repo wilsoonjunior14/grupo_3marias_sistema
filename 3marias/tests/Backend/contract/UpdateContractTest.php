@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/contracts/{id}
@@ -25,9 +26,7 @@ class UpdateContractTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_authorization(): void {
         $response = $this
         ->put("/api/v1/contracts/1", []);
@@ -40,9 +39,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_payload(): void {
         parent::createContract();
         $payload = [
@@ -61,9 +58,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_payload(): void {
         parent::createContract();
         $payload = [
@@ -82,9 +77,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_building_type(): void {
         parent::createContract();
         $payload = [
@@ -104,9 +97,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_building_type(): void {
         parent::createContract();
         $payload = [
@@ -126,9 +117,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_building_type(): void {
         parent::createContract();
         $payload = [
@@ -148,9 +137,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_building_type(): void {
         parent::createContract();
         $payload = [
@@ -170,9 +157,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_building_type(): void {
         parent::createContract();
         $payload = [
@@ -192,9 +177,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_description(): void {
         parent::createContract();
         $payload = [
@@ -214,9 +197,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_description(): void {
         parent::createContract();
         $payload = [
@@ -237,9 +218,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_description(): void {
         parent::createContract();
         $payload = [
@@ -260,9 +239,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_description(): void {
         parent::createContract();
         $payload = [
@@ -283,9 +260,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_description(): void {
         parent::createContract();
         $payload = [
@@ -306,9 +281,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_description(): void {
         parent::createContract();
         $payload = [
@@ -329,9 +302,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_meters(): void {
         parent::createContract();
         $payload = [
@@ -352,9 +323,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_meters(): void {
         parent::createContract();
         $payload = [
@@ -376,9 +345,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_meters(): void {
         parent::createContract();
         $payload = [
@@ -400,9 +367,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_meters(): void {
         parent::createContract();
         $payload = [
@@ -424,9 +389,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_meters(): void {
         parent::createContract();
         $payload = [
@@ -448,9 +411,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_meters(): void {
         parent::createContract();
         $payload = [
@@ -472,9 +433,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_value(): void {
         parent::createContract();
         $payload = [
@@ -496,9 +455,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_value(): void {
         parent::createContract();
         $payload = [
@@ -521,9 +478,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_value(): void {
         parent::createContract();
         $payload = [
@@ -546,9 +501,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -572,9 +525,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -599,9 +550,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -626,9 +575,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -653,9 +600,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -680,9 +625,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_witness_one_name(): void {
         parent::createContract();
         $payload = [
@@ -707,9 +650,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -734,9 +675,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -762,9 +701,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -790,9 +727,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -818,9 +753,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -846,9 +779,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_witness_one_cpf(): void {
         parent::createContract();
         $payload = [
@@ -875,9 +806,7 @@ class UpdateContractTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_witness_one_two(): void {
         parent::createContract();
         $payload = [
@@ -903,9 +832,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_witness_two_name(): void {
         parent::createContract();
         $payload = [
@@ -932,9 +859,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_witness_one_two(): void {
         parent::createContract();
         $payload = [
@@ -961,9 +886,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_witness_one_two(): void {
         parent::createContract();
         $payload = [
@@ -990,9 +913,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_witness_one_two(): void {
         parent::createContract();
         $payload = [
@@ -1019,9 +940,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_witness_one_two(): void {
         parent::createContract();
         $payload = [
@@ -1048,9 +967,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1077,9 +994,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_null_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1107,9 +1022,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_empty_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1137,9 +1050,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_wrong_type_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1167,9 +1078,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_short_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1197,9 +1106,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_long_witness_two_cpf(): void {
         parent::createContract();
         $payload = [
@@ -1227,9 +1134,7 @@ class UpdateContractTest extends TestFramework
         );
     }
         
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_without_proposal_id(): void {
         parent::createContract();
         $payload = [
@@ -1258,9 +1163,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_non_existing_proposal_id(): void {
         parent::createContract();
         $payload = [
@@ -1290,9 +1193,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_invalid_proposal_id(): void {
         parent::createContract();
         $payload = [
@@ -1322,9 +1223,7 @@ class UpdateContractTest extends TestFramework
         );
     }
        
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_proposal_not_approved(): void {
         parent::createContract();
         parent::createProposal();
@@ -1361,9 +1260,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_proposal_rejected(): void {
         parent::createContract();
         parent::createProposal();
@@ -1409,9 +1306,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateContract_with_proposal_deleted(): void {
         parent::createContract();
         parent::createProposal();
@@ -1457,9 +1352,7 @@ class UpdateContractTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateContract(): void {
         parent::createContract();
         parent::createProposal();

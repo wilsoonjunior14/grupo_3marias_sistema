@@ -12,7 +12,7 @@ class ServerMetric extends BaseModel
      * @return array The array of the metrics of the speficif day.
      */
     public function getMetrics(string $date) {
-        return $this->whereRaw(
+        return (new ServerMetric())->whereRaw(
             "(created_at >= ? AND created_at <= ?)", 
             [
                $date ." 00:00:00", 

@@ -21,40 +21,70 @@ class EnterprisePartnerController extends Controller implements APIController
      * Gets all EnterprisePartners.
      */
     public function index() {
-        $enterprisePartners = $this->enterprisePartnerBusiness->get(enterpriseId: 1);
-        return ResponseUtils::getResponse($enterprisePartners, 200);
+        try {
+            $enterprisePartners = $this->enterprisePartnerBusiness->get(enterpriseId: 1);
+            return ResponseUtils::getResponse($enterprisePartners, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a EnterprisePartner.
      */
     public function store(Request $request) {
-        $enteprisePartner = $this->enterprisePartnerBusiness->create(request: $request);
-        return ResponseUtils::getResponse($enteprisePartner, 201);
+        try {
+            $enteprisePartner = $this->enterprisePartnerBusiness->create(request: $request);
+            return ResponseUtils::getResponse($enteprisePartner, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a EnterprisePartner by id.
      */
     public function show($id) {
-        $enteprisePartner = $this->enterprisePartnerBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($enteprisePartner, 200);
+        try {
+            $enteprisePartner = $this->enterprisePartnerBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($enteprisePartner, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a EnterprisePartner by id.
      */
     public function destroy($id) {
-        $enteprisePartner = $this->enterprisePartnerBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($enteprisePartner, 200);
+        try {
+            $enteprisePartner = $this->enterprisePartnerBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($enteprisePartner, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a EnterprisePartner.
      */
     public function update(Request $request, $id) {
-        $enteprisePartnerUpdated = $this->enterprisePartnerBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($enteprisePartnerUpdated, 200);
+        try {
+            $enteprisePartnerUpdated = $this->enterprisePartnerBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($enteprisePartnerUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

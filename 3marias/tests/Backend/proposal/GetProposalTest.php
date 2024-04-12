@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertNotNull;
 
@@ -27,9 +28,7 @@ class GetProposalTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getProposal_without_authorization(): void {
         $response = $this
         ->get("/api/v1/proposals/1");
@@ -42,9 +41,7 @@ class GetProposalTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getProposal_with_invalid_id(): void {
         parent::createProposal();
 
@@ -57,9 +54,7 @@ class GetProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getProposal_with_non_existing_id(): void {
         parent::createProposal();
 
@@ -72,9 +67,7 @@ class GetProposalTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getProposal(): void {
         $proposal = parent::createProposal();
 
@@ -97,9 +90,7 @@ class GetProposalTest extends TestFramework
         assertNotNull($json["payments"]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getProposals_without_authorization(): void {
         $response = $this
         ->get("/api/v1/proposals");
@@ -112,9 +103,7 @@ class GetProposalTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getProposals_not_found_entities(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -124,9 +113,7 @@ class GetProposalTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getProposals(): void {
         $proposal1 = parent::createProposal();
         $proposal2 = parent::createProposal();

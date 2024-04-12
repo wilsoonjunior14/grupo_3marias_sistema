@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/groups
@@ -25,9 +26,7 @@ class GetGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getGroup_without_authentication(): void {
         $response = $this
         ->withHeaders([])
@@ -39,9 +38,7 @@ class GetGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getGroup_with_onlyOne_existing_groups(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -51,9 +48,7 @@ class GetGroupTest extends TestFramework
         $response->assertJsonCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getGroup_with_existing_groups(): void {
         parent::createGroup();
         parent::createGroup();
@@ -66,9 +61,7 @@ class GetGroupTest extends TestFramework
         $response->assertJsonCount(3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getGroupById_without_authentication(): void {
         $response = $this
         ->get("/api/v1/groups/1");
@@ -81,9 +74,7 @@ class GetGroupTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getGroupById_with_invalidId(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -97,9 +88,7 @@ class GetGroupTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getGroupById_with_notExisting_group(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -113,9 +102,7 @@ class GetGroupTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getGroupById(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())

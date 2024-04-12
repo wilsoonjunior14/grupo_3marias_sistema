@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/accountants
@@ -23,9 +24,7 @@ class UpdateAccountantTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_without_authorization(): void {
         $response = $this
         ->put("/api/v1/accountants/1", []);
@@ -38,9 +37,7 @@ class UpdateAccountantTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_null_payload(): void {
         parent::createAccountant();
 
@@ -56,9 +53,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_empty_payload(): void {
         parent::createAccountant();
 
@@ -74,9 +69,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_null_name(): void {
         parent::createAccountant();
 
@@ -100,9 +93,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_empty_name(): void {
         parent::createAccountant();
 
@@ -126,9 +117,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_wrong_type_name(): void {
         parent::createAccountant();
 
@@ -152,9 +141,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_wrong_type_object_name(): void {
         parent::createAccountant();
 
@@ -178,9 +165,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_short_name(): void {
         parent::createAccountant();
 
@@ -204,9 +189,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_long_name(): void {
         parent::createAccountant();
 
@@ -230,9 +213,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_null_phone(): void {
         parent::createAccountant();
 
@@ -256,9 +237,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_wrong_phone(): void {
         parent::createAccountant();
 
@@ -282,9 +261,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_invalid_id(): void {
         parent::createAccountant();
 
@@ -308,9 +285,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateAccountant_with_non_existing_id(): void {
         parent::createAccountant();
 
@@ -334,9 +309,7 @@ class UpdateAccountantTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateAccountant(): void {
         parent::createAccountant();
         parent::createCity();

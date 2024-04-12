@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/roles/{id}
@@ -25,9 +26,7 @@ class UpdateRoleTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_without_authentication_before(): void {
         $json = [];
         $response = $this
@@ -39,9 +38,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_empty_body(): void {
         $json = [];
         $response = $this
@@ -54,9 +51,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_empty_description(): void {
         $json = [
             "description" => ""
@@ -72,9 +67,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_empty_endpoint(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -92,9 +85,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_without_endpoint(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -111,9 +102,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_empty_request_type(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -131,9 +120,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_without_request_type(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -150,9 +137,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_invalidId(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -170,9 +155,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateRole_with_non_existingRole(): void {
         $json = [
             "description" => parent::generateRandomString(),
@@ -190,9 +173,7 @@ class UpdateRoleTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateRole(): void {
         parent::createRole();
         $json = [

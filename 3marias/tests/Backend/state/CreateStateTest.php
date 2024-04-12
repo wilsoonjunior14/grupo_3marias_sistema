@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/states
@@ -23,9 +24,7 @@ class CreateStateTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_unauthorized(): void {
         $response = $this
         ->post("/api/v1/states");
@@ -36,9 +35,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_empty(): void {
         $json = [];
 
@@ -52,9 +49,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withEmptyName(): void {
         $json = [
             "name" => ""
@@ -70,9 +65,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withEmptyCountryId(): void {
         $json = [
             "name" => "state",
@@ -89,9 +82,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withEmptyAcronym(): void {
         parent::createCountry();
         
@@ -110,9 +101,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withInvalidName(): void {
         parent::createCountry();
         
@@ -132,9 +121,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withInvalidAcronym(): void {
         parent::createCountry();
         
@@ -154,9 +141,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withShortName(): void {
         parent::createCountry();
         
@@ -176,9 +161,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createState_withLongName(): void {
         parent::createCountry();
         
@@ -198,9 +181,7 @@ class CreateStateTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createState(): void {
         parent::createCountry();
         $json = [

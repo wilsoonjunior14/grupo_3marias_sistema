@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/roles/groups
@@ -25,9 +26,7 @@ class AddRoleGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_without_authentication_before(): void {
         $json = [];
 
@@ -40,9 +39,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_empty_body(): void {
         $json = [];
 
@@ -56,9 +53,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_missing_groupId(): void {
         $json = [
             "role_id" => 1
@@ -74,9 +69,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_missing_roleId(): void {
         $json = [
             "group_id" => 1
@@ -92,9 +85,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_invalid_roleId(): void {
         $json = [
             "role_id" => 0,
@@ -111,9 +102,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_invalid_groupId(): void {
         parent::createRole();
 
@@ -132,9 +121,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_invalid_ids(): void {
         $json = [
             "role_id" => 0,
@@ -151,9 +138,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_non_existing_ids(): void {
         $json = [
             "role_id" => 1,
@@ -170,9 +155,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_non_existingGroup(): void {
         parent::createRole();
 
@@ -191,9 +174,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_with_non_existingRole(): void {
         parent::createGroup();
 
@@ -212,9 +193,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createRoleGroup_avoidDuplicateRoles(): void {
         parent::createGroup();
         parent::createRole();
@@ -238,9 +217,7 @@ class AddRoleGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createRoleGroup(): void {
         parent::createGroup();
         parent::createRole();

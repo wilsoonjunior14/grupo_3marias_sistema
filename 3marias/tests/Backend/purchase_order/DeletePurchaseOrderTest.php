@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/purchaseOrders/{id}
@@ -25,9 +26,7 @@ class DeletePurchaseOrderTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deletePurchaseOrder_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/purchaseOrders/1");
@@ -40,9 +39,7 @@ class DeletePurchaseOrderTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deletePurchaseOrder_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class DeletePurchaseOrderTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deletePurchaseOrder_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -72,9 +67,7 @@ class DeletePurchaseOrderTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deletePurchaseOrder(): void {
         $purchase = $this->createPurchaseOrder();
 
@@ -93,9 +86,7 @@ class DeletePurchaseOrderTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deletePurchaseOrder_and_try_again(): void {
         $purchase = $this->createPurchaseOrder();
 

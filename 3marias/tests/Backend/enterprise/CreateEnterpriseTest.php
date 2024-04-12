@@ -1,9 +1,9 @@
 <?php
 
-use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/enterprises
@@ -23,9 +23,7 @@ class CreateEnterpriseTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_without_authorization(): void {
         $response = $this
         ->post("/api/v1/enterprises", []);
@@ -38,9 +36,7 @@ class CreateEnterpriseTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_null_payload(): void {
         $payload = [null];
 
@@ -54,9 +50,7 @@ class CreateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_empty_payload(): void {
         $payload = [];
 
@@ -70,9 +64,7 @@ class CreateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createEnterprise_with_existing_cnpj(): void {
         $payload = [
             "name" => parent::generateRandomString(),
@@ -125,9 +117,7 @@ class CreateEnterpriseTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createEnterprise(): void {
         parent::createCountry();
         parent::createState();

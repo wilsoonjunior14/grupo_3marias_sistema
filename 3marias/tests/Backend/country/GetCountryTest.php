@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/countries
@@ -25,9 +26,7 @@ class GetCountryTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getCountries_without_authentication_before(): void {
         $response = $this
         ->withHeaders([])
@@ -39,9 +38,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCountries_with_non_existing_data(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -51,9 +48,7 @@ class GetCountryTest extends TestFramework
         $response->assertJsonCount(0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCountries_with_data(): void {
         $json = parent::createCountry();
 
@@ -68,9 +63,7 @@ class GetCountryTest extends TestFramework
         ]]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCountry_byId_withInvalidId(): void {
         $json = parent::createCountry();
 
@@ -84,9 +77,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCountry_byId_withNonExistingId(): void {
         $json = parent::createCountry();
 
@@ -100,9 +91,7 @@ class GetCountryTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getCountry_byId_withExistingId(): void {
         $json = parent::createCountry();
 

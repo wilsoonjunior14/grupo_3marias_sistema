@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/stocks/{id}
@@ -23,9 +24,7 @@ class UpdateStockTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_cost_center_matriz(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -62,9 +61,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_invalid_id(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -101,9 +98,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_non_existing_id(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -140,9 +135,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_null_name(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -179,9 +172,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_empty_name(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -218,9 +209,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_short_name(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -258,9 +247,7 @@ class UpdateStockTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_wrong_type_name(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -297,9 +284,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_long_name(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -337,9 +322,7 @@ class UpdateStockTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_null_contract_id(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -378,9 +361,7 @@ class UpdateStockTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_empty_contract_id(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -418,9 +399,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_invalid_contract_id(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -458,9 +437,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_null_status(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -498,9 +475,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_empty_status(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -538,9 +513,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateStock_with_invalid_status(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);
@@ -578,9 +551,7 @@ class UpdateStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateStock(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);

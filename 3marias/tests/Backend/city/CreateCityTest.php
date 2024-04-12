@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/cities
@@ -27,9 +28,7 @@ class CreateCityTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_without_authentication_before(): void {
         // Arrange
         $json = [];
@@ -44,9 +43,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_empty_data(): void {
         // Arrange
         $json = [];
@@ -61,9 +58,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_empty_name(): void {
         // Arrange
         $json = [
@@ -80,9 +75,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_null_name(): void {
         // Arrange
         $json = [
@@ -99,9 +92,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_numbers_on_name(): void {
         // Arrange
         $json = [
@@ -118,9 +109,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_without_state_id(): void {
         // Arrange
         $json = [
@@ -137,9 +126,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_null_state_id(): void {
         // Arrange
         $json = [
@@ -157,9 +144,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_empty_state_id(): void {
         // Arrange
         $json = [
@@ -177,9 +162,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCity_with_non_existing_state_id(): void {
         // Arrange
         $json = [
@@ -197,9 +180,7 @@ class CreateCityTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCity(): void {
         parent::createState();
         // Arrange

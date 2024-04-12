@@ -5,6 +5,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertNotNull;
 
@@ -28,9 +29,7 @@ class CreateCategoryServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_without_authentication_before(): void {
         $category = new CategoryService();
 
@@ -42,9 +41,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_empty_name(): void {
         $category = new CategoryService();
         $category
@@ -58,9 +55,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_null_name(): void {
         $category = new CategoryService();
         $category
@@ -74,9 +69,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_short_name(): void {
         $category = new CategoryService();
         $category
@@ -90,9 +83,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_long_name(): void {
         $category = new CategoryService();
         $category
@@ -106,9 +97,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_numbers_in_name(): void {
         $category = new CategoryService();
         $category
@@ -122,9 +111,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_special_chars_in_name(): void {
         $category = new CategoryService();
         $category
@@ -138,9 +125,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_name_containing_spaces(): void {
         $category = new CategoryService();
         $category
@@ -154,9 +139,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_with_wrong_type_name(): void {
         $category = new CategoryService();
         $category
@@ -170,9 +153,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryService_existing_name(): void {
         $json = parent::createCategoryService();
 
@@ -188,9 +169,7 @@ class CreateCategoryServiceTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryService(): void {
         $category = new CategoryService();
         $category

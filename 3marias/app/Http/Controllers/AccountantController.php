@@ -21,40 +21,70 @@ class AccountantController extends Controller implements APIController
      * Gets all accountants.
      */
     public function index() {
-        $accountants = $this->accountantBusiness->get(enterpriseId: 1);
-        return ResponseUtils::getResponse($accountants, 200);
+        try {
+            $accountants = $this->accountantBusiness->get(enterpriseId: 1);
+            return ResponseUtils::getResponse($accountants, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a accountant.
      */
     public function store(Request $request) {
-        $accountant = $this->accountantBusiness->create(request: $request);
-        return ResponseUtils::getResponse($accountant, 201);
+        try {
+            $accountant = $this->accountantBusiness->create(request: $request);
+            return ResponseUtils::getResponse($accountant, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a accountant by id.
      */
     public function show($id) {
-        $accountant = $this->accountantBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($accountant, 200);
+        try {
+            $accountant = $this->accountantBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($accountant, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a accountant by id.
      */
     public function destroy($id) {
-        $accountant = $this->accountantBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($accountant, 200);
+        try {
+            $accountant = $this->accountantBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($accountant, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a accountant.
      */
     public function update(Request $request, $id) {
-        $accountantUpdated = $this->accountantBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($accountantUpdated, 200);
+        try {
+            $accountantUpdated = $this->accountantBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($accountantUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

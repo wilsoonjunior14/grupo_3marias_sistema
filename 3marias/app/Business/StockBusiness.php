@@ -26,6 +26,7 @@ class StockBusiness {
         }
         Logger::info("Recuperando itens do centro de custo.");
         $stock->items = (new StockItemBusiness())->getItemsByStock(id: $id);
+        $stock->services = (new ServiceOrderBusiness())->getServicesByStock(id: $id);
         Logger::info("Finalizando a recuperação do centro de custo.");
         return $stock;
     }

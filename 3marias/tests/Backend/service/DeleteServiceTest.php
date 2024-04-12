@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/services/{id}
@@ -25,9 +26,7 @@ class DeleteServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteService_without_authorization(): void {
         $response = $this
         ->delete("/api/v1/services/1");
@@ -40,9 +39,7 @@ class DeleteServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteService_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -56,9 +53,7 @@ class DeleteServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteService_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -72,9 +67,7 @@ class DeleteServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteService(): void {
         $service = parent::createService();
 

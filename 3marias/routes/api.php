@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AccountantController;
+use App\Http\Controllers\BillsPayController;
 use App\Http\Controllers\BillsReceiveController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
@@ -15,11 +15,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\StateController;
-use App\Http\Controllers\ContractModelController;
-use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EnterpriseBranchController;
 use App\Http\Controllers\EnterpriseFileController;
 use App\Http\Controllers\EnterpriseOwnerController;
@@ -31,6 +28,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\ServiceOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,14 +52,9 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/login/isAuthorized', [UserController::class, 'isAuthorized'])->middleware('auth:sanctum');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::post('/feedbacks', [FeedbackController::class, 'create']);
-
 Route::post('/users', [UserController::class, 'create']);
 Route::post('/users/recovery', [UserController::class, 'recoveryPassword']);
 Route::post('/users/changePassword', [UserController::class, 'resetPasswordByToken']);
-
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{idCity}', [CategoryController::class, 'getByCity']);
 
 Route::post('/enterprises', [EnterpriseController::class, 'create']);
 Route::post('/enterprises/search', [EnterpriseController::class, 'search']);
@@ -122,6 +115,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     // contracts api routes
     Route::apiResource('/contracts', ContractController::class);
 
+    // bills to pay api routes
+    Route::apiResource('/billsPay', BillsPayController::class);
+
     // billsReceive api routes
     //Route::apiResource('/billsReceive', BillsReceiveController::class);
     Route::get('/billsReceive', [BillsReceiveController::class, 'index']);
@@ -143,12 +139,12 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::post('/roles/groups', [RoleController::class, 'addRoleToGroup']);
     Route::delete('/roles/groups/{id}', [RoleController::class, 'removeRoleToGroup']);
     Route::post('/roles/search', [RoleController::class, 'search']);
-    // Route api categories
-    Route::apiResource('/categories', CategoryController::class);
     // Route api purchaseOrders
     Route::apiResource('/purchaseOrders', PurchaseOrderController::class);
     Route::post('/purchaseOrders/approve/{id}', [PurchaseOrderController::class, 'approve']);
     Route::post('/purchaseOrders/reject/{id}', [PurchaseOrderController::class, 'reject']);
+    // Route api serviceOrders
+    Route::apiResource('/serviceOrders', ServiceOrderController::class);
     // Route api enterprises
     Route::apiResource('/enterprises', EnterpriseController::class);
     // Route api states
@@ -157,8 +153,6 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
-    // Route api feedbacks
-    Route::apiResource('/feedbacks', FeedbackController::class);
     // Route api observability
     Route::get('/observability/metrics', [ObservabilityController::class, 'getMetrics']);
     Route::post('/observability/logs', [ObservabilityController::class, 'getLogs']);

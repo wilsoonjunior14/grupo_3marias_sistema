@@ -5,6 +5,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/stocks/share
@@ -26,9 +27,7 @@ class ShareStockTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_empty_payload(): void { 
         $payload = [];
         $response = $this
@@ -41,9 +40,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_null_payload(): void { 
         $payload = [null];
         $response = $this
@@ -56,9 +53,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_without_cost_center_id(): void { 
         $payload = [
             "products" => []
@@ -73,9 +68,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_empty_cost_center_id(): void { 
         $payload = [
             "cost_center_id" => ""
@@ -90,9 +83,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_null_cost_center_id(): void { 
         $payload = [
             "cost_center_id" => null
@@ -107,9 +98,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_invalid_cost_center_id(): void { 
         $payload = [
             "cost_center_id" => 0
@@ -124,9 +113,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_non_existing_cost_center_id(): void { 
         $payload = [
             "cost_center_id" => 100,
@@ -157,9 +144,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_without_products(): void { 
         $payload = [
             "cost_center_id" => 1
@@ -174,9 +159,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_empty_products(): void { 
         $payload = [
             "cost_center_id" => 1,
@@ -192,9 +175,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_null_products(): void { 
         $payload = [
             "cost_center_id" => 1,
@@ -210,9 +191,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_shareAmongStock_with_repeated_products(): void {
         $results = $this->setupData();
         $contract = $results["contract"];
@@ -249,9 +228,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_shareAmongStock_from_randomCostCenter_to_anotherRandomCostCenter(): void {
         $this->createStock(); // stock id = 1
         $this->createContract(); // stock id = 2
@@ -425,9 +402,7 @@ class ShareStockTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_shareAmongStock(): void {
         $results = $this->setupData();
         $contract = $results["contract"];

@@ -5,6 +5,7 @@ namespace Tests\Feature\observability;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the GET /api/v1/observability
@@ -24,9 +25,7 @@ class RetrieveDataTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_getMetrics_without_authorization(): void {
         $response = $this
         ->withHeaders([])
@@ -38,9 +37,7 @@ class RetrieveDataTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_getMetrics(): void {
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -50,9 +47,7 @@ class RetrieveDataTest extends TestFramework
         $response->assertJsonCount(4);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_retrieveLogs_withoutTraceId(): void {
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -64,9 +59,7 @@ class RetrieveDataTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_retrieveLogs_with_emptyTraceId(): void {
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -80,9 +73,7 @@ class RetrieveDataTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_retrieveLogs(): void {
         $response = $this
         ->withHeaders($this->getHeaders())

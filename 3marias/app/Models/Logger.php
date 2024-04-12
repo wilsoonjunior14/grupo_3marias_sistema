@@ -56,7 +56,7 @@ class Logger extends Model
     }
 
     public function searchByTraceId(string $traceId) {
-        return $this::where("trace_id", $traceId)
+        return (new Logger())->where("trace_id", $traceId)
         ->orderBy("id")
         ->get();
     }
@@ -70,7 +70,7 @@ class Logger extends Model
     }
 
     private function getLogsQuery(string $startDate, string $endDate, int $startCode, int $endCode) {
-        return $this->whereRaw(
+        return (new Logger())->whereRaw(
             "(created_at >= ? AND created_at <= ?)", 
             [
                $startDate ." 00:00:00", 

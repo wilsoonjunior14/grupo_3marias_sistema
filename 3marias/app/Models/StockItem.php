@@ -38,7 +38,7 @@ class StockItem extends BaseModel
     }
 
     public function getItemsByStock(int $id) {
-        return $this::where("deleted", false)
+        return (new StockItem())->where("deleted", false)
         ->where("cost_center_id", $id)
         ->with("product")
         ->get();

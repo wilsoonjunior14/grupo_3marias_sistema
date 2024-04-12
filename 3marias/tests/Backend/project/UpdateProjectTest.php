@@ -5,6 +5,7 @@ namespace Tests\Feature\user;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/projects/{id}
@@ -24,9 +25,7 @@ class UpdateProjectTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_without_authorization(): void {
         $response = $this
         ->put("/api/v1/projects/1");
@@ -39,9 +38,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_empty_payload(): void {
         parent::createProject();
         $payload = [];
@@ -58,9 +55,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_null_payload(): void {
         parent::createProject();
         $payload = [null];
@@ -77,9 +72,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_null_name(): void {
         parent::createProject();
         $payload = [
@@ -98,9 +91,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_empty_name(): void {
         parent::createProject();
         $payload = [
@@ -119,9 +110,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_wrong_type_name(): void {
         parent::createProject();
         $payload = [
@@ -140,9 +129,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_short_name(): void {
         parent::createProject();
         $payload = [
@@ -161,9 +148,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_long_name(): void {
         parent::createProject();
         $payload = [
@@ -182,9 +167,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-        /**
-     * @test
-     */
+        #[Test]
     public function negTest_updateProject_with_null_description(): void {
         parent::createProject();
         $payload = [
@@ -204,9 +187,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_empty_description(): void {
         parent::createProject();
         $payload = [
@@ -226,9 +207,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_wrong_type_description(): void {
         parent::createProject();
         $payload = [
@@ -248,9 +227,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_short_description(): void {
         parent::createProject();
         $payload = [
@@ -270,9 +247,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProject_with_long_description(): void {
         parent::createProject();
         $payload = [
@@ -292,9 +267,7 @@ class UpdateProjectTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateProject(): void {
         $project = parent::createProject();
 

@@ -5,6 +5,7 @@ namespace Tests\Feature\group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/groups
@@ -24,9 +25,7 @@ class CreateGroupTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_without_authentication_before(): void {
         $json = [];
 
@@ -40,9 +39,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_with_random_authorization_token(): void {
         $json = [];
 
@@ -58,9 +55,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_with_empty_data(): void {
         $json = [];
 
@@ -74,9 +69,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_with_empty_description(): void {
         $json = [
             "description" => ""
@@ -92,9 +85,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_with_long_description(): void {
         $json = [
             "description" => parent::generateRandomString(500)
@@ -110,9 +101,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createGroup_with_short_description(): void {
         $json = [
             "description" => parent::generateRandomString(2)
@@ -128,9 +117,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createGroup_valid_data(): void {
         $json = [
             "description" => parent::generateRandomString(10)
@@ -143,9 +130,7 @@ class CreateGroupTest extends TestFramework
         $response->assertStatus(201);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_create_duplicated_groups(): void {
         $group = parent::createGroup();
 
@@ -163,9 +148,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_create_group_with_integer_description(): void {
         $json = [
             "description" => 12345
@@ -181,9 +164,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_create_group_with_boolean_description(): void {
         $json = [
             "description" => false
@@ -199,9 +180,7 @@ class CreateGroupTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createGroup(): void {
         $json = [
             "description" => parent::generateRandomString(10)

@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/categoryProducts
@@ -25,9 +26,7 @@ class CreateCategoryProductTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProducts_without_authorization(): void {
         $response = $this
         ->post("/api/v1/categoryProducts", []);
@@ -40,9 +39,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_empty_payload(): void {
         $payload = [];
 
@@ -58,9 +55,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_null_payload(): void {
         $payload = [null];
 
@@ -76,9 +71,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_null_name(): void {
         $payload = [
             "name" => null
@@ -96,9 +89,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_empty_name(): void {
         $payload = [
             "name" => ""
@@ -116,9 +107,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_wrong_type_name(): void {
         $payload = [
             "name" => 12345
@@ -136,9 +125,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_short_name(): void {
         $payload = [
             "name" => parent::generateRandomString(2)
@@ -156,9 +143,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createCategoryProduct_with_long_name(): void {
         $payload = [
             "name" => parent::generateRandomString(10000)
@@ -176,9 +161,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryProduct_with_null_father_id(): void {
         parent::createCategoryProduct();
 
@@ -197,9 +180,7 @@ class CreateCategoryProductTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryProduct_with_empty_father_id(): void {
         parent::createCategoryProduct();
 
@@ -218,9 +199,7 @@ class CreateCategoryProductTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryProduct_with_non_existing_father_id(): void {
         parent::createCategoryProduct();
 
@@ -239,9 +218,7 @@ class CreateCategoryProductTest extends TestFramework
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryProduct_with_existing_name(): void {
         $payload = [
             "name" => parent::generateRandomString()
@@ -268,9 +245,7 @@ class CreateCategoryProductTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createCategoryProduct_with_father_id(): void {
         $categoryProduct = parent::createCategoryProduct();
 

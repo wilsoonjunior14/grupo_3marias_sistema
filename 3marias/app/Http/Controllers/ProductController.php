@@ -21,40 +21,70 @@ class ProductController extends Controller implements APIController
      * Gets all products.
      */
     public function index() {
-        $products = $this->productBusiness->get();
-        return ResponseUtils::getResponse($products, 200);
+        try {
+            $products = $this->productBusiness->get();
+            return ResponseUtils::getResponse($products, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a product.
      */
     public function store(Request $request) {
-        $product = $this->productBusiness->create(request: $request);
-        return ResponseUtils::getResponse($product, 201);
+        try {
+            $product = $this->productBusiness->create(request: $request);
+            return ResponseUtils::getResponse($product, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a product by id.
      */
     public function show($id) {
-        $product = $this->productBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($product, 200);
+        try {
+            $product = $this->productBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($product, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a product by id.
      */
     public function destroy($id) {
-        $product = $this->productBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($product, 200);
+        try {
+            $product = $this->productBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($product, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a product.
      */
     public function update(Request $request, $id) {
-        $product = $this->productBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($product, 200);
+        try {
+            $product = $this->productBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($product, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

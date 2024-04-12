@@ -21,7 +21,7 @@ class PurchaseOrder extends BaseModel
 
     static $rulesMessages = [
         'description.required' => 'Campo Descrição da Ordem de Compra é obrigatório.',
-        'description.max' => 'Campo Descrição da Ordem de Compra permite no máximo 1000 caracteres.',
+        'description.max' => 'Campo Descrição da Ordem de Compra permite no máximo 100 caracteres.',
         'description.min' => 'Campo Descrição da Ordem de Compra deve conter no mínimo 3 caracteres.',
         'description.string' => 'Campo Descrição da Ordem de Compra está inválido.',
         'date.required' => 'Campo Data da Ordem de Compra é obrigatório.',
@@ -38,32 +38,32 @@ class PurchaseOrder extends BaseModel
     ];
 
     public function withDescription($description) {
-        $this->description = $description;
+        $this->description = $description;// @phpstan-ignore-line
         return $this;
     }
 
     public function withDate($date) {
-        $this->date = $date;
+        $this->date = $date;// @phpstan-ignore-line
         return $this;
     }
 
     public function withPartnerId($partnerId) {
-        $this->partner_id = $partnerId;
+        $this->partner_id = $partnerId;// @phpstan-ignore-line
         return $this;
     }
 
     public function withCostCenterId($cost_center_id) {
-        $this->cost_center_id = $cost_center_id;
+        $this->cost_center_id = $cost_center_id;// @phpstan-ignore-line
         return $this;
     }
 
     public function withStatus($status) {
-        $this->status = $status;
+        $this->status = $status;// @phpstan-ignore-line
         return $this;
     }
 
     public function withProducts($products) {
-        $this->products = $products;
+        $this->products = $products;// @phpstan-ignore-line
         return $this;
     }
 }

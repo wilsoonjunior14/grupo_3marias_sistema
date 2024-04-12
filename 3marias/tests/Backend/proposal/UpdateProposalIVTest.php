@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the PUT /api/v1/proposals/{id}
@@ -25,9 +26,7 @@ class UpdateProposalIVTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_authorization(): void {
         $response = $this
         ->put("/api/v1/proposals/1", []);
@@ -40,9 +39,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -105,9 +102,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -171,9 +166,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -237,9 +230,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_wrong_type_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -303,9 +294,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_short_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -369,9 +358,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_long_construction_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -435,9 +422,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -500,9 +485,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -566,9 +549,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -632,9 +613,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_wrong_type_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -698,9 +677,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_short_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -764,9 +741,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_long_proposal_type(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -830,9 +805,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-        /**
-     * @test
-     */
+        #[Test]
     public function negTest_updateProposal_with_empty_payload(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -850,9 +823,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_client_name(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -915,9 +886,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_client_cpf(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -979,9 +948,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_client_cpf(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1044,9 +1011,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_not_valid_data_client(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1109,9 +1074,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_client_not_found(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1174,9 +1137,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1239,9 +1200,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1305,9 +1264,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1371,9 +1328,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_wrong_type_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1437,9 +1392,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_invalid_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1503,9 +1456,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_proposal_code(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1568,9 +1519,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_proposal_code(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1634,9 +1583,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_proposal_code(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1700,9 +1647,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1765,9 +1710,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1831,9 +1774,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1897,9 +1838,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_wrong_type_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -1963,9 +1902,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_invalid_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2029,9 +1966,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_invalid_date_proposal_date(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2095,9 +2030,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2161,9 +2094,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2227,9 +2158,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2293,9 +2222,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_wrong_type_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2359,9 +2286,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_short_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2425,9 +2350,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_long_description(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2491,9 +2414,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_without_discount(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2556,9 +2477,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_null_discount(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2622,9 +2541,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_empty_discount(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2688,9 +2605,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_negative_discount(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2754,9 +2669,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_updateProposal_with_discount_higher_than_global_value(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
@@ -2822,9 +2735,7 @@ class UpdateProposalIVTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_updateProposal_without_contract(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();

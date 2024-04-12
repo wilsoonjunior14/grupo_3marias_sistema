@@ -50,7 +50,7 @@ jobs:
         run: |
           ls -la
           cd 3marias
-          ./vendor/bin/psalm --no-cache --show-info=false --show-snippet=true
+          ./vendor/bin/phpstan analyse app tests --level=1
 
       # Check tests
       - name: E2E Tests
@@ -63,21 +63,17 @@ jobs:
           cd scripts
           zip -r coverage.zip ./coverage_reports
 
+      # Publish Coverage Reports
       - name: Publish Code Coverage
         uses: actions/upload-artifact@v4
         with:
           name: backend-code-coverage.zip
           path: ./3marias/scripts/coverage.zip
       
-      # # Check the code coverage
+      # Check the code coverage
       # - name: E2E Tests & Code Coverage
       #   run: |
-      #     cd 3marias
-      #     php artisan config:clear
-      #     php artisan cache:clear
-      #     XDEBUG_MODE=coverage php artisan test --parallel --processes 8 --coverage --testsuite=Backend
-      #     cd scripts
-      #     cd coverage
+      #     cd 3marias/scripts/coverage
       #     python3 check_coverage_backend.py
 
   Deploy:

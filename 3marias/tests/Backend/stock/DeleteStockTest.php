@@ -4,6 +4,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the DELETE /api/v1/stocks/{id}
@@ -23,9 +24,7 @@ class DeleteStockTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStock_unauthorized(): void {
         $response = $this
         ->delete("/api/v1/stocks/1");
@@ -37,9 +36,7 @@ class DeleteStockTest extends TestFramework
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStock_with_invalid_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -53,9 +50,7 @@ class DeleteStockTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_deleteStock_with_non_existing_id(): void {
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -69,9 +64,7 @@ class DeleteStockTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_deleteStock(): void {
         parent::createContract();
         parent::createContract(proposalId: 2);

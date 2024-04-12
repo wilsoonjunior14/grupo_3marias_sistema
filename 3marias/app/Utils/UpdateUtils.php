@@ -6,6 +6,11 @@ use App\Models\BaseModel;
 
 class UpdateUtils
 {
+
+    public static function generateCode(int $number = 0) {
+        return $number . "" . date('Y') . "" . date('m') . "" . random_int(10, 99);
+    }
+
     /**
      * Updates the specific fields allowed.
      */

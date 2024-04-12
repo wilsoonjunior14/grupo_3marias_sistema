@@ -21,40 +21,70 @@ class EnterpriseBranchController extends Controller implements APIController
      * Gets all EnterpriseBranches.
      */
     public function index() {
-        $enterpriseBranches = $this->enterpriseBranchBusiness->get(enterpriseId: 1);
-        return ResponseUtils::getResponse($enterpriseBranches, 200);
+        try {
+            $enterpriseBranches = $this->enterpriseBranchBusiness->get(enterpriseId: 1);
+            return ResponseUtils::getResponse($enterpriseBranches, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Creates a EnterpriseBranch.
      */
     public function store(Request $request) {
-        $enterpriseBranch = $this->enterpriseBranchBusiness->create(request: $request);
-        return ResponseUtils::getResponse($enterpriseBranch, 201);
+        try {
+            $enterpriseBranch = $this->enterpriseBranchBusiness->create(request: $request);
+            return ResponseUtils::getResponse($enterpriseBranch, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Gets a EnterpriseBranch by id.
      */
     public function show($id) {
-        $enterpriseBranch = $this->enterpriseBranchBusiness->getById(id: $id);
-        return ResponseUtils::getResponse($enterpriseBranch, 200);
+        try {
+            $enterpriseBranch = $this->enterpriseBranchBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($enterpriseBranch, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Deletes a EnterpriseBranch by id.
      */
     public function destroy($id) {
-        $enterpriseBranch = $this->enterpriseBranchBusiness->delete(id: $id);
-        return ResponseUtils::getResponse($enterpriseBranch, 200);
+        try {
+            $enterpriseBranch = $this->enterpriseBranchBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($enterpriseBranch, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**
      * Updates a EnterpriseBranch.
      */
     public function update(Request $request, $id) {
-        $enterpriseBranchUpdated = $this->enterpriseBranchBusiness->update(id: $id, request: $request);
-        return ResponseUtils::getResponse($enterpriseBranchUpdated, 200);
+        try {
+            $enterpriseBranchUpdated = $this->enterpriseBranchBusiness->update(id: $id, request: $request);
+            return ResponseUtils::getResponse($enterpriseBranchUpdated, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
     }
 
     /**

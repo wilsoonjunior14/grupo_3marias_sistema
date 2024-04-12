@@ -6,6 +6,7 @@ use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * This suite tests the POST /api/v1/services
@@ -25,9 +26,7 @@ class CreateServiceTest extends TestFramework
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_without_authorization(): void {
         $response = $this
         ->post("/api/v1/services");
@@ -40,9 +39,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_null_payload(): void {
         $payload = [null];
 
@@ -58,9 +55,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_empty_payload(): void {
         $payload = [];
 
@@ -76,9 +71,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_null_service(): void {
         $category = parent::createCategoryService();
 
@@ -99,9 +92,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_empty_service(): void {
         $category = parent::createCategoryService();
 
@@ -122,9 +113,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_wrong_type_service(): void {
         $category = parent::createCategoryService();
 
@@ -145,9 +134,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_short_service(): void {
         $category = parent::createCategoryService();
 
@@ -168,9 +155,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_long_service(): void {
         $category = parent::createCategoryService();
 
@@ -191,9 +176,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_wrong_type_object_service(): void {
         $category = parent::createCategoryService();
 
@@ -214,9 +197,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_without_category_service_name(): void {
         $payload = [
             "service" => parent::generateRandomString()
@@ -234,9 +215,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_null_category_service_name(): void {
         $payload = [
             "service" => parent::generateRandomString(),
@@ -255,9 +234,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_empty_category_service_name(): void {
         $payload = [
             "service" => parent::generateRandomString(),
@@ -276,9 +253,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_wrong_type_category_service_name(): void {
         $payload = [
             "service" => parent::generateRandomString(),
@@ -297,9 +272,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function negTest_createService_with_non_existing_service_name(): void {
         $payload = [
             "service" => parent::generateRandomString(),
@@ -318,9 +291,7 @@ class CreateServiceTest extends TestFramework
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function posTest_createService(): void {
         $categoryService = parent::createCategoryService();
 
