@@ -8,8 +8,38 @@
 | Francisco Wilson Rodrigues Junior | Software Engineer |
 
 ## Architecture
+
 ### General
+
+```mermaid
+  graph LR;
+CLIENTE == Cliente Cadastrado ==> PROPOSTA;
+CLIENTE == Cliente Cadastrado  ==> FICHA_CLIENTE;
+PROPOSTA == Proposta Validada ==> CONTRATO;
+PROPOSTA == Proposta Validada  ==> MODELO_PROPOSTA;
+CONTRATO == Contrato Cadastrado ==> MODELO_CONTRATO;
+CONTRATO == Contrato Cadastrado ==> CENTRO_DE_CUSTO; 
+CONTRATO == Contrato Cadastrado ==> CONTAS_A_RECEBER;
+```
+
+```mermaid
+  graph LR;
+CATEGORIA_PRODUTO --> PRODUTO;
+PRODUTO --> ORDEM_DE_COMPRA;
+ORDEM_DE_COMPRA --> CONTAS_A_PAGAR;
+ORDEM_DE_COMPRA --> CENTRO_DE_CUSTO;
+```
+
+```mermaid
+  graph LR;
+CATEGORIA_SERVICO --> SERVICO;
+SERVICO --> ORDEM_DE_SERVICO;
+ORDEM_DE_SERVICO --> CONTAS_A_PAGAR;
+ORDEM_DE_SERVICO --> CENTRO_DE_CUSTO;
+```
+
 ### Backend
+
 ### Frontend
 
 ## Technologies
@@ -26,11 +56,9 @@
 
 ### Frontend Technologies
 
-- AngularJs
+- ReactJs
 - Bootstrap
-- JQuery Mask
 - CryptoJS
-- Karma
 
 ### AWS
 
