@@ -40,7 +40,7 @@
     <div class="col-3 row-colored">
         <b>Data de Emissão</b> </br>
         @if (!is_null($client->rg_date))
-        <span>{{ date_format($client->rg_date,"d/m/Y") }}</span>
+        <span>{{ date_format(date_create($client->rg_date), "d/m/Y") }}</span>
         @endif
     </div>
 </div>
