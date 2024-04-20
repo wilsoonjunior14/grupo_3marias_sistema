@@ -76,6 +76,7 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/clients', ClientController::class);
     Route::post('/clients/docs', [ClientController::class, 'saveDocuments']);
     Route::delete('/clients/deleteDocs/{id}', [ClientController::class, 'deleteDocument']);
+    Route::post('/clients/birthdates', [ClientController::class, 'getBirthdates']);
 
     // Accountants api routes
     Route::apiResource('/accountants', AccountantController::class);

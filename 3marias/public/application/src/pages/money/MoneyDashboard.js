@@ -6,12 +6,12 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import { CategoryScale } from "chart.js";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import { registerables} from 'chart.js';
 import "../../App.css";
 import { performRequest } from '../../services/Api';
 import Loading from "../../components/loading/Loading";
-import { formatDate, formatDoubleValue, formatMoney } from "../../services/Format";
+import { formatDate, formatMoney } from "../../services/Format";
 import Error from "../../components/error/Error";
 
 ChartJS.register(...registerables);
