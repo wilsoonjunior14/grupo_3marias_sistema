@@ -6,9 +6,15 @@ function VHeaderContracts() {
     return (
         <>
         <Row style={{width: "100%"}}>
-            <Col><Nav.Link href="/contracts/stocks">
+            <Col><Nav.Link href="/contracts/proposals">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
-                Centros de Custo</Nav.Link>
+                Ver Propostas</Nav.Link>
+            </Col>
+        </Row>
+        <Row style={{width: "100%"}}>
+            <Col><Nav.Link href="/contracts/proposals/add">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Cadastrar Proposta</Nav.Link>
             </Col>
         </Row>
         <Row style={{width: "100%"}}>

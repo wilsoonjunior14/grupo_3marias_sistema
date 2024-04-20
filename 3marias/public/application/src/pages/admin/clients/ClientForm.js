@@ -27,7 +27,7 @@ const ClientForm = ({disableHeader}) => {
     const parameters = useParams();
     const [item, setItem] = useState({});
     const initialState = {};
-    const [endpoint, setEndpoint] = useState("/v1/clients");
+    const [endpoint] = useState("/v1/clients");
     const [containerStyle, setContainerStyle] = useState({});
 
     useEffect(() => {
@@ -171,6 +171,9 @@ const ClientForm = ({disableHeader}) => {
         keys.forEach((key) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
+                if (data[key] === "") {
+                    delete data[key];
+                } 
             }
             if (key.indexOf("salary") !== -1) {
                 data[key] = formatDoubleValue(data[key]);
