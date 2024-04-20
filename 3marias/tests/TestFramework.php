@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\BaseModel;
+use App\Models\Client;
 use App\Models\EnterpriseBranch;
 use App\Models\EnterpriseOwner;
 use App\Models\EnterprisePartner;
@@ -221,6 +222,7 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    // TODO: it should be refactored to use only model instead payload. See function createClientByModel
     function createClient(string $state = "Solteiro") {
         $this->createCity();
 
@@ -247,6 +249,13 @@ abstract class TestFramework extends TestCase
         ->withHeaders($this->getHeaders())
         ->post("/api/v1/clients", $payload);
 
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createClientByModel(Client $client) {
+        $response = $this->sendPostRequest("/api/v1/clients", $client, $this->getHeaders());
+        $response->assertStatus(201);
         $json = $response->decodeResponseJson();
         return $json;
     }
