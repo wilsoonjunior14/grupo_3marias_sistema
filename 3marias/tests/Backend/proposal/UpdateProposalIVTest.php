@@ -423,7 +423,7 @@ class UpdateProposalIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_updateProposal_without_proposal_type(): void {
+    public function negTest_updateProposal_without_address_id(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
         $project = parent::createProject();
@@ -480,7 +480,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Identificador do Endereço é obrigatório."
             ]
         );
     }
@@ -544,7 +544,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -608,7 +608,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }

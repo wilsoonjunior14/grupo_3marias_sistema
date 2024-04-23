@@ -23,6 +23,7 @@ import TableButton from "../../../components/button/TableButton";
 import { formatDate, formatDateToServer, formatDoubleValue, formatMoney, getMoneyFormatted } from "../../../services/Format";
 import { useParams } from "react-router-dom";
 import { validateMoney, validateMoneyWithoutAllPatterns } from "../../../services/Validation";
+import { processDataBefore } from "../../../services/Utils";
 
 const ProposalForm = ({}) => {
     const [loading, setLoading] = useState(false);
@@ -33,9 +34,8 @@ const ProposalForm = ({}) => {
     const [clients, setClients] = useState([]);
     const [projects, setProjects] = useState([]);
     const [cpfs, setCpfs] = useState([]);
-    const [emails, setEmails] = useState([]);
     const [reloadFields, setReloadFields] = useState(false);
-    const [initialState, setInitialState] = useState({global_value: "0"});
+    const [initialState] = useState({global_value: "0"});
     const [refreshClientPayment, setRefreshClientPayment] = useState(false);
     const [refreshBankPayment, setRefreshBankPayment] = useState(false);
     const [proposal, setProposal] = useState({});
@@ -101,9 +101,9 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "global_value2", value: getMoneyFormatted(proposal.global_value)}});
             onChangeField({target: {name: "proposal_date", value: formatDate(proposal.proposal_date)}});
             onChangeField({target: {name: "description", value: proposal.description}});
-            onChangeField({target: {name: "proposal_type", value: proposal.proposal_type}});
             onChangeField({target: {name: "construction_type", value: proposal.construction_type}});
             onChangeField({target: {name: "discount", value: proposal.discount}});
+            onChangeField({target: {name: "increase", value: proposal.increase}});
             const number = proposal.address.number && proposal.address.number > 0 ? proposal.address.number : 1;
             onChangeField({target: {name: "city_id", value: proposal.address.city_id}});
             onChangeField({target: {name: "neighborhood", value: proposal.address.neighborhood}});
@@ -278,10 +278,6 @@ const ProposalForm = ({}) => {
         }
         if (!state.construction_type || state.construction_type === "") {
             setHttpError({message: "Tipo de Empreendimento não informado."});
-            return;
-        }
-        if (!state.proposal_type || state.proposal_type === "") {
-            setHttpError({message: "Tipo de Proposta não informado."});
             return;
         }
         if (!state.global_value || state.global_value === "") {
@@ -477,10 +473,15 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Valor do Desconto não informado."});
             return;            
         }
+        if (!state.increase || state.increase === "") {
+            setHttpError({message: "Valor do Acréscimo não informado."});
+            return;            
+        }
 
-        // TODO: it can be improved by utility function
-        const globalValue = Number(state.global_value.replace(".", "").replace(",", "."));
-        const discount = Number(state.discount.replace(".", "").replace(",", "."));
+        const payloadData = Object.assign({}, state);
+        const globalValue = formatDoubleValue(payloadData.global_value);
+        const discount = formatDoubleValue(payloadData.discount);
+        const increase = formatDoubleValue(payloadData.increase);
 
         var payments = 0;
         var clientPayments = [];
@@ -505,8 +506,8 @@ const ProposalForm = ({}) => {
             bankPayments.push(bPay);
         });
 
-        if (globalValue - discount !== payments) {
-            const diff = (globalValue - discount) - payments;
+        if ((globalValue - discount) !== (payments + increase)) {
+            const diff = (globalValue - discount) - (payments + increase);
             const diffFormated = formatMoney(diff.toString());
             setHttpError({message: "Pagamentos e Valor Global estão diferentes. Diferença de: "+diffFormated});
             return;
@@ -514,10 +515,10 @@ const ProposalForm = ({}) => {
         setHttpSuccess(null);
         setHttpError(null);
 
-        const payload = Object.assign({}, state);
+        const payload = Object.assign({}, processDataBefore(payloadData));
         payload.global_value = globalValue;
         payload.discount = discount;
-        payload.proposal_date = formatDateToServer(payload.proposal_date);
+        payload.increase = increase;
         payload.clientPayments = clientPayments;
         payload.bankPayments = bankPayments;
         
@@ -679,18 +680,12 @@ const ProposalForm = ({}) => {
                                             onChange={onChangeField} />
                                     </Col>
                                     <Col lg={4}>
-                                        <CustomInput key="proposal_type" type="select"
-                                            data={["Ouro", "Prata", "Bronze"]} value={state.proposal_type}
-                                            placeholder="Tipo de Proposta*" name="proposal_type"
-                                            onChange={onChangeField} />
-                                    </Col>
-                                </Row>
-                                <Row style={{marginBottom: 12}}>
-                                    <Col lg={4}>
                                         <CustomInput key="global_value" type="money" value={state.global_value2}
                                             placeholder="Valor Global *" name="global_value"
                                             onChange={onChangeField} />
                                     </Col>
+                                </Row>
+                                <Row style={{marginBottom: 12}}>
                                     <Col lg={4}>
                                         <CustomInput key="proposal_date" 
                                             type="mask" value={state.proposal_date} mask={"99/99/9999"}
@@ -702,14 +697,14 @@ const ProposalForm = ({}) => {
                                             placeholder="CEP *" name="zipcode" value={state.zipcode}
                                             onChange={onChangeField} />
                                     </Col>
-                                </Row>
-                                <Row>
                                     <Col lg={4}>
                                         <CustomInput key="city_id" type="select"
                                             endpoint={"cities"} endpoint_field={"name"} value={state.city_id}
                                             placeholder="Cidade *" name="city_id"
                                             onChange={onChangeField} />
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col lg={4}>
                                         <CustomInput key="address" type="text" value={state.address}
                                             placeholder="Endereço *" name="address"
@@ -720,19 +715,19 @@ const ProposalForm = ({}) => {
                                             placeholder="Bairro *" name="neighborhood"
                                             onChange={onChangeField} />
                                     </Col>
-                                </Row>
-                                <Row>
                                     <Col lg={4}>
                                         <CustomInput key="number" type="text" value={state.number}
                                             placeholder="Número" name="number"
                                             onChange={onChangeField} />
                                     </Col>
-                                    <Col lg={8}>
+                                </Row>
+                                <Row>
+                                    <Col lg={12}>
                                         <CustomInput key="complement" type="text" maxlength={255} value={state.complement}
                                             placeholder="Complemento" name="complement"
                                             onChange={onChangeField} />
                                     </Col>
-                                    <Col lg={6}>
+                                    <Col lg={12}>
                                         <CustomInput key="description" type="textarea" maxlength={1000} value={state.description}
                                             placeholder="Descrição da Proposta *" name="description"
                                             onChange={onChangeField} />
@@ -757,195 +752,217 @@ const ProposalForm = ({}) => {
                                 </Card.Title>
                                 <Row>
                                     <Col>
-                                        <Card.Title>
-                                            <i className="material-icons float-left">attach_money</i>
-                                                Atribuição de Descontos
-                                        </Card.Title>
-                                        <Row>
-                                            <Col xs={4}>
-                                                <CustomInput 
-                                                    type={"money"} 
-                                                    placeholder={"Desconto *"} 
-                                                    name="discount"
-                                                    onChange={onChangeField}
-                                                    value={state.discount}
-                                                     />
-                                            </Col>
-                                        </Row>
+                                        <Card style={{padding: 10}}>
+                                            <Card.Body>
+                                                <Card.Title>
+                                                <i className="material-icons float-left">attach_money</i>
+                                                    Atribuição de Descontos
+                                                </Card.Title>
+                                                <Row>
+                                                    <Col xs={4}>
+                                                        <CustomInput 
+                                                            type={"money"} 
+                                                            placeholder={"Desconto *"} 
+                                                            name="discount"
+                                                            onChange={onChangeField}
+                                                            value={state.discount}
+                                                            />
+                                                    </Col>
+                                                    <Col xs={4}>
+                                                        <CustomInput 
+                                                            type={"money"} 
+                                                            placeholder={"Acréscimo *"} 
+                                                            name="increase"
+                                                            onChange={onChangeField}
+                                                            value={state.increase}
+                                                            />
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
                                 </Row>
                                 <br></br>
                                 <Row>
                                     <Col>
-                                        <Card.Title>
-                                            <i className="material-icons float-left">attach_money</i>
-                                                Pagamentos - Entrada do Cliente
-                                        </Card.Title>
-                                        {!refreshClientPayment &&
-                                        <Row>
-                                            <Col>
-                                                <CustomSelect name="client_payment_type" 
-                                                    placeholder="Tipo de Pagamento *" 
-                                                    data={["À Vista", "Parcela"]}
-                                                    value={state.client_payment_type}
-                                                    onChange={onChangeField} />
-                                            </Col>
-                                            <Col>
-                                                <CustomInput type={"money"} 
-                                                placeholder={"Valor R$ *"}
-                                                value={state.client_payment_value_2}
-                                                onChange={onChangeField} 
-                                                name="client_payment_value" />
-                                            </Col>
-                                            <Col>
-                                                <CustomInput type={"text"} 
-                                                placeholder={"Descrição *"} 
-                                                name={"client_payment_description"}
-                                                onChange={onChangeField}
-                                                value={state.client_payment_description}
-                                                 />
-                                            </Col>
-                                            <Col>
-                                                <CustomInput type={"mask"} mask={"99/99/9999"}
-                                                maskPlaceholder={"Data Prevista"} 
-                                                placeholder={"Data Prevista"}
-                                                value={state.client_payment_date}
-                                                onChange={onChangeField} 
-                                                name="client_payment_date" />
-                                            </Col>
-                                            <Col>
-                                                <Button variant="success"
-                                                    onClick={onAddClientPayment} 
-                                                    style={{height: 60, width: 60}}>
-                                                    <i className="material-icons">add</i>
-                                                </Button>
-                                            </Col>
-                                        </Row>
-                                        }
-                                        <Row>
-                                            <Table striped responsive>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Descrição</th>
-                                                        <th>Tipo de Pagamento</th>
-                                                        <th>Valor</th>
-                                                        <th>Data Prevista</th>
-                                                        <th>Opções</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {paymentsClient.length === 0 &&
-                                                    <NoEntity count={5} message={"Nenhum pagamento adicionado."} />
-                                                    }
-                                                    {paymentsClient.map((payment) => 
-                                                    <tr>
-                                                        <td>{payment.description}</td>
-                                                        <td>{payment.type}</td>
-                                                        <td>{formatMoney(payment.value)}</td>
-                                                        <td>{payment.desired_date}</td>
-                                                        <td>
-                                                            <TableButton name="btnDelete" tooltip="Deletar" 
-                                                                onClick={() => onDeleteClientPayment(payment)}
-                                                                icon="delete" color="light" />
-                                                        </td>
-                                                    </tr>
-                                                    )}
-                                                </tbody>
-                                            </Table>
-                                        </Row>
+                                        <Card style={{padding: 10}}>
+                                            <Card.Body>
+                                                <Card.Title>
+                                                    <i className="material-icons float-left">attach_money</i>
+                                                        Pagamentos - Entrada do Cliente
+                                                </Card.Title>
+                                                {!refreshClientPayment &&
+                                                <Row>
+                                                    <Col xs={4}>
+                                                        <CustomSelect name="client_payment_type" 
+                                                            placeholder="Tipo de Pagamento *" 
+                                                            data={["À Vista", "Parcela"]}
+                                                            value={state.client_payment_type}
+                                                            onChange={onChangeField} />
+                                                    </Col>
+                                                    <Col xs={4}>
+                                                        <CustomInput type={"money"} 
+                                                        placeholder={"Valor R$ *"}
+                                                        value={state.client_payment_value_2}
+                                                        onChange={onChangeField} 
+                                                        name="client_payment_value" />
+                                                    </Col>
+                                                    <Col xs={4}>
+                                                        <CustomInput type={"mask"} mask={"99/99/9999"}
+                                                        maskPlaceholder={"Data Prevista"} 
+                                                        placeholder={"Data Prevista"}
+                                                        value={state.client_payment_date}
+                                                        onChange={onChangeField} 
+                                                        name="client_payment_date" />
+                                                    </Col>
+                                                    <Col xs={11}>
+                                                        <CustomInput type={"text"} 
+                                                        placeholder={"Descrição *"} 
+                                                        name={"client_payment_description"}
+                                                        onChange={onChangeField}
+                                                        value={state.client_payment_description}
+                                                        />
+                                                    </Col>
+                                                    <Col>
+                                                        <Button variant="success"
+                                                            onClick={onAddClientPayment} 
+                                                            style={{height: 60, width: 60}}>
+                                                            <i className="material-icons">add</i>
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                                }
+                                                <Row>
+                                                    <Table striped responsive>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Descrição</th>
+                                                                <th>Tipo de Pagamento</th>
+                                                                <th>Valor</th>
+                                                                <th>Data Prevista</th>
+                                                                <th>Opções</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {paymentsClient.length === 0 &&
+                                                            <NoEntity count={5} message={"Nenhum pagamento adicionado."} />
+                                                            }
+                                                            {paymentsClient.map((payment) => 
+                                                            <tr>
+                                                                <td>{payment.description}</td>
+                                                                <td>{payment.type}</td>
+                                                                <td>{formatMoney(payment.value)}</td>
+                                                                <td>{payment.desired_date}</td>
+                                                                <td>
+                                                                    <TableButton name="btnDelete" tooltip="Deletar" 
+                                                                        onClick={() => onDeleteClientPayment(payment)}
+                                                                        icon="delete" color="light" />
+                                                                </td>
+                                                            </tr>
+                                                            )}
+                                                        </tbody>
+                                                    </Table>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
                                 </Row>
                                 <br></br>
                                 <Row>
                                     <Col>
-                                        <Card.Title>
-                                            <i className="material-icons float-left">attach_money</i>
-                                                Pagamentos - Via Instituição Financeira
-                                        </Card.Title>
-                                        {!refreshBankPayment &&
-                                        <Row>
-                                            <Col>
-                                                <CustomSelect name="bank" 
-                                                    placeholder="Banco *" 
-                                                    data={["Bradesco", "Banco do Brasil", "Santander", "Caixa Econômica"]}
+                                        <Card style={{padding: 10}}>
+                                            <Card.Body>
+                                            <Card.Title>
+                                                <i className="material-icons float-left">attach_money</i>
+                                                    Pagamentos - Via Instituição Financeira
+                                            </Card.Title>
+                                            {!refreshBankPayment &&
+                                            <Row>
+                                                <Col xs={4}>
+                                                    <CustomSelect name="bank" 
+                                                        placeholder="Banco *" 
+                                                        data={["Bradesco", "Banco do Brasil", "Santander", "Caixa Econômica"]}
+                                                        onChange={onChangeField}
+                                                        value={state.bank}
+                                                        />
+                                                </Col>
+                                                <Col xs={4}>
+                                                    <CustomSelect name="bank_payment_type" placeholder="Tipo de Pagamento *" 
+                                                    data={["À Vista", "Medições"]}
                                                     onChange={onChangeField}
-                                                    value={state.bank}
-                                                    />
-                                            </Col>
-                                            <Col>
-                                                <CustomSelect name="bank_payment_type" placeholder="Tipo de Pagamento *" 
-                                                data={["À Vista", "Medições"]}
-                                                onChange={onChangeField}
-                                                value={state.bank_payment_type} />
-                                            </Col>
-                                            <Col>
-                                                <CustomInput type={"money"} placeholder={"Valor R$ *"} 
-                                                name="bank_payment_value"
-                                                onChange={onChangeField}
-                                                value={state.bank_payment_value2} />
-                                            </Col>
-                                            <Col>
-                                                <CustomInput type={"text"} placeholder={"Descrição *"} 
-                                                name={"bank_payment_description"}
-                                                onChange={onChangeField}
-                                                value={state.bank_payment_description} />
-                                            </Col>
-                                            <Col>
-                                                <Button variant="success" onClick={onAddBankPayment} 
-                                                    style={{height: 60, width: 60}}>
-                                                    <i className="material-icons">add</i>
-                                                </Button>
-                                            </Col>
-                                        </Row>
-                                        }
-                                        <Row>
-                                            <Table striped responsive>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Descrição</th>
-                                                        <th>Banco</th>
-                                                        <th>Tipo de Pagamento</th>
-                                                        <th>Valor</th>
-                                                        <th>Opções</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {paymentsBank.length === 0 &&
-                                                    <NoEntity count={5} message={"Nenhuma pagamento adicionado."} />
-                                                    }
-                                                    {paymentsBank.map((payment) => 
-                                                    <tr>
-                                                        <td>{payment.description}</td>
-                                                        <td>{payment.bank}</td>
-                                                        <td>{payment.type}</td>
-                                                        <td>{formatMoney(payment.value)}</td>
-                                                        <td>
-                                                            <TableButton name="btnDelete" tooltip="Deletar" 
-                                                                onClick={() => onDeleteBankPayment(payment)}
-                                                                icon="delete" color="light" />
-                                                        </td>
-                                                    </tr>
-                                                    )}
-                                                </tbody>
-                                            </Table>
-                                        </Row>
-                                        <Row>
-                                            <Col xs={2}>
-                                                <CustomButton color="success" onClick={() => onSetStep(steps[1])} name={"Voltar"} />
-                                            </Col>
-                                            <Col xs={8}></Col>
-                                            <Col xs={2}>
-                                                <Button variant="success"
-                                                    type="button"
-                                                    size="lg"
-                                                    onClick={onSubmit}
-                                                    disabled={loading}>
-                                                    {loading ? <Loading />
-                                                                : 
-                                                                'Concluir'}
-                                                </Button>
-                                            </Col>
-                                        </Row>
+                                                    value={state.bank_payment_type} />
+                                                </Col>
+                                                <Col xs={4}>
+                                                    <CustomInput type={"money"} placeholder={"Valor R$ *"} 
+                                                    name="bank_payment_value"
+                                                    onChange={onChangeField}
+                                                    value={state.bank_payment_value2} />
+                                                </Col>
+                                                <Col xs={11}>
+                                                    <CustomInput type={"text"} placeholder={"Descrição *"} 
+                                                    name={"bank_payment_description"}
+                                                    onChange={onChangeField}
+                                                    value={state.bank_payment_description} />
+                                                </Col>
+                                                <Col>
+                                                    <Button variant="success" onClick={onAddBankPayment} 
+                                                        style={{height: 60, width: 60}}>
+                                                        <i className="material-icons">add</i>
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                            }
+                                            <Row>
+                                                <Table striped responsive>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Descrição</th>
+                                                            <th>Banco</th>
+                                                            <th>Tipo de Pagamento</th>
+                                                            <th>Valor</th>
+                                                            <th>Opções</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {paymentsBank.length === 0 &&
+                                                        <NoEntity count={5} message={"Nenhuma pagamento adicionado."} />
+                                                        }
+                                                        {paymentsBank.map((payment) => 
+                                                        <tr>
+                                                            <td>{payment.description}</td>
+                                                            <td>{payment.bank}</td>
+                                                            <td>{payment.type}</td>
+                                                            <td>{formatMoney(payment.value)}</td>
+                                                            <td>
+                                                                <TableButton name="btnDelete" tooltip="Deletar" 
+                                                                    onClick={() => onDeleteBankPayment(payment)}
+                                                                    icon="delete" color="light" />
+                                                            </td>
+                                                        </tr>
+                                                        )}
+                                                    </tbody>
+                                                </Table>
+                                            </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                <br></br>
+                                <Row>
+                                    <Col xs={2}>
+                                        <CustomButton color="success" onClick={() => onSetStep(steps[1])} name={"Voltar"} />
+                                    </Col>
+                                    <Col xs={8}></Col>
+                                    <Col xs={2}>
+                                        <Button variant="success"
+                                            type="button"
+                                            size="lg"
+                                            onClick={onSubmit}
+                                            disabled={loading}>
+                                            {loading ? <Loading />
+                                                        : 
+                                                        'Concluir'}
+                                        </Button>
                                     </Col>
                                 </Row>
                                 </>

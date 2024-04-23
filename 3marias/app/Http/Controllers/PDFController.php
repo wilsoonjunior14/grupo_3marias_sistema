@@ -24,12 +24,11 @@ class PDFController extends Controller
     }
 
     public function getProposalPDF(Request $request, $id) {
-
         $proposalBusiness = new ProposalBusiness();
         $proposal = $proposalBusiness->getById(id: $id);
         
         $enterpriseBusiness = new EnterpriseBusiness();
-        $enterprise = $enterpriseBusiness->getById(id: 1);
+        $enterprise = $enterpriseBusiness->getById(id: 1, mergeFields: true);
 
         $data = [
             'title' => 'Proposta',
