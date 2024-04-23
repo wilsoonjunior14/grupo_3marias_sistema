@@ -316,7 +316,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Valor Global da Proposta é obrigatório."
             ]
         );
     }
@@ -339,7 +339,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -362,7 +362,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }

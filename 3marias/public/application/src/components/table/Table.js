@@ -14,7 +14,7 @@ import { performRequest, BASE_URL } from "../../services/Api";
 import CustomPagination from "./Pagination";
 import Thead from "./Thead";
 import NoEntity from "./NoEntity";
-import { formatDate, formatDateTime, getValueOfComplexField } from "../../services/Format";
+import { formatDate, formatDateTime, formatDoubleValue, getValueOfComplexField } from "../../services/Format";
 import Search from "../search/Search";
 import "../../App.css";
 import TableButton from "../button/TableButton";

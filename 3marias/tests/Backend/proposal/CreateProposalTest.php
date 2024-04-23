@@ -196,4 +196,71 @@ class CreateProposalTest extends TestFramework
             "client_id" => $client["id"]
         ]);
     }
+
+    #[Test]
+    public function posTest_createProposal_without_proposal_type(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "global_value" => 120000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Banco"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 30000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(201);
+        $response->assertJson([
+            "construction_type" => $payload["construction_type"],
+            "global_value" => $payload["global_value"],
+            "description" => $payload["description"],
+            "project_id" => $payload["project_id"],
+            "client_id" => $client["id"]
+        ]);
+        $response->assertJsonMissing([
+            "proposal_type" => $this->generateRandomString()
+        ]);
+    }
 }

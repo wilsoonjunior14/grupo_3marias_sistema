@@ -26,7 +26,7 @@ export function clearForm(formId) {
 
 export function getMoney(value) {
     if (!value) {return "";}
-    const v = Number(value.replace(".", "").replace(",", "."));
+    const v =  formatDoubleValue(value);
     return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
 }
 
@@ -62,7 +62,7 @@ export function processDataBefore(data) {
         if (key.indexOf("value") !== -1 || key.indexOf("value_performed") !== -1) {
             data[key] = formatDoubleValue(data[key]);
         }
-        if (!data[key] || data[key] === null || data[key] === undefined) {
+        if (!data[key] || data[key] === null || data[key] === undefined || data[key] === "") {
             delete data[key];
         }
     });

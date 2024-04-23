@@ -29,10 +29,10 @@ import CategoryProductForm from './pages/stocks/CategoryProducts/CategoryProduct
 import CategoryProductList from './pages/stocks/CategoryProducts/CategoryProductList';
 import PartnerList from './pages/admin/partners/PartnerList';
 import PartnerForm from './pages/admin/partners/PartnerForm';
-import ProposalList from './pages/engineering/proposals/ProposalList';
-import ProposalForm from './pages/engineering/proposals/ProposalForm';
+import ProposalList from './pages/contracts/proposals/ProposalList';
+import ProposalForm from './pages/contracts/proposals/ProposalForm';
 import ClientDetails from './pages/admin/clients/ClientDetails';
-import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
+import ProposalDownload from './pages/contracts/proposals/ProposalDownload';
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
 import BillsReceiveList from './pages/money/BillsReceiveList';

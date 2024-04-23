@@ -5,7 +5,6 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Proposal;
 use App\Models\Logger;
-use App\Models\ProposalPayment;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
@@ -125,6 +124,10 @@ class ProposalBusiness {
             throw new InputValidationException("Campo Desconto da Proposta não pode ser menor que zero.");
         }
 
+        if ($data["increase"] < 0) {
+            throw new InputValidationException("Campo Acréscimo da Proposta não pode ser menor que zero.");
+        }
+
         if ($data["discount"] > $data["global_value"]) {
             throw new InputValidationException("Valor do desconto não pode ser superior ao valor da proposta.");
         }
@@ -151,8 +154,8 @@ class ProposalBusiness {
         // Validating the global value with discount and payments
         Logger::info("Validando os valores globais de pagamento.");
         $globalValue = $data["global_value"] - $data["discount"];
-        if ($globalValue !== $totalPayments) {
-            $diff = $globalValue - $totalPayments;
+        if ($globalValue !== ($totalPayments + $data["increase"])) {
+            $diff = $globalValue - ($totalPayments + $data["increase"]);
             throw new InputValidationException("O valor global da proposta diverge dos valores dos pagamentos fornecidos. Diferença de R$ $diff");
         }
         return $data;
