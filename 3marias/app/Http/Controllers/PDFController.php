@@ -44,7 +44,7 @@ class PDFController extends Controller
         $contract = $contractBusiness->getById(id: $id);
 
         $enterpriseBusiness = new EnterpriseBusiness();
-        $enterprise = $enterpriseBusiness->getById(id: 1);
+        $enterprise = $enterpriseBusiness->getById(id: 1, mergeFields: true);
 
         $enterpriseOwnerBusiness = new EnterpriseOwnerBusiness();
         $owner = $enterpriseOwnerBusiness->getById(id: 1);

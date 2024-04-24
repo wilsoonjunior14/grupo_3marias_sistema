@@ -478,7 +478,7 @@
                     <div style="padding-top: 15px;" class="col-12 row-colored no-bottom-border"><b>5. CLÁUSULA QUINTA - DO PREÇO E FORMA DE PAGAMENTO</b></div>
                     <div class="col-12 row-colored no-bottom-border">
                         <ul class="list-no-style">
-                            <li>5.1. {{ $subjectArticle }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "pagarão" : "pagará" }} à CONTRATADA para execução do objeto deste contrato o valor total de R$ R$" . number_format($contract->value, 2, ',', '.') . " " (Cento e Trinta e Seis Mil Reais), sendo pagos da seguinte forma:
+                            <li>5.1. {{ $subjectArticle }} {{ strtoupper($subject) }} {{ strpos($subjectArticle, "s") === true ? "pagarão" : "pagará" }} à CONTRATADA para execução do objeto deste contrato o valor total de {{ "R$" . number_format($contract->value, 2, ',', '.') . " "}}, sendo pagos da seguinte forma:
                                 <ul>
                                     @foreach ($contract->proposal->payments as $payment)
                                         @if (strcmp("Cliente", $payment->source) === 0)

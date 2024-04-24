@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from 'react-bootstrap/Form';
 import { performRequest } from "../../services/Api";
-import { useParams } from "react-router-dom";
 
 const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, endpoint, endpoint_field, data}) => {
 
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
-    const parameters = useParams();
 
     useEffect(() => {
         if (items.length === 0 && !loading) {
             if (data) {
-                setItems(data.map((item => {return {id: item, name: item}})));
+                setItems(data.map((item => {return {id: item.toString().toUpperCase(), name: item.toString().toUpperCase()}})));
             } else {
                 loadItems();
             }
@@ -40,11 +38,11 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
     const getOptionField = (item) => {
         if (item.id === value) {
             return (
-                <option selected key={item.id} value={item.id} label={item.name}>{item[endpoint_field]}</option>
+                <option selected key={item.id} value={item.id.toString()} label={item.name.toString().toUpperCase()}>{item[endpoint_field]}</option>
             );
         } 
         return (
-            <option key={item.id} value={item.id} label={item.name}>{item[endpoint_field]}</option>
+            <option key={item.id} value={item.id.toString()} label={item.name.toString().toUpperCase()}>{item[endpoint_field]}</option>
         );
     } 
 
