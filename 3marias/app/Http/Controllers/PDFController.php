@@ -57,4 +57,15 @@ class PDFController extends Controller
         ];
         return view('contract-pdf', $data);
     }
+
+    public function getAlvaraPDF(Request $request, $id) {
+        $contractBusiness = new ContractBusiness();
+        $contract = $contractBusiness->getById(id: $id);
+
+        $data = [
+            'title' => 'REQUERIMENTO',
+            'contract' => $contract
+        ];
+        return view('alvara-pdf', $data);
+    }
 }
