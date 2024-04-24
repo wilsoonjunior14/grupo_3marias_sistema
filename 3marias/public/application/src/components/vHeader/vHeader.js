@@ -181,7 +181,8 @@ function VHeader() {
                     <Tooltip style={{marginTop: "-5px"}} place="right" id="dashboard-item-tooltip" />
 
                     {items.map((item) => (
-                        <VHeaderItem 
+                        <VHeaderItem
+                            key={item.id} 
                             item={item} 
                             onClick={() => onToggleOptions(item)} />
                     ))}

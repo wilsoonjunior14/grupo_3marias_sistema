@@ -290,7 +290,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                 <td className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
-                                                            <TableButton 
+                                                            <TableButton
+                                                                key={"table-button-custom-" + option.name.toString() }
                                                                 name={option.name} 
                                                                 tooltip={option.tooltip} 
                                                                 onClick={() => option.onClick(item)}
@@ -299,12 +300,12 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                     }
                                                         
                                                     {!disableEdit &&
-                                                        <TableButton name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
+                                                        <TableButton key={"table-button-edit-" + item.id} name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
                                                                 icon="edit" color="light" />
                                                     }
 
                                                     {!disableDelete &&
-                                                        <TableButton name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
+                                                        <TableButton key={"table-button-delete-" + item.id} name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
                                                                 icon="delete" color="light" />
                                                     }
                                                 </td>

@@ -62,7 +62,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
                     getOptionField(item)
                 )}
             </Form.Select>
-            <div class="invalid-feedback">
+            <div className="invalid-feedback">
                 Por favor, Selecione uma opção válida para o campo {placeholder.replace("*", "")}.
             </div>
             </>
@@ -74,7 +74,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
                 name={name}
                 maxLength={maxlength}
                 value="Carregando..."
-                disabled="true"
+                disabled={true}
                 required={required} />
             }
         </FloatingLabel>

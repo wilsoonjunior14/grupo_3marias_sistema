@@ -21,7 +21,7 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
     useEffect(() => {
         if (items.length === 0 && !loading) {
             if (data) {
-                setItems(data.map((item => {return {id: item, name: item}})));
+                setItems(data.map((item => {return {id: item, name: item.toString().toUpperCase()}})));
             } else {
                 loadItems();
             }
