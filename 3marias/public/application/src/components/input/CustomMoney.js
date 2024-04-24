@@ -6,7 +6,7 @@ const CustomMoney = ({placeholder, name, value, required, onChange, disabled, de
 
     return (
         <>
-        <label className='input-money-label' for={name}>
+        <label className='input-money-label' htmlFor={name}>
             {placeholder}
         </label>
         <CurrencyInput
