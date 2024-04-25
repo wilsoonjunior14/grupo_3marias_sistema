@@ -20,6 +20,9 @@ return new class extends Migration
             $table->integer("quantity");
             $table->double("value");
 
+            $table->integer('partner_id')->unsigned();
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
 
