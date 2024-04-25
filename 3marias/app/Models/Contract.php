@@ -30,6 +30,7 @@ class Contract extends BaseModel
         'witness_two_cpf' => 'required|string|cpf|different:witness_one_cpf',
         'address_id' => 'required|integer',
         'proposal_id' => 'required|integer',
+        'engineer_id' => 'required|integer|gt:0|exists:engineers,id',
     ];
 
     static $rulesMessages = [
@@ -71,7 +72,11 @@ class Contract extends BaseModel
         'proposal_id.required' => 'Campo Identificador de Proposta é obrigatório.',
         'proposal_id.integer' => 'Campo Identificador de Proposta está inválido.',
         'address_id.required' => 'Campo Identificador de Endereço é obrigatório.',
-        'address_id.integer' => 'Campo Identificador de Endereço está inválido.'
+        'address_id.integer' => 'Campo Identificador de Endereço está inválido.',
+        'engineer_id.required' => 'Campo Identificador de Engenheiro é obrigatório.',
+        'engineer_id.integer' => 'Campo Identificador de Engenheiro está inválido.',
+        'engineer_id.gt' => 'Campo Identificador de Engenheiro está inválido.',
+        'engineer_id.exists' => 'Campo Identificador de Engenheiro não existe.'
     ];
 
     public function proposal(): \Illuminate\Database\Eloquent\Relations\HasOne {

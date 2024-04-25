@@ -9,6 +9,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EngineerController;
 use App\Http\Controllers\EnterpriseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -118,6 +119,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // bills to pay api routes
     Route::apiResource('/billsPay', BillsPayController::class);
+
+    // bills to pay api routes
+    Route::apiResource('/engineers', EngineerController::class);
 
     // billsReceive api routes
     //Route::apiResource('/billsReceive', BillsReceiveController::class);

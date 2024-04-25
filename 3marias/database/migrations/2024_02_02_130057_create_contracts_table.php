@@ -34,6 +34,9 @@ return new class extends Migration
             $table->integer('proposal_id')->unsigned();
             $table->foreign('proposal_id')->references('id')->on('proposals')->onDelete('cascade');
 
+            $table->integer('engineer_id')->unsigned();
+            $table->foreign('engineer_id')->references('id')->on('engineers')->onDelete('cascade');
+
             $table->boolean("deleted")->default(false);
 
             $table->timestamps();

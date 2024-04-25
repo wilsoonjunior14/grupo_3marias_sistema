@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\BaseModel;
 use App\Models\Client;
+use App\Models\Engineer;
 use App\Models\EnterpriseBranch;
 use App\Models\EnterpriseOwner;
 use App\Models\EnterprisePartner;
@@ -258,6 +259,18 @@ abstract class TestFramework extends TestCase
         $response->assertStatus(201);
         $json = $response->decodeResponseJson();
         return $json;
+    }
+
+    function createEngineer() {
+        $engineer = new Engineer();
+        $engineer
+            ->withName($this->generateRandomLetters())
+            ->withEmail($this->generateRandomEmail())
+            ->withCrea($this->generateRandomNumber(10));
+
+        $response = $this->sendPostRequest("/api/v1/engineers", $engineer, $this->getHeaders());
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
     }
 
     function createProposal() {
