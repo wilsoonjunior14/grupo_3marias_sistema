@@ -7,9 +7,9 @@ use Tests\TestFramework;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
- * This suite tests the POST /api/v1/engineers
+ * This suite tests the PUT /api/v1/engineers/{id}
  */
-class CreateEngineerTest extends TestFramework
+class UpdateEngineerTest extends TestFramework
 {
 
     use RefreshDatabase;
@@ -27,9 +27,9 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_without_authorization(): void {
+    public function negTest_updateEngineer_without_authorization(): void {
         $response = $this
-        ->post("/api/v1/engineers");
+        ->put("/api/v1/engineers/1", []);
 
         $response->assertStatus(401);
         $response->assertJson(
@@ -40,10 +40,11 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_empty_payload(): void {
+    public function negTest_updateEngineer_with_empty_payload(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -52,11 +53,12 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_null_name(): void {
+    public function negTest_updateEngineer_with_null_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer->withName(null);
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -65,11 +67,12 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_empty_name(): void {
+    public function negTest_updateEngineer_with_empty_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer->withName("");
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -78,11 +81,12 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_wrong_type_name(): void {
+    public function negTest_updateEngineer_with_wrong_type_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer->withName(12345);
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -91,11 +95,12 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_invalid_chars_name(): void {
+    public function negTest_updateEngineer_with_invalid_chars_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer->withName($this->generateRandomLetters() . "@#$%^&*");
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -104,14 +109,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_short_name(): void {
+    public function negTest_updateEngineer_with_short_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters(2))
             ->withEmail($this->generateRandomEmail())
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -120,14 +126,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_long_name(): void {
+    public function negTest_updateEngineer_with_long_name(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters(1000))
             ->withEmail($this->generateRandomEmail())
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -136,14 +143,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_null_email(): void {
+    public function negTest_updateEngineer_with_null_email(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail(null)
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -152,14 +160,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_empty_email(): void {
+    public function negTest_updateEngineer_with_empty_email(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail("")
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -168,14 +177,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_wrong_email(): void {
+    public function negTest_updateEngineer_with_wrong_email(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomLetters())
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -184,14 +194,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_wrong_type_email(): void {
+    public function negTest_updateEngineer_with_wrong_type_email(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail(12345)
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -200,14 +211,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_null_crea(): void {
+    public function negTest_updateEngineer_with_null_crea(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomEmail())
             ->withCrea(null);
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -216,14 +228,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_empty_crea(): void {
+    public function negTest_updateEngineer_with_empty_crea(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomEmail())
             ->withCrea("");
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -232,14 +245,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_wrong_type_crea(): void {
+    public function negTest_updateEngineer_with_wrong_type_crea(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomEmail())
             ->withCrea($this->generateRandomLetters(5));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -248,14 +262,15 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createEngineer_with_long_crea(): void {
+    public function negTest_updateEngineer_with_long_crea(): void {
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomEmail())
             ->withCrea($this->generateRandomNumber(11));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
 
         $response->assertStatus(400);
         $response->assertJson([
@@ -264,31 +279,23 @@ class CreateEngineerTest extends TestFramework
     }
 
     #[Test]
-    public function posTest_createEngineer(): void {
+    public function posTest_updateEngineer(): void {
+        $this->createEngineer();
+
+        $this->createEngineer();
         $engineer = new Engineer();
         $engineer
             ->withName($this->generateRandomLetters())
             ->withEmail($this->generateRandomEmail())
             ->withCrea($this->generateRandomNumber(10));
 
-        $response = $this->sendPostRequest($this->url, $engineer, $this->getHeaders());
-
-        $response->assertStatus(201);
+        $response = $this->sendPutRequest($this->url . "/1", $engineer, $this->getHeaders());
+        $response->assertStatus(200);
         $response->assertJson([
             "name" => $engineer->name,
             "email" => $engineer->email,
             "crea" => $engineer->crea
         ]);
-
-        $getResponse = $this->sendGetRequest($this->url, $this->getHeaders());
-        $getResponse->assertStatus(200);
-        $getResponse->assertJsonCount(1);
-        $getResponse->assertJson([[
-            "name" => $engineer->name,
-            "email" => $engineer->email,
-            "crea" => $engineer->crea,
-            "deleted" => 0
-        ]]);
 
         $getResponse = $this->sendGetRequest($this->url . "/1", $this->getHeaders());
         $getResponse->assertStatus(200);

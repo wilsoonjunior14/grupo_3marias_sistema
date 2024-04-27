@@ -9,12 +9,12 @@ class Contract extends BaseModel
     "code", "building_type", "description", "meters",
     "value", "witness_one_name", "witness_one_cpf",
     "witness_two_name", "witness_two_cpf", "date",
-    "address_id", "proposal_id",
+    "address_id", "proposal_id", "engineer_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["code", "building_type", "description", "meters",
     "value", "witness_one_name", "witness_one_cpf", "date",
-    "witness_two_name", "witness_two_cpf",
+    "witness_two_name", "witness_two_cpf", "engineer_id",
     "address_id", "proposal_id"];
 
     static $rules = [

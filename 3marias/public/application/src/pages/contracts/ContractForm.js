@@ -281,7 +281,7 @@ const ContractForm = ({disableHeader}) => {
                                     </Row>
                                     <Row>
                                         {!parameters.id &&
-                                        <Col lg={4}>
+                                        <Col lg={3}>
                                             <CustomInput key="proposal_code" type="select"
                                                 placeholder="Código da Proposta *" name="proposal_code"
                                                 data={proposalsLabels} 
@@ -291,7 +291,7 @@ const ContractForm = ({disableHeader}) => {
                                         </Col>
                                         }
                                         {parameters.id &&
-                                        <Col lg={4}>
+                                        <Col lg={3}>
                                             <CustomInput key="proposal_code" type="text"
                                                 placeholder="Código da Proposta *" name="proposal_code"
                                                 maxlength={255}
@@ -300,7 +300,7 @@ const ContractForm = ({disableHeader}) => {
                                                 value={state.proposal_code} />
                                         </Col>
                                         }
-                                        <Col lg={4}>
+                                        <Col lg={3}>
                                             <CustomInput key="building_type" type="text"
                                                 placeholder="Tipo de Obra *" name="building_type"
                                                 maxlength={255}
@@ -308,12 +308,20 @@ const ContractForm = ({disableHeader}) => {
                                                 value={state.building_type}
                                                 onChange={changeField} />
                                         </Col>
-                                        <Col lg={4}>
+                                        <Col lg={3}>
                                             <CustomInput key="value2" type="text"
                                                 placeholder="Valor *" name="value2"
                                                 value={state.value2}
                                                 required={true}
                                                 disabled={true}
+                                                onChange={changeField} />
+                                        </Col>
+                                        <Col lg={3}>
+                                            <CustomInput key="engineer_id" type="select"
+                                                placeholder="Engenheiro *" name="engineer_id"
+                                                endpoint={"engineers"} endpoint_field={"name"}
+                                                value={state.engineer_id}
+                                                required={true}
                                                 onChange={changeField} />
                                         </Col>
                                         <Col lg={12}>
