@@ -25,6 +25,7 @@ services:
 
   # Backend - LARAVEL
   php:
+    platform: linux/amd64
     container_name: 3marias_app
     image: wilsonjunior/busquei:1.3
     volumes:
