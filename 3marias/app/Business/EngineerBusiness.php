@@ -64,7 +64,7 @@ class EngineerBusiness {
         $newEngineer->validate(rules: Engineer::$rules, rulesMessages: Engineer::$rulesMessages);
 
         $engineerUpdated = UpdateUtils::processFieldsToBeUpdated($engineer, $request->all(), Engineer::$fieldsToBeUpdated);
-        $this->existsEntity(name: $engineerUpdated["product"], id: $id);
+        $this->existsEntity(name: $engineerUpdated["name"], id: $id);
 
         Logger::info("Atualizando as informações do engenheiro.");
         $engineerUpdated->save();

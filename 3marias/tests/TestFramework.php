@@ -287,6 +287,7 @@ abstract class TestFramework extends TestCase
             "proposal_date" => date('Y-m-d'),
             "description" => $this->generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
@@ -752,6 +753,7 @@ abstract class TestFramework extends TestCase
     }
 
     public function createContract(int $proposalId = 1) {
+        $this->createEngineer();
         $this->createProposal();
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -777,7 +779,8 @@ abstract class TestFramework extends TestCase
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this

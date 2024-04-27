@@ -41,7 +41,6 @@ class EngineerController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            echo json_encode($e);
             return ResponseUtils::getErrorResponse();
         }
     }

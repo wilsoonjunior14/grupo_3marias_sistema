@@ -437,6 +437,7 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
