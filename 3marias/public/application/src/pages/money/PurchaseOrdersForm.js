@@ -26,6 +26,7 @@ const PurchaseOrdersForm = ({}) => {
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [itemsSelected, setItemsSelected] = useState([]);
     const [products, setProducts] = useState([]);
+    const [loadingProducts, setLoadingProducts] = useState(false);
     const [productSelected, setProductSelected] = useState({});
     const [leaveHappened, setLeaveHappened] = useState(false);
     const [resetScreen, setResetScreen] = useState(false);
@@ -106,14 +107,14 @@ const PurchaseOrdersForm = ({}) => {
     };
 
     const getProducts = () => {
-        setLoading(true);
+        setLoadingProducts(true);
         performRequest("GET", "/v1/products", null)
         .then((successGetProducts))
-        .catch((err) => setLoading(false));
+        .catch((err) => setLoadingProducts(false));
     }
 
     const successGetProducts = (response) => {
-        setLoading(false);
+        setLoadingProducts(false);
         setProducts(response.data);
     }
 
@@ -367,7 +368,7 @@ const PurchaseOrdersForm = ({}) => {
                                                         <Card.Title>
                                                             Produtos
                                                         </Card.Title>
-                                                        {loading &&
+                                                        {loadingProducts &&
                                                             <Row>
                                                                 <Col xs={4}></Col>
                                                                 <Col xs={4}>
@@ -376,7 +377,7 @@ const PurchaseOrdersForm = ({}) => {
                                                                 <Col xs={4}></Col>
                                                             </Row>
                                                         }
-                                                        {!loading &&
+                                                        {!loadingProducts &&
                                                         <Row>
                                                             <Col>
                                                                 <Table>

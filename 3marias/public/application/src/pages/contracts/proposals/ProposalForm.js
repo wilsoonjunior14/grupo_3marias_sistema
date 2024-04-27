@@ -104,12 +104,11 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "construction_type", value: proposal.construction_type}});
             onChangeField({target: {name: "discount", value: proposal.discount}});
             onChangeField({target: {name: "increase", value: proposal.increase}});
-            const number = proposal.address.number && proposal.address.number > 0 ? proposal.address.number : 1;
             onChangeField({target: {name: "city_id", value: proposal.address.city_id}});
             onChangeField({target: {name: "neighborhood", value: proposal.address.neighborhood}});
             onChangeField({target: {name: "address", value: proposal.address.address}});
             onChangeField({target: {name: "zipcode", value: proposal.address.zipcode}});
-            onChangeField({target: {name: "number", value: number}});
+            onChangeField({target: {name: "number", value: proposal.address.number}});
             onChangeField({target: {name: "complement", value: proposal.address.complement}});
 
             proposal.payments.forEach((p) => {
@@ -455,7 +454,7 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "bank", value: ""}});
             onChangeField({target: {name: "bank_payment_description", value: ""}});
             setHttpSuccess({message: "Pagamento Adicionado com Sucesso!"});
-            setRefreshBankPayment(false);
+            setRefreshBankPayment(true);
             setTimeout(() => {
                 setRefreshBankPayment(false);
             }, 10);
