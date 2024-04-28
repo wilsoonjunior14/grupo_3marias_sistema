@@ -138,7 +138,7 @@ export default function PurchaseOrdersList() {
                                 <tbody>
                                     {purchase && purchase.items.map((item) => 
                                     <tr>
-                                        <td>{item.product_id}</td>
+                                        <td>{item.product.product}</td>
                                         <td>{item.quantity}</td>
                                         <td>{getMoney(item.value.toString().replace(".", ","))}</td>
                                         <td>{getMoney((item.value * item.quantity).toString().replace(".", ","))}</td>

@@ -287,7 +287,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                 {tableFields.bodyFields.map((field) => 
                                                     getTDField(item, field)
                                                 )}
-                                                <td className="options">
+                                                <td key={"options"} className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
                                                             <TableButton

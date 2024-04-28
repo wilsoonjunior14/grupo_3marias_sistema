@@ -11,7 +11,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
     useEffect(() => {
         if (items.length === 0 && !loading) {
             if (data) {
-                setItems(data.map((item => {return {id: item.toString().toUpperCase(), name: item.toString().toUpperCase()}})));
+                setItems(data.map((item => {return {id: item.toString(), name: item.toString().toUpperCase()}})));
             } else {
                 loadItems();
             }
@@ -28,7 +28,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
 
     const successGet = (response) => {
         setLoading(false);
-        setItems(response.data);
+        setItems(response.data.map((item => {return {id: item.id.toString(), name: item[endpoint_field].toString().toUpperCase()}})));
     };
 
     const errorGet = (response) => {

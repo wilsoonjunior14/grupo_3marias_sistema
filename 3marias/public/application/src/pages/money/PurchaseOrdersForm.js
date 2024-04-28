@@ -29,10 +29,10 @@ const PurchaseOrdersForm = ({}) => {
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [productSelected, setProductSelected] = useState({});
     const [leaveHappened, setLeaveHappened] = useState(false);
-    const [resetScreen, setResetScreen] = useState(false);
     const [resetTable, setResetTable] = useState(false);
     const [loadingPurchase, setLoadingPurchase] = useState(false);
     const [items, setItems] = useState([]);
+    const [resetScreen, setResetScreen] = useState(false);
     const parameters = useParams();
     const initialState = {};
 
@@ -307,6 +307,7 @@ const PurchaseOrdersForm = ({}) => {
             }
             <Row>
                 <Col>
+                    {!resetScreen &&
                     <Form id="purchaseOrderForm" noValidate={true} onSubmit={onSubmit}>
                         <Card>
                             <Card.Body>
@@ -425,7 +426,7 @@ const PurchaseOrdersForm = ({}) => {
                                                                     </thead>
                                                                     <tbody onDragLeave={() => {setLeaveHappened(true)}}>
                                                                         {itemsSelected.map((item) => 
-                                                                            <tr>
+                                                                            <tr key={item.product}>
                                                                                 <td>
                                                                                     <CustomInput
                                                                                         placeholder="Produto" 
@@ -498,6 +499,7 @@ const PurchaseOrdersForm = ({}) => {
                             </Card.Body>
                         </Card>
                     </Form>
+                    }
                 </Col>
             </Row>
         </Container>
