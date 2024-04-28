@@ -42,7 +42,7 @@ class PurchaseOrderBusiness {
         $purchases = (new PurchaseOrder())->getAll("date");
         $amount = count($purchases);
         foreach ($purchases as $purchase) {
-            $purchase->items = (new PurchaseOrderItem())->getByPurchaseOrder(id: $purchase->id);
+            $purchase->items = (new PurchaseOrderItemBusiness())->getByPurchaseId(id: $purchase->id);
             $purchase->value = $this->getTotal(items: $purchase->items);
             $this->setStatusIcon(purchase: $purchase);
         }
