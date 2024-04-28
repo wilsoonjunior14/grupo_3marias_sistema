@@ -30,5 +30,13 @@ Cypress.Commands.add('login', (email, password) => {
         cy.get('#passwordInput').type(password);
     }
     cy.get('.custom-btn').click();
-    cy.wait(8000);
+    cy.wait(30000);
+})
+
+Cypress.Commands.add('doLogin', () => {
+    cy.visit("http://localhost:3000");
+    cy.get('#emailInput').type("wjunior_msn@hotmail.com");
+    cy.get('#passwordInput').type("12345");
+    cy.get('.custom-btn').click();
+    cy.wait(30000);
 })
