@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Home.css";
 import Birthdate from "./Birthdate";
+import Observability from "./Observability";
 
 export default function Home() {
     return (
@@ -15,6 +16,9 @@ export default function Home() {
                 <Row>
                     <Col xs={4}>
                         <Birthdate />
+                    </Col>
+                    <Col xs={8}>
+                        <Observability />
                     </Col>
                 </Row>
             </Container>
