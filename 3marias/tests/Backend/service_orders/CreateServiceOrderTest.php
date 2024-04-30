@@ -502,6 +502,7 @@ class CreateServiceOrderTest extends TestFramework
         $this->createService();
         $this->createStock();
         $this->createContract();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $deleteStockResponse = $this
         ->withHeaders(parent::getHeaders())
@@ -519,7 +520,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -704,6 +706,7 @@ class CreateServiceOrderTest extends TestFramework
     public function negTest_createServiceOrder_with_services_with_deleted_service_id(): void {
         $service = $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $DeleteServiceResponse = $this
         ->withHeaders(parent::getHeaders())
@@ -724,7 +727,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -785,6 +789,7 @@ class CreateServiceOrderTest extends TestFramework
     public function posTest_createServiceOrder_with_one_service(): void {
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -793,7 +798,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -808,6 +814,7 @@ class CreateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => $model->partner_id,
                 "status" => 0,
                 "id" => 1
             ]
@@ -822,6 +829,7 @@ class CreateServiceOrderTest extends TestFramework
             "quantity" => $model->quantity,
             "service_id" => $model->service_id,
             "cost_center_id" => $model->cost_center_id,
+            "partner_id" => $model->partner_id,
             "status" => 0,
             "id" => 1
         ]);
@@ -832,6 +840,7 @@ class CreateServiceOrderTest extends TestFramework
         $this->createService();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -840,7 +849,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $model2 = new ServiceOrder();
         $model2
@@ -849,7 +859,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(100.00)
             ->withQuantity(10)
             ->withServiceId(2)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $model3 = new ServiceOrder();
         $model3
@@ -858,7 +869,8 @@ class CreateServiceOrderTest extends TestFramework
             ->withValue(200.00)
             ->withQuantity(5)
             ->withServiceId(2)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())

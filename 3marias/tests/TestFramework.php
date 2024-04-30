@@ -387,6 +387,7 @@ abstract class TestFramework extends TestCase
     public function createServiceOrder() {
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -395,7 +396,8 @@ abstract class TestFramework extends TestCase
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())

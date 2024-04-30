@@ -31,6 +31,7 @@ class UpdateServiceOrderTest extends TestFramework
         $this->createServiceOrder();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -40,7 +41,8 @@ class UpdateServiceOrderTest extends TestFramework
             ->withStatus(1)
             ->withQuantity(1)
             ->withServiceId(2)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(2);
 
         $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(200);
@@ -52,6 +54,7 @@ class UpdateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => $model->partner_id,
                 "status" => 1,
                 "id" => 1
             ]
@@ -72,6 +75,7 @@ class UpdateServiceOrderTest extends TestFramework
         $this->createServiceOrder();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -81,7 +85,8 @@ class UpdateServiceOrderTest extends TestFramework
             ->withStatus(2)
             ->withQuantity(1)
             ->withServiceId(2)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(2);
 
         $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(200);
@@ -93,6 +98,7 @@ class UpdateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => 2,
                 "status" => 2,
                 "id" => 1
             ]
@@ -113,6 +119,7 @@ class UpdateServiceOrderTest extends TestFramework
         $this->createServiceOrder();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -122,7 +129,8 @@ class UpdateServiceOrderTest extends TestFramework
             ->withStatus(0)
             ->withQuantity(1)
             ->withServiceId(2)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(2);
 
         $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(200);
@@ -134,6 +142,7 @@ class UpdateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => $model->partner_id,
                 "status" => 0,
                 "id" => 1
             ]
@@ -148,17 +157,18 @@ class UpdateServiceOrderTest extends TestFramework
             "quantity" => $model->quantity,
             "service_id" => $model->service_id,
             "cost_center_id" => $model->cost_center_id,
+            "partner_id" => $model->partner_id,
             "status" => 0,
             "id" => 1
         ]);
     }
 
-    // TODO: THIS TEST NEED CHECK THE COST CENTER VALUE AT THE END
     #[Test]
     public function posTest_updateServiceOrder_approveOrder(): void {
         $this->createServiceOrder();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -168,7 +178,8 @@ class UpdateServiceOrderTest extends TestFramework
             ->withStatus(2)
             ->withQuantity(1)
             ->withServiceId(2)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(2);
 
         $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(200);
@@ -180,6 +191,7 @@ class UpdateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => $model->partner_id,
                 "status" => 2,
                 "id" => 1
             ]
@@ -194,6 +206,7 @@ class UpdateServiceOrderTest extends TestFramework
             "quantity" => $model->quantity,
             "service_id" => $model->service_id,
             "cost_center_id" => $model->cost_center_id,
+            "partner_id" => $model->partner_id,
             "status" => 2,
             "id" => 1
         ]);
@@ -231,6 +244,7 @@ class UpdateServiceOrderTest extends TestFramework
         $this->createServiceOrder();
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -240,7 +254,8 @@ class UpdateServiceOrderTest extends TestFramework
             ->withStatus(1)
             ->withQuantity(1)
             ->withServiceId(2)
-            ->withCostCenterId(2);
+            ->withCostCenterId(2)
+            ->withPartnerId(2);
 
         $response = $this->sendPutRequest($this->url . "/1", $model, $this->getHeaders());
         $response->assertStatus(200);
@@ -252,6 +267,7 @@ class UpdateServiceOrderTest extends TestFramework
                 "quantity" => $model->quantity,
                 "service_id" => $model->service_id,
                 "cost_center_id" => $model->cost_center_id,
+                "partner_id" => $model->partner_id,
                 "status" => 1,
                 "id" => 1
             ]
@@ -266,6 +282,7 @@ class UpdateServiceOrderTest extends TestFramework
             "quantity" => $model->quantity,
             "service_id" => $model->service_id,
             "cost_center_id" => $model->cost_center_id,
+            "partner_id" => $model->partner_id,
             "status" => 1,
             "id" => 1
         ]);

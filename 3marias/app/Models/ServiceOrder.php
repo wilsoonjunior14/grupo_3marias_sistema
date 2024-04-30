@@ -6,10 +6,11 @@ class ServiceOrder extends BaseModel
 {
     protected $table = "service_orders";
     protected $fillable = ["id", 
-    "description", "date", "status", "service_id", "quantity", "value", "cost_center_id",
+    "description", "date", "status", "service_id", "quantity", "value", "cost_center_id", "partner_id",
     "deleted", "created_at", "updated_at"];
 
-    static $fieldsToBeUpdated = ["description", "date", "status", "service_id", "quantity", "value", "cost_center_id",];
+    static $fieldsToBeUpdated = ["description", "date", "status", "service_id", 
+    "quantity", "value", "cost_center_id", "partner_id"];
 
     static $rules = [
         'description' => 'required|max:100|min:3|string',
@@ -18,7 +19,8 @@ class ServiceOrder extends BaseModel
         'service_id' => 'required|integer|gt:0|exists:services,id',
         'date' => 'required|date|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
         'status' => 'required|in:0,1,2',
-        'cost_center_id' => 'required|integer|gt:0|exists:cost_centers,id'
+        'cost_center_id' => 'required|integer|gt:0|exists:cost_centers,id',
+        'partner_id' => 'required|integer|gt:0|exists:partners,id'
     ];
 
     static $rulesMessages = [
@@ -44,7 +46,11 @@ class ServiceOrder extends BaseModel
         'cost_center_id.gt' => 'Campo Identificador do Centro de Custo está inválido.',
         'cost_center_id.exists' => 'Campo Identificador do Centro de Custo não existe.',
         'status.required' => 'Campo Status da Ordem de Serviço é obrigatório.',
-        'status.in' => 'Campo Status da Ordem de Serviço está inválido.'
+        'status.in' => 'Campo Status da Ordem de Serviço está inválido.',
+        'partner_id.required' => 'Campo Identificador do Parceiro/Fornecedor é obrigatório.',
+        'partner_id.integer' => 'Campo Identificador do Parceiro/Fornecedor está inválido.',
+        'partner_id.gt' => 'Campo Identificador do Parceiro/Fornecedor está inválido.',
+        'partner_id.exists' => 'Campo Identificador do Parceiro/Fornecedor não existe.',
     ];
 
     public function getServiceByStock(int $id) {
@@ -82,6 +88,11 @@ class ServiceOrder extends BaseModel
 
     public function withCostCenterId($cost_center_id) {
         $this->cost_center_id = $cost_center_id;// @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withPartnerId($partnerId) {
+        $this->partner_id = $partnerId;// @phpstan-ignore-line
         return $this;
     }
 
