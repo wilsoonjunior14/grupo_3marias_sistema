@@ -1068,6 +1068,7 @@ class CreateContractTest extends TestFramework
 
     #[Test]
     public function negTest_createContract_with_non_existing_proposal_id(): void {
+        $this->createEngineer();
         $payload = [
             "building_type" => parent::generateRandomString(),
             "description" => parent::generateRandomString(),
@@ -1078,7 +1079,8 @@ class CreateContractTest extends TestFramework
             "witness_one_cpf" => parent::generateRandomCpf(),
             "witness_two_name" => parent::generateRandomString(),
             "witness_two_cpf" => parent::generateRandomCpf(),
-            "proposal_id" => 100
+            "proposal_id" => 100,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1095,6 +1097,7 @@ class CreateContractTest extends TestFramework
 
     #[Test]
     public function negTest_createContract_with_invalid_proposal_id(): void {
+        $this->createEngineer();
         $payload = [
             "building_type" => parent::generateRandomString(),
             "description" => parent::generateRandomString(),
@@ -1105,7 +1108,8 @@ class CreateContractTest extends TestFramework
             "witness_one_cpf" => parent::generateRandomCpf(),
             "witness_two_name" => parent::generateRandomString(),
             "witness_two_cpf" => parent::generateRandomCpf(),
-            "proposal_id" => 0
+            "proposal_id" => 0,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1124,6 +1128,7 @@ class CreateContractTest extends TestFramework
     public function negTest_createContract_with_proposal_not_approved(): void {
         parent::createProposal();
         parent::createCity();
+        $this->createEngineer();
 
         $payload = [
             "building_type" => parent::generateRandomString(),
@@ -1139,7 +1144,8 @@ class CreateContractTest extends TestFramework
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1158,6 +1164,7 @@ class CreateContractTest extends TestFramework
     public function negTest_createContract_with_proposal_rejected(): void {
         parent::createProposal();
         parent::createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1182,7 +1189,8 @@ class CreateContractTest extends TestFramework
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1201,6 +1209,7 @@ class CreateContractTest extends TestFramework
     public function negTest_createContract_with_proposal_deleted(): void {
         parent::createProposal();
         parent::createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1225,7 +1234,8 @@ class CreateContractTest extends TestFramework
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1244,6 +1254,7 @@ class CreateContractTest extends TestFramework
     public function posTest_createContract(): void {
         parent::createProposal();
         parent::createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1267,7 +1278,8 @@ class CreateContractTest extends TestFramework
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this
