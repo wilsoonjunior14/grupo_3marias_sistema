@@ -28,6 +28,7 @@ const ServiceOrdersForm = ({}) => {
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [itemsSelected, setItemsSelected] = useState([]);
     const [products, setProducts] = useState([]);
+    const [partners, setPartners] = useState([]);
     const [productSelected, setProductSelected] = useState({});
     const [leaveHappened, setLeaveHappened] = useState(false);
     const [resetScreen, setResetScreen] = useState(false);
@@ -48,9 +49,11 @@ const ServiceOrdersForm = ({}) => {
     const onAddServiceOrder = () => {
         const findService = services.find((s) => s.id.toString() === state.service_id);
         const findStock = stocks.find((s) => s.id.toString() === state.cost_center_id);
+        const findPartner = partners.find((s) => s.id.toString() === state.partner_id);
         let payload = {
             service_name: findService.service,
-            stock_name: findStock.name
+            stock_name: findStock.name,
+            partner_name: findPartner.fantasy_name
         };
 
         servicesSelected.push(Object.assign(payload, state));
@@ -66,28 +69,11 @@ const ServiceOrdersForm = ({}) => {
         setHttpError(null);
         getServices();
         getStocks();
+        getPartners();
         if (parameters.id) {
             getServiceOrder(parameters.id);
         }
     }, []);
-
-    const updateItemsSelected = (items) => {
-        const itemsToBeSelected = items.map((item) => {
-            const product = products.filter((p) => p.id === item.product_id);
-            if (product[0]) {
-                var productName = product[0].product;
-            } else {
-                var productName = "Não identificado";
-            }
-            return {
-                id: item.product_id,
-                product: productName,
-                value: item.value.toString().replace(".", ","),
-                quantity: item.quantity
-            };
-        });
-        setItemsSelected(itemsToBeSelected);
-    }
 
     const getServiceOrder = (id) => {
         setLoadingOrder(true);
@@ -131,6 +117,16 @@ const ServiceOrdersForm = ({}) => {
         .catch((err) => {});
     }
 
+    const getPartners = () => {
+        performRequest("GET", "/v1/partners", null)
+        .then((successGetPartners))
+        .catch((err) => {});
+    }
+
+    const successGetPartners = (res) => {
+        setPartners(res.data);
+    }
+
     const successGetStocks = (res) => {
         setStocks(res.data);
     }
@@ -171,6 +167,11 @@ const ServiceOrdersForm = ({}) => {
         const costCenterIdValidation = validateRequired(state, "cost_center_id", "Centro de Custo");
         if (costCenterIdValidation) {
             setHttpError(costCenterIdValidation);
+            return false;
+        }
+        const partnerIdValidation = validateRequired(state, "partner_id", "Parceiro/Fornecedor");
+        if (partnerIdValidation) {
+            setHttpError(partnerIdValidation);
             return false;
         }
         const dateValidation = validateDate(state, "date", "Data", true);
@@ -370,7 +371,7 @@ const ServiceOrdersForm = ({}) => {
                                             required={true} 
                                             name="partner_id"
                                             endpoint={"partners"}
-                                            endpoint_field={"name"}
+                                            endpoint_field={"fantasy_name"}
                                             value={state.partner_id}
                                             onChange={changeField} />
                                     </Col>
@@ -382,7 +383,7 @@ const ServiceOrdersForm = ({}) => {
                                             required={true} 
                                             name="cost_center_id"
                                             endpoint={"stocks"}
-                                            endpoint_field={"fantasy_name"}
+                                            endpoint_field={"name"}
                                             value={state.cost_center_id}
                                             onChange={changeField} />
                                     </Col>
@@ -468,6 +469,7 @@ const ServiceOrdersForm = ({}) => {
                                                                             <th>Descrição</th>
                                                                             <th>Serviço</th>
                                                                             <th>Centro de Custo</th>
+                                                                            <th>Parceiro/Fornecedor</th>
                                                                             <th>Quantidade</th>
                                                                             <th>Valor Unitário</th>
                                                                             <th>Opções</th>
@@ -479,6 +481,7 @@ const ServiceOrdersForm = ({}) => {
                                                                                 <td>{item.description}</td>
                                                                                 <td>{item.service_name}</td>
                                                                                 <td>{item.stock_name}</td>
+                                                                                <td>{item.partner_name}</td>
                                                                                 <td>{item.quantity}</td>
                                                                                 <td>R$ {item.value}</td>
                                                                                 <td>

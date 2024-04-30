@@ -20,6 +20,14 @@ import { getMoney } from "../../../services/Utils";
 import TableButton from "../../../components/button/TableButton";
 import Button from "react-bootstrap/esm/Button";
 import NoEntity from "../../../components/table/NoEntity";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import { CategoryScale } from "chart.js";
+import { registerables} from 'chart.js';
+
+ChartJS.register(...registerables);
+ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale);
 
 function StockItems() {
 
@@ -222,8 +230,8 @@ function StockItems() {
                     <Success message={httpSuccess.message} />
                 }
                 <Row>
-                    <Col>
-                        <Card>
+                    <Col xs={6}>
+                        <Card style={{height: 350}}>
                             <Card.Body>
                                 <Card.Title>
                                 {stock.status === "Ativo" &&
@@ -235,6 +243,8 @@ function StockItems() {
                                 
                                 <p>   <b>Centro de Custo: {stock.name}</b></p>
                                 </Card.Title>
+                                {!loading && 
+                                <>
                                 <Row>
                                     <Col xs={12}>
                                         <b>Valor do Contrato: </b> 
@@ -243,13 +253,12 @@ function StockItems() {
                                         <b>Valor do Orçamento Atual: </b>{getMoney(total.toString().replace(".", ","))} 
                                     </Col>
                                 </Row>
-
-                                {!loading && 
                                 <Row>
                                     <Col>
                                         Nesta página você pode gerenciar os produtos do centro de custo.
                                     </Col>
                                 </Row>
+                                </>
                                 }
 
                                 {loading && 
@@ -261,6 +270,74 @@ function StockItems() {
                                     <Col></Col>
                                     </>
                                 }
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col xs={3}>
+                        <Card style={{height: 350}}>
+                            <Card.Body>
+                                <Doughnut
+                                    height={250}
+                                    width={250}
+                                    data={{
+                                        labels: [
+                                        'Orçamento Disponível',
+                                        'Orçamento Gasto',
+                                        ],
+                                        datasets: [{
+                                        label: 'Orçamento',
+                                        data: [50000 - 32500, 32500],
+                                        backgroundColor: [
+                                            'rgba(54, 162, 0, 0.5)',
+                                            'rgba(255, 20, 20, 0.5)',
+                                        ],
+                                        hoverOffset: 4
+                                        }]
+                                    }}
+                                    options={{
+                                    plugins: {
+                                        title: {
+                                        display: true,
+                                        text: "Contrato"
+                                        }
+                                    }
+                                    }}
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col xs={3}>
+                        <Card style={{height: 350}}>
+                            <Card.Body>
+                                <Doughnut
+                                    height={250}
+                                    width={250}
+                                    data={{
+                                        labels: [
+                                        'Orçamento Disponível',
+                                        'Serviços',
+                                        'Compras'
+                                        ],
+                                        datasets: [{
+                                        label: 'Orçamento',
+                                        data: [50000, 22500, 15200],
+                                        backgroundColor: [
+                                            'rgba(54, 162, 0, 0.5)',
+                                            'rgba(255, 150, 150, 0.5)',
+                                            'rgba(255, 0, 0, 0.5)',
+                                        ],
+                                        hoverOffset: 4
+                                        }]
+                                    }}
+                                    options={{
+                                    plugins: {
+                                        title: {
+                                        display: true,
+                                        text: "Contrato"
+                                        }
+                                    }
+                                    }}
+                                />
                             </Card.Body>
                         </Card>
                     </Col>

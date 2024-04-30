@@ -3,7 +3,6 @@ import "../../App.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import Loading from "../../components/loading/Loading";
 import { performRequest } from '../../services/Api';
 import "./Home.css";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -19,104 +18,17 @@ ChartJS.register(CategoryScale);
 export default function Observability() {
 
     const [loadingMetrics, setLoadingMetrics] = useState(false);
-    const [errorMetrics, setErrorMetrics] = useState({
-        labels: ['Erro 4XX', 'Erro 5XX'],
-        datasets: [
-            {
-            label: 'My First Dataset',
-            data: [0, 0],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-            },
-            {
-                label: 'My Second Dataset',
-                data: [0, 0],
-                fill: false,
-                borderColor: 'rgb(0, 0, 155)',
-                tension: 0.1
-            }
-        ]
-    });
-    const [cpuMetrics, setCPUMetrics] = useState({
-        labels: ['Erro 4XX', 'Erro 5XX'],
-        datasets: [
-            {
-            label: 'My First Dataset',
-            data: [0, 0],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-            },
-            {
-                label: 'My Second Dataset',
-                data: [0, 0],
-                fill: false,
-                borderColor: 'rgb(0, 0, 155)',
-                tension: 0.1
-            }
-        ]
-    });
-
-    const [memoryMetrics, setMemoryMetrics] = useState({
-        labels: ['Erro 4XX', 'Erro 5XX'],
-        datasets: [
-            {
-            label: 'My First Dataset',
-            data: [0, 0],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-            },
-            {
-                label: 'My Second Dataset',
-                data: [0, 0],
-                fill: false,
-                borderColor: 'rgb(0, 0, 155)',
-                tension: 0.1
-            }
-        ]
-    });
-
-    const [diskMetrics, setDiskMetrics] = useState({
-        labels: ['Erro 4XX', 'Erro 5XX'],
-        datasets: [
-            {
-            label: 'My First Dataset',
-            data: [0, 0],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-            },
-            {
-                label: 'My Second Dataset',
-                data: [0, 0],
-                fill: false,
-                borderColor: 'rgb(0, 0, 155)',
-                tension: 0.1
-            }
-        ]
-    });
-
-    const data = {
-        labels: ['Erro 4XX', 'Erro 5XX'],
-        datasets: [
-            {
-            label: 'My First Dataset',
-            data: [1, 10],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-            },
-            {
-                label: 'My Second Dataset',
-                data: [5, 35],
-                fill: false,
-                borderColor: 'rgb(0, 0, 155)',
-                tension: 0.1
-            }
-        ]
+    const initialMetrics = {
+        labels: [],
+        datasets: []
     };
+    const [errorMetrics, setErrorMetrics] = useState(initialMetrics);
+    const [cpuMetrics, setCPUMetrics] = useState(initialMetrics);
+    const [cpuAverage, setCPUAverage] = useState(null);
+    const [memoryMetrics, setMemoryMetrics] = useState(initialMetrics);
+    const [memoryAverage, setMemoryAverage] = useState(null);
+    const [diskMetrics, setDiskMetrics] = useState(initialMetrics);
+    const [diskAverage, setDiskAverage] = useState(null);
 
     const onGetMetrics = () => {
         setLoadingMetrics(true);
@@ -163,57 +75,47 @@ export default function Observability() {
     }
 
     const mountCPUUsageMetrics = (res) => {
-        const cpuData = res.data.server_metrics.filter((item) => item.metric_name === "cpu_usage");
-        const labels = cpuData.map((item) => formatHour(item.created_at));
-        const data = cpuData.map((item) => item.metric_value);
-        setCPUMetrics({
-            labels: labels,
-            datasets: [
-                {
-                label: 'CPU %',
-                data: data,
-                fill: false,
-                borderColor: 'rgba(0, 99, 255, 0.5)',
-                tension: 0.1
-                }
-            ]
-        });
+        const metrics = mountMetrics("CPU %", "cpu_usage", res);
+        setCPUMetrics(metrics.chartData);
+        setCPUAverage(metrics.average);
     }
 
     const mountMemoryUsageMetrics = (res) => {
-        const memoryData = res.data.server_metrics.filter((item) => item.metric_name === "memory_usage");
-        const labels = memoryData.map((item) => formatHour(item.created_at));
-        const data = memoryData.map((item) => item.metric_value);
-        setMemoryMetrics({
-            labels: labels,
-            datasets: [
-                {
-                label: 'Uso de Memória %',
-                data: data,
-                fill: false,
-                borderColor: 'rgba(0, 99, 255, 0.5)',
-                tension: 0.1
-                }
-            ]
-        });
+        const metrics = mountMetrics("Uso de Memória %", "memory_usage", res);
+        setMemoryMetrics(metrics.chartData);
+        setMemoryAverage(metrics.average);
     }
 
     const mountDiskSpaceMetrics = (res) => {
-        const memoryData = res.data.server_metrics.filter((item) => item.metric_name === "disk_free_space");
-        const labels = memoryData.map((item) => formatHour(item.created_at));
-        const data = memoryData.map((item) => item.metric_value);
-        setDiskMetrics({
-            labels: labels,
-            datasets: [
-                {
-                label: 'Espaço Livre em Disco %',
-                data: data,
-                fill: false,
-                borderColor: 'rgba(255, 99, 90, 0.5)',
-                tension: 0.1
-                }
-            ]
+        const metrics = mountMetrics("Espaço Livre em Disco %", "disk_free_space", res);
+        setDiskMetrics(metrics.chartData);
+        setDiskAverage(metrics.average);
+    }
+
+    const mountMetrics = (label, fieldName, res) => {
+        const metricData = res.data.server_metrics.filter((item) => item.metric_name === fieldName);
+        const labels = metricData.map((item) => formatHour(item.created_at));
+        const data = metricData.map((item) => item.metric_value);
+
+        let total = 0;
+        data.forEach(element => {
+            total += parseFloat(element);
         });
+        return {
+            average: total / data.length,
+            chartData: {
+                labels: labels,
+                datasets: [
+                    {
+                    label: label,
+                    data: data,
+                    fill: false,
+                    borderColor: 'rgba(0, 99, 255, 0.5)',
+                    tension: 0.1
+                    }
+                ]
+            }
+        };
     }
 
     useEffect(() => {
@@ -224,6 +126,7 @@ export default function Observability() {
         <>
             {!loadingMetrics &&
             <Row>
+                {cpuAverage !== null &&
                 <Col xs={12} lg={4}>
                     <Card>
                         <Card.Body>
@@ -232,12 +135,12 @@ export default function Observability() {
                                 width={250}
                                 data={{
                                     labels: [
-                                      'Red',
-                                      'Green',
+                                      'Utilizado',
+                                      'Disponível',
                                     ],
                                     datasets: [{
                                       label: 'CPU % Média',
-                                      data: [0.77, 100 - 0.77],
+                                      data: [cpuAverage, 100 - cpuAverage],
                                       backgroundColor: [
                                         'rgba(255, 99, 90, 0.5)',
                                         'rgba(54, 162, 0, 0.5)',
@@ -257,6 +160,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {memoryAverage !== null &&
                 <Col xs={12} lg={4}>
                     <Card>
                         <Card.Body>
@@ -265,12 +170,12 @@ export default function Observability() {
                                 width={250}
                                 data={{
                                     labels: [
-                                      'Red',
-                                      'Green',
+                                      'Utilizado',
+                                      'Disponível',
                                     ],
                                     datasets: [{
                                       label: 'Memória % Média',
-                                      data: [22.5, 100 - 22.5],
+                                      data: [memoryAverage, 100 - memoryAverage],
                                       backgroundColor: [
                                         'rgba(255, 99, 90, 0.5)',
                                         'rgba(54, 162, 0, 0.5)',
@@ -290,6 +195,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {diskAverage !== null &&
                 <Col xs={12} lg={4}>
                     <Card>
                         <Card.Body>
@@ -298,12 +205,12 @@ export default function Observability() {
                                 width={250}
                                 data={{
                                     labels: [
-                                      'Red',
-                                      'Green',
+                                      'Utilizado',
+                                      'Disponível',
                                     ],
                                     datasets: [{
                                       label: 'Espaço em Disco % Média',
-                                      data: [47.5, 100 - 47.5],
+                                      data: [diskAverage, 100 - diskAverage],
                                       backgroundColor: [
                                         'rgba(255, 99, 90, 0.5)',
                                         'rgba(54, 162, 0, 0.5)',
@@ -323,6 +230,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {cpuAverage !== null &&
                 <Col xs={12} lg={6}>
                     <Card>
                         <Card.Body>
@@ -342,6 +251,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {memoryMetrics &&
                 <Col xs={12} lg={6}>
                     <Card>
                         <Card.Body>
@@ -361,6 +272,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {diskMetrics &&
                 <Col xs={12} lg={6}>
                     <Card>
                         <Card.Body>
@@ -380,6 +293,8 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
+                {errorMetrics && errorMetrics.labels.length > 0 &&
                 <Col xs={12} lg={6}>
                     <Card>
                         <Card.Body>
@@ -399,6 +314,7 @@ export default function Observability() {
                         </Card.Body>
                     </Card>
                 </Col>
+                }
             </Row>
             }
         </>
