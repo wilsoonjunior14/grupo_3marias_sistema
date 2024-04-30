@@ -24,7 +24,6 @@ class ClientController extends Controller implements APIController
     public function getBirthdates() {
         try {
             $clients = $this->clientBusiness->getClientsBirthdate();
-            echo json_encode($clients);
             return ResponseUtils::getResponse($clients, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());

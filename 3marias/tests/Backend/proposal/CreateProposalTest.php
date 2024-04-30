@@ -26,6 +26,61 @@ class CreateProposalTest extends TestFramework
     }
 
     #[Test]
+    public function negTest_createProposal_with_increase_and_discount_and_global_value_different_of_payments(): void {
+        $client = $this->createClient();
+        $project = $this->createProject();
+        $this->createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "global_value" => 200000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 3000.00,
+            "increase" => 5000.00,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 50000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 23000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 125000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Banco"
+                ]
+            ]
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "O valor global da proposta diverge dos valores dos pagamentos fornecidos. Diferença de R$ -6000"
+        ]);
+    }
+
+    #[Test]
     public function posTest_createProposal_with_only_client_payments(): void {
         $client = parent::createClient();
         $project = parent::createProject();

@@ -100,6 +100,7 @@ class ContractBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        (new EngineerBusiness())->getById(id: $data["engineer_id"]);
 
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $data["proposal_id"], mergeFields: false);
@@ -151,8 +152,9 @@ class ContractBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do contrato.");
+        $data = $request->all();
         $contract = (new Contract())->getById($id);
-        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $request->all(), Contract::$fieldsToBeUpdated);
+        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $data, Contract::$fieldsToBeUpdated);
         $contractUpdated->code = $contract->code;
 
         Logger::info("Validando as informações do contrato.");
@@ -161,6 +163,7 @@ class ContractBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        (new EngineerBusiness())->getById(id: $data["engineer_id"]);
 
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $contractUpdated["proposal_id"], mergeFields: false);
