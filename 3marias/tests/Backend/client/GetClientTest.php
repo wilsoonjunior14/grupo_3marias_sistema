@@ -4,6 +4,7 @@ namespace Tests\Feature\user;
 
 use App\Models\Client;
 use App\Utils\ErrorMessage;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
@@ -171,6 +172,7 @@ class GetClientTest extends TestFramework
 
     #[Test]
     public function posTest_getClientBirthdates_many_results(): void {
+        $month = Carbon::now()->format('m');
         $this->createClient();
         $this->createClient();
         $this->createClient();
@@ -179,7 +181,7 @@ class GetClientTest extends TestFramework
         $client1
             ->withName("a" . $this->generateRandomString())
             ->withCPF($this->generateRandomCpf())
-            ->withBirthdate(date('Y-m-d'))
+            ->withBirthdate("1990-$month-01")
             ->withPhone($this->generateRandomPhoneNumber());
         $this->createClientByModel(client: $client1);
 
@@ -187,7 +189,7 @@ class GetClientTest extends TestFramework
         $client2
             ->withName("b" . $this->generateRandomString())
             ->withCPF($this->generateRandomCpf())
-            ->withBirthdate(date('Y-m-d', strtotime(date('Y-m-d'). ' - 365 days')))
+            ->withBirthdate("2000-$month-15")
             ->withPhone($this->generateRandomPhoneNumber());
         $this->createClientByModel(client: $client2);
 
@@ -195,7 +197,7 @@ class GetClientTest extends TestFramework
         $client3
             ->withName("c" . $this->generateRandomString())
             ->withCPF($this->generateRandomCpf())
-            ->withBirthdate(date('Y-m-d', strtotime(date('Y-m-d'). ' - 730 days')))
+            ->withBirthdate("1995-$month-24")
             ->withPhone($this->generateRandomPhoneNumber());
         $this->createClientByModel(client: $client3);
 
