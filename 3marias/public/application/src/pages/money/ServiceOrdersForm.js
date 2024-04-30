@@ -364,6 +364,18 @@ const ServiceOrdersForm = ({}) => {
                                     </Col>
                                     <Col xs={4}>
                                         <CustomInput 
+                                            key="partner_id" 
+                                            placeholder="Parceiro/Fornecedor *" 
+                                            type="select"
+                                            required={true} 
+                                            name="partner_id"
+                                            endpoint={"partners"}
+                                            endpoint_field={"name"}
+                                            value={state.partner_id}
+                                            onChange={changeField} />
+                                    </Col>
+                                    <Col xs={4}>
+                                        <CustomInput 
                                             key="cost_center_id" 
                                             placeholder="Centro de Custo *" 
                                             type="select"
@@ -389,6 +401,7 @@ const ServiceOrdersForm = ({}) => {
                                     </Col>
                                 </Row>
                                 }
+                                <br></br>
                                 {loadingOrder &&
                                     <Row>
                                         <Col xs={5}></Col>

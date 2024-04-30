@@ -786,6 +786,130 @@ class CreateServiceOrderTest extends TestFramework
     }
 
     #[Test]
+    public function negTest_createServiceOrder_without_partner_id(): void {
+        $this->createService();
+        $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1);
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post($this->url, ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador do Parceiro/Fornecedor é obrigatório."
+        ]);
+    }
+
+    #[Test]
+    public function negTest_createServiceOrder_with_invalid_partner_id(): void {
+        $this->createService();
+        $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1)
+            ->withPartnerId(0);
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post($this->url, ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador do Parceiro/Fornecedor está inválido."
+        ]);
+    }
+
+    #[Test]
+    public function negTest_createServiceOrder_with_wrong_type_partner_id(): void {
+        $this->createService();
+        $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1)
+            ->withPartnerId($this->generateRandomLetters());
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post($this->url, ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador do Parceiro/Fornecedor está inválido."
+        ]);
+    }
+
+    #[Test]
+    public function negTest_createServiceOrder_with_non_existing_partner_id(): void {
+        $this->createService();
+        $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1)
+            ->withPartnerId(10);
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post($this->url, ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador do Parceiro/Fornecedor não existe."
+        ]);
+    }
+
+    #[Test]
+    public function negTest_createServiceOrder_with_empty_partner_id(): void {
+        $this->createService();
+        $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
+
+        $model = new ServiceOrder();
+        $model
+            ->withDescription($this->generateRandomString())
+            ->withDate(date('Y-m-d'))
+            ->withValue(50.00)
+            ->withQuantity(1)
+            ->withServiceId(1)
+            ->withCostCenterId(1)
+            ->withPartnerId("");
+
+        $response = $this
+        ->withHeaders($this->getHeaders())
+        ->post($this->url, ["services" => [UpdateUtils::convertModelToArray(baseModel: $model)]]);
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Identificador do Parceiro/Fornecedor é obrigatório."
+        ]);
+    }
+
+    #[Test]
     public function posTest_createServiceOrder_with_one_service(): void {
         $this->createService();
         $this->createStock();

@@ -1315,6 +1315,57 @@ class UpdateContractTest extends TestFramework
     }
 
     #[Test]
+    public function negTest_createContract_with_deleted_engineer(): void {
+        $this->createContract();
+        parent::createProposal();
+        parent::createCity();
+        $this->createEngineer();
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals/approve/2");
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            "status" => 2
+        ]);
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->delete("/api/v1/engineers/1");
+        $response->assertStatus(200);
+
+        $payload = [
+            "building_type" => parent::generateRandomString(),
+            "description" => parent::generateRandomString(),
+            "meters" => parent::generateRandomString(),
+            "value" => 45000.00,
+            "date" => date('Y-m-d'),
+            "witness_one_name" => parent::generateRandomString(),
+            "witness_one_cpf" => parent::generateRandomCpf(),
+            "witness_two_name" => parent::generateRandomString(),
+            "witness_two_cpf" => parent::generateRandomCpf(),
+            "proposal_id" => 2,
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
+        ];
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/contracts", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson(
+            [
+                "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Engenheiro")
+            ]
+        );
+    }
+
+    #[Test]
     public function negTest_updateContract_with_proposal_deleted(): void {
         $this->createContract();
         $this->createProposal();
