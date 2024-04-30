@@ -34,7 +34,7 @@ export default function StockList() {
             name: "see_items_stock",
             icon: "visibility",
             tooltip: "Ver Itens do Centro de Custo",
-            onClick: (item) => {navigate("/contracts/stocks/items/"+item.id)}
+            onClick: (item) => {navigate("/stocks/items/"+item.id)}
         }
     ];
     
