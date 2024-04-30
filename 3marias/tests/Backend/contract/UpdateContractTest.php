@@ -1165,7 +1165,8 @@ class UpdateContractTest extends TestFramework
 
     #[Test]
     public function negTest_updateContract_with_non_existing_proposal_id(): void {
-        parent::createContract();
+        $this->createContract();
+        $this->createEngineer();
         $payload = [
             "code" => parent::generateRandomString(5),
             "building_type" => parent::generateRandomString(),
@@ -1178,7 +1179,8 @@ class UpdateContractTest extends TestFramework
             "witness_two_name" => parent::generateRandomString(),
             "witness_two_cpf" => parent::generateRandomCpf(),
             "proposal_id" => 100,
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1195,7 +1197,8 @@ class UpdateContractTest extends TestFramework
 
     #[Test]
     public function negTest_updateContract_with_invalid_proposal_id(): void {
-        parent::createContract();
+        $this->createContract();
+        $this->createEngineer();
         $payload = [
             "code" => parent::generateRandomString(5),
             "building_type" => parent::generateRandomString(),
@@ -1208,7 +1211,8 @@ class UpdateContractTest extends TestFramework
             "witness_two_name" => parent::generateRandomString(),
             "witness_two_cpf" => parent::generateRandomCpf(),
             "proposal_id" => 0,
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1225,9 +1229,10 @@ class UpdateContractTest extends TestFramework
        
     #[Test]
     public function negTest_updateContract_with_proposal_not_approved(): void {
-        parent::createContract();
-        parent::createProposal();
-        parent::createCity();
+        $this->createContract();
+        $this->createProposal();
+        $this->createCity();
+        $this->createEngineer();
 
         $payload = [
             "code" => parent::generateRandomString(),
@@ -1245,7 +1250,8 @@ class UpdateContractTest extends TestFramework
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
             "zipcode" => "00000-000",
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1262,9 +1268,10 @@ class UpdateContractTest extends TestFramework
 
     #[Test]
     public function negTest_updateContract_with_proposal_rejected(): void {
-        parent::createContract();
-        parent::createProposal();
-        parent::createCity();
+        $this->createContract();
+        $this->createProposal();
+        $this->createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1291,7 +1298,8 @@ class UpdateContractTest extends TestFramework
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
             "zipcode" => "00000-000",
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1308,9 +1316,10 @@ class UpdateContractTest extends TestFramework
 
     #[Test]
     public function negTest_updateContract_with_proposal_deleted(): void {
-        parent::createContract();
-        parent::createProposal();
-        parent::createCity();
+        $this->createContract();
+        $this->createProposal();
+        $this->createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1337,7 +1346,8 @@ class UpdateContractTest extends TestFramework
             "neighborhood" => parent::generateRandomString(),
             "city_id" => 1,
             "zipcode" => "00000-000",
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
@@ -1354,9 +1364,10 @@ class UpdateContractTest extends TestFramework
 
     #[Test]
     public function posTest_updateContract(): void {
-        parent::createContract();
-        parent::createProposal();
-        parent::createCity();
+        $this->createContract();
+        $this->createProposal();
+        $this->createCity();
+        $this->createEngineer();
 
         $response = $this
         ->withHeaders(parent::getHeaders())
@@ -1383,7 +1394,8 @@ class UpdateContractTest extends TestFramework
             "city_id" => 1,
             "date" => date('Y-m-d'),
             "zipcode" => "00000-000",
-            "address_id" => 1
+            "address_id" => 1,
+            "engineer_id" => 1
         ];
 
         $response = $this
