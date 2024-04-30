@@ -40,3 +40,11 @@ Cypress.Commands.add('doLogin', () => {
     cy.get('.custom-btn').click();
     cy.wait(30000);
 })
+
+Cypress.Commands.add('goToAddClients', () => {
+    cy.doLogin();
+    // Clients List Screen
+    cy.visit("http://localhost:3000/admin/clients");
+    cy.get('[data-tooltip-id="btnAdd"]').should('exist');
+    cy.get('[data-tooltip-id="btnAdd"]').click();    
+})

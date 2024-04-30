@@ -309,7 +309,7 @@ function StockItems() {
                     <Col xs={3}>
                         <Card style={{height: 350}}>
                             <Card.Body>
-                                <Doughnut
+                                <Pie
                                     height={250}
                                     width={250}
                                     data={{
