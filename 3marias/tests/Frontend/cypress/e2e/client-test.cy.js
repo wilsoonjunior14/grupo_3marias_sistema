@@ -1,40 +1,60 @@
-describe('client screen test', () => {
-    it('test create client with required fields', () => {
-      cy.doLogin();
-      
-      // Clients List Screen
-      cy.visit("http://localhost:3000/admin/clients");
-      cy.get('[data-tooltip-id="btnAdd"]').should('exist');
-      cy.get('[data-tooltip-id="btnAdd"]').click();
+import {generateRandomLetters, generateRandomNumbers} from '../support/generators/generators';
+import {gerarCpf} from '../support/generators/cpfgenerator';
 
+describe('client screen test', () => {
+
+  beforeEach(() => {
+    cy.goToAddClients();
+  })
+
+  it('positive test create client with required fields', () => {
+    // Clients Form Screen
+    cy.get('#nameInput').type(generateRandomLetters(20));
+    cy.get('#cpfInput').type(gerarCpf());
+    cy.get('[type="submit"]').click();
+    cy.wait(30000);
+
+    // Clients Form Screen Asserts
+    cy.get('#nameInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#cpfInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('.alert-danger').should('not.exist');
+  })
+
+  it('negative test create client with required fields + short rg', () => {
       // Clients Form Screen
-      cy.get('#nameInput').type('Raimundo Gonçalves');
-      cy.get('#cpfInput').type('346.305.462-00');
+      cy.get('#nameInput').type(generateRandomLetters(20));
+      cy.get('#cpfInput').type(gerarCpf());
+      cy.get('#rgInput').type(generateRandomNumbers(3));
       cy.get('[type="submit"]').click();
       cy.wait(30000);
 
       // Clients Form Screen Asserts
-      cy.get('#nameInput').invoke('val').then(value => expect(value).to.equal(''));
-      cy.get('#cpfInput').invoke('val').then(value => expect(value).to.equal(''));
-      cy.get('.alert-danger').should('not.exist');
+      cy.get('.alert-danger').should('exist');
     })
 
-    it('test create client with required fields + short rg', () => {
-        cy.doLogin();
-        
-        // Clients List Screen
-        cy.visit("http://localhost:3000/admin/clients");
-        cy.get('[data-tooltip-id="btnAdd"]').should('exist');
-        cy.get('[data-tooltip-id="btnAdd"]').click();
-  
-        // Clients Form Screen
-        cy.get('#nameInput').type('Raimundo Gonçalves');
-        cy.get('#cpfInput').type('346.305.462-00');
-        cy.get('#rgInput').type('000');
-        cy.get('[type="submit"]').click();
-        cy.wait(30000);
-  
-        // Clients Form Screen Asserts
-        cy.get('.alert-danger').should('exist');
-      })
+  it('negative test create client with required fields + rg + short rg_organ', () => {
+    // Clients Form Screen
+    cy.get('#nameInput').type(generateRandomLetters(20));
+    cy.get('#cpfInput').type(gerarCpf());
+    cy.get('#rgInput').type(generateRandomNumbers(13));
+    cy.get('#rg_organInput').type(generateRandomLetters(2));
+    cy.get('[type="submit"]').click();
+    cy.wait(30000);
+
+    // Clients Form Screen Asserts
+    cy.get('.alert-danger').should('exist');
   })
+
+  it('negative test create client with required fields + rg + short rg_date', () => {
+    // Clients Form Screen
+    cy.get('#nameInput').type(generateRandomLetters(20));
+    cy.get('#cpfInput').type(gerarCpf());
+    cy.get('#rgInput').type(generateRandomNumbers(13));
+    cy.get('#rg_dateInput').type(generateNumbers(2));
+    cy.get('[type="submit"]').click();
+    cy.wait(30000);
+
+    // Clients Form Screen Asserts
+    cy.get('.alert-danger').should('exist');
+  })
+})
