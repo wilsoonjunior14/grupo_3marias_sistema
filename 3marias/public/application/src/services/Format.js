@@ -31,7 +31,7 @@ export function formatMoney(value) {
     if (!value) {
         return "";
     }
-    const v = Number(value.replace(".", "").replace(",", "."));
+    const v = formatDoubleValue(value);
     return (v).toLocaleString("pt-BR", {style: "currency", currency: "BRL", minimumFractionDigits: 2});
 }
 
