@@ -1,0 +1,15 @@
+.card-birthdate {
+    min-height: 150;
+    background: rgba(54, 162, 0, 0.5) !important;
+    color: white
+}
+
+.card-birthdate-item i {
+    margin-top: -5px;
+}
+
+.card-birthdate-item:hover {
+    cursor: pointer;
+    background: rgba(120, 162, 0, 0.5) !important;
+    color: white;
+}

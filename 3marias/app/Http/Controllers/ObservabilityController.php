@@ -24,8 +24,6 @@ class ObservabilityController extends Controller
         Logger::info("Coletando métricas do sistema.");
 
         $this->storeServerMetrics();
-        $usersMetrics = $this->getUsers();
-        $enterprisesMetrics = $this->getEnterprises();
         $errorsMetrics = $this->getErrorsInfo();
 
         $today = date('Y-m-d');
@@ -33,8 +31,6 @@ class ObservabilityController extends Controller
 
         $metrics = [
             "server_metrics" => $serverMetrics,
-            "user_metrics" => $usersMetrics,
-            "enterprise_metrics" => $enterprisesMetrics,
             "errors_metrics" => $errorsMetrics
         ];
 

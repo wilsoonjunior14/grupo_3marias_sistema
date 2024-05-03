@@ -11,6 +11,15 @@ use App\Validation\ModelValidator;
 
 class StockBusiness {
 
+    // TODO: must be replaced by database operation
+    private function calculateTotalItems($items) {
+        $total = 0;
+        foreach ($items as $item) {
+            $total += $item->quantity * $item->value;
+        }
+        return $total;
+    }
+
     public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Recuperando centro de custo.");
         if ($id <= 0) {
@@ -26,8 +35,21 @@ class StockBusiness {
         }
         Logger::info("Recuperando itens do centro de custo.");
         $stock->items = (new StockItemBusiness())->getItemsByStock(id: $id);
+        $stock->totalItems = $this->calculateTotalItems($stock->items);
         $stock->services = (new ServiceOrderBusiness())->getServicesByStock(id: $id);
+        $stock->totalServices = $this->calculateTotalItems($stock->services);
+        if (!is_null($stock->contract_id)) {
+            $stock->contract = (new ContractBusiness())->getById(id: $stock->contract_id, mergeFields: false);
+        }
         Logger::info("Finalizando a recuperação do centro de custo.");
+        return $stock;
+    }
+
+    public function getByContractId(int $contractId) {
+        Logger::info("Iniciando a recuperação de centros de custo.");
+        $stock = (new Stock())->getByContractId(id: $contractId)->first();
+        $stock = $this->getById(id: $stock->id, mergeFields: false);
+        Logger::info("Finalizando a exclusão dos centros de custo associados ao contrato.");
         return $stock;
     }
 

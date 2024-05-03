@@ -7,22 +7,23 @@ class Proposal extends BaseModel
     protected $table = "proposals";
     protected $fillable = ["id", "construction_type", "proposal_type", 
     "global_value", "proposal_date", "description", "discount",
-    "status", "code",
+    "status", "code", "increase",
     "address_id", "client_id", "project_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = [ "construction_type", "status", "proposal_type", 
-    "global_value", "proposal_date", "description", "discount",
+    "global_value", "proposal_date", "description", "discount", "increase",
     "address_id", "client_id", "project_id"];
 
     static $rules = [
         'code' => 'required|max:100|min:3',
         'construction_type' => 'required|max:100|min:3|string',
-        'proposal_type' => 'required|max:100|min:3|string',
+        'proposal_type' => 'max:100|min:3|string',
         'global_value' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'proposal_date' => 'required|date|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
         'description' => 'required|max:1000|min:3|string',
         'discount' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
+        'increase' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'address_id' => 'required',
         'client_id' => 'required',
         'project_id' => 'required|integer',
@@ -52,6 +53,8 @@ class Proposal extends BaseModel
         'description.string' => 'Campo Descrição da Proposta está inválido.',
         'discount.required' => 'Campo Valor do Desconto da Proposta é obrigatório.',
         'discount.regex' => 'Campo Valor do Desconto da Proposta está inválido.',
+        'increase.required' => 'Campo Valor do Acréscimo da Proposta é obrigatório.',
+        'increase.regex' => 'Campo Valor do Acréscimo da Proposta está inválido.',
         'address_id.required' => 'Campo Identificador do Endereço é obrigatório.',
         'client_id.required' => 'Campo Identificador do Cliente é obrigatório.',
         'project_id.required' => 'Campo Identificador do Projeto é obrigatório.',

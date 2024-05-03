@@ -64,4 +64,10 @@ class BillReceive extends BaseModel
         ->orderBy("desired_date")
         ->get();
     }
+
+    public function getValueAlreadyPaid() {
+        return (new BillReceive())->where("deleted", false)
+        ->where("status", 1)
+        ->sum('value_performed');
+    }
 }

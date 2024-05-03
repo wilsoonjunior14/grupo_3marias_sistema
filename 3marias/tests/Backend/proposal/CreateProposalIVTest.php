@@ -316,7 +316,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Valor Global da Proposta é obrigatório."
             ]
         );
     }
@@ -339,7 +339,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -362,7 +362,7 @@ class CreateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -1082,7 +1082,8 @@ class CreateProposalIVTest extends TestFramework
             "global_value" => 50000.00,
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
-            "discount" => 0.00
+            "discount" => 0.00,
+            "increase" => 0.00
         ];
         
         $response = $this
@@ -1110,6 +1111,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => null
         ];
         
@@ -1138,6 +1140,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => ""
         ];
         
@@ -1166,6 +1169,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => true
         ];
         
@@ -1194,6 +1198,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => 100
         ];
         
@@ -1222,6 +1227,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => 1
         ];
         
@@ -1251,6 +1257,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"]
         ];
         
@@ -1280,6 +1287,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => null
         ];
@@ -1310,6 +1318,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => ""
         ];
@@ -1340,6 +1349,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => 12345
         ];
@@ -1370,6 +1380,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => false
         ];
@@ -1400,6 +1411,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(2)
         ];
@@ -1430,6 +1442,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(1000)
         ];
@@ -1460,6 +1473,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString()
         ];
@@ -1490,6 +1504,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => null
@@ -1521,6 +1536,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => ""
@@ -1552,6 +1568,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => 12345
@@ -1583,6 +1600,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => false
@@ -1614,6 +1632,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(1)
@@ -1645,6 +1664,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(10000)
@@ -1676,6 +1696,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString()
@@ -1707,6 +1728,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1739,6 +1761,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1771,6 +1794,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1803,6 +1827,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1836,6 +1861,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1869,6 +1895,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1903,6 +1930,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1937,6 +1965,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -1971,6 +2000,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2005,6 +2035,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2040,6 +2071,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2075,6 +2107,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2111,6 +2144,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2147,6 +2181,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2184,6 +2219,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2223,6 +2259,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2264,6 +2301,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2305,6 +2343,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2346,6 +2385,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2387,6 +2427,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2428,6 +2469,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2469,6 +2511,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2511,6 +2554,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2553,6 +2597,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2595,6 +2640,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2637,6 +2683,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2680,6 +2727,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2723,6 +2771,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2766,6 +2815,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2809,6 +2859,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2852,6 +2903,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2896,6 +2948,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2940,6 +2993,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -2984,6 +3038,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -3028,6 +3083,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -3072,6 +3128,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -3129,6 +3186,7 @@ class CreateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => parent::generateRandomString(),
             "neighborhood" => parent::generateRandomString(),
@@ -3169,5 +3227,201 @@ class CreateProposalIVTest extends TestFramework
                 "message" => sprintf(ErrorMessage::$FIELD_INVALID, "Valor de Pagamento de Cliente")
             ]
         );
+    }
+
+    #[Test]
+    public function posTest_createProposal_with_null_increase(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "increase" => null,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 45000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 55000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => []
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Valor do Acréscimo da Proposta é obrigatório."
+        ]);
+    }
+
+    #[Test]
+    public function posTest_createProposal_with_empty_increase(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "increase" => "",
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 45000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 55000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => []
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Valor do Acréscimo da Proposta é obrigatório."
+        ]);
+    }
+
+    #[Test]
+    public function posTest_createProposal_with_negative_value_increase(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "increase" => -1000.00,
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 45000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 55000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => []
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Valor do Acréscimo da Proposta está inválido."
+        ]);
+    }
+
+    #[Test]
+    public function posTest_createProposal_with_wrong_type_increase(): void {
+        $client = parent::createClient();
+        $project = parent::createProject();
+        parent::createCity();
+        
+        $payload = [
+            "client_name" => $client["name"],
+            "client_cpf" => $client["cpf"],
+            "construction_type" => parent::generateRandomString(),
+            "proposal_type" => parent::generateRandomString(),
+            "global_value" => 100000.00,
+            "proposal_date" => date('Y-m-d'),
+            "description" => parent::generateRandomString(),
+            "discount" => 0.00,
+            "increase" => $this->generateRandomLetters(),
+            "project_id" => $project["id"],
+            "address" => parent::generateRandomString(),
+            "neighborhood" => parent::generateRandomString(),
+            "city_id" => 1,
+            "zipcode" => "62360-000",
+            "number" => 10,
+            "clientPayments" => [
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 45000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ],
+                [
+                    "type" => parent::generateRandomString(),
+                    "value" => 55000.00,
+                    "description" => parent::generateRandomString(),
+                    "source" => "Cliente"
+                ]
+            ],
+            "bankPayments" => []
+        ];
+        
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->post("/api/v1/proposals", $payload);
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Campo Valor do Acréscimo da Proposta está inválido."
+        ]);
     }
 }

@@ -20,12 +20,21 @@ import { getMoney } from "../../../services/Utils";
 import TableButton from "../../../components/button/TableButton";
 import Button from "react-bootstrap/esm/Button";
 import NoEntity from "../../../components/table/NoEntity";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import { CategoryScale } from "chart.js";
+import { registerables} from 'chart.js';
+import { formatMoney } from "../../../services/Format";
+
+ChartJS.register(...registerables);
+ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale);
 
 function StockItems() {
 
     const parameters = useParams();
     const [initialState, setInitialState] = useState({items: []});
-    const [stock, setStock] = useState({items: [], services: []});
+    const [stock, setStock] = useState({contract: {value: 0}, items: [], services: []});
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
@@ -222,8 +231,8 @@ function StockItems() {
                     <Success message={httpSuccess.message} />
                 }
                 <Row>
-                    <Col>
-                        <Card>
+                    <Col xs={6}>
+                        <Card style={{height: 350}}>
                             <Card.Body>
                                 <Card.Title>
                                 {stock.status === "Ativo" &&
@@ -235,21 +244,22 @@ function StockItems() {
                                 
                                 <p>   <b>Centro de Custo: {stock.name}</b></p>
                                 </Card.Title>
+                                {!loading && 
+                                <>
                                 <Row>
                                     <Col xs={12}>
-                                        <b>Valor do Contrato: </b> 
+                                        <b>Valor do Contrato: </b> {formatMoney(stock.contract.value)}
                                     </Col>
                                     <Col xs={12}>
-                                        <b>Valor do Orçamento Atual: </b>{getMoney(total.toString().replace(".", ","))} 
+                                        <b>Valor do Orçamento Atual:</b> {formatMoney((stock.totalItems + stock.totalServices).toString())} 
                                     </Col>
                                 </Row>
-
-                                {!loading && 
                                 <Row>
                                     <Col>
                                         Nesta página você pode gerenciar os produtos do centro de custo.
                                     </Col>
                                 </Row>
+                                </>
                                 }
 
                                 {loading && 
@@ -261,6 +271,74 @@ function StockItems() {
                                     <Col></Col>
                                     </>
                                 }
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col xs={3}>
+                        <Card style={{height: 350}}>
+                            <Card.Body>
+                                <Doughnut
+                                    height={250}
+                                    width={250}
+                                    data={{
+                                        labels: [
+                                        'Orçamento Disponível',
+                                        'Orçamento Gasto',
+                                        ],
+                                        datasets: [{
+                                        label: 'Orçamento',
+                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), (stock.totalItems + stock.totalServices)],
+                                        backgroundColor: [
+                                            'rgba(54, 162, 0, 0.5)',
+                                            'rgba(255, 20, 20, 0.5)',
+                                        ],
+                                        hoverOffset: 4
+                                        }]
+                                    }}
+                                    options={{
+                                    plugins: {
+                                        title: {
+                                        display: true,
+                                        text: "Contrato"
+                                        }
+                                    }
+                                    }}
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col xs={3}>
+                        <Card style={{height: 350}}>
+                            <Card.Body>
+                                <Pie
+                                    height={250}
+                                    width={250}
+                                    data={{
+                                        labels: [
+                                        'Orçamento Disponível',
+                                        'Serviços',
+                                        'Compras'
+                                        ],
+                                        datasets: [{
+                                        label: 'Orçamento',
+                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), stock.totalServices, stock.totalItems],
+                                        backgroundColor: [
+                                            'rgba(54, 162, 0, 0.5)',
+                                            'rgba(255, 150, 150, 0.5)',
+                                            'rgba(255, 0, 0, 0.5)',
+                                        ],
+                                        hoverOffset: 4
+                                        }]
+                                    }}
+                                    options={{
+                                    plugins: {
+                                        title: {
+                                        display: true,
+                                        text: "Contrato"
+                                        }
+                                    }
+                                    }}
+                                />
                             </Card.Body>
                         </Card>
                     </Col>

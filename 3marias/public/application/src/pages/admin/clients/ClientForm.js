@@ -27,7 +27,7 @@ const ClientForm = ({disableHeader}) => {
     const parameters = useParams();
     const [item, setItem] = useState({});
     const initialState = {};
-    const [endpoint, setEndpoint] = useState("/v1/clients");
+    const [endpoint] = useState("/v1/clients");
     const [containerStyle, setContainerStyle] = useState({});
 
     useEffect(() => {
@@ -91,6 +91,17 @@ const ClientForm = ({disableHeader}) => {
             setFields(fields);
         } else if(name.toString() === "state" && value !== "Casado") {
             removeDependentFields();
+        }
+
+        if (name.toString() === "has_many_buyers") {
+            if (value.toString() === "Sim") {
+                fields.concat(dependentFields);
+                dependentFields.forEach((f) => fields.push(f));
+                setFields(fields);
+                console.log("entrou aqui");
+            } else {
+                removeDependentFields();
+            }
         }
     };
 
@@ -171,9 +182,15 @@ const ClientForm = ({disableHeader}) => {
         keys.forEach((key) => {
             if (key === "birthdate" || key.indexOf("date") !== -1) {
                 data[key] = formatDateToServer(data[key]);
+                if (data[key] === "") {
+                    delete data[key];
+                } 
             }
             if (key.indexOf("salary") !== -1) {
                 data[key] = formatDoubleValue(data[key]);
+            }
+            if (data[key] === "") {
+                delete data[key];
             }
         });
         return data;

@@ -9,7 +9,7 @@ import config from "../../config.json";
 import { Tooltip } from "react-tooltip";
 import VHeaderItem from "./vHeaderItem";
 import VHeaderAdmin from "./vHeaderAdmin";
-import VHeaderProposals from "./vHeaderProposals";
+import VHeaderAlmoxarifado from "./vHeaderAlmoxarifado";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
 import { isLogged, removeUserData } from "../../services/Storage";
@@ -29,15 +29,15 @@ function VHeader() {
         },
         {
             id: 2,
-            name: "Propostas",
-            icon: "assignment",
-            path: "proposals"
-        },
-        {
-            id: 3,
             name: "Contratos",
             icon: "business_center",
             path: "contracts"
+        },
+        {
+            id: 3,
+            name: "Almoxarifado",
+            icon: "content_paste",
+            path: "stocks"
         },
         {
             id: 4,
@@ -133,10 +133,10 @@ function VHeader() {
                         <VHeaderAdmin />
                     }
                     {itemSelected.id === 2 &&
-                        <VHeaderProposals />
+                        <VHeaderContracts />
                     }
                     {itemSelected.id === 3 &&
-                        <VHeaderContracts />
+                        <VHeaderAlmoxarifado />
                     }
                     {itemSelected.id === 4 &&
                         <VHeaderMoney />
@@ -181,7 +181,8 @@ function VHeader() {
                     <Tooltip style={{marginTop: "-5px"}} place="right" id="dashboard-item-tooltip" />
 
                     {items.map((item) => (
-                        <VHeaderItem 
+                        <VHeaderItem
+                            key={item.id} 
                             item={item} 
                             onClick={() => onToggleOptions(item)} />
                     ))}

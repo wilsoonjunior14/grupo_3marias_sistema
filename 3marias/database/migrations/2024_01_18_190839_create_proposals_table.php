@@ -16,11 +16,12 @@ return new class extends Migration
  
             $table->string("code", 100)->unique();
             $table->string("construction_type", 100);
-            $table->string("proposal_type", 100);
+            $table->string("proposal_type", 100)->nullable();
             $table->double("global_value");
             $table->date("proposal_date");
             $table->string("description", 1000);
             $table->double("discount")->default(0);
+            $table->double("increase")->default(0);
 
             $table->integer("status")->default(0); // 0 - Negociacao, 1 - Cancelada, 2 - Aprovada
 

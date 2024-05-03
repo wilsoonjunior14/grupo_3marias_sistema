@@ -14,10 +14,11 @@ import { performRequest, BASE_URL } from "../../services/Api";
 import CustomPagination from "./Pagination";
 import Thead from "./Thead";
 import NoEntity from "./NoEntity";
-import { formatDate, formatDateTime, getValueOfComplexField } from "../../services/Format";
+import { formatDate, formatDateTime, formatDoubleValue, getValueOfComplexField } from "../../services/Format";
 import Search from "../search/Search";
 import "../../App.css";
 import TableButton from "../button/TableButton";
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 const CustomTable = ({tableName, tableNamePlaceholder, tableIcon, 
     url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
@@ -138,6 +139,10 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                 return (<i style={{color: item["icon_color"]}} className="material-icons">{item[field]}</i>);
             }
             return (<i className="material-icons">{item[field]}</i>);
+        }
+        if (field === "progress") {
+            const now = item[field];
+            return (<ProgressBar animated now={now} label={`${now}%`} />);
         }
         if (field === "status") {
             return getStatusField(item[field]);
@@ -287,10 +292,11 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                 {tableFields.bodyFields.map((field) => 
                                                     getTDField(item, field)
                                                 )}
-                                                <td className="options">
+                                                <td key={"options"} className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
-                                                            <TableButton 
+                                                            <TableButton
+                                                                key={"table-button-custom-" + option.name.toString() }
                                                                 name={option.name} 
                                                                 tooltip={option.tooltip} 
                                                                 onClick={() => option.onClick(item)}
@@ -299,12 +305,12 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                     }
                                                         
                                                     {!disableEdit &&
-                                                        <TableButton name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
+                                                        <TableButton key={"table-button-edit-" + item.id} name="btnEdit" tooltip="Editar" onClick={() => onEditItem(item)}
                                                                 icon="edit" color="light" />
                                                     }
 
                                                     {!disableDelete &&
-                                                        <TableButton name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
+                                                        <TableButton key={"table-button-delete-" + item.id} name="btnDelete" tooltip="Deletar" onClick={() => onDeleteItem(item)}
                                                                 icon="delete" color="light" />
                                                     }
                                                 </td>

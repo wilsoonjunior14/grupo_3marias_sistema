@@ -3,6 +3,8 @@
 namespace Tests;
 
 use App\Models\BaseModel;
+use App\Models\Client;
+use App\Models\Engineer;
 use App\Models\EnterpriseBranch;
 use App\Models\EnterpriseOwner;
 use App\Models\EnterprisePartner;
@@ -221,6 +223,7 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    // TODO: it should be refactored to use only model instead payload. See function createClientByModel
     function createClient(string $state = "Solteiro") {
         $this->createCity();
 
@@ -251,6 +254,25 @@ abstract class TestFramework extends TestCase
         return $json;
     }
 
+    function createClientByModel(Client $client) {
+        $response = $this->sendPostRequest("/api/v1/clients", $client, $this->getHeaders());
+        $response->assertStatus(201);
+        $json = $response->decodeResponseJson();
+        return $json;
+    }
+
+    function createEngineer() {
+        $engineer = new Engineer();
+        $engineer
+            ->withName($this->generateRandomLetters())
+            ->withEmail($this->generateRandomEmail())
+            ->withCrea($this->generateRandomNumber(10));
+
+        $response = $this->sendPostRequest("/api/v1/engineers", $engineer, $this->getHeaders());
+        $response->assertStatus(201);
+        return $response->decodeResponseJson();
+    }
+
     function createProposal() {
         $client = $this->createClient();
         $project = $this->createProject();
@@ -265,6 +287,7 @@ abstract class TestFramework extends TestCase
             "proposal_date" => date('Y-m-d'),
             "description" => $this->generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => $project["id"],
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
@@ -364,6 +387,7 @@ abstract class TestFramework extends TestCase
     public function createServiceOrder() {
         $this->createService();
         $this->createStock();
+        $this->createPartner(cnpj: $this->generateRandomCnpj());
 
         $model = new ServiceOrder();
         $model
@@ -372,7 +396,8 @@ abstract class TestFramework extends TestCase
             ->withValue(50.00)
             ->withQuantity(1)
             ->withServiceId(1)
-            ->withCostCenterId(1);
+            ->withCostCenterId(1)
+            ->withPartnerId(1);
 
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -730,6 +755,7 @@ abstract class TestFramework extends TestCase
     }
 
     public function createContract(int $proposalId = 1) {
+        $this->createEngineer();
         $this->createProposal();
         $response = $this
         ->withHeaders($this->getHeaders())
@@ -755,7 +781,8 @@ abstract class TestFramework extends TestCase
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
             "city_id" => 1,
-            "zipcode" => "00000-000"
+            "zipcode" => "00000-000",
+            "engineer_id" => 1
         ];
 
         $response = $this

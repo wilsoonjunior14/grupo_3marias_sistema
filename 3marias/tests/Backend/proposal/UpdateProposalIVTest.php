@@ -423,7 +423,7 @@ class UpdateProposalIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_updateProposal_without_proposal_type(): void {
+    public function negTest_updateProposal_without_address_id(): void {
         $proposal = parent::createProposal();
         $client = parent::createClient();
         $project = parent::createProject();
@@ -437,6 +437,7 @@ class UpdateProposalIVTest extends TestFramework
             "proposal_date" => date('Y-m-d'),
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 0.00,
             "project_id" => 1,
             "address" => $this->generateRandomString(),
             "neighborhood" => $this->generateRandomString(),
@@ -480,7 +481,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Identificador do Endereço é obrigatório."
             ]
         );
     }
@@ -544,7 +545,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -608,7 +609,7 @@ class UpdateProposalIVTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Campo Tipo da Proposta é obrigatório."
+                "message" => "Campo Tipo da Proposta deve conter no mínimo 3 caracteres."
             ]
         );
     }
@@ -2685,6 +2686,7 @@ class UpdateProposalIVTest extends TestFramework
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => 150000.00,
+            "increase" => 0.00,
             "status" => 0,
             "project_id" => 1,
             "address_id" => $proposal["address_id"],
@@ -2751,6 +2753,7 @@ class UpdateProposalIVTest extends TestFramework
             "global_value" => 120000.00,
             "description" => parent::generateRandomString(),
             "discount" => 0.00,
+            "increase" => 2000.00,
             "project_id" => 1,
             "status" => 0,
             "address_id" => $proposal["address_id"],
@@ -2763,7 +2766,7 @@ class UpdateProposalIVTest extends TestFramework
             "clientPayments" => [
                 [
                     "type" => $this->generateRandomString(),
-                    "value" => 30000.00,
+                    "value" => 28000.00,
                     "description" => $this->generateRandomString(),
                     "source" => "Cliente"
                 ]
@@ -2790,6 +2793,7 @@ class UpdateProposalIVTest extends TestFramework
             "description" => $payload["description"],
             "project_id" => $payload["project_id"],
             "discount" => $payload["discount"],
+            "increase" => $payload["increase"],
             "client_id" => $client["id"]
         ]);
 
@@ -2805,6 +2809,7 @@ class UpdateProposalIVTest extends TestFramework
             "description" => $payload["description"],
             "project_id" => $payload["project_id"],
             "discount" => $payload["discount"],
+            "increase" => $payload["increase"],
             "client_id" => $client["id"],
             "deleted" => false
         ]);

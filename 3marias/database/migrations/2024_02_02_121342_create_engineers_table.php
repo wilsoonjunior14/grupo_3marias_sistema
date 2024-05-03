@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('document_types', function (Blueprint $table) {
+        Schema::create('engineers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("name", 255);
-            $table->string("description", 255)->nullable();
-            $table->boolean("has_validation")->default(false);
+ 
+            $table->string("name", 100);
+            $table->string("email", 100);
+            $table->string("crea", 10);
+
             $table->boolean("deleted")->default(false);
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('document_types');
+        Schema::dropIfExists('engineers');
     }
 };

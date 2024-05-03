@@ -7,14 +7,17 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test-gui": "npx cypress open --project tests/Frontend",
+        "test": "npx cypress run --project tests/Frontend"
     },
     "devDependencies": {
+        "cypress": "^13.8.1",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "create-react-app": "^5.0.1"
+        "create-react-app": "^1.2.1"
     }
 }

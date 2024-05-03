@@ -24,12 +24,11 @@ class PDFController extends Controller
     }
 
     public function getProposalPDF(Request $request, $id) {
-
         $proposalBusiness = new ProposalBusiness();
         $proposal = $proposalBusiness->getById(id: $id);
         
         $enterpriseBusiness = new EnterpriseBusiness();
-        $enterprise = $enterpriseBusiness->getById(id: 1);
+        $enterprise = $enterpriseBusiness->getById(id: 1, mergeFields: true);
 
         $data = [
             'title' => 'Proposta',
@@ -45,7 +44,7 @@ class PDFController extends Controller
         $contract = $contractBusiness->getById(id: $id);
 
         $enterpriseBusiness = new EnterpriseBusiness();
-        $enterprise = $enterpriseBusiness->getById(id: 1);
+        $enterprise = $enterpriseBusiness->getById(id: 1, mergeFields: true);
 
         $enterpriseOwnerBusiness = new EnterpriseOwnerBusiness();
         $owner = $enterpriseOwnerBusiness->getById(id: 1);
@@ -57,5 +56,16 @@ class PDFController extends Controller
             'owner' => $owner
         ];
         return view('contract-pdf', $data);
+    }
+
+    public function getAlvaraPDF(Request $request, $id) {
+        $contractBusiness = new ContractBusiness();
+        $contract = $contractBusiness->getById(id: $id);
+
+        $data = [
+            'title' => 'REQUERIMENTO',
+            'contract' => $contract
+        ];
+        return view('alvara-pdf', $data);
     }
 }

@@ -32,6 +32,13 @@ class ClientBusiness {
         return $clients;
     }
 
+    public function getClientsBirthdate() {
+        Logger::info("Iniciando a recuperação de aniversariantes.");
+        $clients = (new Client())->getClientsBirthdate();
+        Logger::info("Finalizando a recuperação de clientes aniversariantes.");
+        return $clients;
+    }
+
     public function getByNameAndCPF(string $name, string $cpf) {
         Logger::info("Iniciando a recuperação de cliente pelo nome e cpf.");
         $client = (new Client())->getByNameAndCPF(name: $name, cpf: $cpf);

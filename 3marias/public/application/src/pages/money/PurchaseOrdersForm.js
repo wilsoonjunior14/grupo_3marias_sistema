@@ -26,12 +26,13 @@ const PurchaseOrdersForm = ({}) => {
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [itemsSelected, setItemsSelected] = useState([]);
     const [products, setProducts] = useState([]);
+    const [loadingProducts, setLoadingProducts] = useState(false);
     const [productSelected, setProductSelected] = useState({});
     const [leaveHappened, setLeaveHappened] = useState(false);
-    const [resetScreen, setResetScreen] = useState(false);
     const [resetTable, setResetTable] = useState(false);
     const [loadingPurchase, setLoadingPurchase] = useState(false);
     const [items, setItems] = useState([]);
+    const [resetScreen, setResetScreen] = useState(false);
     const parameters = useParams();
     const initialState = {};
 
@@ -106,14 +107,14 @@ const PurchaseOrdersForm = ({}) => {
     };
 
     const getProducts = () => {
-        setLoading(true);
+        setLoadingProducts(true);
         performRequest("GET", "/v1/products", null)
         .then((successGetProducts))
-        .catch((err) => setLoading(false));
+        .catch((err) => setLoadingProducts(false));
     }
 
     const successGetProducts = (response) => {
-        setLoading(false);
+        setLoadingProducts(false);
         setProducts(response.data);
     }
 
@@ -306,6 +307,7 @@ const PurchaseOrdersForm = ({}) => {
             }
             <Row>
                 <Col>
+                    {!resetScreen &&
                     <Form id="purchaseOrderForm" noValidate={true} onSubmit={onSubmit}>
                         <Card>
                             <Card.Body>
@@ -367,7 +369,7 @@ const PurchaseOrdersForm = ({}) => {
                                                         <Card.Title>
                                                             Produtos
                                                         </Card.Title>
-                                                        {loading &&
+                                                        {loadingProducts &&
                                                             <Row>
                                                                 <Col xs={4}></Col>
                                                                 <Col xs={4}>
@@ -376,7 +378,7 @@ const PurchaseOrdersForm = ({}) => {
                                                                 <Col xs={4}></Col>
                                                             </Row>
                                                         }
-                                                        {!loading &&
+                                                        {!loadingProducts &&
                                                         <Row>
                                                             <Col>
                                                                 <Table>
@@ -424,7 +426,7 @@ const PurchaseOrdersForm = ({}) => {
                                                                     </thead>
                                                                     <tbody onDragLeave={() => {setLeaveHappened(true)}}>
                                                                         {itemsSelected.map((item) => 
-                                                                            <tr>
+                                                                            <tr key={item.product}>
                                                                                 <td>
                                                                                     <CustomInput
                                                                                         placeholder="Produto" 
@@ -497,6 +499,7 @@ const PurchaseOrdersForm = ({}) => {
                             </Card.Body>
                         </Card>
                     </Form>
+                    }
                 </Col>
             </Row>
         </Container>

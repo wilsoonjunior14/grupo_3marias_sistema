@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->createCategoryServices();
         $this->createServices();
         $this->createProducts();
-        $this->createContractModels();
-        $this->createDocumentTypes();
 
         // creating countries
         DB::table("countries")->insert(["name" => "Brasil", "acronym" => "BRA", "deleted" => false]);
@@ -43,22 +41,6 @@ class DatabaseSeeder extends Seeder
         $this->createEquipment();
         $this->createProjects();
         $this->createEnterprise();
-    }
-
-    private function createContractModels() {
-        DB::table('contract_models')->insert(['name' => "Modelo de Contrato de Corretagem", "type" => "Corretagem", "content" => "", 'deleted' => false]);
-        DB::table('contract_models')->insert(['name' => "Modelo de Contrato de Entrega das Chaves", "type" => "Entrega das Chaves", "content" => "", 'deleted' => false]);
-        DB::table('contract_models')->insert(['name' => "Modelo de Contrato de Contrato de Serviço", "type" => "Serviço", "content" => "", 'deleted' => false]);
-        DB::table('contract_models')->insert(['name' => "Modelo de Contrato de Vendas", "type" => "Venda", "content" => "", 'deleted' => false]);
-    }
-
-    private function createDocumentTypes() {
-        DB::table('document_types')->insert(['name' => "Certidão Simplificada", 'deleted' => false]);
-        DB::table('document_types')->insert(['name' => "CNPJ", 'deleted' => false]);
-        DB::table('document_types')->insert(['name' => "Comprovante de Endereço", 'deleted' => false]);
-        DB::table('document_types')->insert(['name' => "Contrato Social", 'deleted' => false]);
-        DB::table('document_types')->insert(['name' => "Documento Geral RH", 'deleted' => false]);
-        DB::table('document_types')->insert(['name' => "Manual de Gestão da Qualidade", 'deleted' => false]);
     }
 
     private function createEnterprise() {
@@ -309,7 +291,7 @@ class DatabaseSeeder extends Seeder
     }
 
     private function createGroupRoles(): void{
-        for ($i = 1; $i<= 172; $i++) {
+        for ($i = 1; $i<= 165; $i++) {
             DB::table('groups_roles')->insert(["role_id" => $i, "group_id" => 1, "deleted" => false]);
         }
     }
@@ -370,6 +352,9 @@ class DatabaseSeeder extends Seeder
         // api resource /contracts
         $this->createAPIResource('contracts');
 
+        // api resource /engineers
+        $this->createAPIResource('engineers');
+
         // api resource /clients
         $this->createAPIResource('clients');
         DB::table("roles")->insert(["description" => "POST /clients/docs", "endpoint" => "/clients/docs", "request_type" => "post", "deleted" => false]);
@@ -390,17 +375,11 @@ class DatabaseSeeder extends Seeder
         // api resource /enterpriseFiles
         $this->createAPIResource('enterpriseFiles');
 
-        // api resource /documentTypes
-        $this->createAPIResource('documentTypes');
-
         // api resource /roles
         $this->createAPIResource('roles');
 
         // api resource /enterprises
         $this->createAPIResource('enterprises');
-
-        // api resource /contractsModels
-        $this->createAPIResource('contractsModels');
 
         // api resource /products
         $this->createAPIResource('products');
@@ -423,6 +402,9 @@ class DatabaseSeeder extends Seeder
 
         // api resource /purchaseOrders
         $this->createAPIResource('purchaseOrders');
+
+        // api resource /serviceOrders
+        $this->createAPIResource('serviceOrders');
 
         DB::table('roles')->insert(['description' => 'POST /proposals/approve/{id}', 'endpoint' => '/proposals/approve/{id}', 'request_type' => 'post', 'deleted' => false]);
         DB::table('roles')->insert(['description' => 'POST /proposals/reject/{id}', 'endpoint' => '/proposals/reject/{id}', 'request_type' => 'post', 'deleted' => false]);

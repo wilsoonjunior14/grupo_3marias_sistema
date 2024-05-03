@@ -44,7 +44,7 @@ class RetrieveDataTest extends TestFramework
         ->get("/api/v1/observability/metrics", []);
 
         $response->assertStatus(200);
-        $response->assertJsonCount(4);
+        $response->assertJsonCount(2);
     }
 
     #[Test]
