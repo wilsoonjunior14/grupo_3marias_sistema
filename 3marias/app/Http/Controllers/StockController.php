@@ -6,6 +6,7 @@ use App\Business\StockBusiness;
 use Illuminate\Http\Request;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
+use Illuminate\Support\Facades\Log;
 
 class StockController extends Controller implements APIController
 {

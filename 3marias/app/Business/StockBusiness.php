@@ -38,7 +38,9 @@ class StockBusiness {
         $stock->totalItems = $this->calculateTotalItems($stock->items);
         $stock->services = (new ServiceOrderBusiness())->getServicesByStock(id: $id);
         $stock->totalServices = $this->calculateTotalItems($stock->services);
-        $stock->contract = (new ContractBusiness())->getById(id: $stock->contract_id, mergeFields: false);
+        if (!is_null($stock->contract_id)) {
+            $stock->contract = (new ContractBusiness())->getById(id: $stock->contract_id, mergeFields: false);
+        }
         Logger::info("Finalizando a recuperação do centro de custo.");
         return $stock;
     }
