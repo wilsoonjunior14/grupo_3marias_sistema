@@ -25,6 +25,12 @@ function VHeaderAdmin() {
             </Col>
         </Row>
         <Row style={{width: "100%"}}> 
+            <Col><Nav.Link href="/admin/engineers">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Engenheiros</Nav.Link>
+            </Col>
+        </Row>
+        <Row style={{width: "100%"}}> 
             <Col><Nav.Link href="/admin/projects">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Projetos</Nav.Link>
@@ -34,18 +40,6 @@ function VHeaderAdmin() {
             <Col><Nav.Link href="/admin/partners">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Parceiros/Fornecedores</Nav.Link>
-            </Col>
-        </Row>
-        <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/admin/services">
-                <i className="material-icons float-left">keyboard_arrow_right</i>
-                Serviços</Nav.Link>
-            </Col>
-        </Row>
-        <Row style={{width: "100%"}}> 
-            <Col><Nav.Link href="/admin/categoryServices">
-                <i className="material-icons float-left">keyboard_arrow_right</i>
-                Categorias de Serviços</Nav.Link>
             </Col>
         </Row>
         <Row style={{width: "100%"}}> 

@@ -19,6 +19,20 @@ class ClientController extends Controller implements APIController
     }
 
     /**
+     * Gets all clients birthdates.
+     */
+    public function getBirthdates() {
+        try {
+            $clients = $this->clientBusiness->getClientsBirthdate();
+            return ResponseUtils::getResponse($clients, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse();
+        }
+    }
+
+    /**
      * Gets all contracts.
      */
     public function index() {

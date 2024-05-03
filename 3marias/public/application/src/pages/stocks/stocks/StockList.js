@@ -4,6 +4,7 @@ import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
 import { useNavigate } from "react-router-dom";
+import config from "../../../config.json";
 
 export default function StockList() {
     const navigate = useNavigate();
@@ -24,10 +25,16 @@ export default function StockList() {
 
     const customOptions = [
         {
+            name: "file_download",
+            tooltip: "Download do Alvará",
+            icon: "file_download",
+            onClick: (evt) => {if (evt.id ===1) {return;} window.open(config.url + "/alvara/" + evt.contract.id)}
+        },
+        {
             name: "see_items_stock",
             icon: "visibility",
             tooltip: "Ver Itens do Centro de Custo",
-            onClick: (item) => {navigate("/contracts/stocks/items/"+item.id)}
+            onClick: (item) => {navigate("/stocks/items/"+item.id)}
         }
     ];
     

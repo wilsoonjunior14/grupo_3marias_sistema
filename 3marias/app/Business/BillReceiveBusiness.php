@@ -37,7 +37,7 @@ class BillReceiveBusiness {
             $bill["contract"] = (new ContractBusiness())->getById(id: $bill->contract_id);
         }
         Logger::info("Finalizando a recuperação dos pagamentos.");
-        return $bills;
+        return ['paidValue' => (new BillReceive())->getValueAlreadyPaid(), 'bills' => $bills];
     }
 
     public function getById($id) {

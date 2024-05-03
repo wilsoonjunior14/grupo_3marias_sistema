@@ -33,7 +33,7 @@
                 margin-right: 20px;
             }
             .row-colored {
-                border-left: 10px solid gold;
+                border-left: 10px solid rgb(12, 52, 114);
                 border-bottom: 1px solid gray;
             }
             .row span {

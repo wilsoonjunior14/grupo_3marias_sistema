@@ -9,12 +9,12 @@ class Contract extends BaseModel
     "code", "building_type", "description", "meters",
     "value", "witness_one_name", "witness_one_cpf",
     "witness_two_name", "witness_two_cpf", "date",
-    "address_id", "proposal_id",
+    "address_id", "proposal_id", "engineer_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["code", "building_type", "description", "meters",
     "value", "witness_one_name", "witness_one_cpf", "date",
-    "witness_two_name", "witness_two_cpf",
+    "witness_two_name", "witness_two_cpf", "engineer_id",
     "address_id", "proposal_id"];
 
     static $rules = [
@@ -30,6 +30,7 @@ class Contract extends BaseModel
         'witness_two_cpf' => 'required|string|cpf|different:witness_one_cpf',
         'address_id' => 'required|integer',
         'proposal_id' => 'required|integer',
+        'engineer_id' => 'required|integer|gt:0|exists:engineers,id',
     ];
 
     static $rulesMessages = [
@@ -71,7 +72,11 @@ class Contract extends BaseModel
         'proposal_id.required' => 'Campo Identificador de Proposta é obrigatório.',
         'proposal_id.integer' => 'Campo Identificador de Proposta está inválido.',
         'address_id.required' => 'Campo Identificador de Endereço é obrigatório.',
-        'address_id.integer' => 'Campo Identificador de Endereço está inválido.'
+        'address_id.integer' => 'Campo Identificador de Endereço está inválido.',
+        'engineer_id.required' => 'Campo Identificador de Engenheiro é obrigatório.',
+        'engineer_id.integer' => 'Campo Identificador de Engenheiro está inválido.',
+        'engineer_id.gt' => 'Campo Identificador de Engenheiro está inválido.',
+        'engineer_id.exists' => 'Campo Identificador de Engenheiro não existe.'
     ];
 
     public function proposal(): \Illuminate\Database\Eloquent\Relations\HasOne {

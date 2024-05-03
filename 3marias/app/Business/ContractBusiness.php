@@ -31,6 +31,8 @@ class ContractBusiness {
                 $contract["client"] = (new ClientBusiness())->getById(id: $contract["proposal"]["client_id"]);
                 $contract["address"] = (new AddressBusiness())->getById(id: $contract->address_id);
                 $contract["bills_receive"] = (new BillReceiveBusiness())->getByContract(id: $contract->id);
+                $stock = (new StockBusiness())->getByContractId(contractId: $contract->id);
+                $contract["progress"] = round(($stock["totalItems"] + $stock["totalServices"] * 100) / $contract->value, 2);
             }
         }
 
@@ -52,6 +54,7 @@ class ContractBusiness {
         if ($mergeFields) {
             $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
             $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
+            $contract["engineer"] = (new EngineerBusiness())->getById(id: $contract->engineer_id);
         }
         Logger::info("Finalizando a recuperação de contrato $id.");
         return $contract;
@@ -100,6 +103,7 @@ class ContractBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        (new EngineerBusiness())->getById(id: $data["engineer_id"]);
 
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $data["proposal_id"], mergeFields: false);
@@ -151,8 +155,9 @@ class ContractBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do contrato.");
+        $data = $request->all();
         $contract = (new Contract())->getById($id);
-        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $request->all(), Contract::$fieldsToBeUpdated);
+        $contractUpdated = UpdateUtils::processFieldsToBeUpdated($contract, $data, Contract::$fieldsToBeUpdated);
         $contractUpdated->code = $contract->code;
 
         Logger::info("Validando as informações do contrato.");
@@ -161,6 +166,7 @@ class ContractBusiness {
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
+        (new EngineerBusiness())->getById(id: $data["engineer_id"]);
 
         // Checking if the proposal is available
         $proposal = (new ProposalBusiness())->getById(id: $contractUpdated["proposal_id"], mergeFields: false);

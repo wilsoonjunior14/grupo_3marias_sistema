@@ -48,33 +48,7 @@ class ClientValidator extends ModelValidator
                 throw new InputValidationException($clientValidation);
             }
         }
-
-        if (isset($data["state"]) && strcmp($data["state"], "Casado") === 0) {
-            $this->validateDependentData(data: $data);
-            return;
-        }
         
         $data = UpdateUtils::clearFields(targetData: $data, fields: Client::$dependentFields);
-    }
-
-    private function validateDependentData(array $data) {
-        if (!isset($data["name_dependent"]) || empty($data["name_dependent"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Nome Completo do Cônjugue"));
-        }
-        if (!isset($data["cpf_dependent"]) || empty($data["cpf_dependent"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "CPF do Cônjugue"));
-        }
-        if (!isset($data["rg_dependent"]) || empty($data["rg_dependent"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "RG do Cônjugue"));
-        }
-        if (!isset($data["rg_dependent_organ"]) || empty($data["rg_dependent_organ"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Órgão do RG do Cônjugue"));
-        }
-        if (!isset($data["rg_dependent_date"]) || empty($data["rg_dependent_date"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Data de Emissão do RG do Cônjugue"));
-        }
-        if (!isset($data["ocupation_dependent"]) || empty($data["ocupation_dependent"])) {
-            throw new InputValidationException(sprintf(ErrorMessage::$FIELD_REQUIRED, "Profissão do Cônjugue"));
-        }
     }
 }

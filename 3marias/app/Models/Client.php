@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Client extends BaseModel
 {
     protected $table = "clients";
@@ -188,5 +190,37 @@ class Client extends BaseModel
         ->where("name", "like", "%" . $name . "%")
         ->where("cpf", "like", "%" . $cpf . "%")
         ->get();
+    }
+
+    public function getClientsBirthdate() {
+        $month = Carbon::now()->format('m');
+
+        return (new Client())
+        ->select("name", "phone", "birthdate")
+        ->where("deleted", false)
+        ->whereNotNull("birthdate")
+        ->whereMonth("birthdate", $month)
+        ->orderBy("name")
+        ->get();
+    }
+
+    public function withName($name) {
+        $this->name = $name; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withCPF($cpf) {
+        $this->cpf = $cpf; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withPhone($phone) {
+        $this->phone = $phone; // @phpstan-ignore-line
+        return $this;
+    }
+
+    public function withBirthdate($birthdate) {
+        $this->birthdate = $birthdate; // @phpstan-ignore-line
+        return $this;
     }
 }

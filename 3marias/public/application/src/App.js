@@ -19,28 +19,22 @@ import EnterpriseDetails from './pages/admin/enterprises/EnterpriseDetails';
 import EnterpriseForm from './pages/admin/enterprises/EnterpriseForm';
 import ClientList from './pages/admin/clients/ClientList';
 import ClientForm from './pages/admin/clients/ClientForm';
-import ProductList from './pages/store/Products/ProductList';
-import ProductForm from './pages/store/Products/ProductForm';
+import ProductList from './pages/stocks/Products/ProductList';
+import ProductForm from './pages/stocks/Products/ProductForm';
 import AccountantsForm from './pages/admin/enterprises/AccountantsForm';
 import EnterprisePartnerForm from './pages/admin/enterprises/EnterprisePartnerForm';
 import EnterpriseOwnerForm from './pages/admin/enterprises/EnterpriseOwner';
 import EnterpriseBranchForm from './pages/admin/enterprises/EnterpriseBranchForm';
-import CategoryProductForm from './pages/store/CategoryProducts/CategoryProductForm';
-import CategoryProductList from './pages/store/CategoryProducts/CategoryProductList';
-import CategoryServiceForm from './pages/admin/categoryServices/CategoryServiceForm';
-import CategoryServiceList from './pages/admin/categoryServices/CategoryServiceList';
-import ServiceForm from './pages/admin/services/ServiceForm';
-import ServiceList from './pages/admin/services/ServiceList';
+import CategoryProductForm from './pages/stocks/CategoryProducts/CategoryProductForm';
+import CategoryProductList from './pages/stocks/CategoryProducts/CategoryProductList';
 import PartnerList from './pages/admin/partners/PartnerList';
 import PartnerForm from './pages/admin/partners/PartnerForm';
-import ProposalList from './pages/engineering/proposals/ProposalList';
-import ProposalForm from './pages/engineering/proposals/ProposalForm';
+import ProposalList from './pages/contracts/proposals/ProposalList';
+import ProposalForm from './pages/contracts/proposals/ProposalForm';
 import ClientDetails from './pages/admin/clients/ClientDetails';
-import ProposalDownload from './pages/engineering/proposals/ProposalDownload';
+import ProposalDownload from './pages/contracts/proposals/ProposalDownload';
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
-import StockList from './pages/contracts/stocks/StockList';
-import StockForm from './pages/contracts/stocks/StockForm';
 import BillsReceiveList from './pages/money/BillsReceiveList';
 import BillsReceiveForm from './pages/money/BillsReceiveForm';
 import ProjectList from './pages/admin/projects/ProjectList';
@@ -49,10 +43,18 @@ import PurchaseOrdersList from './pages/money/PurchaseOrdersList';
 import PurchaseOrdersForm from './pages/money/PurchaseOrdersForm';
 import MoneyDashboard from './pages/money/MoneyDashboard';
 import AccountForm from './pages/account/AccountForm';
-import StockItems from './pages/contracts/stocks/StockItems';
 import ServiceOrdersList from './pages/money/ServiceOrdersList';
 import ServiceOrdersForm from './pages/money/ServiceOrdersForm';
 import BillsPayList from './pages/money/BillsPayList';
+import StockList from './pages/stocks/stocks/StockList';
+import StockForm from './pages/stocks/stocks/StockForm';
+import StockItems from './pages/stocks/stocks/StockItems';
+import ServiceForm from './pages/stocks/services/ServiceForm';
+import ServiceList from './pages/stocks/services/ServiceList';
+import CategoryServiceList from './pages/stocks/categoryServices/CategoryServiceList';
+import CategoryServiceForm from './pages/stocks/categoryServices/CategoryServiceForm';
+import EngineerList from './pages/admin/engineers/EngineerList';
+import EngineerForm from './pages/admin/engineers/EngineerForm';
 
 console.disableYellowBox = true;
 
@@ -98,43 +100,41 @@ function App() {
           <Route path='admin/states' element={<StatesList />}></Route>
           <Route path='admin/states/add' element={<StatesForm />}></Route>
           <Route path='admin/states/edit/:id' element={<StatesForm />}></Route>
-          <Route path='admin/services' element={<ServiceList />}></Route>
-          <Route path='admin/services/add' element={<ServiceForm />}></Route>
-          <Route path='admin/services/edit/:id' element={<ServiceForm />}></Route>
-          <Route path='admin/categoryServices' element={<CategoryServiceList />}></Route>
-          <Route path='admin/categoryServices/add' element={<CategoryServiceForm />}></Route>
-          <Route path='admin/categoryServices/edit/:id' element={<CategoryServiceForm />}></Route>
           <Route path='admin/partners' element={<PartnerList />}></Route>
           <Route path='admin/partners/add' element={<PartnerForm />}></Route>
           <Route path='admin/partners/edit/:id' element={<PartnerForm />}></Route>
           <Route path='admin/projects' element={<ProjectList />}></Route>
           <Route path='admin/projects/add' element={<ProjectForm />}></Route>
           <Route path='admin/projects/edit/:id' element={<ProjectForm />}></Route>
+          <Route path='admin/engineers' element={<EngineerList />}></Route>
+          <Route path='admin/engineers/add' element={<EngineerForm />}></Route>
+          <Route path='admin/engineers/edit/:id' element={<EngineerForm />}></Route>
 
-          <Route path='store/products' element={<ProductList />}></Route>
-          <Route path='store/products/add' element={<ProductForm />}></Route>
-          <Route path='store/products/edit/:id' element={<ProductForm />}></Route>
-          <Route path='store/categoryProducts' element={<CategoryProductList />}></Route>
-          <Route path='store/categoryProducts/add' element={<CategoryProductForm />}></Route>
-          <Route path='store/categoryProducts/edit/:id' element={<CategoryProductForm />}></Route>
-
-          <Route path='proposals' element={<ProposalList />}></Route>
-          <Route path='proposals/add' element={<ProposalForm />}></Route>
-          <Route path='proposals/edit/:id' element={<ProposalForm />}></Route> 
-          <Route path='proposals/download/:id' element={<ProposalDownload />}></Route> 
-
+          <Route path='contracts/proposals' element={<ProposalList />}></Route>
+          <Route path='contracts/proposals/add' element={<ProposalForm />}></Route>
+          <Route path='contracts/proposals/edit/:id' element={<ProposalForm />}></Route> 
+          <Route path='contracts/proposals/download/:id' element={<ProposalDownload />}></Route> 
           <Route path='contracts' element={<ContractList />}></Route>
           <Route path='contracts/add' element={<ContractForm />}></Route>
           <Route path='contracts/edit/:id' element={<ContractForm />}></Route> 
-          <Route path='contracts/stocks' element={<StockList />}></Route>
-          <Route path='contracts/stocks/add' element={<StockForm />}></Route> 
-          <Route path='contracts/stocks/edit/:id' element={<StockForm />}></Route> 
-          <Route path='contracts/stocks/items/:id' element={<StockItems />}></Route> 
-          
-          <Route path='engineering/projects' element={<ProjectList />}></Route>
-          <Route path='engineering/projects/add' element={<ProjectForm />}></Route>
-          <Route path='engineering/projects/edit/:id' element={<ProjectForm />}></Route>
 
+          <Route path='stocks' element={<StockList />}></Route>
+          <Route path='stocks/add' element={<StockForm />}></Route> 
+          <Route path='stocks/edit/:id' element={<StockForm />}></Route> 
+          <Route path='stocks/items/:id' element={<StockItems />}></Route>
+          <Route path='stocks/services' element={<ServiceList />}></Route>
+          <Route path='stocks/services/add' element={<ServiceForm />}></Route>
+          <Route path='stocks/services/edit/:id' element={<ServiceForm />}></Route>
+          <Route path='stocks/categoryServices' element={<CategoryServiceList />}></Route>
+          <Route path='stocks/categoryServices/add' element={<CategoryServiceForm />}></Route>
+          <Route path='stocks/categoryServices/edit/:id' element={<CategoryServiceForm />}></Route>
+          <Route path='stocks/products' element={<ProductList />}></Route>
+          <Route path='stocks/products/add' element={<ProductForm />}></Route>
+          <Route path='stocks/products/edit/:id' element={<ProductForm />}></Route>
+          <Route path='stocks/categoryProducts' element={<CategoryProductList />}></Route>
+          <Route path='stocks/categoryProducts/add' element={<CategoryProductForm />}></Route>
+          <Route path='stocks/categoryProducts/edit/:id' element={<CategoryProductForm />}></Route>
+          
           <Route path='money/dashboard' element={<MoneyDashboard />}></Route>
           <Route path='money/billsPay' element={<BillsPayList />}></Route>
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>

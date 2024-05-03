@@ -33,9 +33,14 @@ class PurchaseOrderItem extends BaseModel
         'purchase_order_id.gt' => 'Campo Identificador da Ordem de Compra está inválido.',
     ];
 
+    public function product(): \Illuminate\Database\Eloquent\Relations\HasOne {
+        return $this->hasOne(Product::class, "id", "product_id");
+    }
+
     public function getByPurchaseOrder(int $id) {
         return (new PurchaseOrderItem())->where("deleted", false)
         ->where("purchase_order_id", $id)
+        ->with("product")
         ->get();
     }
 }

@@ -40,7 +40,7 @@
     <div class="col-3 row-colored">
         <b>Data de Emissão</b> </br>
         @if (!is_null($client->rg_date))
-        <span>{{ date_format($client->rg_date,"d/m/Y") }}</span>
+        <span>{{ date_format(date_create($client->rg_date), "d/m/Y") }}</span>
         @endif
     </div>
 </div>
@@ -157,7 +157,7 @@
     </div>
 </div>
 
-@if (strcmp($client->state, "Casado") === 0)
+@if ((!is_null($client->has_many_buyers) && strcmp($client->has_many_buyers, "Sim") === 0) || strcmp($client->state, "Casado") === 0)
 
 <div class="row">
     <div class="col-12"><b>Dados do Cônjugue do Proponente</b></div>

@@ -25,7 +25,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_withoud_name_dependent(): void {
+    public function posTest_createClients_married_withoud_name_dependent(): void {
         parent::createCity();
 
         $payload = [
@@ -51,12 +51,8 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => "Campo Nome Completo do Cônjugue é obrigatório."
-            ]
-        );
+        $response->assertStatus(201);
+        // TODO: ADD ASSERT FOR THE FIELDS
     }
 
     #[Test]
@@ -240,7 +236,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_without_cpf_dependent(): void {
+    public function posTest_createClients_married_without_cpf_dependent(): void {
         parent::createCity();
 
         $payload = [
@@ -267,12 +263,8 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => "Campo CPF do Cônjugue é obrigatório."
-            ]
-        );
+        $response->assertStatus(201);
+        // TODO: ADD ASSERT FOR THE FIELDS
     }
 
     #[Test]
@@ -462,7 +454,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_without_rg_dependent(): void {
+    public function posTest_createClients_married_without_rg_dependent(): void {
         parent::createCity();
 
         $payload = [
@@ -490,12 +482,8 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => "Campo RG do Cônjugue é obrigatório."
-            ]
-        );
+        $response->assertStatus(201);
+        // TODO: ADD ASSERT FOR THE FIELDS
     }
 
     #[Test]
@@ -651,7 +639,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_without_rg_dependent_organ(): void {
+    public function posTest_createClients_married_without_rg_dependent_organ(): void {
         parent::createCity();
 
         $payload = [
@@ -680,12 +668,8 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => "Campo Órgão do RG do Cônjugue é obrigatório."
-            ]
-        );
+        $response->assertStatus(201);
+        // TODO: ADD ASSERT FOR THE FIELDS
     }
 
     #[Test]
@@ -845,7 +829,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_without_rg_dependent_date(): void {
+    public function posTest_createClients_married_without_rg_dependent_date(): void {
         parent::createCity();
 
         $payload = [
@@ -875,12 +859,8 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
-        $response->assertJson(
-            [
-                "message" => "Campo Data de Emissão do RG do Cônjugue é obrigatório."
-            ]
-        );
+        $response->assertStatus(201);
+        // TODO: ADD ASSERT FOR THE FIELDS
     }
 
     #[Test]
@@ -1130,7 +1110,7 @@ class CreateClientWithDependentIVTest extends TestFramework
     }
 
     #[Test]
-    public function negTest_createClients_married_without_ocupation(): void {
+    public function posTest_createClients_married_without_ocupation(): void {
         parent::createCity();
 
         $payload = [
@@ -1161,10 +1141,26 @@ class CreateClientWithDependentIVTest extends TestFramework
         ->withHeaders(parent::getHeaders())
         ->post("/api/v1/clients", $payload);
 
-        $response->assertStatus(400);
+        $response->assertStatus(201);
         $response->assertJson(
             [
-                "message" => "Campo Profissão do Cônjugue é obrigatório."
+                "name" => $payload["name"],
+                "cpf" => $payload["cpf"],
+                "rg" => $payload["rg"],
+                "rg_organ" => $payload["rg_organ"],
+                "rg_date" => $payload["rg_date"],
+                "state" => $payload["state"],
+                "sex" => $payload["sex"],
+                "naturality" => $payload["naturality"],
+                "nationality" => $payload["nationality"],
+                "ocupation" => $payload["ocupation"],
+                "phone" => $payload["phone"],
+                "email" => $payload["email"],
+                "name_dependent" => $payload["name_dependent"],
+                "cpf_dependent" => $payload["cpf_dependent"],
+                "rg_dependent" => $payload["rg_dependent"],
+                "rg_dependent_organ" => $payload["rg_dependent_organ"],
+                "rg_dependent_date" => $payload["rg_dependent_date"],
             ]
         );
     }
