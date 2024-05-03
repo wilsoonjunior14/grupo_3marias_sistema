@@ -52,6 +52,7 @@ class ContractBusiness {
         if ($mergeFields) {
             $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
             $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);
+            $contract["engineer"] = (new EngineerBusiness())->getById(id: $contract->engineer_id);
         }
         Logger::info("Finalizando a recuperação de contrato $id.");
         return $contract;

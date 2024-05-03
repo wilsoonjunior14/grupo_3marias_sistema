@@ -24,6 +24,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut, Line, Pie } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
+import { formatMoney } from "../../../services/Format";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -247,10 +248,10 @@ function StockItems() {
                                 <>
                                 <Row>
                                     <Col xs={12}>
-                                        <b>Valor do Contrato: </b> 
+                                        <b>Valor do Contrato: </b> {formatMoney(stock.contract.value)}
                                     </Col>
                                     <Col xs={12}>
-                                        <b>Valor do Orçamento Atual: </b>{getMoney(total.toString().replace(".", ","))} 
+                                        <b>Valor do Orçamento Atual:</b> {formatMoney((stock.totalItems + stock.totalServices).toString())} 
                                     </Col>
                                 </Row>
                                 <Row>
@@ -286,7 +287,7 @@ function StockItems() {
                                         ],
                                         datasets: [{
                                         label: 'Orçamento',
-                                        data: [50000 - 32500, 32500],
+                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), (stock.totalItems + stock.totalServices)],
                                         backgroundColor: [
                                             'rgba(54, 162, 0, 0.5)',
                                             'rgba(255, 20, 20, 0.5)',
@@ -320,7 +321,7 @@ function StockItems() {
                                         ],
                                         datasets: [{
                                         label: 'Orçamento',
-                                        data: [50000, 22500, 15200],
+                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), stock.totalServices, stock.totalItems],
                                         backgroundColor: [
                                             'rgba(54, 162, 0, 0.5)',
                                             'rgba(255, 150, 150, 0.5)',

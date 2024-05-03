@@ -49,7 +49,6 @@ export default function MoneyDashboard() {
     const [loadingBillPay, setLoadingBillPay] = useState(false);
 
     const [balance, setBalance] = useState(0);
-    const [loadingBalance, setLoadingBalance] = useState(false);
 
     const [nextBillsReceive, setNextBillsReceive] = useState([]);
 
@@ -136,7 +135,7 @@ export default function MoneyDashboard() {
 
     const onSuccessGetBillsToReceive = (res) => {
         var globalValue = 0;
-        const responseData = res.data;
+        const responseData = res.data.bills;
         responseData.forEach((bill) => {
             globalValue += Math.abs(Number(bill.value_performed) - Number(bill.value));
         });
@@ -151,6 +150,7 @@ export default function MoneyDashboard() {
             }
         }
         setNextBillsReceive(nextBills);
+        setBalance(Number(res.data.paidValue));
     };
 
     const onErrorGetBillsToReceive = (err) => {
@@ -231,7 +231,7 @@ export default function MoneyDashboard() {
                                         </Card.Title>
                                         <Row>
                                             <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> + R$ {balance}</b>
+                                                <b> {formatMoney(balance.toString())}</b>
                                             </Col>
                                         </Row>
                                     </Card.Body>
@@ -271,141 +271,42 @@ export default function MoneyDashboard() {
                     </Col>
 
                     {proposals.length > 0 &&
-                    <Col xs={12} lg={4}>
-                        <Card className="main-card">
-                            <Card.Body>
-                                <Card.Title>
-                                    Propostas
-                                    <i className="material-icons float-left">work</i>
-                                </Card.Title>
-                                {!loadingProposals &&
-                                <Pie
-                                    width={"80%"}
-                                    data={proposalsData}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Informações das Propostas"
+                    <>
+                        <Col xs={12} lg={4}></Col>
+                        <Col xs={12} lg={4}>
+                            <Card className="main-card">
+                                <Card.Body>
+                                    <Card.Title>
+                                        Propostas
+                                        <i className="material-icons float-left">work</i>
+                                    </Card.Title>
+                                    {!loadingProposals &&
+                                    <Pie
+                                        width={"80%"}
+                                        data={proposalsData}
+                                        options={{
+                                        plugins: {
+                                            title: {
+                                            display: true,
+                                            text: "Informações das Propostas"
+                                            }
                                         }
+                                        }}
+                                    />
                                     }
-                                    }}
-                                />
-                                }
-                                {loadingProposals &&
-                                <Row>
-                                    <Col></Col>
-                                    <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
-                                    <Col></Col>
-                                </Row>
-                                }
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    }
-
-                    {proposals.length > 0 &&
-                    <Col xs={12} lg={4}>
-                        <Card className="main-card">
-                            <Card.Body>
-                                <Card.Title>
-                                    Propostas
-                                    <i className="material-icons float-left">work</i>
-                                </Card.Title>
-                                {!loadingProposals &&
-                                <Pie
-                                    width={"80%"}
-                                    data={proposalsData}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Informações das Propostas"
-                                        }
+                                    {loadingProposals &&
+                                    <Row>
+                                        <Col></Col>
+                                        <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
+                                        <Col></Col>
+                                    </Row>
                                     }
-                                    }}
-                                />
-                                }
-                                {loadingProposals &&
-                                <Row>
-                                    <Col></Col>
-                                    <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
-                                    <Col></Col>
-                                </Row>
-                                }
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </>
                     }
                 </Row>
-                {/* <Row>
-                    <Col xs={12} lg={4}>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>
-                                    Apresentação de Dados
-                                </Card.Title>
-                                <Pie
-                                    data={data}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Users Gained between 2016-2020"
-                                        }
-                                    }
-                                    }}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col xs={12} lg={4}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>
-                                    Apresentação de Dados
-                            </Card.Title>
-                                <Bar
-                                    data={data}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Users Gained between 2016-2020"
-                                        },
-                                        legend: {
-                                        display: false
-                                        }
-                                    }
-                                    }}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col xs={12} lg={4}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>
-                                    Apresentação de Dados
-                            </Card.Title>
-                                <Bar
-                                    data={data}
-                                    options={{
-                                    plugins: {
-                                        title: {
-                                        display: true,
-                                        text: "Users Gained between 2016-2020"
-                                        },
-                                        legend: {
-                                        display: false
-                                        }
-                                    }
-                                    }}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row> */}
 
             </Container>
         </>

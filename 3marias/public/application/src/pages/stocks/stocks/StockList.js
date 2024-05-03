@@ -28,7 +28,7 @@ export default function StockList() {
             name: "file_download",
             tooltip: "Download do Alvará",
             icon: "file_download",
-            onClick: (evt) => {window.open(config.url + "/alvara/" + evt.contract.id)}
+            onClick: (evt) => {if (evt.id ===1) {return;} window.open(config.url + "/alvara/" + evt.contract.id)}
         },
         {
             name: "see_items_stock",

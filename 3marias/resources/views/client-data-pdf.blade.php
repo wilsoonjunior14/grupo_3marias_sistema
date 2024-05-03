@@ -157,7 +157,7 @@
     </div>
 </div>
 
-@if (strcmp($client->state, "Casado") === 0)
+@if ((!is_null($client->has_many_buyers) && strcmp($client->has_many_buyers, "Sim") === 0) || strcmp($client->state, "Casado") === 0)
 
 <div class="row">
     <div class="col-12"><b>Dados do Cônjugue do Proponente</b></div>

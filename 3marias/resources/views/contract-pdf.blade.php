@@ -26,9 +26,6 @@
             ];
         ?>
         <style>
-            body {
-                font-family: 'Quattrocento Sans';
-            }
             #title {
                 position: absolute;
                 top: 120px;
@@ -50,7 +47,7 @@
                 margin-right: 20px;
             }
             .row-colored {
-                border-left: 10px solid gold;
+                border-left: 10px solid rgb(12, 52, 114);
                 border-bottom: 1px solid gray;
             }
             .no-bottom-border {
@@ -415,7 +412,7 @@
                             <li>2.7. Este contrato inclui a execução de muros e calçadas externas ao imóvel.</li>
                             <li>2.8. Os serviços a serem executados são:
                                 <ul style="list-style: lower-norwegian;">
-                                    <li>PROJETO DE ARQUITETURA LEGAL (PREFEITURA): Projeto para aprovação junto à Prefeitura do Município de Ibiapina, atendendo as exigências legais; </li>
+                                    <li>PROJETO DE ARQUITETURA LEGAL (PREFEITURA): Projeto para aprovação junto à Prefeitura do Município de {{ $contract->address->city_name }}, atendendo as exigências legais; </li>
                                     <li>PROJETO ESTRUTURAL: A "solução definitiva do projeto estrutural a nível de execução" é o plano detalhado para a construção da estrutura de um edifício, incluindo a escolha de materiais, tipo de fundação e o design dos elementos estruturais como colunas e vigas. O objetivo é garantir uma estrutura segura, durável e conforme às normas de construção.</li>
                                     <li>PROJETO ELÉTRICO: A solução definitiva do projeto elétrico a nível de execução" é o plano final para instalar o sistema elétrico, incluindo a estratégia geral (partido adotado) e o detalhamento de como cabos, tomadas, e equipamentos elétricos serão organizados. O objetivo é garantir segurança, eficiência e conformidade com normas técnicas.</li>
                                     <li>PROJETO HIDROSSANITÁRIO: Um projeto hidrossanitário a nível de execução é um plano detalhado para instalar e gerenciar os sistemas de água e esgoto. Ele define a estratégia geral do sistema (partido adotado) e detalha como as tubulações, conexões e equipamentos serão organizados e operados para garantir eficiência, conformidade com normas e conforto para os usuários.</li>
@@ -436,8 +433,8 @@
                         @endforeach
                         <ul class="list-no-style">
                             <li>3.1. A elaboração dos projetos e documentação técnica observará as seguintes premissas: </li>
-                            <li>3.1.1. O engenheiro BHRENO DE OLIVEIRA PONTES, registrado no CREA sob o nº 45211, é contratado em comum acordo pela CONTRATADA e {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} para se responsabilizar tecnicamente pela aprovação do projeto de construção junto à Prefeitura do Município de Ibiapina. Além disso, ele acompanhará o andamento da obra, 
-                                realizando as medições necessárias que serão enviadas ao banco {{ $bank }} para fiscalização por um engenheiro credenciado da mesma. Todas as exigências, ajustes e esclarecimentos requisitados pela Prefeitura Municipal de Ibiapina ou pelo banco {{ $bank }} serão prontamente atendidos por ele. 
+                            <li>3.1.1. O engenheiro {{ mb_strtoupper($contract->engineer->name, 'UTF-8') }}, registrado no CREA sob o nº {{ mb_strtoupper($contract->engineer->crea, 'UTF-8') }}, é contratado em comum acordo pela CONTRATADA e {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} para se responsabilizar tecnicamente pela aprovação do projeto de construção junto à Prefeitura do Município de {{ $contract->address->city_name, 'UTF-8' }}. Além disso, ele acompanhará o andamento da obra, 
+                                realizando as medições necessárias que serão enviadas ao banco {{ $bank }} para fiscalização por um engenheiro credenciado da mesma. Todas as exigências, ajustes e esclarecimentos requisitados pela Prefeitura Municipal de {{ $contract->address->city_name }} ou pelo banco {{ $bank }} serão prontamente atendidos por ele. 
                                 Os honorários deste engenheiro serão pagos pela CONTRATADA.</li>
                             <li>3.1.2. Fornecer para {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} em formato digital (em extensão.pdf) um original de cada uma das plantas, e detalhes relativos ao desenvolvimento do projeto;</li>
                             <li>3.1.3. A CONTRATADA caberá coordenar os cálculos complementares do projeto arquitetônico incluindo supervisionar o desenvolvimento dos planos de estrutura, instalações hidráulicas, sanitárias, elétricas, telecomunicações, climatização e paisagismo, sempre que estes elementos façam parte do projeto, garantindo sua integração e conformidade com as normas técnicas.</li>
@@ -487,14 +484,14 @@
                                     @endforeach
                                     @foreach ($contract->proposal->payments as $payment)
                                         @if (strcmp("Banco", $payment->source) === 0)
-                                            <li>O valor de R$ {{ number_format($payment->value, 2, ',', '.') }} serão pagos de acordo com a execução e {{ strtoupper($payment->type) }} da obra realizados pela instituição financeira ({{ strtoupper($payment->bank) }});
+                                            <li>O valor de R$ {{ number_format($payment->value, 2, ',', '.') }} serão pagos de acordo com a execução e {{ mb_strtoupper($payment->type, 'UTF-8') }} da obra realizados pela instituição financeira ({{ mb_strtoupper($payment->bank, 'UTF-8') }});
                                         @endif        
                                     @endforeach
                                 </ul>
                             </li>
                             <li>5.2.  As medições realizadas por engenheiros enviados pelo banco {{ $bank }} para a liberação dos recursos da obra, conforme estipulado no contrato de número NÚMERO SERÁ ANEXADO POSTERIORMENTE A ESTE CONTRATO assinado entre {{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} {{ strtoupper($contract->proposal->client->name) }} e o banco {{ $bank }}, e que servirão como único parâmetro para o pagamento d{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} à CONTRATADA, exceto em casos de serviços adicionais acordados entre as partes, funcionarão da seguinte maneira:
-                            Medição Inicial: O engenheiro civil BHRENO DE OLIVEIRA PONTES, inscrito no CREA nº 45211, faz uma medição do progresso, baseando-se no cronograma estabelecido e envia para o banco {{ $bank }};
-                            Fiscalização pela Caixa: Essa medição é então fiscalizada por um engenheiro credenciado pelo banco {{ $bank }}, que verifica a precisão e conformidade com o projeto.
+                            Medição Inicial: O engenheiro civil {{ mb_strtoupper($contract->engineer->name, 'UTF-8') }}, inscrito no CREA nº {{ mb_strtoupper($contract->engineer->crea, 'UTF-8') }}, faz uma medição do progresso, baseando-se no cronograma estabelecido e envia para o banco {{ $bank }};
+                            Fiscalização pelo banco {{ $bank }}: Essa medição é então fiscalizada por um engenheiro credenciado pelo banco {{ $bank }}, que verifica a precisão e conformidade com o projeto.
                             Relatório de Vistoria: Se a fiscalização confirmar a conclusão adequada das etapas, o engenheiro do banco {{ $bank }} prepara um relatório de vistoria.
                             Liberação dos Recursos: Com base nesse relatório, o banco {{ $bank }} libera os recursos financeiros para a etapa correspondente, depositando-os na conta d{{ strtolower($subjectArticle) }} {{ strtoupper($subject) }} ({{strtoupper($contract->proposal->client->name)}}). </li>
 
@@ -580,7 +577,7 @@
                     <div style="padding-top: 15px;" class="col-12 row-colored no-bottom-border"><b>12. CLÁUSULA DÉCIMA SEGUNDA - DO FORO</b></div>
                     <div class="col-12 row-colored no-bottom-border">
                         <ul class="list-no-style">
-                            <li>12.1. Fica eleito o foro da Ibiapina no estado do Ceará para qualquer ação oriunda do presente contrato, renunciando as partes contratantes a qualquer outro.
+                            <li>12.1. Fica eleito o foro da {{ mb_strtoupper($contract->address->city_name, 'UTF-8') }} no estado do Ceará para qualquer ação oriunda do presente contrato, renunciando as partes contratantes a qualquer outro.
                                 E por estarem assim justas e contratadas, as partes assinam o presente contrato em 2 (duas) vias de igual teor e forma, juntamente com o Memorial Descritivo anexo, na presença de duas testemunhas. </li>
 
                         </ul>

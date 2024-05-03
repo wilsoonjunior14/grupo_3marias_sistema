@@ -92,6 +92,17 @@ const ClientForm = ({disableHeader}) => {
         } else if(name.toString() === "state" && value !== "Casado") {
             removeDependentFields();
         }
+
+        if (name.toString() === "has_many_buyers") {
+            if (value.toString() === "Sim") {
+                fields.concat(dependentFields);
+                dependentFields.forEach((f) => fields.push(f));
+                setFields(fields);
+                console.log("entrou aqui");
+            } else {
+                removeDependentFields();
+            }
+        }
     };
 
     const removeDependentFields = () => {
@@ -177,6 +188,9 @@ const ClientForm = ({disableHeader}) => {
             }
             if (key.indexOf("salary") !== -1) {
                 data[key] = formatDoubleValue(data[key]);
+            }
+            if (data[key] === "") {
+                delete data[key];
             }
         });
         return data;

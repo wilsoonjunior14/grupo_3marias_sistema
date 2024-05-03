@@ -131,8 +131,9 @@ class ServiceOrderBusiness {
         $serviceOrderUpdated->save();
 
         // Creating bills to pay
-        // TODO: it needs appear on stock screen
-        (new BillPayBusiness())->createBillPay(baseModel: $serviceOrderUpdated);
+        if ($serviceOrderUpdated->status === 2) { // only if service order is approved
+            (new BillPayBusiness())->createBillPay(baseModel: $serviceOrderUpdated);
+        }
         return $serviceOrderUpdated;
     }
 
