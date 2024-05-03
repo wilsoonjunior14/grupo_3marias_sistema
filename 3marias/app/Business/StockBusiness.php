@@ -43,6 +43,14 @@ class StockBusiness {
         return $stock;
     }
 
+    public function getByContractId(int $contractId) {
+        Logger::info("Iniciando a recuperação de centros de custo.");
+        $stock = (new Stock())->getByContractId(id: $contractId)->first();
+        $stock = $this->getById(id: $stock->id, mergeFields: false);
+        Logger::info("Finalizando a exclusão dos centros de custo associados ao contrato.");
+        return $stock;
+    }
+
     public function deleteByContractId(int $contractId) {
         Logger::info("Iniciando a recuperação de centros de custo.");
         $stocks = (new Stock())->getByContractId(id: $contractId);

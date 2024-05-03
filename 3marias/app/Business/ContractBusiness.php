@@ -31,6 +31,8 @@ class ContractBusiness {
                 $contract["client"] = (new ClientBusiness())->getById(id: $contract["proposal"]["client_id"]);
                 $contract["address"] = (new AddressBusiness())->getById(id: $contract->address_id);
                 $contract["bills_receive"] = (new BillReceiveBusiness())->getByContract(id: $contract->id);
+                $stock = (new StockBusiness())->getByContractId(contractId: $contract->id);
+                $contract["progress"] = round(($stock["totalItems"] + $stock["totalServices"] * 100) / $contract->value, 2);
             }
         }
 

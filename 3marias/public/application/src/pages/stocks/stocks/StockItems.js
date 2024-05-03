@@ -34,7 +34,7 @@ function StockItems() {
 
     const parameters = useParams();
     const [initialState, setInitialState] = useState({items: []});
-    const [stock, setStock] = useState({items: [], services: []});
+    const [stock, setStock] = useState({contract: {value: 0}, items: [], services: []});
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);

@@ -29,12 +29,9 @@ describe('client screen test', () => {
       cy.wait(30000);
 
       // Clients Form Screen Asserts
-<<<<<<< HEAD
       cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
       cy.get('#cpfInput').invoke('val').then(value => expect(value).to.not.equal(''));
       cy.get('#rgInput').invoke('val').then(value => expect(value).to.not.equal(''));
-=======
->>>>>>> b547127b9fd3fc3e80fecd3d12717afff6856058
       cy.get('.alert-danger').should('exist');
     })
 
@@ -48,13 +45,10 @@ describe('client screen test', () => {
     cy.wait(30000);
 
     // Clients Form Screen Asserts
-<<<<<<< HEAD
     cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#cpfInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#rgInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#rg_organInput').invoke('val').then(value => expect(value).to.not.equal(''));
-=======
->>>>>>> b547127b9fd3fc3e80fecd3d12717afff6856058
     cy.get('.alert-danger').should('exist');
   })
 
@@ -68,13 +62,10 @@ describe('client screen test', () => {
     cy.wait(30000);
 
     // Clients Form Screen Asserts
-<<<<<<< HEAD
     cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#cpfInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#rgInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#rg_dateInput').invoke('val').then(value => expect(value).to.not.equal(''));
-=======
->>>>>>> b547127b9fd3fc3e80fecd3d12717afff6856058
     cy.get('.alert-danger').should('exist');
   })
 })

@@ -17,9 +17,9 @@ export default function ContractList() {
     ];
 
     const table = {
-        fields: ["Código", "Cliente", "Tipo de Obra", "Descrição", "Valor"],
+        fields: ["Código", "Cliente", "Progresso", "Tipo de Obra", "Descrição", "Valor"],
         amountOptions: 1,
-        bodyFields: ["code", "client.name", "building_type", "description", "value"]
+        bodyFields: ["code", "client.name", "progress", "building_type", "description", "value"]
     };
 
     const customOptions = [

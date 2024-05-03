@@ -18,6 +18,7 @@ import { formatDate, formatDateTime, formatDoubleValue, getValueOfComplexField }
 import Search from "../search/Search";
 import "../../App.css";
 import TableButton from "../button/TableButton";
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 const CustomTable = ({tableName, tableNamePlaceholder, tableIcon, 
     url, tableFields, fieldNameDeletion, searchFields, customOptions, refresh,
@@ -138,6 +139,10 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                 return (<i style={{color: item["icon_color"]}} className="material-icons">{item[field]}</i>);
             }
             return (<i className="material-icons">{item[field]}</i>);
+        }
+        if (field === "progress") {
+            const now = item[field];
+            return (<ProgressBar animated now={now} label={`${now}%`} />);
         }
         if (field === "status") {
             return getStatusField(item[field]);

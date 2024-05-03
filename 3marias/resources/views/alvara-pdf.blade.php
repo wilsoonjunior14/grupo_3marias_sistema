@@ -26,12 +26,6 @@
             ];
         ?>
         <style>
-<<<<<<< HEAD
-=======
-            body {
-                font-family: 'Quattrocento Sans';
-            }
->>>>>>> b547127b9fd3fc3e80fecd3d12717afff6856058
             #title {
                 position: absolute;
                 top: 50px;
@@ -139,11 +133,7 @@
                             EMAIL
                         </div>
                         <div class="col-7">
-<<<<<<< HEAD
                             {{ $contract->engineer->email }}
-=======
-                            {{ $contract->proposal->client->email }}
->>>>>>> b547127b9fd3fc3e80fecd3d12717afff6856058
                         </div>
                         <div class="col-3"></div>
                     </div>
