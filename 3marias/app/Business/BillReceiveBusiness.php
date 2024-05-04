@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\BillReceive;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 use Illuminate\Http\Request;
@@ -42,7 +43,11 @@ class BillReceiveBusiness {
 
     public function getById($id) {
         Logger::info("Iniciando a recuperação do pagamento.");
-        $bill = (new BillReceive())->getById(id: $id);
+        try {
+            $bill = (new BillReceive())->getById(id: $id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Pagamento a Receber"));
+        }      
         Logger::info("Finalizando a recuperação do pagamento.");
         return $bill;
     }

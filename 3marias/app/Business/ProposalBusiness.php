@@ -36,13 +36,11 @@ class ProposalBusiness {
 
     public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de proposta $id.");
-        if ($id <= 0) {
+        try {
+            $proposal = (new Proposal())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Proposta"));
-        }
-        $proposal = (new Proposal())->getById($id);
-        if (is_null($proposal)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Proposta"));
-        }
+        } 
         if ($mergeFields) {
             $proposal->client = (new ClientBusiness())->getById(id: $proposal->client_id);
             $proposal->address = (new AddressBusiness())->getById(id: $proposal->address_id, merge: false);

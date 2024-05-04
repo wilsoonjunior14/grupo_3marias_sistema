@@ -116,8 +116,9 @@ class CityController extends Controller implements APIController
             throw new InputValidationException($cityValidation);
         }
 
-        $state = (new State())->getById($data["state_id"]);
-        if (is_null($state)) {
+        try {
+            $state = (new State())->getById($data["state_id"]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new EntityAlreadyExistsException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "estado"));
         }
 
@@ -132,13 +133,10 @@ class CityController extends Controller implements APIController
      * Validates the city id.
      */
     private function validateCityId(int $id) : City {
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "cidade"));
-        }
-        Logger::info("Recuperando a cidade: {$id}.");
-        $country = (new City)->getById($id);
-        if (is_null($country)) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $country = (new City)->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "cidade"));
         }
         return $country;
     }

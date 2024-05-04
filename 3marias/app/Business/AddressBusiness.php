@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
 
@@ -43,7 +44,11 @@ class AddressBusiness {
     public function getById(int $id, bool $merge = true) {
         Logger::info("Recuperando endereço.");
         Logger::info("Salvando a nova endereço.");
-        $address = (new Address())->getById($id);
+        try {
+            $address = (new Address())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Endereço"));
+        }        
 
         if ($merge) {
             $city = (new CityBusiness())->getById($address->city_id);

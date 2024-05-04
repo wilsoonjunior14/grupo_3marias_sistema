@@ -48,7 +48,7 @@ class DeleteCategoryProductTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Produto")
+                "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria de Produto")
             ]
         );
     }
@@ -62,7 +62,7 @@ class DeleteCategoryProductTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Identificador de Categoria de Produto não existe."
+                "message" => "Nenhum registro de Categoria de Produto foi encontrado."
             ]
         );
     }
@@ -107,7 +107,7 @@ class DeleteCategoryProductTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Identificador de Categoria de Produto não existe."
+                "message" => "Nenhum registro de Categoria de Produto foi encontrado."
             ]
         );
 

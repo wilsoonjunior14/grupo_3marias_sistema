@@ -81,7 +81,7 @@ class GetClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "cliente")
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 
@@ -93,7 +93,7 @@ class GetClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Nenhum registro foi encontrado.'
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 
@@ -105,7 +105,7 @@ class GetClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => "Nenhum registro foi encontrado."
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 

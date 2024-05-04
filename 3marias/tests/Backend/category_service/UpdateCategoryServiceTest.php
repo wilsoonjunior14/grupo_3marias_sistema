@@ -43,6 +43,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_empty_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName("");
@@ -57,6 +58,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_null_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName(null);
@@ -71,6 +73,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_short_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName(parent::generateRandomLetters(2));
@@ -85,6 +88,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_long_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName(parent::generateRandomLetters(10000));
@@ -99,6 +103,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_numbers_in_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName("12345" . parent::generateRandomLetters());
@@ -113,6 +118,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_special_chars_in_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName("@#$%^" . parent::generateRandomLetters());
@@ -127,6 +133,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_name_containing_spaces(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName("          ");
@@ -141,6 +148,7 @@ class UpdateCategoryServiceTest extends TestFramework
 
     #[Test]
     public function negTest_updateCategoryService_with_wrong_type_name(): void {
+        $this->createCategoryService();
         $category = new CategoryService();
         $category
             ->withName(12345);

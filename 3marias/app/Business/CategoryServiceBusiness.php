@@ -23,12 +23,10 @@ class CategoryServiceBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de categoria $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Serviço"));
-        }
-        $category = (new CategoryService())->getById($id);
-        if (is_null($category)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Serviço"));
+        try {
+            $category = (new CategoryService())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria de Serviço"));
         }
         Logger::info("Finalizando a recuperação de categorye $id.");
         return $category;
@@ -63,7 +61,7 @@ class CategoryServiceBusiness {
 
     public function update(int $id, Request $request) {
         Logger::info("Alterando informações do categoria de serviço.");
-        $category = (new CategoryService())->getById($id);
+        $category = $this->getById($id);
         $categoryUpdated = UpdateUtils::processFieldsToBeUpdated($category, $request->all(), CategoryService::$fieldsToBeUpdated);
         $data = $request->all();
 
