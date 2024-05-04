@@ -248,7 +248,7 @@ function StockItems() {
                                 <>
                                 <Row>
                                     <Col xs={12}>
-                                        <b>Valor do Contrato: </b> {formatMoney(stock.contract.value)}
+                                        <b>Valor do Contrato: </b> {stock.contract ? formatMoney(stock.contract.value) : 0}
                                     </Col>
                                     <Col xs={12}>
                                         <b>Valor do Orçamento Atual:</b> {formatMoney((stock.totalItems + stock.totalServices).toString())} 
@@ -287,7 +287,8 @@ function StockItems() {
                                         ],
                                         datasets: [{
                                         label: 'Orçamento',
-                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), (stock.totalItems + stock.totalServices)],
+                                        data: [stock.contract ? stock.contract.value - (stock.totalItems + stock.totalServices) : (stock.totalItems + stock.totalServices), 
+                                               (stock.totalItems + stock.totalServices)],
                                         backgroundColor: [
                                             'rgba(54, 162, 0, 0.5)',
                                             'rgba(255, 20, 20, 0.5)',
@@ -321,7 +322,8 @@ function StockItems() {
                                         ],
                                         datasets: [{
                                         label: 'Orçamento',
-                                        data: [stock.contract.value - (stock.totalItems + stock.totalServices), stock.totalServices, stock.totalItems],
+                                        data: [stock.contract ? stock.contract.value - (stock.totalItems + stock.totalServices) : (stock.totalItems + stock.totalServices),
+                                               stock.totalServices, stock.totalItems],
                                         backgroundColor: [
                                             'rgba(54, 162, 0, 0.5)',
                                             'rgba(255, 150, 150, 0.5)',
