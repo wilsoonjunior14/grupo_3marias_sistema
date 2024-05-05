@@ -11,9 +11,7 @@ import './Login.css';
 import {performLogin} from '../../services/Api';
 import { storeUserData } from "../../services/Storage";
 import { useNavigate } from "react-router-dom";
-import config from "../../config.json";
-
-const BASE_URL = config.url + "/api/login";
+import logo from "../../assets/logo_complete.png";
 
 function Login() {
     const [isLoading, setLoading] = useState(false);
@@ -81,8 +79,9 @@ function Login() {
             <div style={{flex: 1}}></div>
             <div style={{flex: 1}}>
             <img 
-                width={400} style={{marginBottom: "0"}} 
-                src={config.url + "/img/logo_complete.png"} />
+                width={400} style={{marginBottom: -60}} 
+                src={logo}
+                alt={"logo"} />
             <Card style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#0C3472' }}>
                 <Card.Body>
                         {!isLoading && httpError && 
