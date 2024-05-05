@@ -13,7 +13,7 @@ import VHeaderAlmoxarifado from "./vHeaderAlmoxarifado";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
 import { isLogged, removeUserData } from "../../services/Storage";
-export const logo = config.url + "/img/logo.png";
+import logo from "../../assets/logo512.png";
 
 function VHeader() {
     const [logged, setLogged] = useState(true);

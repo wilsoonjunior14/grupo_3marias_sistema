@@ -8,7 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Alert from 'react-bootstrap/Alert';
 import './Recovery.css';
 import {performRecoveryPassword} from '../../services/Api';
-import config from "../../config.json";
+import logo from "../../assets/logo_complete.png";
 
 export default function RecoveryPassword() {
     const [isLoading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ export default function RecoveryPassword() {
         <div className="Display">
             <div style={{flex: 1}}></div>
             <div style={{flex: 1}}>
-            <img width={400} src={config.url + "/img/logo_complete.png"} />
+            <img width={400} src={logo} alt={"logo"} style={{marginBottom: -60}} />
             <Card style={{ width: '25rem', margin: '0 auto', border: 'none', backgroundColor: '#0C3472' }}>
                 <Card.Body>
                         {!isLoading && httpError && 
