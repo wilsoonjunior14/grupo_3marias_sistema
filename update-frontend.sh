@@ -11,16 +11,11 @@
 cd 3marias/public/application
 npm run build
 
+cp -r build/index.html ../../resources/views/
+mv ../../resources/views/index.html ../../resources/views/welcome.blade.php
+rm build/index.html
+
 # 2. Moving the static folder
 cp -r build/static/* ../static
-cp -r build/manifest.json ../
-rm build/manifest.json
-rm -R build/static
-
-# 3. Moving the other files
-cp -r build/* ../../resources/views/
+cp -r build/* ../
 rm -R build
-
-# 4. Removing the old welcome.blade.php
-cd ../../resources/views
-mv index.html welcome.blade.php

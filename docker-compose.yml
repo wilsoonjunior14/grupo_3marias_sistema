@@ -30,10 +30,10 @@ services:
       - .:/var/www/html
     working_dir: /var/www/html/3marias
     ports:
-      - "5000:5000"
+      - "80:80"
     #it must run on dev
-    entrypoint: ["bash", "-c", "php artisan serve --port 5000 --host 0.0.0.0"]
-    #entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 5000 --host 0.0.0.0"]
+    entrypoint: ["bash", "-c", "php artisan serve --port 80 --host 0.0.0.0"]
+    #entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 80 --host 0.0.0.0"]
     
   # Frontend - React
   # react:
