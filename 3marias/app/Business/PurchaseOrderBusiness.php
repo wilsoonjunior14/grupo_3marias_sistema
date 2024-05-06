@@ -53,8 +53,9 @@ class PurchaseOrderBusiness {
 
     public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação de ordem de compra $id.");
-        $purchase = (new PurchaseOrder())->getById(id: $id);
-        if (is_null($purchase)) {
+        try {
+            $purchase = (new PurchaseOrder())->getById(id: $id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Ordem de Compra"));
         }
         if ($mergeFields) {

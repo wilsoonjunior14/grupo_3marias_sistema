@@ -30,7 +30,7 @@ class BillsReceiveController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -44,7 +44,7 @@ class BillsReceiveController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -65,7 +65,7 @@ class BillsReceiveController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -86,7 +86,7 @@ class BillsReceiveController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 

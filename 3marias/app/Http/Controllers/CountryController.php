@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\EntityAlreadyExistsException;
-use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\InputValidationException;
 use App\Models\Country;
 use App\Models\Logger;
@@ -124,13 +123,10 @@ class CountryController extends Controller implements APIController
      * Validates the country id.
      */
     private function validateCountryId(int $id) : Country {
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "país"));
-        }
-        Logger::info("Recuperando o país: {$id}.");
-        $country = (new Country)->getById($id);
-        if ($country === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $country = (new Country)->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "país"));
         }
         return $country;
     }

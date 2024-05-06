@@ -34,11 +34,14 @@ Cypress.Commands.add('login', (email, password) => {
 })
 
 Cypress.Commands.add('doLogin', () => {
+    cy.intercept("http://localhost:5000/api/login").as("xhrLogin");
+
     cy.visit("http://localhost:3000");
     cy.get('#emailInput').type("wjunior_msn@hotmail.com");
     cy.get('#passwordInput').type("12345");
     cy.get('.custom-btn').click();
-    cy.wait(30000);
+
+    cy.wait('@xhrLogin').its('response.statusCode').should('equal', 200)
 })
 
 Cypress.Commands.add('goToAddClients', () => {

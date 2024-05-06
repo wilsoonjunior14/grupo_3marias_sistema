@@ -24,11 +24,9 @@ class EnterprisePartnerBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de sócio $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Sócio da Empresa"));
-        }
-        $enteprisePartner = (new EnterprisePartner())->getById($id);
-        if (is_null($enteprisePartner)) {
+        try {
+            $enteprisePartner = (new EnterprisePartner())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Sócio da Empresa"));
         }
         if ($merge) {

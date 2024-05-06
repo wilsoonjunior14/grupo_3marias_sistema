@@ -48,7 +48,7 @@ class DeleteProjectTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Projeto")
+                "message" => "Nenhum registro de Projeto foi encontrado."
             ]
         );
     }

@@ -37,13 +37,10 @@ class StateBusiness {
     }
 
     public function getById(int $id) {
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Estado"));
-        }
-        Logger::info("Recuperando a entidade: {$id}.");
-        $state = (new State)->getById($id);
-        if ($state === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $state = (new State)->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Estado"));
         }
         return $state;
     }

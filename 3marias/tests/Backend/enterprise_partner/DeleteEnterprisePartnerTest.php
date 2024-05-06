@@ -48,7 +48,7 @@ class DeleteEnterprisePartnerTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Sócio da Empresa")
+                "message" => "Nenhum registro de Sócio da Empresa foi encontrado."
             ]
         );
     }

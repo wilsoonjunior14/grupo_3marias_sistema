@@ -7,7 +7,6 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Exceptions\InputValidationException;
 use App\Exceptions\InvalidValueException;
 use App\Exceptions\EntityNotFoundException;
-use App\Exceptions\EntityAlreadyExistsException;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\GroupRole;
@@ -65,23 +64,15 @@ class UserController extends BaseController implements APIController
      */
     public function destroy($id) {
         Logger::info("Iniciando a deleção do usuário: " . $id . " .");
-
-        if ($id <= 0) {
-            throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "usuário"));
-        }
-
-        Logger::info("Recuperando o usuário: " . $id . " .");
-        $userObj = $this->userInstance->getUserById($id);
-
-        if ($userObj === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $userObj = $this->userInstance->getUserById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "usuário"));
         }
 
         $userObj->deleted = true;
-
         Logger::info("Salvando alterações no usuário: " . $id . " .");
         $userObj->save();
-
         Logger::info("Encerrando a deleção do usuário: " . $id . " .");
         return ResponseUtils::getResponse($userObj, 200);
     }
@@ -91,13 +82,10 @@ class UserController extends BaseController implements APIController
      */
     public function show($id) {
         Logger::info("Iniciando a busca pelo usuário: " . $id . " .");
-        if ($id <= 0) {
-           throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "usuário"));
-        }
-        Logger::info("Recuperando o usuário: " . $id . " .");
-        $user = $this->userInstance->getUserById($id);
-        if ($user === null) {
-           throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $user = $this->userInstance->getUserById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "usuário"));
         }
         Logger::info("Encerrando a busca pelo usuário: " . $id . " .");
         return ResponseUtils::getResponse($user, 200);
@@ -124,14 +112,10 @@ class UserController extends BaseController implements APIController
         Logger::info("Iniciando a alteração do usuário.");
 
         Logger::info("Iniciando a validação dos dados informados.");
-        if ($id <= 0) {
-            throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "usuário"));
-        }
-
-        Logger::info("Recuperação do usuário: " . $id . " .");
-        $userObj = $this->userInstance->getUserById($id);
-        if ($userObj === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $userObj = $this->userInstance->getUserById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "usuário"));
         }
 
         $data = $request->all();
@@ -286,10 +270,10 @@ class UserController extends BaseController implements APIController
             throw new InputValidationException($validationResults);
         }
 
-        Logger::info("Recuperando o usuário.");
-        $user = $this->userInstance->getUserById($data["id"]);
-        if ($user === null) {
-           throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $user = $this->userInstance->getUserById($data["id"]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "usuário"));
         }
 
         Logger::info("Validando o token do usuário.");

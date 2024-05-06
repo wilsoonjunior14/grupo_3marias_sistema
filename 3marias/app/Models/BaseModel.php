@@ -22,12 +22,16 @@ class BaseModel extends Model
     /**
      * Retrieves an entity by id
      */
-    public function getById($id) {
-        return $this // @phpstan-ignore-line
-        ::where("deleted", false)
-        ->where("id", $id)
-        ->get()
-        ->first();
+    public function getById(int $id) {
+        try {
+            return $this // @phpstan-ignore-line
+            ::where("deleted", false)
+            ->where("id", $id)
+            ->get()
+            ->firstOrFail();
+        } catch (\Exception $e) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException($e->getMessage(), 400);
+        }
     }
 
     /**

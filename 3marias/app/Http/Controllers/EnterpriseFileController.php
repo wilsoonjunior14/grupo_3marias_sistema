@@ -35,7 +35,7 @@ class EnterpriseFileController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -43,7 +43,14 @@ class EnterpriseFileController extends Controller implements APIController
      * Gets a EnterpriseFile by id.
      */
     public function show($id) {
-        throw new MethodNotImplementedYet("Route not implemented.");
+        try {
+            $entepriseFile = $this->enterpriseFileBusiness->getById(id: $id);
+            return ResponseUtils::getResponse($entepriseFile, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse($e);
+        }
     }
 
     /**
@@ -56,7 +63,7 @@ class EnterpriseFileController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 

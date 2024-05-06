@@ -167,7 +167,7 @@ class CreateCityTest extends TestFramework
         // Arrange
         $json = [
             "name" => "São Paulo",
-            "state_id" => "0"
+            "state_id" => "1"
         ];
 
         // Act

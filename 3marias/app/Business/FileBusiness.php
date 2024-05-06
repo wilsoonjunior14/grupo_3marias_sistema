@@ -35,8 +35,9 @@ class FileBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de documento $id.");
-        $document = (new File())->getById($id);
-        if (is_null($document)) {
+        try {
+            $document = (new File())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Documento"));
         }
         Logger::info("Finalizando a recuperação do documento $id.");

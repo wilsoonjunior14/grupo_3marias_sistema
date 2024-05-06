@@ -48,7 +48,7 @@ class DeleteEnterpriseBranchTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Filial da Empresa")
+                "message" => "Nenhum registro de Filial da Empresa foi encontrado."
             ]
         );
     }

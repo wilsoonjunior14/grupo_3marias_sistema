@@ -38,6 +38,7 @@ class UpdateEnterpriseTest extends TestFramework
 
     #[Test]
     public function negTest_updateEnterprise_with_null_payload(): void {
+        $this->createEnterprise();
         $payload = [null];
 
         $response = $this
@@ -52,6 +53,7 @@ class UpdateEnterpriseTest extends TestFramework
 
     #[Test]
     public function negTest_updateEnterprise_with_empty_payload(): void {
+        $this->createEnterprise();
         $payload = [];
 
         $response = $this

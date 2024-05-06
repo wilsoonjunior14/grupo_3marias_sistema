@@ -50,11 +50,9 @@ class ServiceOrderBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de ordem de serviço $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Ordem de Serviço"));
-        }
-        $service = (new ServiceOrder())->getById($id);
-        if (is_null($service)) {
+        try {
+            $service = (new ServiceOrder())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Ordem de Serviço"));
         }
         Logger::info("Finalizando a recuperação de ordem de serviço $id.");

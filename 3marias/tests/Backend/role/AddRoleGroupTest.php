@@ -98,7 +98,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador da permissão informada é inexistente.'
+            "message" => 'Nenhum registro de Permissão foi encontrado.'
         ]);
     }
 
@@ -117,7 +117,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador do grupo informado é inexistente.'
+            "message" => 'Nenhum registro de Grupo de Usuário foi encontrado.'
         ]);
     }
 
@@ -134,7 +134,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador da permissão informada é inexistente.'
+            "message" => "Nenhum registro de Grupo de Usuário foi encontrado."
         ]);
     }
 
@@ -151,7 +151,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador da permissão informada é inexistente.'
+            "message" => "Nenhum registro de Permissão foi encontrado."
         ]);
     }
 
@@ -170,7 +170,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador do grupo informado é inexistente.'
+            "message" => "Nenhum registro de Grupo de Usuário foi encontrado."
         ]);
     }
 
@@ -189,7 +189,7 @@ class AddRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Identificador da permissão informada é inexistente.'
+            "message" => "Nenhum registro de Permissão foi encontrado."
         ]);
     }
 

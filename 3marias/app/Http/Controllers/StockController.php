@@ -6,7 +6,6 @@ use App\Business\StockBusiness;
 use Illuminate\Http\Request;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
-use Illuminate\Support\Facades\Log;
 
 class StockController extends Controller implements APIController
 {
@@ -28,7 +27,7 @@ class StockController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -48,7 +47,7 @@ class StockController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -62,7 +61,7 @@ class StockController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -76,7 +75,7 @@ class StockController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -97,7 +96,7 @@ class StockController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 }

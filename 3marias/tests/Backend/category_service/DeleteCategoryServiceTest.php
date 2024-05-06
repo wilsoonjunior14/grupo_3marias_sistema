@@ -46,7 +46,7 @@ class DeleteCategoryServiceTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Serviço")
+                "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria de Serviço")
             ]
         );
     }
@@ -60,7 +60,7 @@ class DeleteCategoryServiceTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => "Identificador de Categoria de Serviço não existe."
+                "message" => "Nenhum registro de Categoria de Serviço foi encontrado."
             ]
         );
     }
@@ -100,7 +100,7 @@ class DeleteCategoryServiceTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => "Identificador de Categoria de Serviço não existe."
+            "message" => "Nenhum registro de Categoria de Serviço foi encontrado."
         ]);
 
         $getAllResponse = $this

@@ -28,10 +28,14 @@ class Group extends BaseModel
      * Gets a group with roles based on group id.
      */
     public function getGroupById($id) {
-        return (new Group())->where("id", $id)
-        ->with("roles.role")
-        ->get()
-        ->first();
+        try{
+            return (new Group())->where("id", $id)
+            ->with("roles.role")
+            ->get()
+            ->firstOrFail(); 
+        } catch (\Exception $e) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException($e->getMessage(), 400);
+        }
     }
 
     public function getGroupByName(string $groupName){

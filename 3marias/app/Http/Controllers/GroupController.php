@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Logger;
 use App\Exceptions\InputValidationException;
 use App\Exceptions\InvalidValueException;
-use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\EntityAlreadyExistsException;
 use App\Utils\ErrorMessage;
 use App\Utils\ResponseUtils;
@@ -55,14 +54,10 @@ class GroupController extends Controller implements APIController
      */
     public function show($id) {
         Logger::info("Iniciando a busca pelo grupo: {$id}.");
-        if ($id <= 0) {
-            throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "grupo"));
-        }
-        Logger::info("Recuperando o grupo pelo id {$id}.");
-        $group = $this->groupInstance->getGroupById($id);
-
-        if ($group === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $group = $this->groupInstance->getGroupById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "grupo"));
         }
         Logger::info("Encerrando a busca pelo grupo {$id}.");
         return ResponseUtils::getResponse($group, 200);
@@ -73,18 +68,11 @@ class GroupController extends Controller implements APIController
      */
     public function destroy($id) {
         Logger::info("Iniciando a deleção do grupo {$id}.");
-
-        if ($id <= 0) {
-           throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "grupo"));
+        try {
+            $group = $this->groupInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "grupo"));
         }
-
-        Logger::info("Recuperando o grupo pelo id: {$id}.");
-        $group = $this->groupInstance->getById($id);
-
-        if ($group === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
-        }
-
         Logger::info("Deletando o grupo: {$id}.");
         $group->deleted = true;
         $group->updated_at = date('Y-m-d H:i:s');
@@ -113,10 +101,10 @@ class GroupController extends Controller implements APIController
         }
 
         Logger::info("Recuperando o grupo: {$id}");
-        $groupObj = $this->groupInstance->getById($id);
-
-        if ($groupObj === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $groupObj = $this->groupInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "grupo"));
         }
 
         Logger::info("Alterando o grupo {$id}.");

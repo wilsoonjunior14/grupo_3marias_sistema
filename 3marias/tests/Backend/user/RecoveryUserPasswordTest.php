@@ -215,7 +215,7 @@ class RecoveryUserPasswordTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => ErrorMessage::$ENTITY_NOT_FOUND
+                "message" => "Nenhum registro de usuário foi encontrado."
             ]
         );
     }

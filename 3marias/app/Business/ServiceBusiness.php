@@ -23,11 +23,9 @@ class ServiceBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de serviço $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Serviço"));
-        }
-        $service = (new Service())->getById($id);
-        if (is_null($service)) {
+        try {
+            $service = (new Service())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Serviço"));
         }
         Logger::info("Finalizando a recuperação de serviço $id.");

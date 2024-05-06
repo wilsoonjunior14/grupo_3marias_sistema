@@ -23,11 +23,9 @@ class ProjectBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de projeto $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Projeto"));
-        }
-        $project = (new Project())->getById($id);
-        if (is_null($project)) {
+        try {
+            $project = (new Project())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Projeto"));
         }
         Logger::info("Finalizando a recuperação de projeto $id.");

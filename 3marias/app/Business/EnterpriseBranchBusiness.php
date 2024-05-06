@@ -24,13 +24,11 @@ class EnterpriseBranchBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de filial $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Filial da Empresa"));
-        }
-        $enterpriseBranch = (new EnterpriseBranch())->getById($id);
-        if (is_null($enterpriseBranch)) {
+        try {
+            $enterpriseBranch = (new EnterpriseBranch())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Filial da Empresa"));
-        }
+        } 
         if ($merge) {
             $address = (new AddressBusiness())->getById($enterpriseBranch->address_id);
             $enterpriseBranch = $this->mountClientAddressInline($enterpriseBranch, $address);

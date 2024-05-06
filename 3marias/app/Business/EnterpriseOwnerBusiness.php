@@ -24,11 +24,9 @@ class EnterpriseOwnerBusiness {
 
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de representante legal $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Representante Legal"));
-        }
-        $enterpriseOwner = (new EnterpriseOwner())->getById($id);
-        if (is_null($enterpriseOwner)) {
+        try {
+            $enterpriseOwner = (new EnterpriseOwner())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Representante Legal"));
         }
         if ($merge) {
