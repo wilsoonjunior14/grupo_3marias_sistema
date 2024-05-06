@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Business\StateBusiness;
 use App\Exceptions\EntityNotFoundException;
+use App\Exceptions\InputValidationException;
 use App\Exceptions\InvalidValueException;
 use App\Models\Country;
 use App\Models\Logger;
@@ -28,16 +29,11 @@ class StateController extends Controller implements APIController
      */
     public function getByCountry($idCountry) {
         Logger::info("Iniciando a recuperação de estados.");
-
-        Logger::info("Iniciando a validação do id do país.");
-        if ($idCountry <= 0) {
-            throw new InvalidValueException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "país"));
-        }
-
-        $country = (new Country())->getById($idCountry);
-        if ($country === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
-        }
+        try {
+            (new Country())->getById($idCountry);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "País"));
+        } 
 
         $data = (new State())->getByCountry($idCountry);
         $count = count($data);

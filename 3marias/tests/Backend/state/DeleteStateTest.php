@@ -45,7 +45,7 @@ class DeleteStateTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => "Identificador de Estado não existe."
+            "message" => "Nenhum registro de Estado foi encontrado."
         ]);
     }
 
@@ -57,7 +57,7 @@ class DeleteStateTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => ErrorMessage::$ENTITY_NOT_FOUND
+            "message" => "Nenhum registro de Estado foi encontrado."
         ]);
     }
 

@@ -169,7 +169,7 @@ class UpdateRoleTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => config("messages.general.entity_not_found")
+            "message" => "Nenhum registro de permissão foi encontrado."
         ]);
     }
 

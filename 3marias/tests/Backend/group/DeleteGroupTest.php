@@ -47,7 +47,7 @@ class DeleteGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "grupo")
+            "message" => "Nenhum registro de grupo foi encontrado."
         ]);
     }
 
@@ -61,7 +61,7 @@ class DeleteGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Nenhum registro foi encontrado.'
+            "message" => "Nenhum registro de grupo foi encontrado."
         ]);
     }
 

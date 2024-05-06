@@ -23,11 +23,9 @@ class ProductBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de produto $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Produto"));
-        }
-        $product = (new Product())->getById($id);
-        if (is_null($product)) {
+        try {
+            $product = (new Product())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Produto"));
         }
         Logger::info("Finalizando a recuperação de produto $id.");

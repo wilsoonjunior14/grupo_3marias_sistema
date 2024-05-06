@@ -2,9 +2,11 @@
 
 namespace App\Business;
 
+use App\Exceptions\InputValidationException;
 use App\Models\Address;
 use App\Models\Enterprise;
 use App\Models\Logger;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\EnterpriseValidator;
 use Illuminate\Http\Request;
@@ -22,7 +24,11 @@ class EnterpriseBusiness {
 
     public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação de empresa $id.");
-        $enterprise = (new Enterprise())->getById($id);
+        try {
+            $enterprise = (new Enterprise())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Empresa"));
+        }
         if (!$mergeFields) {
             Logger::info("Finalizando a recuperação de empresa $id.");
             return $enterprise;

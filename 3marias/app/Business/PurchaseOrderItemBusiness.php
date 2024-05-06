@@ -11,8 +11,9 @@ class PurchaseOrderItemBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de item $id ordem de compra.");
-        $item = (new PurchaseOrderItem())->getById(id: $id);
-        if (is_null($item)) {
+        try {
+            $item = (new PurchaseOrderItem())->getById(id: $id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Item de Ordem de Compra"));
         }
         Logger::info("Finalizando a recuperação de item $id ordem de compra.");

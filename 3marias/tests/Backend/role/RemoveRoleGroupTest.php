@@ -57,7 +57,7 @@ class RemoveRoleGroupTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => 'Nenhum registro foi encontrado.'
+            "message" => "Nenhum registro de Permissão de Grupo foi encontrado."
         ]);
     }
 

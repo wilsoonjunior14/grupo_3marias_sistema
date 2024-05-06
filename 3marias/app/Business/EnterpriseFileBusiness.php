@@ -24,7 +24,11 @@ class EnterpriseFileBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de arquivo $id.");
-        $entepriseFile = (new EnterpriseFile())->getById($id);
+        try {
+            $entepriseFile = (new EnterpriseFile())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Empresa"));
+        }
         Logger::info("Finalizando a recuperação de arquivo $id.");
         return $entepriseFile;
     }

@@ -94,7 +94,7 @@ class UpdateStockTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Centro de Custo")
+            "message" => "Nenhum registro de Centro de Custo foi encontrado."
         ]);
     }
 
@@ -433,7 +433,7 @@ class UpdateStockTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contrato")
+            "message" => "Nenhum registro de Contrato foi encontrado."
         ]);
     }
 

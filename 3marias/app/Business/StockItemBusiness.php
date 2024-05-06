@@ -12,12 +12,10 @@ class StockItemBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de item do centro de custo $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Item do centro de custo"));
-        }
-        $stockItem = (new StockItem())->getById($id);
-        if (is_null($stockItem)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Item do centro de custo"));
+        try {
+            $stockItem = (new StockItem())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Item do Centro de Custo"));
         }
         Logger::info("Finalizando a recuperação de item do centro de custo $id.");
         return $stockItem;

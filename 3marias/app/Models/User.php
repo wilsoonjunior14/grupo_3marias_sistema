@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\InputValidationException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -9,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Group;
+use App\Utils\ErrorMessage;
 
 class User extends Authenticatable
 {
@@ -122,10 +124,14 @@ class User extends Authenticatable
     }
 
     public function getUserById($id) {
-        return (new User())->where("id", $id)
-        ->with("group")
-        ->get()
-        ->first();
+        try{
+            return (new User())->where("id", $id)
+            ->with("group")
+            ->get()
+            ->firstOrFail();
+        } catch (\Exception $e) {
+            throw new \Illuminate\Database\Eloquent\ModelNotFoundException($e->getMessage(), 400);
+        }
     }
 
     public function getUserByEmail($email) {
@@ -168,7 +174,11 @@ class User extends Authenticatable
         }
 
         $group = new Group();
-        $groupInstance = $group->getGroupById($data["group_id"]);
+        try {
+            $groupInstance = $group->getGroupById($data["group_id"]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "grupo"));
+        }
         if ($groupInstance === null) {
             return "Grupo informado não existe.";
         }

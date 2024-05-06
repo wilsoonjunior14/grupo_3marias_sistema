@@ -34,7 +34,7 @@ class GetByCountryTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "país")
+                "message" => "Nenhum registro de País foi encontrado."
             ]
         );
     }
@@ -47,7 +47,7 @@ class GetByCountryTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => ErrorMessage::$ENTITY_NOT_FOUND
+                "message" => "Nenhum registro de País foi encontrado."
             ]
         );
     }

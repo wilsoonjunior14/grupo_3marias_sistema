@@ -23,11 +23,9 @@ class PartnerBusiness {
 
     public function getById(int $id, bool $merge = false) {
         Logger::info("Iniciando a recuperação de parceiro/fornecedor $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Parceiro/Fornecedor"));
-        }
-        $partner = (new Partner())->getById($id);
-        if (is_null($partner)) {
+        try {
+            $partner = (new Partner())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Parceiro/Fornecedor"));
         }
         Logger::info("Finalizando a recuperação de parceiro/fornecedor $id.");

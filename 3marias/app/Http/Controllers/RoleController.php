@@ -66,18 +66,11 @@ class RoleController extends Controller implements APIController
      */
     public function show($id){
         Logger::info("Iniciando a busca pela permissão: {$id}.");
-
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "permissão"));
+        try {
+            $role = $this->roleInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "permissão"));
         }
-
-        Logger::info("Recuperando a permissão: {$id}.");
-        $role = $this->roleInstance->getById($id);
-
-        if ($role === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
-        }
-
         Logger::info("Encerrando a busca pela permissão: {$id}.");
         return ResponseUtils::getResponse($role, 200);
     }
@@ -87,16 +80,10 @@ class RoleController extends Controller implements APIController
      */
     public function destroy($id) {
         Logger::info("Iniciando a deleção da permissão: {$id}.");
-
-        if ($id <= 0) {
-           throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "permissão"));
-        }
-
-        Logger::info("Recuperando a permissão: {$id}.");
-        $role = $this->roleInstance->getById($id);
-
-        if ($role === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $role = $this->roleInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "permissão"));
         }
 
         Logger::info("Alterando a permissão: {$id}.");
@@ -162,10 +149,10 @@ class RoleController extends Controller implements APIController
         }
 
         Logger::info("Recuperando a permissão: {$id}.");
-        $roleObj = $this->roleInstance->getById($id);
-
-        if ($roleObj === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $roleObj = $this->roleInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "permissão"));
         }
 
         Logger::info("Alterando a permissão: {$id}.");
@@ -207,10 +194,10 @@ class RoleController extends Controller implements APIController
         }
 
         Logger::info("Recuperando o grupo de permissões: {$id}.");
-        $groupRoleObj = $this->groupRoleInstance->getById($id);
-
-        if ($groupRoleObj === null) {
-            throw new EntityNotFoundException(ErrorMessage::$ENTITY_NOT_FOUND);
+        try {
+            $groupRoleObj = $this->groupRoleInstance->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Permissão de Grupo"));
         }
 
         Logger::info("Deletando a permissão do grupo.");
