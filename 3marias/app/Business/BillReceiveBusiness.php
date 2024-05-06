@@ -75,7 +75,6 @@ class BillReceiveBusiness {
     public function update(int $id, Request $request) {
         $bill = $this->getById(id: $id);
         $data = $request->all();
-
         $bill = UpdateUtils::updateFields(BillReceive::$fieldsToBeUpdated, $bill, $data);
 
         Logger::info("Validando as informações do pagamento.");

@@ -5,6 +5,10 @@ describe('client screen test', () => {
 
   beforeEach(() => {
     cy.goToAddClients();
+    cy.intercept({
+      method: "POST",
+      url: "http://localhost:5000/api/v1/clients"
+    }).as("xhrClients");
   })
 
   it('positive test create client with required fields', () => {
@@ -12,7 +16,7 @@ describe('client screen test', () => {
     cy.get('#nameInput').type(generateRandomLetters(20));
     cy.get('#cpfInput').type(gerarCpf());
     cy.get('[type="submit"]').click();
-    cy.wait(30000);
+    cy.wait('@xhrClients').its('response.statusCode').should('equal', 201)
 
     // Clients Form Screen Asserts
     cy.get('#nameInput').invoke('val').then(value => expect(value).to.equal(''));
@@ -26,7 +30,7 @@ describe('client screen test', () => {
       cy.get('#cpfInput').type(gerarCpf());
       cy.get('#rgInput').type(generateRandomNumbers(3));
       cy.get('[type="submit"]').click();
-      cy.wait(30000);
+      cy.wait('@xhrClients');
 
       // Clients Form Screen Asserts
       cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
@@ -42,7 +46,7 @@ describe('client screen test', () => {
     cy.get('#rgInput').type(generateRandomNumbers(13));
     cy.get('#rg_organInput').type(generateRandomLetters(2));
     cy.get('[type="submit"]').click();
-    cy.wait(30000);
+    cy.wait('@xhrClients');
 
     // Clients Form Screen Asserts
     cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
@@ -57,9 +61,9 @@ describe('client screen test', () => {
     cy.get('#nameInput').type(generateRandomLetters(20));
     cy.get('#cpfInput').type(gerarCpf());
     cy.get('#rgInput').type(generateRandomNumbers(13));
-    cy.get('#rg_dateInput').type(generateNumbers(2));
+    cy.get('#rg_dateInput').type(generateRandomNumbers(2));
     cy.get('[type="submit"]').click();
-    cy.wait(30000);
+    cy.wait('@xhrClients');
 
     // Clients Form Screen Asserts
     cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));

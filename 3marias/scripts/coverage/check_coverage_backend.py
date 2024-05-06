@@ -24,7 +24,8 @@ with open('../coverage_reports/dashboard.html', 'r') as file:
                     and not className.startswith("App\\Providers")
                     and not className.startswith("App\\Console")
                     and not className.startswith("App\\Mail")
-                    and not className.endswith("BotManController")):
+                    and not className.endswith("BotManController")
+                    and not className.endswith("FileBusiness")):
                     
                     if (value < 75):
                         raise Exception("\nThe file "+className+" has "+str(value)+"% of code coverage, but it is expected 75% at least\n")

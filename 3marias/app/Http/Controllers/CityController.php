@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\CityBusiness;
 use App\Exceptions\EntityAlreadyExistsException;
 use App\Exceptions\InputValidationException;
 use App\Models\City;
@@ -133,10 +134,10 @@ class CityController extends Controller implements APIController
      */
     private function validateCityId(int $id) : City {
         try {
-            $country = (new City)->getById($id);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "cidade"));
+            $city = (new CityBusiness())->getById($id, mergeFields: false);
+        } catch (\Exception $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Cidade"));
         }
-        return $country;
+        return $city;
     }
 }

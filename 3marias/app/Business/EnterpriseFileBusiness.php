@@ -27,7 +27,7 @@ class EnterpriseFileBusiness {
         try {
             $entepriseFile = (new EnterpriseFile())->getById($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Empresa"));
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Arquivo da Empresa"));
         }
         Logger::info("Finalizando a recuperação de arquivo $id.");
         return $entepriseFile;

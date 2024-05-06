@@ -45,7 +45,7 @@ class DeleteCityTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => "Nenhum registro de cidade foi encontrado."
+            "message" => "Nenhum registro de Cidade foi encontrado."
         ]);
     }
 
@@ -57,7 +57,7 @@ class DeleteCityTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => "Nenhum registro de cidade foi encontrado."
+            "message" => "Nenhum registro de Cidade foi encontrado."
         ]);
     }
 
