@@ -7,7 +7,6 @@ use App\Exceptions\MethodNotImplementedYet;
 use Illuminate\Http\Request;
 use App\Utils\ResponseUtils;
 use App\Models\Logger;
-use Exception;
 
 class EnterpriseController extends Controller implements APIController
 {
@@ -29,7 +28,7 @@ class EnterpriseController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -43,7 +42,7 @@ class EnterpriseController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -57,7 +56,7 @@ class EnterpriseController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
@@ -78,7 +77,7 @@ class EnterpriseController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 

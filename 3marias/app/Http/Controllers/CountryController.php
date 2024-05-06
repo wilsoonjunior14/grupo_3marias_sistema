@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\EntityAlreadyExistsException;
-use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\InputValidationException;
 use App\Models\Country;
 use App\Models\Logger;

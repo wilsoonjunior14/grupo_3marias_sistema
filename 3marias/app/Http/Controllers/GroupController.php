@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Logger;
 use App\Exceptions\InputValidationException;
 use App\Exceptions\InvalidValueException;
-use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\EntityAlreadyExistsException;
 use App\Utils\ErrorMessage;
 use App\Utils\ResponseUtils;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Business\BillPayBusiness;
-use App\Business\BillReceiveBusiness;
 use App\Exceptions\InputValidationException;
 use Illuminate\Http\Request;
 use App\Utils\ResponseUtils;
@@ -30,7 +29,7 @@ class BillsPayController extends Controller implements APIController
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse();
+            return ResponseUtils::getErrorResponse($e);
         }
     }
 
