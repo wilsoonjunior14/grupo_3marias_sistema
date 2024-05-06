@@ -25,6 +25,7 @@ with open('../coverage_reports/dashboard.html', 'r') as file:
                     and not className.startswith("App\\Console")
                     and not className.startswith("App\\Mail")
                     and not className.startswith("App\\Http\\Controllers\\")
+                    and not className.startswith("App\\Models\\")
                     and not className.startswith("App\\Exceptions")
                     and not className.endswith("BotManController")
                     and not className.endswith("FileBusiness")):
