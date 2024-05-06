@@ -267,7 +267,7 @@ class UpdateAccountantTest extends TestFramework
 
         $payload = [
             "name" => parent::generateRandomString(),
-            "phone" => parent::generateRandomString(),
+            "phone" => parent::generateRandomPhoneNumber(),
             "enterprise_id" => 1,
             "address" => parent::generateRandomString(),
             "city_id" => 1,
@@ -281,7 +281,7 @@ class UpdateAccountantTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contador")
+            "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contador")
         ]);
     }
 

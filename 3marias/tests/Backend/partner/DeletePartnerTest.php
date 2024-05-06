@@ -48,7 +48,7 @@ class DeletePartnerTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Parceiro/Fornecedor")
+                "message" => "Nenhum registro de Parceiro/Fornecedor foi encontrado."
             ]
         );
     }

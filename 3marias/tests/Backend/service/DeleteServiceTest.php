@@ -48,7 +48,7 @@ class DeleteServiceTest extends TestFramework
         $response->assertStatus(400);
         $response->assertJson(
             [
-                "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "Serviço")
+                "message" => "Nenhum registro de Serviço foi encontrado."
             ]
         );
     }

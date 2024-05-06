@@ -22,11 +22,9 @@ class StockBusiness {
 
     public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Recuperando centro de custo.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Centro de Custo"));
-        }
-        $stock = (new Stock())->getById($id);
-        if (is_null($stock)) {
+        try {
+            $stock = (new Stock())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Centro de Custo"));
         }
         if (!$mergeFields) {

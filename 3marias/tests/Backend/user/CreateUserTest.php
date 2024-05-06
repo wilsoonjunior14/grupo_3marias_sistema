@@ -132,7 +132,7 @@ class CreateUserTest extends TestFramework
             "group_id" => 100,
             "conf_password" => $password
         ];
-        $this->postUser_badRequest($json, 'Grupo informado não existe.');
+        $this->postUser_badRequest($json, 'Nenhum registro de grupo foi encontrado.');
     }
 
     #[Test]

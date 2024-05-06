@@ -53,13 +53,11 @@ class ClientBusiness {
 
     public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de cliente $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "cliente"));
-        }
-        $client = (new Client())->getById($id);
-        if (is_null($client)) {
-            throw new InputValidationException(ErrorMessage::$ENTITY_NOT_FOUND);   
-        }
+        try {
+            $client = (new Client())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "cliente"));
+        } 
         if ($mergeFields && !is_null($client->address_id)) {
             $address = (new AddressBusiness())->getById($client->address_id, merge: $mergeFields);
             $client = $this->mountClientAddressInline($client, $address);

@@ -10,7 +10,7 @@ class BillReceive extends BaseModel
     "contract_id", "purchase_order_id",
     "deleted", "created_at", "updated_at"];
 
-    static $fieldsToBeUpdated = ["code", "value_performed", "description", "desired_date"];
+    static $fieldsToBeUpdated = ["value_performed", "description", "desired_date"];
 
     static $rules = [
         'code' => 'required|max:100|min:3',

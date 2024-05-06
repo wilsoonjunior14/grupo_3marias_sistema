@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Utils;
-
-use Exception;
 use App\Models\Logger;
 
 class ResponseUtils
@@ -11,8 +9,16 @@ class ResponseUtils
         return response()->json($data, $httpStatusCode, ["Trace-ID" => Logger::getTraceId()]);
     }
 
-    public static function getErrorResponse() {
-        return response()->json(["message" => "Não foi possível processar as informações no servidor."], 500, ["Trace-ID" => Logger::getTraceId()]);
+    public static function getErrorResponse(\Exception $e) {
+        Logger::error($e->getMessage(), 500);
+        return response()->json(
+            [
+                "message" => "Não foi possível processar as informações no servidor.", 
+                "stack_trace" => $e->getMessage()
+            ], 
+            500, 
+            ["Trace-ID" => Logger::getTraceId()]
+        );
     }
 
     public static function getExceptionResponse(string $message, int $statusCode = 400) {

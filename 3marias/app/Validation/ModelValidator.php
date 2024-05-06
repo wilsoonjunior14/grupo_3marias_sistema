@@ -2,9 +2,11 @@
 
 namespace App\Validation;
 
+use App\Exceptions\InputValidationException;
 use App\Models\Enterprise;
 use App\Models\Group;
 use App\Models\Role;
+use App\Utils\ErrorMessage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -88,16 +90,18 @@ class ModelValidator
         }
 
         $groupInstance = new Group();
-        $groupObj = $groupInstance->getById($data["group_id"]);
-        if ($groupObj === null || empty($groupObj) || $groupObj->deleted) {
-            $errors = "Identificador do grupo informado é inexistente.";
-        }
+        try {
+            $groupInstance->getById($data["group_id"]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Grupo de Usuário"));
+        } 
 
         $roleInstance = new Role();
-        $roleObj = $roleInstance->getById($data["role_id"]);
-        if ($roleObj === null || empty($roleObj) || $roleObj->deleted) {
-            $errors = "Identificador da permissão informada é inexistente.";
-        }
+        try {
+            $roleInstance->getById($data["role_id"]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Permissão"));
+        } 
 
         return $errors;
     }

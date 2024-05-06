@@ -22,13 +22,11 @@ class EngineerBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de engenheiro $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Engenheiro"));
-        }
-        $engineer = (new Engineer())->getById($id);
-        if (is_null($engineer)) {
+        try {
+            $engineer = (new Engineer())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Engenheiro"));
-        }
+        } 
         Logger::info("Finalizando a recuperação de engenheiro $id.");
         return $engineer;
     }

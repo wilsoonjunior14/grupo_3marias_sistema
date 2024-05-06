@@ -44,13 +44,11 @@ class ContractBusiness {
 
     public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Iniciando a recuperação de contrato $id.");
-        if ($id <= 0) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Contrato"));
-        }
-        $contract = (new Contract())->getById($id);
-        if (is_null($contract)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contrato"));   
-        }
+        try {
+            $contract = (new Contract())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contrato"));
+        } 
         if ($mergeFields) {
             $contract["address"] = (new AddressBusiness())->getById($contract->address_id, merge: true);
             $contract["proposal"] = (new ProposalBusiness())->getById(id: $contract->proposal_id);

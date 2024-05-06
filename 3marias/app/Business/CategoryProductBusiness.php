@@ -23,10 +23,11 @@ class CategoryProductBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de categorye $id.");
-        $category = (new CategoryProduct())->getById($id);
-        if (is_null($category)) {
-            throw new InputValidationException(sprintf(ErrorMessage::$ID_NOT_EXISTS, "Categoria de Produto"));
-        }
+        try {
+            $category = (new CategoryProduct())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Categoria de Produto"));
+        } 
         Logger::info("Finalizando a recuperação de categorye $id.");
         return $category;
     }

@@ -47,7 +47,7 @@ class DeleteClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "cliente")
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 
@@ -59,32 +59,25 @@ class DeleteClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => ErrorMessage::$ENTITY_NOT_FOUND
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 
-    /**
-     * TODO: TEST with client with proposal associated
-     * @test
-     */
-    // public function negTest_deleteClients_client_with_proposal(): void {
-    //     $client = parent::createClient();
+    #[Test]
+    public function negTest_deleteClients_client_with_proposal(): void {
+        $this->createProposal();
 
-    //     $response = $this
-    //     ->withHeaders(parent::getHeaders())
-    //     ->delete("/api/v1/clients/" . $client["id"]);
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->delete("/api/v1/clients/1");
 
-    //     $response->assertStatus(200);
-    //     $response->assertJson([
-    //         "id" => $client["id"],
-    //         "deleted" => true
-    //     ]);
-    //     $response->assertJsonMissing([
-    //         "deleted" => false
-    //     ]);
-    // }
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => "Cliente não pode ser excluído. Existe proposta desse cliente."
+        ]);
+    }
 
-        #[Test]
+    #[Test]
     public function posTest_deleteClients_client_without_proposal(): void {
         $client = parent::createClient();
 
@@ -107,7 +100,7 @@ class DeleteClientTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => ErrorMessage::$ENTITY_NOT_FOUND
+            "message" => "Nenhum registro de cliente foi encontrado."
         ]);
     }
 }

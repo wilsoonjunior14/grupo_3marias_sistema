@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\group;
 
+use App\Utils\ErrorMessage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 use Tests\TestFramework;
@@ -69,5 +70,19 @@ class GetCityTest extends TestFramework
         ->get("/api/v1/cities/1");
 
         $response->assertStatus(200);
+    }
+
+    #[Test]
+    public function negTest_getCity_with_invalid_id(): void {
+        $city = parent::createCity();
+
+        $response = $this
+        ->withHeaders(parent::getHeaders())
+        ->get("/api/v1/cities/0");
+
+        $response->assertStatus(400);
+        $response->assertJson([
+            "message" => sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Cidade")
+        ]);
     }
 }

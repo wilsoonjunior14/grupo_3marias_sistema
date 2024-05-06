@@ -79,7 +79,7 @@ class GetRoleTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => sprintf(ErrorMessage::$ID_NOT_EXISTS, "permissão")
+            "message" => "Nenhum registro de permissão foi encontrado."
         ]);
     }
 
@@ -91,7 +91,7 @@ class GetRoleTest extends TestFramework
 
         $response->assertStatus(400);
         $response->assertJson([
-            "message" => config("messages.general.entity_not_found")
+            "message" => "Nenhum registro de permissão foi encontrado."
         ]);
     }
 

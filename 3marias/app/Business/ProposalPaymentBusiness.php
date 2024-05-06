@@ -7,13 +7,16 @@ use App\Models\ProposalPayment;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Validation\ModelValidator;
-use Illuminate\Http\Request;
 
 class ProposalPaymentBusiness {
 
     public function getById(int $id) {
         Logger::info("Iniciando a recuperação de pagamento de proposta $id.");
-        $payment = (new ProposalPayment())->getById($id);
+        try {
+            $payment = (new ProposalPayment())->getById($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Pagamento de Proposta"));
+        }
         Logger::info("Finalizando a recuperação de pagamento de proposta $id.");
         return $payment;
     }

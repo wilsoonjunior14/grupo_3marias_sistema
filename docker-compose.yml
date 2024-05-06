@@ -6,7 +6,6 @@
 # docker login -u wilsonjunior
 # dckr_pat_I11iPGMfegdN7cExkhKrjDP-piI
 #
-version: '3.3'
 services:
   # Database - MYSQL
   # mysql:
