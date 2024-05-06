@@ -32,18 +32,18 @@ services:
     ports:
       - "5000:5000"
     #it must run on dev
-    entrypoint: ["bash", "-c", "php artisan serve --port 5000 --host 0.0.0.0"]
-    #entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 5000 --host 0.0.0.0"]
+    #entrypoint: ["bash", "-c", "php artisan serve --port 5000 --host 0.0.0.0"]
+    entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 5000 --host 0.0.0.0"]
     
-  # # Frontend - React
-  # react:
-  #   container_name: 3marias_frontend
-  #   build: ./3marias/public/application/
-  #   working_dir: /usr/src/app
-  #   volumes:
-  #     - ./3marias/public/application:/usr/src/app/
-  #   ports:
-  #     - 80:80
-  #   #it must run on dev 
-  #   #entrypoint: ["bash", "-c", "PORT=80 npm start"]
-  #   entrypoint: ["bash", "-c", "npm install && PORT=80 npm start"]
+  # Frontend - React
+  react:
+    container_name: 3marias_frontend
+    build: ./3marias/public/application/
+    working_dir: /usr/src/app
+    volumes:
+      - ./3marias/public/application:/usr/src/app/
+    ports:
+      - 80:80
+    #it must run on dev 
+    #entrypoint: ["bash", "-c", "PORT=80 npm start"]
+    entrypoint: ["bash", "-c", "npm install && PORT=80 npm start"]
