@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Loading from '../../../components/loading/Loading';
 import CustomButton from '../../../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function ProposalList() {
 
@@ -18,10 +19,10 @@ export default function ProposalList() {
     const [showRejectingProposal, setRejectingProposal] = useState(false);
     const [showApprovalModal, setShowApprovalModal] = useState(false);
     const [isApprovingProposal, setIsApprovingProposal] = useState(false);
-
     const [proposal, setProposal] = useState({});
     const [errorMessage, setErrorMessage] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+    const navigate = useNavigate();
 
     const fields = [
         {
@@ -57,6 +58,18 @@ export default function ProposalList() {
             tooltip: "Ver Proposta",
             icon: "file_download",
             onClick: (evt) => {window.open( config.url + "/proposal/"+evt.id)}
+        },
+        {
+            name: "edit_proposal",
+            tooltip: "Ver Proposta",
+            icon: "edit",
+            onClick: (evt) => {
+                if (evt.status !== 0) {
+                    setErrorMessage("Proposta não pode ser editada, pois já foi aprovada ou cancelada.");
+                    return;
+                }
+                navigate("/contracts/proposals/edit/"+evt.id);
+            }
         }
     ];
 
@@ -165,6 +178,7 @@ export default function ProposalList() {
                     url="/proposals"
                     tableFields={table}
                     searchFields={fields}
+                    disableEdit={true}
                     customOptions={customOptions} />
                 }
 

@@ -25,7 +25,7 @@
             }
             #container {
                 position: absolute;
-                top: 120px;
+                top: 100px;
                 margin: 12px;
                 width: 100%;
             }

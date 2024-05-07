@@ -25,6 +25,7 @@ Route::get('/clientData/{id}', [PDFController::class, 'getClientDataPDF']);
 Route::get('/proposal/{id}', [PDFController::class, 'getProposalPDF']);
 Route::get('/contract/{id}', [PDFController::class, 'getContractPDF']);
 Route::get('/alvara/{id}', [PDFController::class, 'getAlvaraPDF']);
+Route::get('/recibo/{id}', [PDFController::class, 'getRecibo']);
 
 Route::get('/v', function() {
     function getStringValue($value, $amount) {

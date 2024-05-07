@@ -68,4 +68,15 @@ class PDFController extends Controller
         ];
         return view('alvara-pdf', $data);
     }
+
+    public function getRecibo(Request $request, $id) {
+        $clientBusiness = new ClientBusiness();
+        $client = $clientBusiness->getById(id: $id);
+
+        $data = [
+            'title' => "Recibo de Pagamento Nº " . $id,
+            'client' => $client
+        ];
+        return view('recibo-pdf', $data);
+    }
 }

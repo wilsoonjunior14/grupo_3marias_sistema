@@ -1,6 +1,6 @@
 .card-birthdate {
     min-height: 150;
-    background: rgba(54, 162, 0, 0.5) !important;
+    background: rgb(12, 52, 114) !important;
     color: white
 }
 
@@ -10,6 +10,7 @@
 
 .card-birthdate-item:hover {
     cursor: pointer;
-    background: rgba(120, 162, 0, 0.5) !important;
+    background: rgb(12, 52, 114) !important;
     color: white;
+    border: 2px solid white;
 }

@@ -157,12 +157,12 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
         if (field === "id" || field === "icon") {
-            return <td>{value}</td>
+            return <td key={item[field] + "field" + field}>{value}</td>
         }
         if (field.indexOf("name") !== -1 || field.indexOf("description") !== -1) {
-            return <td style={{minWidth: 300}}>{value}</td>;
+            return <td key={item[field] + "field" + field} style={{minWidth: 300}}>{value}</td>;
         }
-        return <td style={{minWidth: 200}}>{value}</td>;
+        return <td key={item[field] + "field" + field} style={{minWidth: 200}}>{value}</td>;
     }
 
     const getStatusField = (value) => {
@@ -292,7 +292,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                 {tableFields.bodyFields.map((field) => 
                                                     getTDField(item, field)
                                                 )}
-                                                <td key={"options"} className="options">
+                                                <td key={item.id + "options"} className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
                                                             <TableButton

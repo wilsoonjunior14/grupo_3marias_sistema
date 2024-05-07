@@ -310,7 +310,7 @@ export default function ClientList() {
                                         </tr>
                                     )}
                                     {!client.files || client.files.length === 0 && 
-                                        <NoEntity message={"Nenhum documento foi encontrado."} />    
+                                        <NoEntity count={3} message={"Nenhum documento foi encontrado."} />    
                                     }
                                 </tbody>
                             </Table>

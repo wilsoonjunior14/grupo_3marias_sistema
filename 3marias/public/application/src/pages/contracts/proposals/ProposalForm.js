@@ -20,7 +20,7 @@ import Button from "react-bootstrap/esm/Button";
 import Modal from 'react-bootstrap/Modal';
 import ClientForm from '../../admin/clients/ClientForm';
 import TableButton from "../../../components/button/TableButton";
-import { formatDate, formatDateToServer, formatDoubleValue, formatMoney, getMoneyFormatted } from "../../../services/Format";
+import { formatDate, formatDateToServer, formatDoubleValue, formatMoney, formatStringToNumber, getMoneyFormatted } from "../../../services/Format";
 import { useParams } from "react-router-dom";
 import { validateMoney, validateMoneyWithoutAllPatterns } from "../../../services/Validation";
 import { processDataBefore } from "../../../services/Utils";
@@ -35,7 +35,7 @@ const ProposalForm = ({}) => {
     const [projects, setProjects] = useState([]);
     const [cpfs, setCpfs] = useState([]);
     const [reloadFields, setReloadFields] = useState(false);
-    const [initialState] = useState({global_value: "0"});
+    const [initialState] = useState({global_value: "0", discount: "0,00", increase: "0,00"});
     const [refreshClientPayment, setRefreshClientPayment] = useState(false);
     const [refreshBankPayment, setRefreshBankPayment] = useState(false);
     const [proposal, setProposal] = useState({});
@@ -102,8 +102,8 @@ const ProposalForm = ({}) => {
             onChangeField({target: {name: "proposal_date", value: formatDate(proposal.proposal_date)}});
             onChangeField({target: {name: "description", value: proposal.description}});
             onChangeField({target: {name: "construction_type", value: proposal.construction_type}});
-            onChangeField({target: {name: "discount", value: proposal.discount}});
-            onChangeField({target: {name: "increase", value: proposal.increase}});
+            onChangeField({target: {name: "discount", value: getMoneyFormatted(proposal.discount)}});
+            onChangeField({target: {name: "increase", value: getMoneyFormatted(proposal.increase)}});
             onChangeField({target: {name: "city_id", value: proposal.address.city_id}});
             onChangeField({target: {name: "neighborhood", value: proposal.address.neighborhood}});
             onChangeField({target: {name: "address", value: proposal.address.address}});
@@ -230,7 +230,7 @@ const ProposalForm = ({}) => {
             return;
         } 
         var client = clients.filter((client) => client.name === name && client.cpf === cpf)[0];
-        const number = client.number && client.number > 0 ? client.number : 1;
+        const number = client.number && client.number > 0 ? client.number : "";
 
         onChangeField({target: {name: "city_id", value: client.city_id}});
         onChangeField({target: {name: "neighborhood", value: client.neighborhood}});
@@ -479,8 +479,17 @@ const ProposalForm = ({}) => {
 
         const payloadData = Object.assign({}, state);
         const globalValue = formatDoubleValue(payloadData.global_value);
-        const discount = formatDoubleValue(payloadData.discount);
-        const increase = formatDoubleValue(payloadData.increase);
+        let discount = formatDoubleValue(payloadData.discount);
+        let increase = formatDoubleValue(payloadData.increase);
+
+        if (discount === formatDoubleValue(payloadData.discount)) {
+            discount = formatStringToNumber(discount);
+        }
+        if (increase === formatDoubleValue(payloadData.increase)) {
+            increase = formatStringToNumber(increase);
+        }
+
+        console.log(payloadData.status);
 
         var payments = 0;
         var clientPayments = [];
@@ -492,6 +501,8 @@ const ProposalForm = ({}) => {
             cPay.value = value;
             if (p.desired_date) {
                 cPay.desired_date = formatDateToServer(p.desired_date);
+            } else {
+                delete cPay["desired_date"];
             }
             clientPayments.push(cPay);
         });
@@ -520,6 +531,7 @@ const ProposalForm = ({}) => {
         payload.increase = increase;
         payload.clientPayments = clientPayments;
         payload.bankPayments = bankPayments;
+        payload.status = 0;
         
         setLoading(true);
 
