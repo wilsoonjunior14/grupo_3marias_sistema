@@ -3,13 +3,11 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\Accountant;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
-use Exception;
 use Illuminate\Http\Request;
 
 class AccountantBusiness {
@@ -32,7 +30,7 @@ class AccountantBusiness {
         }
         if ($merge) {
             $address = (new AddressBusiness())->getById($accountant->address_id);
-            $accountant = $this->mountClientAddressInline($accountant, $address);
+            $accountant = $accountant->mountAddressInline($accountant, $address);
         }
         Logger::info("Finalizando a recuperação de contador $id.");
         return $accountant;
@@ -85,15 +83,4 @@ class AccountantBusiness {
         $accountantUpdated->save();
         return $this->getById(id: $accountantUpdated->id);
     }
-
-    private function mountClientAddressInline(Accountant $accountant, Address $address) {
-        $accountant["address"] = $address->address;
-        $accountant["neighborhood"] = $address->neighborhood;
-        $accountant["number"] = $address->number;
-        $accountant["complement"] = $address->complement;
-        $accountant["city_id"] = $address->city_id;
-        $accountant["zipcode"] = $address->zipcode;
-        return $accountant;
-    }
-
 }

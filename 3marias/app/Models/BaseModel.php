@@ -61,4 +61,20 @@ class BaseModel extends Model
             throw new InputValidationException($hasErrors);
         }
     }
+
+    /**
+     * Mounts the address inline.
+     */
+    public function mountAddressInline(BaseModel $model, Address $address) {
+        $model["address"] = $address->address;
+        $model["neighborhood"] = $address->neighborhood;
+        $model["number"] = $address->number;
+        $model["complement"] = $address->complement;
+        $model["city_id"] = $address->city_id;
+        $model["zipcode"] = $address->zipcode;
+        $model["city_name"] = $address->city_name;
+        $model["state_name"] = $address->state_name;
+        $model["state_acronym"] = $address->state_acronym;
+        return $model;
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\EnterpriseBranch;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -31,7 +30,7 @@ class EnterpriseBranchBusiness {
         } 
         if ($merge) {
             $address = (new AddressBusiness())->getById($enterpriseBranch->address_id);
-            $enterpriseBranch = $this->mountClientAddressInline($enterpriseBranch, $address);
+            $enterpriseBranch = $enterpriseBranch->mountAddressInline($enterpriseBranch, $address);
         }
         Logger::info("Finalizando a recuperação de filial $id.");
         return $enterpriseBranch;
@@ -84,16 +83,6 @@ class EnterpriseBranchBusiness {
         Logger::info("Atualizando as informações do filial.");
         $enterpriseBranchUpdated->save();
         return $this->getById(id: $enterpriseBranchUpdated->id);
-    }
-
-    private function mountClientAddressInline(EnterpriseBranch $enterpriseBranch, Address $address) {
-        $enterpriseBranch["address"] = $address->address;
-        $enterpriseBranch["neighborhood"] = $address->neighborhood;
-        $enterpriseBranch["number"] = $address->number;
-        $enterpriseBranch["complement"] = $address->complement;
-        $enterpriseBranch["city_id"] = $address->city_id;
-        $enterpriseBranch["zipcode"] = $address->zipcode;
-        return $enterpriseBranch;
     }
 
     private function existsEntity(string $cnpj, int $id = null) {
