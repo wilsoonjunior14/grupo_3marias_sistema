@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Business\BillReceiveBusiness;
+use App\Business\BillTicketBusiness;
 use App\Exceptions\InputValidationException;
-use Illuminate\Http\Request;
-use App\Utils\ResponseUtils;
+use App\Exceptions\MethodNotImplementedYet;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
+use App\Utils\ResponseUtils;
+use Illuminate\Http\Request;
 
-class BillsReceiveController extends Controller implements APIController
+class BillTicketController extends Controller implements APIController
 {
-    private $billsReceiveBusiness;
+    private $billTicketBusiness;
 
     public function __construct() {
         $startTime = date('d/m/Y H:i:s');
-        $this->billsReceiveBusiness = new BillReceiveBusiness();
-        Logger::info("Iniciando o BillsReceiveController em {$startTime}.");
+        $this->billTicketBusiness = new BillTicketBusiness();
+        Logger::info("Iniciando o BillTicketController em {$startTime}.");
     }
 
     /**
@@ -24,21 +25,7 @@ class BillsReceiveController extends Controller implements APIController
      */
     public function index() {
         try {
-            $bills = $this->billsReceiveBusiness->getAll();
-            return ResponseUtils::getResponse($bills, 200);
-        } catch (\App\Exceptions\AppException $e) {
-            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
-        } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse($e);
-        }
-    }
-
-    /**
-     * Gets all bills in progress.
-     */
-    public function inprogress() {
-        try {
-            $bills = $this->billsReceiveBusiness->getBillsInProgress();
+            $bills = $this->billTicketBusiness->getAll();
             return ResponseUtils::getResponse($bills, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
@@ -51,7 +38,16 @@ class BillsReceiveController extends Controller implements APIController
      * Creates a bill.
      */
     public function store(Request $request) {
-        throw new InputValidationException(ErrorMessage::$METHOD_NOT_IMPLEMENTED);
+        try {
+            $bill = $this->billTicketBusiness->create(data: $request->all());
+            return ResponseUtils::getResponse($bill, 201);
+        } catch (\App\Exceptions\AppException $e) {
+            error_log($e);
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            error_log($e);
+            return ResponseUtils::getErrorResponse($e);
+        }
     }
 
     /**
@@ -59,7 +55,7 @@ class BillsReceiveController extends Controller implements APIController
      */
     public function show($id) {
         try {
-            $bill = $this->billsReceiveBusiness->getById(id: $id, mergeFields: true);
+            $bill = $this->billTicketBusiness->getById(id: $id);
             return ResponseUtils::getResponse($bill, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
@@ -79,14 +75,7 @@ class BillsReceiveController extends Controller implements APIController
      * Updates a bill.
      */
     public function update(Request $request, $id) {
-        try {
-            $bill = $this->billsReceiveBusiness->update(id: $id, data: $request->all());
-            return ResponseUtils::getResponse($bill, 200);
-        } catch (\App\Exceptions\AppException $e) {
-            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
-        } catch (\Exception $e) {
-            return ResponseUtils::getErrorResponse($e);
-        }
+        throw new MethodNotImplementedYet("Método não implementado.", 400);
     }
 
     /**

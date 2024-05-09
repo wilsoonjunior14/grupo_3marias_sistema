@@ -138,7 +138,7 @@ function App() {
           <Route path='money/dashboard' element={<MoneyDashboard />}></Route>
           <Route path='money/billsPay' element={<BillsPayList />}></Route>
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
-          <Route path='money/billsReceive/edit/:id' element={<BillsReceiveForm />}></Route>
+          <Route path='money/billsReceive/details/:id' element={<BillsReceiveForm />}></Route>
           <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
           <Route path='money/purchaseOrders/add' element={<PurchaseOrdersForm />}></Route>
           <Route path='money/purchaseOrders/edit/:id' element={<PurchaseOrdersForm />}></Route>

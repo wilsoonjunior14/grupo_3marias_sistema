@@ -4,11 +4,11 @@ namespace App\Business;
 
 use App\Exceptions\InputValidationException;
 use App\Models\BillReceive;
+use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
-use Illuminate\Http\Request;
 
 class BillReceiveBusiness {
 
@@ -41,14 +41,19 @@ class BillReceiveBusiness {
         return ['paidValue' => (new BillReceive())->getValueAlreadyPaid(), 'bills' => $bills];
     }
 
-    public function getById($id) {
+    public function getById($id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação do pagamento.");
         try {
             $bill = (new BillReceive())->getById(id: $id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Pagamento a Receber"));
-        }      
-        Logger::info("Finalizando a recuperação do pagamento.");
+        }
+        if (!$mergeFields) {
+            Logger::info("Finalizando a recuperação do pagamento.");
+            return $bill;
+        }   
+        
+        $bill["tickets"] = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
         return $bill;
     }
 
@@ -72,9 +77,19 @@ class BillReceiveBusiness {
         return $payment;
     }
 
-    public function update(int $id, Request $request) {
+    public function performBillTicket(BillTicket $ticket) {
+        Logger::info("Atualizando conta a receber.");
+        $billReceive = $this->getById($ticket->bill_receive_id);
+        $billReceive->value_performed = $billReceive->value_performed + $ticket->value;
+        if ($billReceive->value === $billReceive->value_performed) {
+            $billReceive->status = 1;
+        }
+        Logger::info("Salvando conta a receber.");
+        $billReceive->save();
+    }
+
+    public function update(int $id, array $data) {
         $bill = $this->getById(id: $id);
-        $data = $request->all();
         $bill = UpdateUtils::updateFields(BillReceive::$fieldsToBeUpdated, $bill, $data);
 
         Logger::info("Validando as informações do pagamento.");
@@ -82,7 +97,7 @@ class BillReceiveBusiness {
         unset($rules["status"]);
 
         $validation = new ModelValidator($rules, BillReceive::$rulesMessages);
-        $errors = $validation->validate(data: $request->all());
+        $errors = $validation->validate(data: $data);
         if (!is_null($errors)) {
             throw new InputValidationException($errors);
         }

@@ -2,11 +2,14 @@
 
 namespace App\Business;
 
+use App\Exceptions\InputValidationException;
 use App\Models\BaseModel;
 use App\Models\BillPay;
+use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Models\PurchaseOrder;
 use App\Models\ServiceOrder;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 
 class BillPayBusiness {
@@ -18,6 +21,17 @@ class BillPayBusiness {
         return $bills;
     }
 
+    public function getById($id) {
+        Logger::info("Iniciando a recuperação do pagamento.");
+        try {
+            $bill = (new BillPay())->getById(id: $id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Conta a Pagar"));
+        }      
+        Logger::info("Finalizando a recuperação do pagamento.");
+        return $bill;
+    }
+
     public function create(array $data) {
         Logger::info("Iniciando a criação de contas a pagar.");
         Logger::info("Salvando e contas a pagar.");
@@ -25,6 +39,14 @@ class BillPayBusiness {
         $payment->save();
         Logger::info("Finalizando a atualização de contas a pagar.");
         return $payment;
+    }
+
+    public function performBillTicket(BillTicket $ticket) {
+        Logger::info("Atualizando conta a pagar.");
+        $billPay = $this->getById($ticket->bill_receive_id);
+        $billPay->value_performed = $billPay->value_performed + $ticket->value;
+        Logger::info("Salvando conta a pagar.");
+        $billPay->save();
     }
 
     public function getBillsByService(int $serviceId) {

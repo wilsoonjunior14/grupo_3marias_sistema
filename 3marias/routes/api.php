@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\BillsPayController;
 use App\Http\Controllers\BillsReceiveController;
+use App\Http\Controllers\BillTicketController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
@@ -119,6 +120,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // bills to pay api routes
     Route::apiResource('/billsPay', BillsPayController::class);
+
+    // bills to tickets api routes
+    Route::apiResource('/billsTicket', BillTicketController::class);
 
     // bills to pay api routes
     Route::apiResource('/engineers', EngineerController::class);

@@ -3,9 +3,11 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 export default function BillsReceiveList() {
 
+    const navigate = useNavigate();
     const fields = [
         {
             id: 'code',
@@ -28,10 +30,19 @@ export default function BillsReceiveList() {
     ];
 
     const table = {
-        fields: ["#", "Status", "Descrição", "Valor", "Valor Pago", "Data Pgt.", "Contrato", "Cliente", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Status", "Descrição", "Valor", "Contrato", "Cliente", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
-        bodyFields: ["code", "icon", "description", "value", "value_performed", "desired_date", "contract.code", "contract.proposal.client.name", "created_at", "updated_at"]
+        bodyFields: ["code", "icon", "description", "value", "contract.code", "contract.proposal.client.name", "created_at", "updated_at"]
     };
+
+    const customOptions = [
+        {
+            name: "see_payment_details",
+            icon: "visibility",
+            tooltip: "Ver Detalhes da Conta a Receber",
+            onClick: (item) => {navigate("/money/billsReceive/details/"+item.id)}
+        }
+    ];
     
     return (
         <>
@@ -43,10 +54,12 @@ export default function BillsReceiveList() {
                     tableIcon="monetization_on" 
                     fieldNameDeletion="name" 
                     disableAdd={true}
+                    disableEdit={true}
                     disableDelete={true}
                     url="/billsReceive" 
                     tableFields={table}
-                    searchFields={fields} />
+                    searchFields={fields}
+                    customOptions={customOptions} />
 
             </Container>
         </>
