@@ -41,9 +41,9 @@ jobs:
 
       # Checking project vulnerabilities
       - name: Checking Project Vulnerabilities
-        run: |
-          cd 3marias
-          ./vendor/enlightn/security-checker/security-checker security:check composer.lock
+        uses: symfonycorp/security-checker-action@v5
+        with:
+          lock: 3marias/composer.lock
 
       # Checking the code statically
       - name: Code Analysis
