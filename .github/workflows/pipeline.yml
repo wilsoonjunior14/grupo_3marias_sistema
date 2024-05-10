@@ -47,10 +47,12 @@ jobs:
 
       # Checking the code statically
       - name: Code Analysis
-        run: |
-          ls -la
-          cd 3marias
-          ./vendor/bin/phpstan analyse app tests --level=1
+        uses: php-actions/phpstan@v3
+        with:
+          php_version: 8.2
+          command: analyse app tests
+          level: 1
+          memory_limit: 256M
 
       # Check tests
       - name: E2E Tests
