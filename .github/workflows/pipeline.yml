@@ -50,8 +50,8 @@ jobs:
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.2
-          path: 3marias/tests
-          level: 1
+          path: 3marias/tests,3marias/app
+          level: 0
           memory_limit: 256M
 
       # Check tests
