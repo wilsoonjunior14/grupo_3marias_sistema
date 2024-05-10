@@ -8,7 +8,7 @@ use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AccountantBusiness {
 
@@ -24,8 +24,9 @@ class AccountantBusiness {
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de contador $id.");
         try {
+            /* @phpstan-ignore-next-line */
             $accountant = (new Accountant())->getById(id: $id);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+        } catch (ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contador"));
         }
         if ($merge) {
@@ -44,10 +45,9 @@ class AccountantBusiness {
         return $accountant;
     }
 
-    public function create(Request $request) {
+    public function create(array $data) {
         Logger::info("Iniciando a criação de contador.");
         Logger::info("Validando as informações fornecidas.");
-        $data = $request->all();
 
         $accountantValidator = new ModelValidator(Accountant::$rules, Accountant::$rulesMessages);
         $hasErrors = $accountantValidator->validate(data: $data);
@@ -65,19 +65,19 @@ class AccountantBusiness {
         return $accountant;
     }
 
-    public function update(int $id, Request $request) {
+    public function update(int $id, array $data) {
         Logger::info("Alterando informações do contador.");
         $accountant = $this->getById(id: $id, merge: false);
-        $accountantUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Accountant::$fieldsToBeUpdated, model: $accountant, requestData: $request->all());
+        $accountantUpdated = UpdateUtils::updateFields(fieldsToBeUpdated: Accountant::$fieldsToBeUpdated, model: $accountant, requestData: $data);
 
         Logger::info("Validando as informações do contador.");
         $accountantValidator = new ModelValidator(Accountant::$rules, Accountant::$rulesMessages);
-        $validation = $accountantValidator->validate(data: $request->all());
+        $validation = $accountantValidator->validate(data: $data);
         if (!is_null($validation)) {
             throw new InputValidationException($validation);
         }
 
-        (new AddressBusiness())->update($request->all(), id: $accountant->address_id);
+        (new AddressBusiness())->update($data, id: $accountant->address_id);
 
         Logger::info("Atualizando as informações do contador.");
         $accountantUpdated->save();
