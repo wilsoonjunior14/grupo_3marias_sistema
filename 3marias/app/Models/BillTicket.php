@@ -13,7 +13,7 @@ class BillTicket extends BaseModel
 
     static $rules = [
         'description' => 'required|max:255|min:3|string',
-        'value' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
+        'value' => 'required|gt:0|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         'date' => 'required|date|string|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
         'bill_receive_id' => 'integer|gt:0|exists:bill_receives,id',
         'bill_pay_id' => 'integer|gt:0|exists:bill_pays,id'
@@ -26,6 +26,7 @@ class BillTicket extends BaseModel
         'description.string' => 'Campo Descrição do Pagamento está inválido.',
         'value.required' => 'Campo Valor do Pagamento é obrigatório.',
         'value.regex' => 'Campo Valor do Pagamento está inválido.',
+        'value.gt' => 'Campo Valor do Pagamento está inválido.',
         'date.required' => 'Campo Data de Pagamento do Recibo é obrigatório.',
         'date.date' => 'Campo Data de Pagamento do Recibo está inválido.',
         'date.regex' => 'Campo Data de Pagamento do Recibo está inválido.',

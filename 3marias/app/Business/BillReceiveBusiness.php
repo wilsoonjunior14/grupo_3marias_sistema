@@ -77,14 +77,17 @@ class BillReceiveBusiness {
         return $payment;
     }
 
-    public function performBillTicket(BillTicket $ticket) {
-        Logger::info("Atualizando conta a receber.");
-        $billReceive = $this->getById($ticket->bill_receive_id);
-        $billReceive->value_performed = $billReceive->value_performed + $ticket->value;
+    public function refreshBillReceive(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billReceive = $this->getById(id: $id, mergeFields: false);
+        $tickets = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
+        $billReceive->value_performed = 0;
+        foreach ($tickets as $ticket) {
+            $billReceive->value_performed += $ticket->value;
+        }
         if ($billReceive->value === $billReceive->value_performed) {
             $billReceive->status = 1;
         }
-        Logger::info("Salvando conta a receber.");
         $billReceive->save();
     }
 

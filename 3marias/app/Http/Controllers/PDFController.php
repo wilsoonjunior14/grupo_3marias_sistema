@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\BillReceiveBusiness;
+use App\Business\BillTicketBusiness;
 use App\Business\ClientBusiness;
 use App\Business\ContractBusiness;
 use App\Business\EnterpriseBusiness;
 use App\Business\EnterpriseOwnerBusiness;
 use App\Business\ProposalBusiness;
+use App\Models\BillTicket;
+use App\Models\ClientTicketView;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller
@@ -70,12 +74,19 @@ class PDFController extends Controller
     }
 
     public function getRecibo(Request $request, $id) {
-        $clientBusiness = new ClientBusiness();
-        $client = $clientBusiness->getById(id: $id);
+        $ticket = (new BillTicketBusiness())->getById(id: $id);
+        $billReceive = (new BillReceiveBusiness())->getById(id: $ticket->bill_receive_id);
+        $contract = (new ContractBusiness())->getById(id: $billReceive->contract_id, mergeFields: true);
+        $proposal = (new ProposalBusiness())->getById(id: $contract->proposal_id, mergeFields: false);
+        $client = (new ClientBusiness())->getById(id: $proposal->client_id, mergeFields: false);
+        $enterprise = (new EnterpriseBusiness())->getById(id: 1, mergeFields: false);
 
         $data = [
             'title' => "Recibo de Pagamento Nº " . $id,
-            'client' => $client
+            'client' => $client,
+            'ticket' => $ticket,
+            'contract' => $contract,
+            'enterprise' => $enterprise
         ];
         return view('recibo-pdf', $data);
     }

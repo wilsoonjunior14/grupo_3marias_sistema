@@ -48,6 +48,9 @@ class BillTicketBusiness {
         $bill = $this->getById(id: $id);
         $bill->deleted = true;
         $bill->save();
+        if (!is_null($bill->bill_receive_id)) {
+            (new BillReceiveBusiness())->refreshBillReceive(id: $bill->bill_receive_id);
+        }
         Logger::info("Finalizando a exclusão dos pagamentos.");
         return $bill;
     }
@@ -65,7 +68,7 @@ class BillTicketBusiness {
             (new BillPayBusiness())->performBillTicket(ticket: $bill);
         }
         if (!is_null($bill->bill_receive_id)) {
-            (new BillReceiveBusiness())->performBillTicket(ticket: $bill);
+            (new BillReceiveBusiness())->refreshBillReceive(id: $bill->bill_receive_id);
         }
 
         Logger::info("Finalizando a atualização do pagamento.");
@@ -78,7 +81,7 @@ class BillTicketBusiness {
         $payment->validate(BillTicket::$rules, BillTicket::$rulesMessages);
 
         $existsBillReceive = isset($data["bill_receive_id"]) && !empty($data["bill_receive_id"]);
-        $existsBillPay = isset($data["bill_pay_id"]) && empty($data["bill_pay_id"]);
+        $existsBillPay = isset($data["bill_pay_id"]) && !empty($data["bill_pay_id"]);
 
         if (!$existsBillReceive && !$existsBillPay){
             throw new InputValidationException("Conta de Pagamento não informada.");

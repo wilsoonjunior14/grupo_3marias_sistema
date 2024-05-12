@@ -42,10 +42,8 @@ class BillTicketController extends Controller implements APIController
             $bill = $this->billTicketBusiness->create(data: $request->all());
             return ResponseUtils::getResponse($bill, 201);
         } catch (\App\Exceptions\AppException $e) {
-            error_log($e);
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
-            error_log($e);
             return ResponseUtils::getErrorResponse($e);
         }
     }
@@ -68,7 +66,14 @@ class BillTicketController extends Controller implements APIController
      * Deletes a bill by id.
      */
     public function destroy($id) {
-        throw new InputValidationException(ErrorMessage::$METHOD_NOT_IMPLEMENTED);
+        try {
+            $bill = $this->billTicketBusiness->delete(id: $id);
+            return ResponseUtils::getResponse($bill, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse($e);
+        }
     }
 
     /**

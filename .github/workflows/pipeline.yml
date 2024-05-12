@@ -50,9 +50,18 @@ jobs:
       #   uses: php-actions/phpstan@v3
       #   with:
       #     php_version: 8.2
-      #     path: 3marias/tests 3marias/app
+      #     path: 3marias/app/Business 3marias/app/Exceptions 3marias/app/Http/Controllers 3marias/app/Mail 3marias/app/Models 3marias/app/Utils
       #     level: 0
       #     memory_limit: 256M
+      
+      # Checking the code statically
+      - name: Code Analysis
+        uses: php-actions/phpstan@v3
+        with:
+          php_version: 8.2
+          path: 3marias/app/Utils
+          level: 0
+          memory_limit: 256M
 
       # Check tests
       - name: E2E Tests

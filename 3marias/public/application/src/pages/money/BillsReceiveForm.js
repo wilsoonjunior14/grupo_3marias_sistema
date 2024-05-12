@@ -11,22 +11,21 @@ import '../../App.css';
 import Loading from "../../components/loading/Loading";
 import { performRequest } from "../../services/Api";
 import { useParams } from "react-router-dom";
-import CustomButton from "../../components/button/Button";
 import CustomInput from "../../components/input/CustomInput";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Accordion from 'react-bootstrap/Accordion';
-import { getMoney } from "../../services/Utils";
+import { processDataBefore } from "../../services/Utils";
 import TableButton from "../../components/button/TableButton";
 import Button from "react-bootstrap/esm/Button";
 import NoEntity from "../../components/table/NoEntity";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
-import { formatMoney } from "../../services/Format";
-import CustomForm from "../../components/form/Form";
+import { formatDate, formatMoney } from "../../services/Format";
 import BackButton from "../../components/button/BackButton";
+import config from "../../config.json";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -34,9 +33,12 @@ ChartJS.register(CategoryScale);
 
 const BillsReceiveForm = ({}) => {
 
+    const [httpError, setHttpError] = useState(null);
+    const [httpSuccess, setHttpSuccess] = useState(null);
     const params = useParams();
     const [loading, setLoading] = useState(false);
-    const [billReceive, setBillReceive] = useState({});
+    const [loadingTicket, setLoadingTicket] = useState(false);
+    const [billReceive, setBillReceive] = useState({tickets: []});
     const initialState = {};
 
     const reducer = (state, action) => {
@@ -59,6 +61,7 @@ const BillsReceiveForm = ({}) => {
     };
 
     const onGetBillReceiveById = (id) => {
+        setHttpError(null);
         setLoading(true);
 
         performRequest("GET", "/v1/billsReceive/"+id)
@@ -87,15 +90,54 @@ const BillsReceiveForm = ({}) => {
             form.classList.remove("was-validated");
         }
 
-        // setLoading(true);
-        // const payload = {
-        //     cost_center_id: state.cost_center_id,
-        //     products: shareProducts
-        // };
+        setLoadingTicket(true);
+        setHttpError(null);
+        let payload = Object.assign({}, state);
+        payload.bill_receive_id = params.id;
+        payload = processDataBefore(payload);
 
-        // performRequest("POST", "/v1/stocks/share", payload)
-        // .then(onSuccessShareProducts)
-        // .catch(onErrorResponse);
+        performRequest("POST", "/v1/billsTicket", payload)
+        .then(onSuccessTicket)
+        .catch(onErrorResponse);
+    }
+
+    const onSuccessTicket = (res) => {
+        setLoadingTicket(false);
+        setHttpSuccess({message: "Recibo de Pagamento Salvo com Sucesso!"});
+        dispatch({type: "reset"});
+        onGetBillReceiveById(params.id);
+    }
+
+    const onErrorResponse = (response) => {
+        setLoading(false);
+        setLoadingTicket(false);
+        if (response.response) {
+            if (response.response.status === 404) {
+                setHttpError("Não foi possível conectar-se com o servidor.");
+                return;
+            }
+            if (response.response.status === 401) {
+                setHttpError("Você não tem permissão para realizar essa operação.");
+                return;
+            }
+            setHttpError(response.response.data);
+            return;
+        }
+        setHttpError({message: "Não foi possível conectar-se com o servidor."});
+    };
+
+    const onDeleteTicket = (ticket) => {
+        setLoading(true);
+
+        performRequest("DELETE", "/v1/billsTicket/" + ticket.id)
+        .then(onSuccessDelete)
+        .catch(onErrorResponse);
+    }
+
+    const onSuccessDelete = (res) => {
+        setLoading(false);
+        setHttpSuccess({message: "Recibo de Pagamento Excluído com Sucesso!"});
+        onGetBillReceiveById(params.id);
     }
 
     useEffect(() => {
@@ -106,6 +148,16 @@ const BillsReceiveForm = ({}) => {
         <>
         <VHeader />
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <Row>
+                <Col>
+                {!loading && httpError &&
+                    <Error message={httpError.message} />
+                }
+                {!loading && httpSuccess &&
+                    <Success message={httpSuccess.message} />
+                }
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     <BackButton />
@@ -127,10 +179,8 @@ const BillsReceiveForm = ({}) => {
                                 <Col xs={12}>
                                     <b>Valor Pago:</b> {formatMoney((billReceive.value_performed))} 
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    Nesta página você pode gerenciar os produtos do centro de custo.
+                                <Col xs={12}>
+                                    <b>Quantidade de Pagamentos Recebidos:</b> {billReceive.tickets.length} 
                                 </Col>
                             </Row>
                             </>
@@ -250,8 +300,8 @@ const BillsReceiveForm = ({}) => {
                                     <Button variant="success"
                                         type="submit"
                                         size="lg"
-                                        disabled={loading}>
-                                        {loading ? <Loading />
+                                        disabled={loadingTicket}>
+                                        {loadingTicket ? <Loading />
                                                     : 
                                                     'Adicionar'}
                                     </Button>
@@ -266,7 +316,7 @@ const BillsReceiveForm = ({}) => {
                     <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
                         <Accordion.Header>
                             <i style={{marginTop: -8}} className="material-icons float-left">assignment</i>
-                            <h5>Recibos de Pagamentos</h5>
+                            <h5>Recibos de Pagamentos ({billReceive.tickets.length})</h5>
                         </Accordion.Header>
                         <Accordion.Body>
                             <Row>
@@ -288,15 +338,29 @@ const BillsReceiveForm = ({}) => {
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Descrição</th>
-                                                        <th>Quantidade</th>
-                                                        <th>Valor Unitário</th>
-                                                        <th>Total</th>
+                                                        <th>Valor</th>
+                                                        <th>Data</th>
+                                                        <th>Opções</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {/* {stock.services.length === 0 &&
+                                                    {billReceive.tickets.map((ticket) => 
+                                                        <tr>
+                                                            <td>{ticket.id}</td>
+                                                            <td>{ticket.description}</td>
+                                                            <td>{formatMoney(ticket.value)}</td>
+                                                            <td>{formatDate(ticket.date)}</td>
+                                                            <td>
+                                                                <TableButton key={"file_download" + ticket.id} name="btnEdit" tooltip="Download" onClick={() => {window.open(config.url + "/recibo/" + ticket.id)}}
+                                                                    icon="file_download" color="light" />
+                                                                <TableButton key={"delete" + ticket.id} name="btnDelete" tooltip="Deletar" onClick={() => onDeleteTicket(ticket)}
+                                                                    icon="delete" color="light" />
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                    {billReceive.tickets.length === 0 &&
                                                         <NoEntity message={"Nenhum produto encontrado."} count={5} />
-                                                    } */}
+                                                    }
                                                 </tbody>
                                             </Table>
                                         </Col>

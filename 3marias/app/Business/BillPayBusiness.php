@@ -43,8 +43,11 @@ class BillPayBusiness {
 
     public function performBillTicket(BillTicket $ticket) {
         Logger::info("Atualizando conta a pagar.");
-        $billPay = $this->getById($ticket->bill_receive_id);
+        $billPay = $this->getById($ticket->bill_pay_id);
         $billPay->value_performed = $billPay->value_performed + $ticket->value;
+        if ($billPay->value === $billPay->value_performed) {
+            $billPay->status = 1;
+        }
         Logger::info("Salvando conta a pagar.");
         $billPay->save();
     }
