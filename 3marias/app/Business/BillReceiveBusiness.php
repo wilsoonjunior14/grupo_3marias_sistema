@@ -85,7 +85,7 @@ class BillReceiveBusiness {
         foreach ($tickets as $ticket) {
             $billReceive->value_performed += $ticket->value;
         }
-        if ($billReceive->value === $billReceive->value_performed) {
+        if ($billReceive->value == $billReceive->value_performed) {
             $billReceive->status = 1;
         }
         $billReceive->save();

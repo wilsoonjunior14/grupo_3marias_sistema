@@ -116,13 +116,17 @@ export default function MoneyDashboard() {
     const onSuccessGetBillsToPay = (res) => {
         var globalValue = 0;
         const responseData = res.data;
+        let paidValue = 0;
         responseData.forEach((bill) => {
             if (bill.status === 0) {
                 globalValue += Math.abs(Number(bill.value_performed) - Number(bill.value));
             }
+            paidValue += Number(bill.value_performed);
         });
         setLoadingBillPay(false);
         setBillPay(formatMoney(globalValue.toString()));
+        console.log(paidValue);
+        setBalance( balance - paidValue );
     }
 
     const getBillsToReceiveInProgress = () => {
@@ -150,7 +154,8 @@ export default function MoneyDashboard() {
             }
         }
         setNextBillsReceive(nextBills);
-        setBalance(Number(res.data.paidValue));
+        console.log(Number(res.data.paidValue));
+        setBalance( balance + Number(res.data.paidValue) );
     };
 
     const onErrorGetBillsToReceive = (err) => {

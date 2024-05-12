@@ -38,7 +38,7 @@ class BillsPayController extends Controller implements APIController
      */
     public function show($id) {
         try {
-            $bills = $this->billsPayBusiness->getById(id: $id);
+            $bills = $this->billsPayBusiness->getById(id: $id, mergeFields: true);
             return ResponseUtils::getResponse($bills, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());

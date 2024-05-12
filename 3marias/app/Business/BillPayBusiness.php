@@ -17,17 +17,25 @@ class BillPayBusiness {
     public function getAll() {
         Logger::info("Iniciando a recuperação dos pagamentos.");
         $bills = (new BillPay())->getAll("created_at");
+        foreach ($bills as $bill) {
+            $this->setStatusIcon(bill: $bill);
+        }
         Logger::info("Finalizando a recuperação dos pagamentos.");
         return $bills;
     }
 
-    public function getById($id) {
+    public function getById(int $id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação do pagamento.");
         try {
             $bill = (new BillPay())->getById(id: $id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Conta a Pagar"));
-        }      
+        }
+        if (!$mergeFields) {
+            Logger::info("Finalizando a recuperação do pagamento.");
+            return $bill;
+        }
+        $bill["tickets"] = (new BillTicketBusiness())->getByBillPay(billPayId: $id);      
         Logger::info("Finalizando a recuperação do pagamento.");
         return $bill;
     }
@@ -41,14 +49,17 @@ class BillPayBusiness {
         return $payment;
     }
 
-    public function performBillTicket(BillTicket $ticket) {
-        Logger::info("Atualizando conta a pagar.");
-        $billPay = $this->getById($ticket->bill_pay_id);
-        $billPay->value_performed = $billPay->value_performed + $ticket->value;
-        if ($billPay->value === $billPay->value_performed) {
+    public function refreshBillPay(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billPay = $this->getById(id: $id, mergeFields: false);
+        $tickets = (new BillTicketBusiness())->getByBillPay(billPayId: $id);
+        $billPay->value_performed = 0;
+        foreach ($tickets as $ticket) {
+            $billPay->value_performed += $ticket->value;
+        }
+        if ($billPay->value == $billPay->value_performed) {
             $billPay->status = 1;
         }
-        Logger::info("Salvando conta a pagar.");
         $billPay->save();
     }
 
@@ -106,5 +117,16 @@ class BillPayBusiness {
             "service_orders_id" => $serviceOrder->id
         ];
         $this->create(data: $payload);
+    }
+
+    public function setStatusIcon(BillPay $bill) {
+        if ($bill->status === 0) {
+            $bill["icon"] = "access_time";
+            $bill["icon_color"] = "gray";
+        }
+        if ($bill->status === 1) {
+            $bill["icon"] = "done";
+            $bill["icon_color"] = "green";
+        }
     }
 }

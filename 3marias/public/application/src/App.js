@@ -55,6 +55,7 @@ import CategoryServiceList from './pages/stocks/categoryServices/CategoryService
 import CategoryServiceForm from './pages/stocks/categoryServices/CategoryServiceForm';
 import EngineerList from './pages/admin/engineers/EngineerList';
 import EngineerForm from './pages/admin/engineers/EngineerForm';
+import BillsPayForm from './pages/money/BillsPayForm';
 
 console.disableYellowBox = true;
 
@@ -137,6 +138,7 @@ function App() {
           
           <Route path='money/dashboard' element={<MoneyDashboard />}></Route>
           <Route path='money/billsPay' element={<BillsPayList />}></Route>
+          <Route path='money/billsPay/details/:id' element={<BillsPayForm />}></Route>
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
           <Route path='money/billsReceive/details/:id' element={<BillsReceiveForm />}></Route>
           <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>

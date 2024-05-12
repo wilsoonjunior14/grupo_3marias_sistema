@@ -3,8 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\BillPay;
-use App\Models\BillReceive;
 use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -51,6 +49,9 @@ class BillTicketBusiness {
         if (!is_null($bill->bill_receive_id)) {
             (new BillReceiveBusiness())->refreshBillReceive(id: $bill->bill_receive_id);
         }
+        if (!is_null($bill->bill_pay_id)) {
+            (new BillPayBusiness())->refreshBillPay(id: $bill->bill_pay_id);
+        }
         Logger::info("Finalizando a exclusão dos pagamentos.");
         return $bill;
     }
@@ -65,7 +66,7 @@ class BillTicketBusiness {
         $bill->save();
 
         if (!is_null($bill->bill_pay_id)) {
-            (new BillPayBusiness())->performBillTicket(ticket: $bill);
+            (new BillPayBusiness())->refreshBillPay(id: $bill->bill_pay_id);
         }
         if (!is_null($bill->bill_receive_id)) {
             (new BillReceiveBusiness())->refreshBillReceive(id: $bill->bill_receive_id);
