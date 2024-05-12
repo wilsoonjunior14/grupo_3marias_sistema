@@ -45,23 +45,12 @@ jobs:
         with:
           lock: 3marias/composer.lock
 
-      # # Checking the code statically
-      # - name: Code Analysis
-      #   uses: php-actions/phpstan@v3
-      #   with:
-      #     php_version: 8.2
-      #     path: 3marias/app/Business 3marias/app/Exceptions 3marias/app/Http/Controllers 3marias/app/Mail 3marias/app/Models 3marias/app/Utils
-      #     level: 0
-      #     memory_limit: 256M
-      
       # Checking the code statically
       - name: Code Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          php_version: 8.2
-          path: 3marias/app/Utils
-          level: 0
-          memory_limit: 256M
+        run: |
+          ls -la
+          cd 3marias
+          ./vendor/bin/phpstan analyse app tests --level=1
 
       # Check tests
       - name: E2E Tests

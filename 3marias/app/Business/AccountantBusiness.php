@@ -24,7 +24,6 @@ class AccountantBusiness {
     public function getById(int $id, bool $merge = true) {
         Logger::info("Iniciando a recuperação de contador $id.");
         try {
-            /* @phpstan-ignore-next-line */
             $accountant = (new Accountant())->getById(id: $id);
         } catch (ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Contador"));
