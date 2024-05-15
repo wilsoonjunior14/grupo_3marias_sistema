@@ -16,6 +16,8 @@ mv ../../resources/views/index.html ../../resources/views/welcome.blade.php
 rm build/index.html
 
 # 2. Moving the static folder
+rm -R ../static
+mkdir ../static
 cp -r build/static/* ../static
 cp -r build/* ../
 rm -R build
