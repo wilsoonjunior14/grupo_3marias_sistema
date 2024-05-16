@@ -1,5 +1,5 @@
-import {generateRandomLetters, generateRandomNumbers} from '../support/generators/generators';
-import {gerarCpf} from '../support/generators/cpfgenerator';
+import {generateRandomLetters, generateRandomNumbers} from '../../support/generators/generators';
+import {gerarCpf} from '../../support/generators/cpfgenerator';
 
 describe('client screen test', () => {
 
@@ -147,6 +147,127 @@ describe('client screen test', () => {
     cy.get('#cpfInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('#ocupationInput').invoke('val').then(value => expect(value).to.not.equal(''));
     cy.get('.alert-danger').should('exist');
+  })
+
+
+  it('negative test create client with required fields + CASADO state + name_dependent + cpf_dependent using it equals cpf', () => {
+    // Clients Form Screen
+    let cpf = gerarCpf();
+    cy.get('#stateInput').select('Casado');
+    cy.wait(1500);
+    cy.get('#cpfInput').clear();
+    cy.get('#cpfInput').type(cpf);
+    cy.get('#name_dependentInput').type(generateRandomLetters(50));
+    cy.get('#cpf_dependentInput').type(cpf);
+    cy.get('[type="submit"]').click();
+    cy.wait('@xhrClients');
+
+    // Clients Form Screen Asserts
+    cy.get('#nameInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('#cpfInput').invoke('val').then(value => expect(value).to.equal(cpf));
+    cy.get('#cpf_dependentInput').invoke('val').then(value => expect(value).to.equal(cpf));
+    cy.get('#stateInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Campo CPF do Cônjugue deve ser diferente do CPF do Cliente.');
+  })
+
+  it('negative test create client with required fields + wrong naturality', () => {
+    // Clients Form Screen
+    cy.get('#naturalityInput').type(generateRandomNumbers(10));
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#naturalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Naturalidade do Cliente não é válido.');
+  })
+
+  it('negative test create client with required fields + short naturality', () => {
+    // Clients Form Screen
+    cy.get('#naturalityInput').type(generateRandomNumbers(2));
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#naturalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Naturalidade do Cliente deve conter entre 3 e 255 caracteres.');
+  })
+
+  it('negative test create client with required fields + white spaces naturality', () => {
+    // Clients Form Screen
+    cy.get('#naturalityInput').type("                   ");
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#naturalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Campo Naturalidade do Cliente deve conter no mínimo 3 caracteres.');
+  })
+
+  it('negative test create client with required fields + wrong nationality', () => {
+    // Clients Form Screen
+    cy.get('#nationalityInput').type(generateRandomNumbers(10));
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#nationalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Nacionalidade do Cliente não é válido.');
+  })
+
+  it('negative test create client with required fields + short nationality', () => {
+    // Clients Form Screen
+    cy.get('#nationalityInput').type(generateRandomNumbers(2));
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#nationalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Nacionalidade do Cliente deve conter entre 3 e 255 caracteres.');
+  })
+
+  it('negative test create client with required fields + white spaces nationality', () => {
+    // Clients Form Screen
+    cy.get('#nationalityInput').type("                   ");
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#nationalityInput').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Campo Nacionalidade do Cliente deve conter no mínimo 3 caracteres.');
+  })
+
+  it('negative test create client with required fields + zero salary', () => {
+    // Clients Form Screen
+    cy.get('#salary').type("0");
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#salary').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Renda Bruta do Cliente não é válido. Tente utilizar o padrão XXX.XXX,XX');
+  })
+
+  it('negative test create client with required fields + wrong salary', () => {
+    // Clients Form Screen
+    cy.get('#salary').type(generateRandomLetters(10));
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#salary').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Renda Bruta do Cliente não é válido. Tente utilizar o padrão XXX.XXX,XX');
+  })
+
+  it('negative test create client with required fields + invalid pattern salary', () => {
+    // Clients Form Screen
+    cy.get('#salary').type(generateRandomNumbers(5) + "," + generateRandomNumbers(2) + "," + generateRandomNumbers(2) + ".");
+    cy.get('[type="submit"]').click();
+
+    // Clients Form Screen Asserts
+    cy.get('#salary').invoke('val').then(value => expect(value).to.not.equal(''));
+    cy.get('.alert-danger').should('exist');
+    cy.contains('Renda Bruta do Cliente não é válido. Tente utilizar o padrão XXX.XXX,XX');
   })
 
   it('positive test create client with required fields + long ocupation', () => {
@@ -306,5 +427,29 @@ describe('client screen test', () => {
     cy.get('.alert-danger').should('not.exist');
     cy.get('#cpf_dependentInput').should('not.exist');
     cy.get('#rg_dependentInput').should('not.exist');
+  })
+
+  it('positive test create client with required fields + address fields', () => {
+    cy.wait(3000);
+
+    // Clients Form Screen
+    cy.get('#city_idInput').select('IBIAPINA');
+    cy.get('#zipcodeInput').type('62360-000');
+    cy.get('#addressInput').type(generateRandomLetters(10));
+    cy.get('#neighborhoodInput').type(generateRandomLetters(10));
+    cy.get('#complementInput').type(generateRandomLetters(10));
+    cy.get('#numberInput').type(generateRandomNumbers(3));
+    cy.get('[type="submit"]').click();
+    cy.wait('@xhrClients');
+
+    // Clients Form Screen Asserts
+    cy.wait(3000);
+    cy.get('#city_idInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#zipcodeInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#addressInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#neighborhoodInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#complementInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('#numberInput').invoke('val').then(value => expect(value).to.equal(''));
+    cy.get('.alert-danger').should('not.exist');
   })
 })
