@@ -13,10 +13,14 @@ class BaseModel extends Model
     /**
      * Retrieves all non-deleted entities ordered by column. 
      */
-    public function getAll(string $orderBy) {
-        return $this::where("deleted", false) // @phpstan-ignore-line
-        ->orderBy($orderBy)
-        ->get();
+    public function getAll(string $orderBy, array $fields = []) {
+        $entities = $this::where("deleted", false); // @phpstan-ignore-line
+        if (count($fields) > 0) {
+            $entities = $entities->select($fields);
+        }
+        return $entities
+            ->orderBy($orderBy)
+            ->get();
     }
 
     /**

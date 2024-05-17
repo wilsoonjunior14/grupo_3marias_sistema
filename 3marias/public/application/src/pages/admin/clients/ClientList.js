@@ -61,9 +61,9 @@ export default function ClientList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "Telefone", "Estado Civil", "Profissão", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "CPF", "Email"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "phone", "state", "ocupation", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "cpf", "email"]
     };
 
     const customOptions = [

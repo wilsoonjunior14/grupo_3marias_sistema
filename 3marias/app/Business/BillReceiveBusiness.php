@@ -3,6 +3,7 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
+use App\Models\BillPay;
 use App\Models\BillReceive;
 use App\Models\BillTicket;
 use App\Models\Logger;
@@ -33,12 +34,23 @@ class BillReceiveBusiness {
 
     public function getBillsInProgress() {
         Logger::info("Iniciando a recuperação dos pagamentos.");
-        $bills = (new BillReceive())->getBillsNotDone();
+        $receiveBills = (new BillReceive())->getBillsNotDone();
+        $payBills = (new BillPay())->getBillsNotDone();
+        $bills = (new BillReceive())->getBillsInProgress();
         foreach ($bills as $bill) {
             $bill["contract"] = (new ContractBusiness())->getById(id: $bill->contract_id);
         }
+
         Logger::info("Finalizando a recuperação dos pagamentos.");
-        return ['paidValue' => (new BillReceive())->getValueAlreadyPaid(), 'bills' => $bills];
+        $receiveValuePaid = (new BillReceive())->getValueAlreadyPaid();
+        $payValuePaid = (new BillPay())->getValueAlreadyPaid();
+        $enterpriseValue = $receiveValuePaid - $payValuePaid;
+        return [
+            'toReceiveValue' => $receiveBills - $receiveValuePaid,
+            'toPayValue' => $payBills - $payValuePaid,
+            'value' => $enterpriseValue,
+            'bills' => $bills
+        ];
     }
 
     public function getById($id, bool $mergeFields = false) {

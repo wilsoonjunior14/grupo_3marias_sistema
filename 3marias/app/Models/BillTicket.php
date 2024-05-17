@@ -39,6 +39,15 @@ class BillTicket extends BaseModel
         'bill_pay_id.exists' => 'Campo Identificador de Conta a Pagar está inválido.'
     ];
 
+    public function getByDate($beginDate, $endDate) {
+        return (new BillTicket())
+        ->where("deleted", false)
+        ->whereDate("date", ">=", $beginDate)
+        ->whereDate("date", "<=", $endDate)
+        ->orderBy("date")
+        ->get();
+    }
+
     public function getByBillReceiveId(int $id) {
         return (new BillTicket())
             ->where("deleted", false)

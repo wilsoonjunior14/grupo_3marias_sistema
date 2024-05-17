@@ -206,7 +206,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                 if (inputData[key] !== "") {
                     amountMatches = amountMatches + 1;
                     var fieldValue = getValueOfComplexField(item, key);
-                    if (fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
+                    if (fieldValue && 
+                        fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
                         matches = matches + 1;
                     }
                 }    
@@ -326,7 +327,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                 </Col>
                                 
                                 <Col xs="12">
-                                    {itemsPerPage.length !== 0 &&
+                                    {itemsPerPage.length !== 0 && items.length > 10 &&
                                     <CustomPagination data={items} setDataCallback={setDataPagination} />
                                     }
                                 </Col>

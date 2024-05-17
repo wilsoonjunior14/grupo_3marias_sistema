@@ -7,6 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import CustomButton from "../button/Button";
 import Button from "react-bootstrap/esm/Button";
 import Accordion from 'react-bootstrap/Accordion';
+import CustomInput from '../input/CustomInput';
 
 const Search = ({fields, onSearch, onReset}) => {
 
@@ -37,18 +38,21 @@ const Search = ({fields, onSearch, onReset}) => {
                                                 <Row>
                                                     {fields.map((field) => 
                                                         <Col key={field.id} md={6} lg={4}>
-                                                            <FloatingLabel
-                                                                controlId={field.id + "Input"}
-                                                                label={field.placeholder}
-                                                                className="mb-3">
-                                                                <Form.Control type={field.type} placeholder={field.placeholder} 
-                                                                name={field.id} onChange={changeField}
-                                                                maxLength={field.maxlength} />
-                                                            </FloatingLabel>
+                                                            <CustomInput
+                                                                key={field.id + "Input"}
+                                                                name={field.id}
+                                                                type={field.type}
+                                                                maxlength={field.maxlength}
+                                                                mask={field.mask}
+                                                                maskPlaceholder={field.maskPlaceholder}
+                                                                placeholder={field.placeholder}
+                                                                onChange={changeField}
+                                                            />
                                                         </Col>
                                                     )
                                                     }
                                                 </Row>
+                                                <br></br>
                                                 <Row>
                                                     <Col md={6} lg={2}>
                                                         <CustomButton color="success" onClick={() => onSearch(inputData)} name="Buscar" icon="search" />

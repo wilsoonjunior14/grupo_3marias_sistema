@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\EnterpriseBranchController;
 use App\Http\Controllers\EnterpriseFileController;
@@ -123,6 +122,7 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // bills to tickets api routes
     Route::apiResource('/billsTicket', BillTicketController::class);
+    Route::post('/billsTicket/search', [BillTicketController::class, 'getByDate']);
 
     // bills to pay api routes
     Route::apiResource('/engineers', EngineerController::class);
@@ -162,7 +162,4 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
-    // Route api observability
-    Route::get('/observability/metrics', [ObservabilityController::class, 'getMetrics']);
-    Route::post('/observability/logs', [ObservabilityController::class, 'getLogs']);
 });

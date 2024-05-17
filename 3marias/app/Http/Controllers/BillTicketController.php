@@ -35,6 +35,20 @@ class BillTicketController extends Controller implements APIController
     }
 
     /**
+     * Gets all bills.
+     */
+    public function getByDate(Request $request) {
+        try {
+            $bills = $this->billTicketBusiness->getByDate(data: $request->all());
+            return ResponseUtils::getResponse($bills, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse($e);
+        }
+    }
+
+    /**
      * Creates a bill.
      */
     public function store(Request $request) {

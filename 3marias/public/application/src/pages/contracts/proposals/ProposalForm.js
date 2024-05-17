@@ -489,8 +489,6 @@ const ProposalForm = ({}) => {
             increase = formatStringToNumber(increase);
         }
 
-        console.log(payloadData.status);
-
         var payments = 0;
         var clientPayments = [];
         paymentsClient.forEach((p) => {

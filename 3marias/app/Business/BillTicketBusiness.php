@@ -6,12 +6,40 @@ use App\Exceptions\InputValidationException;
 use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
+use App\Validation\ModelValidator;
 
 class BillTicketBusiness {
 
     public function getAll() {
         Logger::info("Iniciando a recuperação dos recibos.");
         $bills = (new BillTicket())->getAll("date");
+        Logger::info("Finalizando a recuperação dos recibos.");
+        return $bills;
+    }
+
+    public function getByDate(array $data) {
+        Logger::info("Iniciando a recuperação dos recibos.");
+        $rules = [
+            'begin_date' => 'required|date|string|regex:/^(\d){4}-(\d){2}-(\d{2})$/',
+            'end_date' => 'required|date|string|regex:/^(\d){4}-(\d){2}-(\d{2})$/'
+        ];
+        $rulesMessages = [
+            'begin_date.required' => 'Campo Data Inicial é obrigatório.',
+            'begin_date.date' => 'Campo de Data Inicial é inválido.',
+            'begin_date.string' => 'Campo de Data Inicial é inválido.',
+            'begin_date.regex' => 'Campo de Data Inicial está inválido.',
+            'end_date.required' => 'Campo Data Final é obrigatório.',
+            'end_date.date' => 'Campo de Data Final é inválido.',
+            'end_date.string' => 'Campo de Data Final é inválido.',
+            'end_date.regex' => 'Campo de Data Final está inválido.',
+        ];
+        $modelValidator = new ModelValidator($rules, $rulesMessages);
+        $validation = $modelValidator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
+
+        $bills = (new BillTicket())->getByDate(beginDate: $data["begin_date"], endDate: $data["end_date"]);
         Logger::info("Finalizando a recuperação dos recibos.");
         return $bills;
     }
