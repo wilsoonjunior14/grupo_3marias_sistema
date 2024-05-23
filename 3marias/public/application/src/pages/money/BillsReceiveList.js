@@ -30,9 +30,9 @@ export default function BillsReceiveList() {
     ];
 
     const table = {
-        fields: ["#", "Status", "Cliente", "Descrição", "Valor", "Contrato", "Data de Criação", "Data de Alteração"],
+        fields: ["Status", "Código", "Cliente", "Descrição", "Valor", "Contrato"],
         amountOptions: 1,
-        bodyFields: ["code", "icon", "contract.proposal.client.name", "description", "value", "contract.code", "created_at", "updated_at"]
+        bodyFields: ["icon", "code", "contract.proposal.client.name", "description", "value", "contract.code"]
     };
 
     const customOptions = [

@@ -179,9 +179,11 @@ const BillsReceiveForm = ({}) => {
                                 <Col xs={12}>
                                     <b>Valor Pago:</b> {formatMoney((billReceive.value_performed))} 
                                 </Col>
+                                {billReceive.source === "Cliente" &&
                                 <Col xs={12}>
                                     <b>Quantidade de Pagamentos Recebidos:</b> {billReceive.tickets.length} 
                                 </Col>
+                                }
                             </Row>
                             </>
                             }
@@ -249,6 +251,7 @@ const BillsReceiveForm = ({}) => {
                 }
             </Row>
             <br></br>
+            {billReceive.source === "Cliente" &&
             <Accordion>
                 <Accordion.Item eventKey="0" style={{marginBottom: 22}}>
                         <Accordion.Header>
@@ -311,12 +314,74 @@ const BillsReceiveForm = ({}) => {
                             </>
                             }
                         </Accordion.Body>
-                    </Accordion.Item>
+                </Accordion.Item>
 
-                    <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
+                <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
+                    <Accordion.Header>
+                        <i style={{marginTop: -8}} className="material-icons float-left">assignment</i>
+                        <h5>Recibos de Pagamentos ({billReceive.tickets.length})</h5>
+                    </Accordion.Header>
+                    <Accordion.Body>
+                        <Row>
+                            <Col>
+                                {loading &&
+                                    <>
+                                    <Col></Col>
+                                    <Col style={{textAlign: 'center'}}>
+                                        <Loading />
+                                    </Col>
+                                    <Col></Col>
+                                    </>
+                                }
+                                {!loading &&
+                                <Row>
+                                    <Col>
+                                        <Table responsive striped>
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Descrição</th>
+                                                    <th>Valor</th>
+                                                    <th>Data</th>
+                                                    <th>Opções</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {billReceive.tickets.map((ticket) => 
+                                                    <tr>
+                                                        <td>{ticket.id}</td>
+                                                        <td>{ticket.description}</td>
+                                                        <td>{formatMoney(ticket.value)}</td>
+                                                        <td>{formatDate(ticket.date)}</td>
+                                                        <td>
+                                                            <TableButton key={"file_download" + ticket.id} name="btnEdit" tooltip="Download" onClick={() => {window.open(config.url + "/recibo/" + ticket.id)}}
+                                                                icon="file_download" color="light" />
+                                                            <TableButton key={"delete" + ticket.id} name="btnDelete" tooltip="Deletar" onClick={() => onDeleteTicket(ticket)}
+                                                                icon="delete" color="light" />
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                                {billReceive.tickets.length === 0 &&
+                                                    <NoEntity message={"Nenhum produto encontrado."} count={5} />
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                </Row>
+                                }
+                            </Col>
+                        </Row>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
+            }
+            
+            {billReceive.source === "Banco" &&
+            <Accordion>
+                <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
                         <Accordion.Header>
                             <i style={{marginTop: -8}} className="material-icons float-left">assignment</i>
-                            <h5>Recibos de Pagamentos ({billReceive.tickets.length})</h5>
+                            <h5>Medição</h5>
                         </Accordion.Header>
                         <Accordion.Body>
                             <Row>
@@ -338,29 +403,12 @@ const BillsReceiveForm = ({}) => {
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Descrição</th>
+                                                        <th>Quantidade</th>
                                                         <th>Valor</th>
-                                                        <th>Data</th>
-                                                        <th>Opções</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {billReceive.tickets.map((ticket) => 
-                                                        <tr>
-                                                            <td>{ticket.id}</td>
-                                                            <td>{ticket.description}</td>
-                                                            <td>{formatMoney(ticket.value)}</td>
-                                                            <td>{formatDate(ticket.date)}</td>
-                                                            <td>
-                                                                <TableButton key={"file_download" + ticket.id} name="btnEdit" tooltip="Download" onClick={() => {window.open(config.url + "/recibo/" + ticket.id)}}
-                                                                    icon="file_download" color="light" />
-                                                                <TableButton key={"delete" + ticket.id} name="btnDelete" tooltip="Deletar" onClick={() => onDeleteTicket(ticket)}
-                                                                    icon="delete" color="light" />
-                                                            </td>
-                                                        </tr>
-                                                    )}
-                                                    {billReceive.tickets.length === 0 &&
-                                                        <NoEntity message={"Nenhum produto encontrado."} count={5} />
-                                                    }
+                                                    
                                                 </tbody>
                                             </Table>
                                         </Col>
@@ -369,8 +417,9 @@ const BillsReceiveForm = ({}) => {
                                 </Col>
                             </Row>
                         </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
+                </Accordion.Item>
+            </Accordion>
+            }
         </Container>
         </>
     )

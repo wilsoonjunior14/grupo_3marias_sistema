@@ -5,7 +5,6 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\BillPay;
 use App\Models\BillReceive;
-use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
@@ -66,6 +65,8 @@ class BillReceiveBusiness {
         }   
         
         $bill["tickets"] = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
+        // TODO: gets the list of measurement configuration.
+        // TODO: gets the list of measurements already done.
         return $bill;
     }
 
