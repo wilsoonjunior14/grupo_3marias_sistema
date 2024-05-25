@@ -161,7 +161,7 @@ export function validateMoney(array, field, fieldName, isRequired) {
     const value = array[field];
     const regMoney = new RegExp(/^(\d+\.)+(\d+\,\d+)$|^(\d+)\,(\d+)$/g);
     if (!regMoney.test(value)) {
-        return returnMessage(fieldName + " ("+value+") não é válido. Tente utilizar o padrão XXX.XXX,XX");
+        return returnMessage(fieldName + " não é válido. Tente utilizar o padrão XXX.XXX,XX");
     }
 }
 

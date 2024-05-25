@@ -22,9 +22,9 @@ export default function UserList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "Grupo", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Email", "Grupo"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "group.description", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "email", "group.description"]
     };
     
     return (

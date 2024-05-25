@@ -3,7 +3,7 @@ import React from "react";
 const Thead = ({fields, amountOptions}) => {
     return (
         <>
-            <thead className="bg-success">
+            <thead>
                 <tr>
                     {fields.map((field) => 
                         <th key={field}>{field}</th>
