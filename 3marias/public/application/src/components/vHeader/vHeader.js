@@ -186,18 +186,19 @@ function VHeader() {
                             item={item} 
                             onClick={() => onToggleOptions(item)} />
                     ))}
+                    <Nav.Link href="/account" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
+                        <i style={{color: accountColor, fontSize: "30px", marginBottom: "10px", marginLeft: 15}} className="material-icons float-left">account_circle</i>
+                    </Nav.Link>
+                    <Tooltip style={{marginTop: "-5px"}} place="right" id="account_circle-item-tooltip" />
+
+                    <Nav.Link href="/home" onClick={onLogout}
+                        data-tooltip-id="exit_to_app-item-tooltip" data-tooltip-content="Sair">
+                        <i style={{color: "white", fontSize: "30px", marginBottom: "10px", marginLeft: 15}} className="material-icons float-left">exit_to_app</i>
+                    </Nav.Link>
+                    <Tooltip style={{marginTop: "-5px"}} place="right" id="exit_to_app-item-tooltip" />
 
                     <Nav style={{position: "absolute", bottom: 15, left: 25}}>
-                        <Nav.Link href="/account" data-tooltip-id="account_circle-item-tooltip" data-tooltip-content="Minha Conta">
-                            <i style={{color: accountColor, fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">account_circle</i>
-                        </Nav.Link>
-                        <Tooltip style={{marginTop: "-5px"}} place="right" id="account_circle-item-tooltip" />
 
-                        <Nav.Link href="/home" onClick={onLogout}
-                            data-tooltip-id="exit_to_app-item-tooltip" data-tooltip-content="Sair">
-                            <i style={{color: "white", fontSize: "30px", marginBottom: "10px"}} className="material-icons float-left">exit_to_app</i>
-                        </Nav.Link>
-                        <Tooltip style={{marginTop: "-5px"}} place="right" id="exit_to_app-item-tooltip" />
                     </Nav>
 
                 </Container>

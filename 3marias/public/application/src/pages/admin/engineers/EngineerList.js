@@ -28,9 +28,9 @@ export default function EngineerList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "CREA", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Email", "CREA"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "crea", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "email", "crea"]
     };
 
     return (
