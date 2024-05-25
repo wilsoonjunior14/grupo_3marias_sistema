@@ -32,6 +32,9 @@
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <title>Construtora 3 Marias</title>
   </head>
   <body>
@@ -50,6 +53,10 @@
     <script>
 
       setTimeout(() => {
+        const element = document.getElementById('map');
+        if (!element) {
+          return;
+        }
         const latLng = [-3.935254, -40.890201];
         const map = L.map('map').setView(latLng, 13);
     

@@ -28,9 +28,9 @@ export default function RolesList() {
     ];
 
     const table = {
-        fields: ["#", "Descrição", "URL", "Tipo de Requisição", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Descrição", "URL", "Tipo de Requisição"],
         amountOptions: 1,
-        bodyFields: ["id", "description", "endpoint", "request_type", "created_at", "updated_at"]
+        bodyFields: ["id", "description", "endpoint", "request_type"]
     };
 
     return (

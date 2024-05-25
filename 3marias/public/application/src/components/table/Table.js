@@ -255,7 +255,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
             onReset={onReset} />
         }
 
-        <Row>
+        <Row className="table-row">
             <Col>
                 <Card>
                     <Card.Body>
@@ -284,8 +284,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                             {!loading && !httpError &&      
                             <>
                             <Row>
-                                <Col xs="12">
-                                    <Table responsive striped>
+                                <Col xs="12" className="table-col">
+                                    <Table responsive>
                                         <Thead fields={tableFields.fields} amountOptions={tableFields.amountOptions} />
                                         <tbody>
                                             {itemsPerPage.map((item) => 
