@@ -23,6 +23,7 @@ use App\Http\Controllers\EnterpriseFileController;
 use App\Http\Controllers\EnterpriseOwnerController;
 use App\Http\Controllers\EnterprisePartnerController;
 use App\Http\Controllers\MeasurementConfigurationController;
+use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\MeasurementItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
@@ -124,6 +125,9 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
 
     // measurement configuration api routes
     Route::apiResource('/measurementItems', MeasurementItemController::class);
+
+    // measurement api routes
+    Route::apiResource('/measurements', MeasurementController::class);
 
     // bills to pay api routes
     Route::apiResource('/billsPay', BillsPayController::class);

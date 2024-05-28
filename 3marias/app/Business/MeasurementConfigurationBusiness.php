@@ -98,7 +98,7 @@ class MeasurementConfigurationBusiness {
         $amountProvided = 0;
         foreach ($data["measurements"] as $measurement) {
             $config = new MeasurementConfiguration($measurement);
-            $config->validate(MeasurementConfiguration::$rules, MeasurementConfiguration::$rulesMessages); 
+            $config->validate(MeasurementConfiguration::$rules, MeasurementConfiguration::$rulesMessages);
             $billReceive = (new BillReceiveBusiness())->getById(id: $config->bill_receive_id);
             (new MeasurementItemBusiness())->getById(id: $config->measurement_item_id);
             $amountProvided += ($config->incidence * $billReceive->value/100);
@@ -107,6 +107,11 @@ class MeasurementConfigurationBusiness {
         if ($billReceive->value != $amountProvided) {
             $difference = floatval($billReceive->value) - floatval($amountProvided);
             throw new InputValidationException("Incidência dos valores informados difere do valor total da medição. Diferença: $difference");
+        }
+
+        $initialConfigs = $this->getByBillReceiveId(billReceiveId: $billReceive->id);
+        if (count($initialConfigs) === 20) {
+            throw new InputValidationException("Configuração da medição já existente. Não é possível criar uma outra.");
         }
     }
 }
