@@ -48,8 +48,11 @@ class MeasurementController extends Controller implements APIController
             $measurement = $this->measurementBusiness->create(data: $request->all());
             return ResponseUtils::getResponse($measurement, 201);
         } catch (\App\Exceptions\AppException $e) {
+            error_log($e);
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
+            error_log($e);
+            var_dump($e);
             return ResponseUtils::getErrorResponse($e);
         }
     }

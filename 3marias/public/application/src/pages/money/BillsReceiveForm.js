@@ -23,9 +23,11 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
-import { formatDate, formatMoney } from "../../services/Format";
+import { formatDate, formatMoney, formatStringToNumber } from "../../services/Format";
 import BackButton from "../../components/button/BackButton";
 import config from "../../config.json";
+import CustomButton from "../../components/button/Button";
+import Modal from 'react-bootstrap/Modal';
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -39,6 +41,15 @@ const BillsReceiveForm = ({}) => {
     const [loading, setLoading] = useState(false);
     const [loadingTicket, setLoadingTicket] = useState(false);
     const [billReceive, setBillReceive] = useState({tickets: []});
+    const [measurementConfiguration, setMeasurementConfiguration] = useState([]);
+    const [measurements, setMeasurements] = useState([]);
+
+    const [showMeasurementItems, setShowMeasurementItems] = useState(false);
+    const [measurement, setMeasurement] = useState({items: []});
+    const [currentMeasurementValue, setCurrentMeasurementValue] = useState(0);
+
+    const [showAddMeasurement, setShowAddMeasurement] = useState(false);
+    const [newMeasurement, setNewMeasurement] = useState([]);
     const initialState = {};
 
     const reducer = (state, action) => {
@@ -70,8 +81,37 @@ const BillsReceiveForm = ({}) => {
     }
 
     const onSuccessGet = (res) => {
+        const billReceive = res.data;
         setLoading(false);
-        setBillReceive(res.data);
+        setBillReceive(billReceive);
+        setMeasurementConfiguration(billReceive.measurementConfiguration);
+
+        if (billReceive.source !== "Banco") {
+            return;
+        }
+        if (!billReceive.measurements || billReceive.measurements.length === 0) {
+            return;
+        }
+        let measurements = [];
+        let numberMeasurements = billReceive.measurements.length / 20;
+        for (var i = 0; i < numberMeasurements; i ++) {
+            let items = billReceive.measurements.slice(20 * i, (20 * i) + 20);
+            let measure = {
+                number: items[0].number,
+                total: calculateMeasurementTotal(items, billReceive.value),
+                items: items
+            }
+            measurements.push(measure);
+        } 
+        setMeasurements(measurements);
+    }
+
+    const calculateMeasurementTotal = (items, totalValue) => {
+        let total = 0;
+        items.forEach((item) => {
+            total += (item.incidence * totalValue) / 100;
+        });
+        return total;
     }
 
     const onError = (err) => {
@@ -140,12 +180,152 @@ const BillsReceiveForm = ({}) => {
         onGetBillReceiveById(params.id);
     }
 
+    const onPrepareShowMeasurementItems = (measurement) => {
+        setMeasurement(measurement);
+        setShowMeasurementItems(true);
+    }
+
+    const onPrepareAddNewMeasurement = () => {
+        setShowAddMeasurement(true);
+        if (newMeasurement && newMeasurement.length > 0) {
+            return;
+        }
+
+        let configuration = [];
+        billReceive.measurementConfiguration.forEach((config) => {
+            let newConfig = {
+                value: 0, 
+                measurement_item_id: config.measurement_item_id,
+                service: config.measurement_item.service,
+                bill_receive_id: params.id,
+                incidence: 0
+            };
+            billReceive.measurements.forEach((item) => {
+                if (config.measurement_item_id.toString() === item.measurement_item_id.toString()) {
+                    newConfig.value = newConfig.value + parseFloat(item.incidence);
+                }
+            });
+            newConfig.value = config.incidence - newConfig.value;
+            configuration.push(newConfig);
+        });
+        setNewMeasurement(configuration);
+    }
+
+    const onUpdateIncidence = (evt, item) => {
+        let currentValue = 0;
+        newMeasurement.forEach((i) => {
+            if (i.measurement_item_id.toString() === item.measurement_item_id.toString()) {
+                i.incidence = evt.target.value;
+            }
+            currentValue += (formatStringToNumber(i.incidence.toString()) * billReceive.value ) / 100;
+        });
+        setCurrentMeasurementValue(currentValue);
+        setNewMeasurement(newMeasurement);
+    }
+
+    const onCreateNewMeasurement = () => {
+        setShowAddMeasurement(false);
+        newMeasurement.forEach((item) => {
+            item.incidence = formatStringToNumber(item.incidence.toString());
+            item.number = measurements && measurements.length > 0 ? measurements.length + 1 : 1;
+        });
+
+        const payload = {
+            measurements: newMeasurement
+        };
+
+        setLoading(true);
+        performRequest("POST", "/v1/measurements", payload)
+        .then(() => {
+            setLoading(false);
+            setHttpSuccess({message: "Medição criada com sucesso!"});
+            onGetBillReceiveById(params.id);
+        })
+        .catch(onErrorResponse);
+    }
+
     useEffect(() => {
         onGetBillReceiveById(params.id);
     }, []);
 
     return (
         <>
+
+        <Modal size="lg" centered show={showMeasurementItems} onExit={() => {setShowMeasurementItems(false);}}
+            onHide={() => {setShowMeasurementItems(false)}}>
+            <Modal.Header closeButton>
+                <Modal.Title>Medição Nº {measurement.number}</Modal.Title>
+                </Modal.Header>
+            <Modal.Body>
+                <Table hover responsive>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Incidência</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {measurement.items.map((item) =>
+                            <tr>
+                                <td>{item.measurement_item.service}</td>
+                                <td>{item.incidence} %</td>
+                                <td>{formatMoney(((item.incidence * billReceive.value) / 100).toString())}</td>
+                            </tr>
+                        )}
+                        {measurement.items && measurement.items.length === 0 &&
+                            <NoEntity key={"noMeasurementItems"} message={"Nenhuma item de medição encontrado."} count={3} />
+                        }
+                    </tbody>
+                </Table>
+            </Modal.Body>
+            <Modal.Footer>
+                <CustomButton name="Fechar" color="light" onClick={() => {setShowMeasurementItems(false)}}></CustomButton>
+            </Modal.Footer>
+        </Modal>
+
+        <Modal size="lg" centered show={showAddMeasurement} onExit={() => {setShowAddMeasurement(false);}}
+            onHide={() => {setShowAddMeasurement(false)}}>
+            <Modal.Header closeButton>
+                <Modal.Title>+ Adicionar Medição Nº {measurements && measurements.length > 0 ? measurements.length + 1 : 1} (Valor Atual: {formatMoney(currentMeasurementValue.toString())})
+                </Modal.Title>
+                </Modal.Header>
+            <Modal.Body>
+                <Table hover responsive>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Incidência</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {newMeasurement.map((item) =>
+                            <tr>
+                                <td>{item.service}</td>
+                                <td>
+                                <CustomInput 
+                                    key={item.id + "incidence"}
+                                    type={"money"} 
+                                    placeholder={"Incidência *"}
+                                    value={item.incidence}
+                                    onChange={(evt) => onUpdateIncidence(evt, item)} 
+                                    name="incidence" />
+                                </td>
+                                <td>
+                                    {item.value.toFixed(2)}
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+            </Modal.Body>
+            <Modal.Footer>
+                <CustomButton name="Salvar" color="success" onClick={() => {onCreateNewMeasurement()}}></CustomButton>
+                <CustomButton name="Fechar" color="light" onClick={() => {setShowAddMeasurement(false)}}></CustomButton>
+            </Modal.Footer>
+        </Modal>
+
         <VHeader />
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
@@ -377,11 +557,12 @@ const BillsReceiveForm = ({}) => {
             }
             
             {billReceive.source === "Banco" &&
+            <>
             <Accordion>
                 <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
                         <Accordion.Header>
                             <i style={{marginTop: -8}} className="material-icons float-left">assignment</i>
-                            <h5>Medição</h5>
+                            <h5>Orçamento Padrão Caixa</h5>
                         </Accordion.Header>
                         <Accordion.Body>
                             <Row>
@@ -408,7 +589,14 @@ const BillsReceiveForm = ({}) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    
+                                                    {measurementConfiguration.map((config) => 
+                                                        <tr>
+                                                            <td>{config.measurement_item_id}</td>
+                                                            <td>{config.measurement_item.service}</td>
+                                                            <td>{config.incidence + " %"}</td>
+                                                            <td>{formatMoney((config.incidence * billReceive.value / 100).toString())}</td>
+                                                        </tr>
+                                                    )}
                                                 </tbody>
                                             </Table>
                                         </Col>
@@ -419,6 +607,78 @@ const BillsReceiveForm = ({}) => {
                         </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
+
+            <Accordion>
+                <Accordion.Item eventKey="1" style={{marginBottom: 22}}>
+                        <Accordion.Header>
+                            <i style={{marginTop: -8}} className="material-icons float-left">edit</i>
+                            <h5>Medições</h5>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            <Row>
+                                <Col>
+                                    {loading &&
+                                        <>
+                                        <Col></Col>
+                                        <Col style={{textAlign: 'center'}}>
+                                            <Loading />
+                                        </Col>
+                                        <Col></Col>
+                                        </>
+                                    }
+                                    {!loading &&
+                                    <Row>
+                                        <Col xs={11}></Col>
+                                        <Col xs={1}>
+                                            <CustomButton name="btnAdd" tooltip="Adicionar" icon="add" color="success" onClick={() => {onPrepareAddNewMeasurement();}} />
+                                        </Col>
+                                        <Col xs={12}>
+                                            <Table responsive striped>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Descrição</th>
+                                                        <th>Valor</th>
+                                                        <th>Opções</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {measurements.map((item) => 
+                                                        <tr>
+                                                            <td>Medição Nº {item.number}</td>
+                                                            <td>{formatMoney(item.total.toString())}</td>
+                                                            <td>
+                                                                <TableButton 
+                                                                    icon={"visibility"}
+                                                                    key={"measurement_visibility" + item.number}
+                                                                    name={"visibility"}
+                                                                    color={"light"}
+                                                                    onClick={() => {onPrepareShowMeasurementItems(item);}} 
+                                                                    tooltip={"Ver Itens da Medição"} />
+
+                                                                <TableButton 
+                                                                    icon={"delete"}
+                                                                    key={"measurement" + item.number}
+                                                                    name={"delete"}
+                                                                    color={"light"}
+                                                                    onClick={() => {}} 
+                                                                    tooltip={"Excluir Medição"} />
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                    {measurements && measurements.length === 0 &&
+                                                        <NoEntity key={"noMeasurements"} message={"Nenhuma medição encontrada."} count={3} />
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        </Col>
+                                    </Row>
+                                    }
+                                </Col>
+                            </Row>
+                        </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
+            </>
             }
         </Container>
         </>

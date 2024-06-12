@@ -5,7 +5,6 @@ namespace App\Business;
 use App\Exceptions\InputValidationException;
 use App\Models\Logger;
 use App\Models\Measurement;
-use App\Models\MeasurementConfiguration;
 use App\Utils\ErrorMessage;
 use App\Validation\ModelValidator;
 
@@ -37,6 +36,9 @@ class MeasurementBusiness {
         Logger::info("Deletando medição $id.");
         $config->deleted = true;
         $config->save();
+
+        Logger::info("Atualizando conta a receber.");
+        (new BillReceiveBusiness())->refreshBillReceiveMeasurements(id: $config->bill_receive_id);
         return $config;
     }
 
@@ -44,16 +46,21 @@ class MeasurementBusiness {
         Logger::info("Iniciando a criação da medição inicial.");
         Logger::info("Validando a medição inicial.");
 
-        // TODO: check if sum of all incidence fields is less than incidence of configuration table.
         $this->validate(data: $data);
+        $billReceiveId = $data["measurements"][0]["bill_receive_id"];
+        $measurementId = 1 + (count($this->getByReceiveId($billReceiveId)) / 20);
 
         Logger::info("Salvando as medições.");
         $measurements = [];
         foreach ($data["measurements"] as $measurement) {
             $measurement = new Measurement($measurement);
+            $measurement->number = $measurementId;
             $measurement->save();
             $measurements[] = $measurement;
         }
+        
+        Logger::info("Atualizando conta a receber.");
+        (new BillReceiveBusiness())->refreshBillReceiveMeasurements(id: $billReceiveId);
 
         Logger::info("Finalizando a criação da medição inicial.");
         return $measurements;
@@ -79,42 +86,51 @@ class MeasurementBusiness {
         }
 
         $billReceive = null;
+        $measurementNumber = 0;
         $measurements = [];
         foreach ($data["measurements"] as $measurement) {
             $measurement = new Measurement($measurement);
             $measurement->validate(Measurement::$rules, Measurement::$rulesMessages);
             $billReceive = (new BillReceiveBusiness())->getById(id: $measurement->bill_receive_id);
             (new MeasurementItemBusiness())->getById(id: $measurement->measurement_item_id);
+            $measurementNumber = $measurement->number;
             $measurements[] = $measurement;
         }
 
         $measurementConfiguration = (new MeasurementConfigurationBusiness())->getByBillReceiveId(billReceiveId: $billReceive->id);
-        if (empty($measurementConfiguration)) {
+        if (is_null($measurementConfiguration) || empty($measurementConfiguration) || count($measurementConfiguration) === 0) {
             throw new InputValidationException("Operação não permitida. Configuração da medição inicial não definida.");
         }
 
         $existingMeasurements = $this->getByReceiveId(billReceiveId: $billReceive->id);
         foreach ($measurements as $measurement) {
-            $this->validateMeasurements(configurations: $measurementConfiguration, measurements: $existingMeasurements, measurementToAdd: $measurement);
-        }
-
-        if (count($data["measurements"]) === 20) {
-            throw new InputValidationException("Quantidade de itens medidos está errada. Máximo de 20 itens.");
+            $this->validateMeasurements(configurations: $measurementConfiguration, 
+                measurements: $existingMeasurements, 
+                measurementToAdd: $measurement,
+                measurementNumber: $measurementNumber);
         }
     }
 
-    private function validateMeasurements(array $configurations, array $measurements, Measurement $measurementToAdd) {
+    private function validateMeasurements($configurations, $measurements, Measurement $measurementToAdd, $measurementNumber) {
         foreach ($configurations as $config) {
-            $sumIncidence = $this->getMeasurement(measurements: $measurements, billReceiveId: $config->bill_receive_id, measurementItemId: $config->measurement_item_id);
-            if ($sumIncidence + $measurementToAdd->incidence > $config->incidence) {
-                throw new InputValidationException("O valor de incidência do item de medição '{$measurementToAdd->measurement_item_id}' está inválido. Valor ultrapassa o valor definido.");
+            if ($measurementToAdd->measurement_item_id == $config->measurement_item_id) {
+                $sumIncidence = $this->getMeasurement(measurements: $measurements, 
+                    billReceiveId: $config->bill_receive_id, 
+                    measurementItemId: $config->measurement_item_id,
+                    measurementNumber: $measurementNumber);
+                if ($sumIncidence + $measurementToAdd->incidence > $config->incidence) {
+                    throw new InputValidationException("O valor de incidência do item de medição '{$measurementToAdd->measurement_item_id}' está inválido. Valor ultrapassa o valor definido.");
+                }
             }
         }
     }
 
-    private function getMeasurement(array $measurements, int $billReceiveId, int $measurementItemId) {
+    private function getMeasurement($measurements, int $billReceiveId, int $measurementItemId, int $measurementNumber) {
         $incidence = 0;
         foreach ($measurements as $measurement) {
+            if ($measurement->number === $measurementNumber) {
+                throw new InputValidationException("Número da medição inválido.");
+            }
             if ($measurement->bill_receive_id == $billReceiveId && $measurement->measurement_item_id == $measurementItemId) {
                 $incidence = $incidence + $measurement->incidence;
             }

@@ -29,9 +29,14 @@ class MeasurementConfiguration extends BaseModel
          'bill_receive_id.exists' => 'Campo Conta a Receber está inválido.'
     ];
 
+    public function measurement_item() {
+        return $this->hasOne(MeasurementItem::class, "id", "measurement_item_id")->where("deleted", false);
+    }
+
     public function getByBillReceiveId(int $billReceiveId) {
         return (new MeasurementConfiguration())::where("deleted", false)
         ->where("bill_receive_id", $billReceiveId)
+        ->with("measurement_item")
         ->orderBy("id")
         ->get();
     }

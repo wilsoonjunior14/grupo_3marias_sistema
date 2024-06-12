@@ -65,8 +65,8 @@ class BillReceiveBusiness {
         }   
         
         $bill["tickets"] = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
-        // TODO: gets the list of measurement configuration.
-        // TODO: gets the list of measurements already done.
+        $bill["measurementConfiguration"] = (new MeasurementConfigurationBusiness())->getByBillReceiveId(billReceiveId: $id);
+        $bill["measurements"] = (new MeasurementBusiness())->getByReceiveId(billReceiveId: $id);
         return $bill;
     }
 
@@ -97,6 +97,20 @@ class BillReceiveBusiness {
         $billReceive->value_performed = 0;
         foreach ($tickets as $ticket) {
             $billReceive->value_performed += $ticket->value;
+        }
+        if ($billReceive->value == $billReceive->value_performed) {
+            $billReceive->status = 1;
+        }
+        $billReceive->save();
+    }
+
+    public function refreshBillReceiveMeasurements(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billReceive = $this->getById(id: $id, mergeFields: false);
+        $items = (new MeasurementBusiness())->getByReceiveId(billReceiveId: $id);
+        $billReceive->value_performed = 0;
+        foreach ($items as $item) {
+            $billReceive->value_performed += ($item->incidence * $billReceive->value) / 100;
         }
         if ($billReceive->value == $billReceive->value_performed) {
             $billReceive->status = 1;
