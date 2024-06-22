@@ -50,6 +50,9 @@ const BillsReceiveForm = ({}) => {
 
     const [showAddMeasurement, setShowAddMeasurement] = useState(false);
     const [newMeasurement, setNewMeasurement] = useState([]);
+
+    const [showDeleteMeasurementModal, setShowDeleteMeasurementModal] = useState(false);
+
     const initialState = {};
 
     const reducer = (state, action) => {
@@ -244,12 +247,45 @@ const BillsReceiveForm = ({}) => {
         .catch(onErrorResponse);
     }
 
+    const onPrepareDeleteMeasurement = (measurement) => {
+        setMeasurement(measurement);
+        setShowDeleteMeasurementModal(true);
+    }
+
+    const onDeleteMeasurement = () => {
+        setShowDeleteMeasurementModal(false);
+        const measurementId = measurement.items[0].id;
+
+        setLoading(true);
+        performRequest("DELETE", "/v1/measurements/" + measurementId)
+        .then(() => {
+            setLoading(false);
+            setHttpSuccess({message: "Medição excluída com sucesso!"});
+            onGetBillReceiveById(params.id);
+        })
+        .catch(onErrorResponse);
+    }
+
     useEffect(() => {
         onGetBillReceiveById(params.id);
     }, []);
 
     return (
         <>
+
+        <Modal size="lg" centered show={showDeleteMeasurementModal} onExit={() => {setShowDeleteMeasurementModal(false);}}
+            onHide={() => {setShowDeleteMeasurementModal(false)}}>
+            <Modal.Header closeButton>
+                <Modal.Title>Medição Nº {measurement.number}</Modal.Title>
+                </Modal.Header>
+            <Modal.Body>
+                <h5>Deseja realmente excluir a medição Nº {measurement.number} ?</h5>
+            </Modal.Body>
+            <Modal.Footer>
+                <CustomButton name="Salvar" color="success" onClick={() => {onDeleteMeasurement()}}></CustomButton>
+                <CustomButton name="Fechar" color="light" onClick={() => {setShowDeleteMeasurementModal(false)}}></CustomButton>
+            </Modal.Footer>
+        </Modal>
 
         <Modal size="lg" centered show={showMeasurementItems} onExit={() => {setShowMeasurementItems(false);}}
             onHide={() => {setShowMeasurementItems(false)}}>
@@ -660,7 +696,7 @@ const BillsReceiveForm = ({}) => {
                                                                     key={"measurement" + item.number}
                                                                     name={"delete"}
                                                                     color={"light"}
-                                                                    onClick={() => {}} 
+                                                                    onClick={() => {onPrepareDeleteMeasurement(item);}} 
                                                                     tooltip={"Excluir Medição"} />
                                                             </td>
                                                         </tr>

@@ -34,8 +34,27 @@ class MeasurementBusiness {
     public function delete(int $id) {
         $config = $this->getById(id: $id);
         Logger::info("Deletando medição $id.");
-        $config->deleted = true;
-        $config->save();
+
+        $measurements = (new Measurement())
+            ->getByMeasurementNumber(number: $config->number, billReceiveId: $config->bill_receive_id);
+        foreach ($measurements as $measurement) {
+            $measurement->deleted = true;
+            $measurement->save();
+        }
+
+        // Updating the number of measurements
+        $measurements = $this->getByReceiveId(billReceiveId: $config->bill_receive_id);
+        $count = 0;
+        $number = 1;
+        foreach ($measurements as $measurement) {
+            if ($count === 20) {
+                $number++;
+                $count = 0;
+            }
+            $measurement->number = $number;
+            $count++;
+            $measurement->save();
+        }
 
         Logger::info("Atualizando conta a receber.");
         (new BillReceiveBusiness())->refreshBillReceiveMeasurements(id: $config->bill_receive_id);

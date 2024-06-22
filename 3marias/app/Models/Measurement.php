@@ -44,4 +44,13 @@ class Measurement extends BaseModel
         ->orderBy("number")
         ->get();
     }
+
+    public function getByMeasurementNumber(int $number, int $billReceiveId) {
+        return (new Measurement())::where("deleted", false)
+        ->where("bill_receive_id", $billReceiveId)
+        ->where("number", $number)
+        ->with("measurement_item")
+        ->orderBy("number")
+        ->get();
+    }
 }
