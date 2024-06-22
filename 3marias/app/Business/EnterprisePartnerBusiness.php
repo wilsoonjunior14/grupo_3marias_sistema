@@ -3,7 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\EnterprisePartner;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -30,8 +29,8 @@ class EnterprisePartnerBusiness {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Sócio da Empresa"));
         }
         if ($merge) {
-            $address = (new AddressBusiness())->getById($enteprisePartner->address_id);
-            $enteprisePartner = $this->mountClientAddressInline($enteprisePartner, $address);
+            $address = (new AddressBusiness())->getById($enteprisePartner->address_id, true);
+            $enteprisePartner = $enteprisePartner->mountAddressInline($enteprisePartner, $address);
         }
         Logger::info("Finalizando a recuperação de sócio $id.");
         return $enteprisePartner;
@@ -84,15 +83,4 @@ class EnterprisePartnerBusiness {
         $enteprisePartnerUpdated->save();
         return $this->getById(id: $enteprisePartnerUpdated->id);
     }
-
-    private function mountClientAddressInline(EnterprisePartner $enterprisePartner, Address $address) {
-        $enterprisePartner["address"] = $address->address;
-        $enterprisePartner["neighborhood"] = $address->neighborhood;
-        $enterprisePartner["number"] = $address->number;
-        $enterprisePartner["complement"] = $address->complement;
-        $enterprisePartner["city_id"] = $address->city_id;
-        $enterprisePartner["zipcode"] = $address->zipcode;
-        return $enterprisePartner;
-    }
-
 }

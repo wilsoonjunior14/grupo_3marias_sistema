@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\ObservabilityController;
 use Illuminate\Console\Command;
 
 class CustomTask extends Command
@@ -25,8 +24,5 @@ class CustomTask extends Command
      * Execute the console command.
      */
     public function handle()
-    {
-        $controller = new ObservabilityController();
-        $controller->storeServerMetrics();
-    }
+    { }
 }

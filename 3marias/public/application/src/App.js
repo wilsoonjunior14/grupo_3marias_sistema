@@ -55,6 +55,8 @@ import CategoryServiceList from './pages/stocks/categoryServices/CategoryService
 import CategoryServiceForm from './pages/stocks/categoryServices/CategoryServiceForm';
 import EngineerList from './pages/admin/engineers/EngineerList';
 import EngineerForm from './pages/admin/engineers/EngineerForm';
+import BillsPayForm from './pages/money/BillsPayForm';
+import ReportList from './pages/money/ReportList';
 
 console.disableYellowBox = true;
 
@@ -137,14 +139,16 @@ function App() {
           
           <Route path='money/dashboard' element={<MoneyDashboard />}></Route>
           <Route path='money/billsPay' element={<BillsPayList />}></Route>
+          <Route path='money/billsPay/details/:id' element={<BillsPayForm />}></Route>
           <Route path='money/billsReceive' element={<BillsReceiveList />}></Route>
-          <Route path='money/billsReceive/edit/:id' element={<BillsReceiveForm />}></Route>
+          <Route path='money/billsReceive/details/:id' element={<BillsReceiveForm />}></Route>
           <Route path='money/purchaseOrders' element={<PurchaseOrdersList />}></Route>
           <Route path='money/purchaseOrders/add' element={<PurchaseOrdersForm />}></Route>
           <Route path='money/purchaseOrders/edit/:id' element={<PurchaseOrdersForm />}></Route>
           <Route path='money/serviceOrders' element={<ServiceOrdersList />}></Route>
           <Route path='money/serviceOrders/add' element={<ServiceOrdersForm />}></Route>
           <Route path='money/serviceOrders/edit/:id' element={<ServiceOrdersForm />}></Route>
+          <Route path='money/report' element={<ReportList />}></Route>
           
           <Route path='*' element={<NoPage />}></Route>
         </Route>

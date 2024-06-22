@@ -61,9 +61,9 @@ export default function ClientList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Email", "Telefone", "Estado Civil", "Profissão", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "CPF", "Email"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "email", "phone", "state", "ocupation", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "cpf", "email"]
     };
 
     const customOptions = [
@@ -310,7 +310,7 @@ export default function ClientList() {
                                         </tr>
                                     )}
                                     {!client.files || client.files.length === 0 && 
-                                        <NoEntity message={"Nenhum documento foi encontrado."} />    
+                                        <NoEntity count={3} message={"Nenhum documento foi encontrado."} />    
                                     }
                                 </tbody>
                             </Table>

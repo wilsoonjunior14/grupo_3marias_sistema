@@ -17,6 +17,10 @@ export function formatDateToServer(date) {
     return array[2] + "-" + array[1] + "-" + array[0];
 }
 
+export function formatStringToNumber(string) {
+    return Number(string.replace(".", "").replace(",", "."));
+}
+
 export function formatDoubleValue(value) {
     if (!value){
         return "";
@@ -24,7 +28,7 @@ export function formatDoubleValue(value) {
     if (value.toString().indexOf(",") === -1) {
         return value;
     }
-    return Number(value.replace(".", "").replace(",", "."));
+    return formatStringToNumber(value);
 }
 
 export function formatMoney(value) {

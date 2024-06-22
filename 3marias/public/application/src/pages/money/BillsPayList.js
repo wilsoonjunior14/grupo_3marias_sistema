@@ -3,9 +3,10 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
+import { useNavigate } from "react-router-dom";
 
 export default function BillsPayList() {
-
+    const navigate = useNavigate();
     const fields = [
         {
             id: 'id',
@@ -22,10 +23,19 @@ export default function BillsPayList() {
     ];
 
     const table = {
-        fields: ["#", "Descrição", "Valor", "Valor Pago", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "status", "Descrição", "Valor", "Valor Pago", "Data de Criação", "Data de Alteração"],
         amountOptions: 1,
-        bodyFields: ["code", "description", "value", "value_performed", "created_at", "updated_at"]
+        bodyFields: ["code", "icon", "description", "value", "value_performed", "created_at", "updated_at"]
     };
+
+    const customOptions = [
+        {
+            name: "see_payment_details",
+            icon: "visibility",
+            tooltip: "Ver Detalhes da Conta a Pagar",
+            onClick: (item) => {navigate("/money/billsPay/details/"+item.id)}
+        }
+    ];
     
     return (
         <>
@@ -41,7 +51,8 @@ export default function BillsPayList() {
                     disableEdit={true}
                     url="/billsPay" 
                     tableFields={table}
-                    searchFields={fields} />
+                    searchFields={fields}
+                    customOptions={customOptions} />
 
             </Container>
         </>

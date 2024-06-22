@@ -3,7 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\EnterpriseOwner;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -31,7 +30,7 @@ class EnterpriseOwnerBusiness {
         }
         if ($merge) {
             $address = (new AddressBusiness())->getById($enterpriseOwner->address_id);
-            $enterpriseOwner = $this->mountClientAddressInline($enterpriseOwner, $address);
+            $enterpriseOwner = $enterpriseOwner->mountAddressInline($enterpriseOwner, $address);
         }
         Logger::info("Finalizando a recuperação de representante legal $id.");
         return $enterpriseOwner;
@@ -85,19 +84,6 @@ class EnterpriseOwnerBusiness {
         Logger::info("Atualizando as informações do representante legal.");
         $enterpriseOwnerUpdated->save();
         return $this->getById(id: $enterpriseOwnerUpdated->id);
-    }
-
-    private function mountClientAddressInline(EnterpriseOwner $enterpriseOwner, Address $address) {
-        $enterpriseOwner["address"] = $address->address;
-        $enterpriseOwner["neighborhood"] = $address->neighborhood;
-        $enterpriseOwner["number"] = $address->number;
-        $enterpriseOwner["complement"] = $address->complement;
-        $enterpriseOwner["city_id"] = $address->city_id;
-        $enterpriseOwner["zipcode"] = $address->zipcode;
-        $enterpriseOwner["city_name"] = $address->city_name;
-        $enterpriseOwner["state_name"] = $address->state_name;
-        $enterpriseOwner["state_acronym"] = $address->state_acronym;
-        return $enterpriseOwner;
     }
 
     private function existsEntity(string $cpf, int $id = null) {

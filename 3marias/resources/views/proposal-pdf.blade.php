@@ -187,7 +187,7 @@
                     @endif
                 @endforeach
             </ul>
-        </span> </br>
+        </span>
         <span>
         @foreach ($proposal->payments as $payment)
             @if (strcmp("Banco", $payment->source) === 0)
