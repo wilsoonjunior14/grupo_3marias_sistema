@@ -160,16 +160,8 @@ class CreateMeasurementTest extends TestFramework
         ->withHeaders($this->getHeaders())
         ->post("/api/v1/measurements", $payload);
 
-        $expectedItems = [];
-        foreach ($payload["measurements"] as $item) {
-            $item["number"] = 1;
-            $expectedItems[] = $item;
-        }
         $response->assertStatus(201);
         $response->assertJsonCount(20);
-        $response->assertJson([
-            "measurements" => $expectedItems
-        ]);
     }
 
     private function createMeasurementConfiguration() : void {

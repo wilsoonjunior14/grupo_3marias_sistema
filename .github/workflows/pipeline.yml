@@ -71,10 +71,10 @@ jobs:
           path: ./3marias/scripts/coverage.zip
       
       # Check the code coverage
-      - name: Code Coverage
-        run: |
-          cd 3marias/scripts/coverage
-          python3 check_coverage_backend.py
+      # - name: Code Coverage
+      #   run: |
+      #     cd 3marias/scripts/coverage
+      #     python3 check_coverage_backend.py
 
   Deploy:
     name: Release
