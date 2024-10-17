@@ -3,6 +3,7 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
+use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Models\Measurement;
 use App\Utils\ErrorMessage;
@@ -33,14 +34,19 @@ class MeasurementBusiness {
 
     public function delete(int $id) {
         $config = $this->getById(id: $id);
+        $billReceive = (new BillReceiveBusiness())->getById(id: $config->bill_receive_id);
         Logger::info("Deletando medição $id.");
 
         $measurements = (new Measurement())
             ->getByMeasurementNumber(number: $config->number, billReceiveId: $config->bill_receive_id);
+        $total = 0;
         foreach ($measurements as $measurement) {
+            $total += round(($measurement->incidence * $billReceive->value ) / 100, 2);
             $measurement->deleted = true;
             $measurement->save();
         }
+
+        (new BillTicketBusiness())->deleteByValueAndBillReceive($total, $billReceive->id);
 
         // Updating the number of measurements
         $measurements = $this->getByReceiveId(billReceiveId: $config->bill_receive_id);
@@ -67,16 +73,28 @@ class MeasurementBusiness {
 
         $this->validate(data: $data);
         $billReceiveId = $data["measurements"][0]["bill_receive_id"];
+        $billReceive = (new BillReceiveBusiness())->getById(id: $billReceiveId);
         $measurementId = 1 + (count($this->getByReceiveId($billReceiveId)) / 20);
 
         Logger::info("Salvando as medições.");
         $measurements = [];
+        $total = 0;
         foreach ($data["measurements"] as $measurement) {
             $measurement = new Measurement($measurement);
             $measurement->number = $measurementId;
             $measurement->save();
             $measurements[] = $measurement;
+
+            $total += round(($measurement->incidence * $billReceive->value ) / 100, 2);
         }
+
+        Logger::info("Criando ticket de pagamento.");
+        (new BillTicketBusiness())->create(data: [
+            "value" => $total,
+            "description" => $billReceive->description, 
+            "date" => date('Y-m-d'), 
+            "bill_receive_id" => $billReceiveId
+        ]);
         
         Logger::info("Atualizando conta a receber.");
         (new BillReceiveBusiness())->refreshBillReceiveMeasurements(id: $billReceiveId);

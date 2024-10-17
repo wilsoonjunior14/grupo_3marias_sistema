@@ -48,6 +48,15 @@ class BillTicket extends BaseModel
         ->get();
     }
 
+    public function getByValueAndBillReceive($value, $billReceiveId) {
+        return (new BillTicket())
+        ->where("deleted", false)
+        ->where("value", "=", $value)
+        ->where("bill_receive_id", "=", $billReceiveId)
+        ->get()
+        ->first();
+    }
+
     public function getByBillReceiveId(int $id) {
         return (new BillTicket())
             ->where("deleted", false)

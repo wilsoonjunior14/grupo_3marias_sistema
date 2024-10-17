@@ -37,6 +37,20 @@ class Measurement extends BaseModel
         return $this->hasOne(MeasurementItem::class, "id", "measurement_item_id")->where("deleted", false);
     }
 
+    public function bill_receive() {
+        return $this->hasOne(BillReceive::class, "id", "bill_receive_id")->where("deleted", false);
+    }
+
+    public function getByDate($beginDate, $endDate) {
+        return (new Measurement())
+        ->where("deleted", false)
+        ->whereDate("created_at", ">=", $beginDate)
+        ->whereDate("created_at", "<=", $endDate)
+        ->with("bill_receive")
+        ->orderBy("created_at")
+        ->get();
+    }
+
     public function getByBillReceiveId(int $billReceiveId) {
         return (new Measurement())::where("deleted", false)
         ->where("bill_receive_id", $billReceiveId)

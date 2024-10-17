@@ -84,6 +84,13 @@ class BillTicketBusiness {
         return $bill;
     }
 
+    public function deleteByValueAndBillReceive(float $value, int $billReceiveId) {
+        $billTicket = (new BillTicket())->getByValueAndBillReceive($value, $billReceiveId);
+        $billTicket->deleted = true;
+        $billTicket->save();
+        return $billTicket;
+    }
+
     public function create(array $data) {
         Logger::info("Iniciando a criação do pagamento.");
         $bill = new BillTicket($data);

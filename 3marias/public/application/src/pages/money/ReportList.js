@@ -129,10 +129,10 @@ export default function ReportList() {
                                             <td>{formatDate(t.date)}</td>
                                             <td>{t.description}</td>
                                             {t.bill_receive_id &&
-                                               <td style={{color: "green"}}>+ {formatMoney(t.value)}</td>
+                                               <td style={{color: "green"}}>+ {formatMoney(t.value.toString())}</td>
                                             }
                                             {t.bill_pay_id &&
-                                               <td style={{color: "red"}}>- {formatMoney(t.value)}</td>
+                                               <td style={{color: "red"}}>- {formatMoney(t.value.toString())}</td>
                                             }
                                         </tr>
                                         )}

@@ -10,8 +10,8 @@ export default function BillsReceiveList() {
     const navigate = useNavigate();
     const fields = [
         {
-            id: 'code',
-            placeholder: 'Código',
+            id: 'contract.proposal.client.name',
+            placeholder: 'Cliente',
             type: 'text',
             maxlength: 255
         },
@@ -30,9 +30,9 @@ export default function BillsReceiveList() {
     ];
 
     const table = {
-        fields: ["Status", "Código", "Cliente", "Descrição", "Valor", "Contrato"],
+        fields: ["Status", "Contrato", "Cliente", "Descrição", "Valor"],
         amountOptions: 1,
-        bodyFields: ["icon", "code", "contract.proposal.client.name", "description", "value", "contract.code"]
+        bodyFields: ["icon", "contract.code", "contract.proposal.client.name", "description", "value"]
     };
 
     const customOptions = [

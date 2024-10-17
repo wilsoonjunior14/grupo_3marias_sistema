@@ -145,13 +145,12 @@ class BillReceiveBusiness {
     }
 
     public function setStatusIcon(BillReceive $bill) {
-        if ($bill->status === 0) {
-            $bill["icon"] = "access_time";
-            $bill["icon_color"] = "gray";
-        }
-        if ($bill->status === 1) {
+        if ($bill->value === $bill->value_performed) {
             $bill["icon"] = "done";
             $bill["icon_color"] = "green";
+        } else {
+            $bill["icon"] = "access_time";
+            $bill["icon_color"] = "gray";
         }
     }
 }

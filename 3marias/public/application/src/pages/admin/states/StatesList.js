@@ -16,9 +16,9 @@ export default function StatesList() {
     ];
 
     const table = {
-        fields: ["#", "Estado", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Estado"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "created_at", "updated_at"]
+        bodyFields: ["id", "name"]
     };
 
     return (

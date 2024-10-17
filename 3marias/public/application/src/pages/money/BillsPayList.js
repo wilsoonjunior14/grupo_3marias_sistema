@@ -23,9 +23,9 @@ export default function BillsPayList() {
     ];
 
     const table = {
-        fields: ["#", "status", "Descrição", "Valor", "Valor Pago", "Data de Criação", "Data de Alteração"],
+        fields: ["status", "#", "Descrição", "Valor", "Valor Pago"],
         amountOptions: 1,
-        bodyFields: ["code", "icon", "description", "value", "value_performed", "created_at", "updated_at"]
+        bodyFields: ["icon", "code", "description", "value", "value_performed"]
     };
 
     const customOptions = [

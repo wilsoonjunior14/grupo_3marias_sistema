@@ -15,13 +15,12 @@ class ClientBusiness {
 
     public function get() {
         Logger::info("Iniciando a recuperação de clientes.");
-        $clients = (new Client())->getAll("name", fields: ["id", "name", "cpf", "email"]);
-        $amount = count($clients);
+        $clients = (new Client())->getClients("name", fields: ["id", "name", "cpf", "email"]);
         foreach ($clients as $client) {
-            $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
             $client->birthdate = !is_null($client->birthdate) ? date_format(date_create($client->birthdate),"d/m/Y") : "";
             $client->rg_date = !is_null($client->rg_date) ? date_format(date_create($client->rg_date),"d/m/Y") : "";
         }
+        $amount = count($clients);
         Logger::info("Foram recuperados {$amount} clientes.");
         Logger::info("Finalizando a recuperação de clientes.");
         return $clients;

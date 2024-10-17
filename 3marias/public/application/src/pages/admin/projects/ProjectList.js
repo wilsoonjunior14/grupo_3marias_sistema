@@ -16,9 +16,9 @@ export default function ProjectList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Descrição", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Descrição"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "description", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "description"]
     };
     
     return (
