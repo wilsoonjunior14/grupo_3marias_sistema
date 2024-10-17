@@ -54,4 +54,15 @@ class BillPay extends BaseModel
             ->where("purchase_orders_id", $id)
             ->get();
     }
+
+    public function getValueAlreadyPaid() {
+        return (new BillPay())->where("deleted", false)
+        ->sum('value_performed');
+    }
+
+    public function getBillsNotDone() {
+        return (new BillPay())->where("deleted", false)
+        ->get()
+        ->sum('value');
+    }
 }

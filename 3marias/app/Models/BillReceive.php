@@ -58,16 +58,22 @@ class BillReceive extends BaseModel
         ->get();
     }
 
-    public function getBillsNotDone() {
+    public function getBillsInProgress() {
         return (new BillReceive())->where("deleted", false)
         ->where("status", 0)
         ->orderBy("desired_date")
         ->get();
     }
 
+    public function getBillsNotDone() {
+        return (new BillReceive())->where("deleted", false)
+        ->orderBy("desired_date")
+        ->get()
+        ->sum('value');
+    }
+
     public function getValueAlreadyPaid() {
         return (new BillReceive())->where("deleted", false)
-        ->where("status", 1)
         ->sum('value_performed');
     }
 }

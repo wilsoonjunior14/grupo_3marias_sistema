@@ -27,7 +27,7 @@ class Service extends BaseModel
         return $this->hasOne(CategoryService::class, "id", "category_service_id");
     }
 
-    public function getAll(string $orderBy) {
+    public function getAll(string $orderBy, array $fields = []) {
         return (new Service())->where("deleted", false)
         ->with("category_service")
         ->orderBy($orderBy)

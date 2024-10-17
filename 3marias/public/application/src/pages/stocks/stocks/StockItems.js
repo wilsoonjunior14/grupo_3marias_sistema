@@ -21,7 +21,7 @@ import TableButton from "../../../components/button/TableButton";
 import Button from "react-bootstrap/esm/Button";
 import NoEntity from "../../../components/table/NoEntity";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import { Doughnut, Pie } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
 import { formatMoney } from "../../../services/Format";

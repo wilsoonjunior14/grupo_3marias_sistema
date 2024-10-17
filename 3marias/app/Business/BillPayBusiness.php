@@ -2,11 +2,14 @@
 
 namespace App\Business;
 
+use App\Exceptions\InputValidationException;
 use App\Models\BaseModel;
 use App\Models\BillPay;
+use App\Models\BillTicket;
 use App\Models\Logger;
 use App\Models\PurchaseOrder;
 use App\Models\ServiceOrder;
+use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 
 class BillPayBusiness {
@@ -14,8 +17,27 @@ class BillPayBusiness {
     public function getAll() {
         Logger::info("Iniciando a recuperação dos pagamentos.");
         $bills = (new BillPay())->getAll("created_at");
+        foreach ($bills as $bill) {
+            $this->setStatusIcon(bill: $bill);
+        }
         Logger::info("Finalizando a recuperação dos pagamentos.");
         return $bills;
+    }
+
+    public function getById(int $id, bool $mergeFields = false) {
+        Logger::info("Iniciando a recuperação do pagamento.");
+        try {
+            $bill = (new BillPay())->getById(id: $id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
+            throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Conta a Pagar"));
+        }
+        if (!$mergeFields) {
+            Logger::info("Finalizando a recuperação do pagamento.");
+            return $bill;
+        }
+        $bill["tickets"] = (new BillTicketBusiness())->getByBillPay(billPayId: $id);      
+        Logger::info("Finalizando a recuperação do pagamento.");
+        return $bill;
     }
 
     public function create(array $data) {
@@ -25,6 +47,20 @@ class BillPayBusiness {
         $payment->save();
         Logger::info("Finalizando a atualização de contas a pagar.");
         return $payment;
+    }
+
+    public function refreshBillPay(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billPay = $this->getById(id: $id, mergeFields: false);
+        $tickets = (new BillTicketBusiness())->getByBillPay(billPayId: $id);
+        $billPay->value_performed = 0;
+        foreach ($tickets as $ticket) {
+            $billPay->value_performed += $ticket->value;
+        }
+        if ($billPay->value == $billPay->value_performed) {
+            $billPay->status = 1;
+        }
+        $billPay->save();
     }
 
     public function getBillsByService(int $serviceId) {
@@ -81,5 +117,16 @@ class BillPayBusiness {
             "service_orders_id" => $serviceOrder->id
         ];
         $this->create(data: $payload);
+    }
+
+    public function setStatusIcon(BillPay $bill) {
+        if ($bill->status === 0) {
+            $bill["icon"] = "access_time";
+            $bill["icon_color"] = "gray";
+        }
+        if ($bill->status === 1) {
+            $bill["icon"] = "done";
+            $bill["icon_color"] = "green";
+        }
     }
 }

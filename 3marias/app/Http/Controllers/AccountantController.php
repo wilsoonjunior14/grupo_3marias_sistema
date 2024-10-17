@@ -36,7 +36,7 @@ class AccountantController extends Controller implements APIController
      */
     public function store(Request $request) {
         try {
-            $accountant = $this->accountantBusiness->create(request: $request);
+            $accountant = $this->accountantBusiness->create(data: $request->all());
             return ResponseUtils::getResponse($accountant, 201);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
@@ -78,7 +78,7 @@ class AccountantController extends Controller implements APIController
      */
     public function update(Request $request, $id) {
         try {
-            $accountantUpdated = $this->accountantBusiness->update(id: $id, request: $request);
+            $accountantUpdated = $this->accountantBusiness->update(id: $id, data: $request->all());
             return ResponseUtils::getResponse($accountantUpdated, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());

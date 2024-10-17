@@ -22,9 +22,9 @@ export default function PartnerList() {
     ];
 
     const table = {
-        fields: ["#", "Nome Fantasia", "CNPJ", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome Fantasia", "CNPJ"],
         amountOptions: 1,
-        bodyFields: ["id", "fantasy_name", "cnpj", "created_at", "updated_at"]
+        bodyFields: ["id", "fantasy_name", "cnpj"]
     };
     
     return (

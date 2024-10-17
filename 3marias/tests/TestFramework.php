@@ -273,6 +273,22 @@ abstract class TestFramework extends TestCase
         return $response->decodeResponseJson();
     }
 
+    function createMeasurementItems() {
+        for ($i = 0; $i < 20; $i ++) {
+            $json = [
+                "service" => $this->generateRandomLetters(15)
+            ];
+            $response = $this
+            ->withHeaders($this->getHeaders())
+            ->post("/api/v1/measurementItems", $json);
+
+            $response->assertStatus(201);
+            $response->assertJson([
+                "service" => $json["service"]
+            ]);
+        }
+    }
+
     function createProposal() {
         $client = $this->createClient();
         $project = $this->createProject();

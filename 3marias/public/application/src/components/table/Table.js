@@ -157,12 +157,12 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
     const getTDField = (item, field) => {
         const value = getValueOfField(item, field);
         if (field === "id" || field === "icon") {
-            return <td>{value}</td>
+            return <td key={item[field] + "field" + field}>{value}</td>
         }
         if (field.indexOf("name") !== -1 || field.indexOf("description") !== -1) {
-            return <td style={{minWidth: 300}}>{value}</td>;
+            return <td key={item[field] + "field" + field} style={{minWidth: 300}}>{value}</td>;
         }
-        return <td style={{minWidth: 200}}>{value}</td>;
+        return <td key={item[field] + "field" + field} style={{minWidth: 200}}>{value}</td>;
     }
 
     const getStatusField = (value) => {
@@ -206,7 +206,8 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                 if (inputData[key] !== "") {
                     amountMatches = amountMatches + 1;
                     var fieldValue = getValueOfComplexField(item, key);
-                    if (fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
+                    if (fieldValue && 
+                        fieldValue.toString().toLowerCase().indexOf(inputData[key].toString().toLowerCase()) != -1) {
                         matches = matches + 1;
                     }
                 }    
@@ -292,7 +293,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                                 {tableFields.bodyFields.map((field) => 
                                                     getTDField(item, field)
                                                 )}
-                                                <td key={"options"} className="options">
+                                                <td key={item.id + "options"} className="options">
                                                     {customOptions != null &&
                                                         customOptions.map((option) => 
                                                             <TableButton
@@ -326,7 +327,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                                 </Col>
                                 
                                 <Col xs="12">
-                                    {itemsPerPage.length !== 0 &&
+                                    {itemsPerPage.length !== 0 && items.length > 10 &&
                                     <CustomPagination data={items} setDataCallback={setDataPagination} />
                                     }
                                 </Col>

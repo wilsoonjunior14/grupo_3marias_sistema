@@ -98,7 +98,6 @@ const ClientForm = ({disableHeader}) => {
                 fields.concat(dependentFields);
                 dependentFields.forEach((f) => fields.push(f));
                 setFields(fields);
-                console.log("entrou aqui");
             } else {
                 removeDependentFields();
             }

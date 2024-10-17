@@ -9,6 +9,22 @@
 
 ## Architecture
 
+### Structure (Locaweb Prod)
+
+___public_html
+   index.php
+   robots.txt
+   .htaccess
+   ___js
+   ___css
+   ___img
+   ___application
+   ___grupo_3marias_sistema
+      ___app
+      ___config
+      ___public
+
+
 ### General
 
 ```mermaid

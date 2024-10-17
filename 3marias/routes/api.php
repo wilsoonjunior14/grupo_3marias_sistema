@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\BillsPayController;
 use App\Http\Controllers\BillsReceiveController;
+use App\Http\Controllers\BillTicketController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
@@ -16,12 +17,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ObservabilityController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\EnterpriseBranchController;
 use App\Http\Controllers\EnterpriseFileController;
 use App\Http\Controllers\EnterpriseOwnerController;
 use App\Http\Controllers\EnterprisePartnerController;
+use App\Http\Controllers\MeasurementConfigurationController;
+use App\Http\Controllers\MeasurementController;
+use App\Http\Controllers\MeasurementItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StockController;
@@ -117,8 +120,21 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     // contracts api routes
     Route::apiResource('/contracts', ContractController::class);
 
+    // measurement configuration api routes
+    Route::apiResource('/measurementConfigurations', MeasurementConfigurationController::class);
+
+    // measurement configuration api routes
+    Route::apiResource('/measurementItems', MeasurementItemController::class);
+
+    // measurement api routes
+    Route::apiResource('/measurements', MeasurementController::class);
+
     // bills to pay api routes
     Route::apiResource('/billsPay', BillsPayController::class);
+
+    // bills to tickets api routes
+    Route::apiResource('/billsTicket', BillTicketController::class);
+    Route::post('/billsTicket/search', [BillTicketController::class, 'getByDate']);
 
     // bills to pay api routes
     Route::apiResource('/engineers', EngineerController::class);
@@ -158,7 +174,4 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
-    // Route api observability
-    Route::get('/observability/metrics', [ObservabilityController::class, 'getMetrics']);
-    Route::post('/observability/logs', [ObservabilityController::class, 'getLogs']);
 });

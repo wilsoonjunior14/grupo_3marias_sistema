@@ -3,12 +3,12 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
+use App\Models\BillPay;
 use App\Models\BillReceive;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use App\Validation\ModelValidator;
-use Illuminate\Http\Request;
 
 class BillReceiveBusiness {
 
@@ -33,22 +33,40 @@ class BillReceiveBusiness {
 
     public function getBillsInProgress() {
         Logger::info("Iniciando a recuperação dos pagamentos.");
-        $bills = (new BillReceive())->getBillsNotDone();
+        $receiveBills = (new BillReceive())->getBillsNotDone();
+        $payBills = (new BillPay())->getBillsNotDone();
+        $bills = (new BillReceive())->getBillsInProgress();
         foreach ($bills as $bill) {
             $bill["contract"] = (new ContractBusiness())->getById(id: $bill->contract_id);
         }
+
         Logger::info("Finalizando a recuperação dos pagamentos.");
-        return ['paidValue' => (new BillReceive())->getValueAlreadyPaid(), 'bills' => $bills];
+        $receiveValuePaid = (new BillReceive())->getValueAlreadyPaid();
+        $payValuePaid = (new BillPay())->getValueAlreadyPaid();
+        $enterpriseValue = $receiveValuePaid - $payValuePaid;
+        return [
+            'toReceiveValue' => $receiveBills - $receiveValuePaid,
+            'toPayValue' => $payBills - $payValuePaid,
+            'value' => $enterpriseValue,
+            'bills' => $bills
+        ];
     }
 
-    public function getById($id) {
+    public function getById($id, bool $mergeFields = false) {
         Logger::info("Iniciando a recuperação do pagamento.");
         try {
             $bill = (new BillReceive())->getById(id: $id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Pagamento a Receber"));
-        }      
-        Logger::info("Finalizando a recuperação do pagamento.");
+        }
+        if (!$mergeFields) {
+            Logger::info("Finalizando a recuperação do pagamento.");
+            return $bill;
+        }   
+        
+        $bill["tickets"] = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
+        $bill["measurementConfiguration"] = (new MeasurementConfigurationBusiness())->getByBillReceiveId(billReceiveId: $id);
+        $bill["measurements"] = (new MeasurementBusiness())->getByReceiveId(billReceiveId: $id);
         return $bill;
     }
 
@@ -72,9 +90,36 @@ class BillReceiveBusiness {
         return $payment;
     }
 
-    public function update(int $id, Request $request) {
+    public function refreshBillReceive(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billReceive = $this->getById(id: $id, mergeFields: false);
+        $tickets = (new BillTicketBusiness())->getByBillReceive(billReceiveId: $id);
+        $billReceive->value_performed = 0;
+        foreach ($tickets as $ticket) {
+            $billReceive->value_performed += $ticket->value;
+        }
+        if ($billReceive->value == $billReceive->value_performed) {
+            $billReceive->status = 1;
+        }
+        $billReceive->save();
+    }
+
+    public function refreshBillReceiveMeasurements(int $id) {
+        Logger::info("Atualizando Conta a receber $id.");
+        $billReceive = $this->getById(id: $id, mergeFields: false);
+        $items = (new MeasurementBusiness())->getByReceiveId(billReceiveId: $id);
+        $billReceive->value_performed = 0;
+        foreach ($items as $item) {
+            $billReceive->value_performed += ($item->incidence * $billReceive->value) / 100;
+        }
+        if ($billReceive->value == $billReceive->value_performed) {
+            $billReceive->status = 1;
+        }
+        $billReceive->save();
+    }
+
+    public function update(int $id, array $data) {
         $bill = $this->getById(id: $id);
-        $data = $request->all();
         $bill = UpdateUtils::updateFields(BillReceive::$fieldsToBeUpdated, $bill, $data);
 
         Logger::info("Validando as informações do pagamento.");
@@ -82,7 +127,7 @@ class BillReceiveBusiness {
         unset($rules["status"]);
 
         $validation = new ModelValidator($rules, BillReceive::$rulesMessages);
-        $errors = $validation->validate(data: $request->all());
+        $errors = $validation->validate(data: $data);
         if (!is_null($errors)) {
             throw new InputValidationException($errors);
         }
@@ -100,13 +145,12 @@ class BillReceiveBusiness {
     }
 
     public function setStatusIcon(BillReceive $bill) {
-        if ($bill->status === 0) {
-            $bill["icon"] = "access_time";
-            $bill["icon_color"] = "gray";
-        }
-        if ($bill->status === 1) {
+        if ($bill->value === $bill->value_performed) {
             $bill["icon"] = "done";
             $bill["icon_color"] = "green";
+        } else {
+            $bill["icon"] = "access_time";
+            $bill["icon_color"] = "gray";
         }
     }
 }
