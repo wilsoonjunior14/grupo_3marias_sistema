@@ -15,9 +15,22 @@ use App\Http\Controllers\PDFController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/home', function () { return view('welcome'); });
+Route::get('/', function () { return view('welcome'); });
+Route::any('/admin/{page}', function() { return view('welcome'); });
+Route::any('/admin/{page}/{id}', function() { return view('welcome'); });
+Route::any('/contracts', function() { return view('welcome'); });
+Route::any('/contracts/{page}', function() { return view('welcome'); });
+Route::any('/contracts/{page}/{id}', function() { return view('welcome'); });
+Route::any('/stocks', function() { return view('welcome'); });
+Route::any('/stocks/{page}', function() { return view('welcome'); });
+Route::any('/stocks/{page}/{id}', function() { return view('welcome'); });
+Route::any('/money', function() { return view('welcome'); });
+Route::any('/money/{page}', function() { return view('welcome'); });
+Route::any('/money/{page}/{id}', function() { return view('welcome'); });
+Route::any('/login', function() { return view('welcome'); });
+Route::any('/recovery', function() { return view('welcome'); });
+Route::any('/account', function() { return view('welcome'); });
 
 Route::get('/clientData/{id}', [PDFController::class, 'getClientDataPDF']);
 Route::get('/proposal/{id}', [PDFController::class, 'getProposalPDF']);
