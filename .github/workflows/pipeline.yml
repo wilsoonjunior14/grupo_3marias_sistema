@@ -84,6 +84,14 @@ jobs:
           user: 'busqueiapp1' # TODO: it must be located on github actions
           password: 'busqueiapp1@Fwrj' # TODO: it must be located on github actions
 
+      # Deploy to Locaweb
+      - name: Deploy To Locaweb
+        uses: locaweb/ftp-deploy@1.0.0
+        with:
+          host: 'ftp.busqueiapp.com.br' # TODO: it must be located on github actions
+          user: 'busqueiapp1' # TODO: it must be located on github actions
+          password: 'busqueiapp1@Fwrj' # TODO: it must be located on github actions
+
   Deploy:
     name: Release
     runs-on: ubuntu-latest
