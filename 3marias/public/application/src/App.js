@@ -57,6 +57,7 @@ import EngineerList from './pages/admin/engineers/EngineerList';
 import EngineerForm from './pages/admin/engineers/EngineerForm';
 import BillsPayForm from './pages/money/BillsPayForm';
 import ReportList from './pages/money/ReportList';
+import StartPage from './pages/start/StartPage';
 
 console.disableYellowBox = true;
 
@@ -65,7 +66,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/'>
-          <Route index element={<Login />}></Route>
+          <Route index element={<StartPage />}></Route>
           <Route path='recovery' element={<RecoveryPassword />}></Route>
           <Route path='login' element={<Login />}></Route>
           <Route path='home' element={<Home />}></Route>
