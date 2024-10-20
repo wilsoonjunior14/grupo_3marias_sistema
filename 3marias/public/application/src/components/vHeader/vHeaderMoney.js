@@ -35,6 +35,12 @@ function VHeaderMoney() {
                 Contas a Pagar</Nav.Link>
             </Col>
         </Row>
+        <Row style={{width: "100%"}}>
+            <Col><Nav.Link href="/money/report">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Relatório de Pagamentos</Nav.Link>
+            </Col>
+        </Row>
         </>
     );
 }

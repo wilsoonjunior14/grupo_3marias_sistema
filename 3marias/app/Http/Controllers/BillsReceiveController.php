@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Business\AccountantBusiness;
 use App\Business\BillReceiveBusiness;
 use App\Exceptions\InputValidationException;
 use Illuminate\Http\Request;
@@ -60,7 +59,7 @@ class BillsReceiveController extends Controller implements APIController
      */
     public function show($id) {
         try {
-            $bill = $this->billsReceiveBusiness->getById(id: $id);
+            $bill = $this->billsReceiveBusiness->getById(id: $id, mergeFields: true);
             return ResponseUtils::getResponse($bill, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
@@ -81,7 +80,7 @@ class BillsReceiveController extends Controller implements APIController
      */
     public function update(Request $request, $id) {
         try {
-            $bill = $this->billsReceiveBusiness->update(id: $id, request: $request);
+            $bill = $this->billsReceiveBusiness->update(id: $id, data: $request->all());
             return ResponseUtils::getResponse($bill, 200);
         } catch (\App\Exceptions\AppException $e) {
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());

@@ -3,7 +3,6 @@
 namespace App\Business;
 
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\Enterprise;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -34,7 +33,7 @@ class EnterpriseBusiness {
             return $enterprise;
         }
         $address = (new AddressBusiness())->getById($enterprise->address_id, merge: true);
-        $enterprise = $this->mountenterpriseAddressInline($enterprise, $address);
+        $enterprise = $enterprise->mountAddressInline($enterprise, $address);
         $enterprise["accountants"] = (new AccountantBusiness())->get(enterpriseId: $id);
         $enterprise["partners"] = (new EnterprisePartnerBusiness())->get(enterpriseId: $id);
         $enterprise["owners"] = (new EnterpriseOwnerBusiness())->get(enterpriseId: $id);
@@ -84,20 +83,6 @@ class EnterpriseBusiness {
         Logger::info("Atualizando as informações do empresa.");
         $enterpriseUpdated->save();
         return $this->getById(id: $id);
-    }
-
-    // TODO: this class can be generalized because it can be used in one or more places
-    private function mountenterpriseAddressInline(enterprise $enterprise, Address $address) {
-        $enterprise["address"] = $address->address;
-        $enterprise["neighborhood"] = $address->neighborhood;
-        $enterprise["number"] = $address->number;
-        $enterprise["complement"] = $address->complement;
-        $enterprise["city_id"] = $address->city_id;
-        $enterprise["zipcode"] = $address->zipcode;
-        $enterprise["city_name"] = $address->city_name;
-        $enterprise["state_name"] = $address->state_name;
-        $enterprise["state_acronym"] = $address->state_acronym;
-        return $enterprise;
     }
 
 }

@@ -37,7 +37,14 @@ class BillsPayController extends Controller implements APIController
      * Gets a bill by id.
      */
     public function show($id) {
-        throw new InputValidationException(ErrorMessage::$METHOD_NOT_IMPLEMENTED);
+        try {
+            $bills = $this->billsPayBusiness->getById(id: $id, mergeFields: true);
+            return ResponseUtils::getResponse($bills, 200);
+        } catch (\App\Exceptions\AppException $e) {
+            return ResponseUtils::getExceptionResponse(message: $e->getMessage());
+        } catch (\Exception $e) {
+            return ResponseUtils::getErrorResponse($e);
+        }
     }
 
     /**

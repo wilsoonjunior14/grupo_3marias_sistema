@@ -55,7 +55,6 @@ export default function MoneyDashboard() {
     useEffect(() => {
         getProposals();
         getBillsToReceiveInProgress();
-        getBillsToPay();
     }, []);
 
     const getProposals = () => {
@@ -105,26 +104,6 @@ export default function MoneyDashboard() {
         }
     }
 
-    const getBillsToPay = () => {
-        setHttpError(null);
-        setLoadingBillPay(true);
-        performRequest("GET", "/v1/billsPay")
-        .then(onSuccessGetBillsToPay)
-        .catch((err) => {onErrorGetBillsToReceive(err); setLoadingBillPay(false);});
-    };
-
-    const onSuccessGetBillsToPay = (res) => {
-        var globalValue = 0;
-        const responseData = res.data;
-        responseData.forEach((bill) => {
-            if (bill.status === 0) {
-                globalValue += Math.abs(Number(bill.value_performed) - Number(bill.value));
-            }
-        });
-        setLoadingBillPay(false);
-        setBillPay(formatMoney(globalValue.toString()));
-    }
-
     const getBillsToReceiveInProgress = () => {
         setHttpError(null);
         setLoadingBills(true);
@@ -134,13 +113,9 @@ export default function MoneyDashboard() {
     };
 
     const onSuccessGetBillsToReceive = (res) => {
-        var globalValue = 0;
         const responseData = res.data.bills;
-        responseData.forEach((bill) => {
-            globalValue += Math.abs(Number(bill.value_performed) - Number(bill.value));
-        });
         setLoadingBills(false);
-        setBillReceive(formatMoney(globalValue.toString()));
+        setLoadingBillPay(false);
 
         var nextBills = [];
         const billsLength = responseData.length > 5 ? 5 : responseData.length;
@@ -149,8 +124,11 @@ export default function MoneyDashboard() {
                 nextBills.push(responseData[i]);
             }
         }
+
+        setBillReceive(formatMoney(res.data.toReceiveValue.toString()));
+        setBillPay(formatMoney(res.data.toPayValue.toString()));
+        setBalance(formatMoney(res.data.value.toString()));
         setNextBillsReceive(nextBills);
-        setBalance(Number(res.data.paidValue));
     };
 
     const onErrorGetBillsToReceive = (err) => {
@@ -229,11 +207,20 @@ export default function MoneyDashboard() {
                                             Saldo da Construtora
                                             <i className="material-icons float-left">attach_money</i>
                                         </Card.Title>
+                                        {loadingBills &&
+                                        <Row>
+                                            <Col></Col>
+                                            <Col style={{position: "absolute", top: "50%", left: "45%"}}><Loading /></Col>
+                                            <Col></Col>
+                                        </Row>
+                                        }
+                                        {!loadingBills &&
                                         <Row>
                                             <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                                                <b> {formatMoney(balance.toString())}</b>
+                                                <b> {balance}</b>
                                             </Col>
                                         </Row>
+                                        }
                                     </Card.Body>
                                 </Card>
                             </Col>

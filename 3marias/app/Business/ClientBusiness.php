@@ -4,7 +4,6 @@ namespace App\Business;
 
 use App\Exceptions\EntityNotFoundException;
 use App\Exceptions\InputValidationException;
-use App\Models\Address;
 use App\Models\Client;
 use App\Models\Logger;
 use App\Utils\ErrorMessage;
@@ -16,17 +15,12 @@ class ClientBusiness {
 
     public function get() {
         Logger::info("Iniciando a recuperação de clientes.");
-        $clients = (new Client())->getAll("name");
-        $amount = count($clients);
+        $clients = (new Client())->getClients("name", fields: ["id", "name", "cpf", "email"]);
         foreach ($clients as $client) {
-            $client["files"] = (new FileBusiness())->getByClient(clientId: $client->id);
             $client->birthdate = !is_null($client->birthdate) ? date_format(date_create($client->birthdate),"d/m/Y") : "";
             $client->rg_date = !is_null($client->rg_date) ? date_format(date_create($client->rg_date),"d/m/Y") : "";
-            if (!is_null($client->address_id)) {
-                $address = (new AddressBusiness())->getById($client->address_id);
-                $client = $this->mountClientAddressInline(client: $client, address: $address);
-            }
         }
+        $amount = count($clients);
         Logger::info("Foram recuperados {$amount} clientes.");
         Logger::info("Finalizando a recuperação de clientes.");
         return $clients;
@@ -60,7 +54,7 @@ class ClientBusiness {
         } 
         if ($mergeFields && !is_null($client->address_id)) {
             $address = (new AddressBusiness())->getById($client->address_id, merge: $mergeFields);
-            $client = $this->mountClientAddressInline($client, $address);
+            $client = $client->mountAddressInline($client, $address);
         }
         Logger::info("Finalizando a recuperação de cliente $id.");
         return $client;
@@ -124,17 +118,4 @@ class ClientBusiness {
         $clientUpdated->save();
         return $this->getById(id: $clientUpdated->id);
     }
-
-    private function mountClientAddressInline(Client $client, Address $address) {
-        $client["address"] = $address->address;
-        $client["neighborhood"] = $address->neighborhood;
-        $client["number"] = $address->number;
-        $client["complement"] = $address->complement;
-        $client["city_id"] = $address->city_id;
-        $client["zipcode"] = $address->zipcode;
-        $client["city_name"] = $address->city_name;
-        $client["state_acronym"] = $address->state_acronym;
-        return $client;
-    }
-
 }

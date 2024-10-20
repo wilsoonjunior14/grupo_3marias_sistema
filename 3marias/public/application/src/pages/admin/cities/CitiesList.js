@@ -16,9 +16,9 @@ export default function CitiesList() {
     ];
 
     const table = {
-        fields: ["#", "Cidade", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Cidade"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "created_at", "updated_at"]
+        bodyFields: ["id", "name"]
     };
 
     return (

@@ -12,6 +12,7 @@ export default function Birthdate() {
 
     const [birthdates, setBirthdates] = useState([]);
     const [loadingBirthdates, setLoadingBirthdates] = useState(false);
+    const congratsMessage = "A Construtora 3 Marias gostaria de lhe desejar feliz aniversário!! E muitos anos de vida.";
 
     const onGetBirthdates = () => {
         setLoadingBirthdates(true);
@@ -28,6 +29,14 @@ export default function Birthdate() {
 
     const errorResponse = (err) => {
         setLoadingBirthdates(false);
+    }
+
+    const onSendCongrats = (client) => {
+        if (!client.phone) {
+            return;
+        }
+        const phoneWithoutChars = client.phone.replace("(", "").replace(")", "").replace("-", "");
+        window.open("https://api.whatsapp.com/send/?phone=+55"+phoneWithoutChars+"&text="+congratsMessage);
     }
 
     useEffect(() => {
@@ -56,7 +65,7 @@ export default function Birthdate() {
                     {birthdates.length > 0 && birthdates.map((client) => 
                     <Row>
                         <Col style={{fontSize: 40, marginTop: 25, color: "white"}}>
-                            <Card className="card-birthdate-item">
+                            <Card onClick={() => onSendCongrats(client)} className="card-birthdate-item">
                                 <Card.Body>
                                     <Row>
                                         <Col xs={8} style={{fontSize: 12}}>

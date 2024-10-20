@@ -27,7 +27,7 @@ class Product extends BaseModel
         return $this->hasOne(CategoryProduct::class, "id", "category_product_id");
     }
 
-    public function getAll(string $orderBy) {
+    public function getAll(string $orderBy, array $fields = []) {
         return (new Product())->where("deleted", false)
         ->with("category_product")
         ->orderBy($orderBy)

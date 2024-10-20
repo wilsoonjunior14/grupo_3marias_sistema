@@ -87,7 +87,7 @@ class Contract extends BaseModel
         return $this->hasOne(Address::class, "id", "address_id")->where("deleted", false);
     }
 
-    public function getAll(string $orderBy) {
+    public function getAll(string $orderBy, array $fields = []) {
         return (new Contract())->where("deleted", false)
         ->with("proposal")
         ->with("address")

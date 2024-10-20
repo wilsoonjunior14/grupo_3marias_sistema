@@ -185,6 +185,19 @@ class Client extends BaseModel
         return $this->hasOne(Address::class, "id", "address_id");
     }
 
+    public function files(): \Illuminate\Database\Eloquent\Relations\HasMany {
+        return $this->hasMany(File::class, "id", "client_id")->where("deleted", false)->orderBy("description");
+    }
+
+    public function getClients(string $name, array $fields) {
+        return (new Client())
+        ->select($fields)
+        ->where("deleted", false)
+        ->with("files")
+        ->orderBy("name")
+        ->get();
+    }
+
     public function getByNameAndCPF(string $name, string $cpf) {
         return (new Client())->where("deleted", false)
         ->where("name", "like", "%" . $name . "%")

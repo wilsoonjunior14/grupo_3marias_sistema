@@ -109,10 +109,10 @@ class GetBillsReceiveTest extends TestFramework
         ]);
 
         $getResponse = $this->sendGetRequest(url: $this->url . "/get/inProgress", headers: $this->getHeaders());
-        $getResponse->assertJsonCount(2);
+        $getResponse->assertJsonCount(4);
         $getResponse->assertStatus(200);
         $getResponse->assertJson([
-            "paidValue" => 0,
+            "toPayValue" => 0,
             "bills" => [
                 [
                     "value" => 30000,

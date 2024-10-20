@@ -4,7 +4,6 @@ namespace App\Validation;
 
 use App\Exceptions\InputValidationException;
 use App\Models\Client;
-use App\Utils\ErrorMessage;
 use App\Utils\UpdateUtils;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;

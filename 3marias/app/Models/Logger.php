@@ -15,27 +15,27 @@ class Logger extends Model
         }
         error_log($message);
 
-        $log = new Logger();
-        $log->type = "error";
-        $log->message = $message;
-        $log->trace_id = Logger::getTraceId();
-        $log->timestamp = time();
-        $log->statusCode = $statusCode;
+        // $log = new Logger();
+        // $log->type = "error";
+        // $log->message = $message;
+        // $log->trace_id = Logger::getTraceId();
+        // $log->timestamp = time();
+        // $log->statusCode = $statusCode;
 
-        $log->save();
+        // $log->save();
     }
 
     static function info(string $message): void {
         if (strcmp(env('APP_ENV'), 'testing') === 0) {
             return;
         }
-        $log = new Logger();
-        $log->type = "info";
-        $log->message = $message;
-        $log->trace_id = Logger::getTraceId();
-        $log->timestamp = time();
+        // $log = new Logger();
+        // $log->type = "info";
+        // $log->message = $message;
+        // $log->trace_id = Logger::getTraceId();
+        // $log->timestamp = time();
 
-        $log->save();
+        // $log->save();
     }
 
     static function getTraceId() {
