@@ -285,7 +285,7 @@ const CustomTable = ({tableName, tableNamePlaceholder, tableIcon,
                             <>
                             <Row>
                                 <Col xs="12" className="table-col">
-                                    <Table responsive>
+                                    <Table responsive striped>
                                         <Thead fields={tableFields.fields} amountOptions={tableFields.amountOptions} />
                                         <tbody>
                                             {itemsPerPage.map((item) => 

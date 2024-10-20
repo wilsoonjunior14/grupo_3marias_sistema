@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use MohsenAbrishami\Stethoscope\Events\TroubleOccurred;
 use MohsenAbrishami\Stethoscope\LogRecord\Facades\Record;
 use MohsenAbrishami\Stethoscope\Services\Cpu;
-use MohsenAbrishami\Stethoscope\Services\HardDisk;
+use MohsenAbrishami\Stethoscope\Services\storage;
 use MohsenAbrishami\Stethoscope\Services\Memory;
 use MohsenAbrishami\Stethoscope\Services\Network;
 use MohsenAbrishami\Stethoscope\Services\WebServer;
 
 class MonitorCommand extends Command
 {
-    public function __construct(Cpu $cpu, Memory $memory, Network $network, WebServer $webServer, HardDisk $hardDisk)
+    public function __construct(Cpu $cpu, Memory $memory, Network $network, WebServer $webServer, storage $storage)
     {
         parent::__construct();
 
@@ -21,7 +21,7 @@ class MonitorCommand extends Command
         $this->memory = $memory;
         $this->network = $network;
         $this->webServer = $webServer;
-        $this->hardDisk = $hardDisk;
+        $this->storage = $storage;
     }
 
     /**
@@ -45,38 +45,39 @@ class MonitorCommand extends Command
      */
     public function handle()
     {
-        $resourceReports = [];
+        $logs = [];
 
         $cpuUsage = $this->cpu->check();
         $memoryUsage = $this->memory->check();
         $networkStatus = $this->network->check();
-        $hardDiskFreeSpace = $this->hardDisk->check();
+        $storageFreeSpace = $this->storage->check();
         $webServerStatuses = $this->webServer->check();
 
         if (config('stethoscope.monitorable_resources.cpu') && $cpuUsage > config(('stethoscope.thresholds.cpu'))) {
-            $resourceReports['cpu'] = $cpuUsage;
+            $logs['cpu'] = $cpuUsage;
         }
 
         if ($memoryUsage > config(('stethoscope.thresholds.memory')) && config('stethoscope.monitorable_resources.memory')) {
-            $resourceReports['memory'] = $memoryUsage;
+            $logs['memory'] = $memoryUsage;
         }
 
         if ($networkStatus == 'disconnected' && config('stethoscope.monitorable_resources.network')) {
-            $resourceReports['network'] = $networkStatus;
+            $logs['network'] = $networkStatus;
         }
 
-        if ($hardDiskFreeSpace < config(('stethoscope.thresholds.hard_disk')) && config('stethoscope.monitorable_resources.hard_disk')) {
-            $resourceReports['hardDisk'] = $hardDiskFreeSpace;
+        if ($storageFreeSpace < config(('stethoscope.thresholds.storage')) && config('stethoscope.monitorable_resources.storage')) {
+            $logs['storage'] = $storageFreeSpace;
         }
 
         if ($webServerStatuses != 'active' && config('stethoscope.monitorable_resources.web_server')) {
-            $resourceReports['webServer'] = $webServerStatuses;
+            $logs['webServer'] = $webServerStatuses;
         }
 
-        Record::record($resourceReports);
+        Record::record($logs);
 
-        if (! empty($resourceReports)) {
-            TroubleOccurred::dispatch($resourceReports);
+        if (! empty($logs)) {
+            $logs['signature'] = $this->signature;
+            TroubleOccurred::dispatch($logs);
         }
     }
 }

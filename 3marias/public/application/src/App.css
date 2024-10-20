@@ -79,6 +79,10 @@ thead tr th {
   color: white !important;
 }
 
+.toggleOptions-title i:hover {
+  color: white !important;
+}
+
 .toggleOptions .toggleOptions-nav a:hover {
   color: red !important;
 }

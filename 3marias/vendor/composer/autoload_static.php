@@ -4,14 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
+class ComposerStaticInite705195e0bf64654401b4ca2a8002e29
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -53,7 +52,6 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
             'Symfony\\Polyfill\\Uuid\\' => 22,
             'Symfony\\Polyfill\\Php81\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
-            'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
@@ -196,10 +194,6 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
-        ),
-        'Symfony\\Polyfill\\Php72\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -495,6 +489,7 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Business\\AddressBusiness' => __DIR__ . '/../..' . '/app/Business/AddressBusiness.php',
         'App\\Business\\BillPayBusiness' => __DIR__ . '/../..' . '/app/Business/BillPayBusiness.php',
         'App\\Business\\BillReceiveBusiness' => __DIR__ . '/../..' . '/app/Business/BillReceiveBusiness.php',
+        'App\\Business\\BillTicketBusiness' => __DIR__ . '/../..' . '/app/Business/BillTicketBusiness.php',
         'App\\Business\\CategoryProductBusiness' => __DIR__ . '/../..' . '/app/Business/CategoryProductBusiness.php',
         'App\\Business\\CategoryServiceBusiness' => __DIR__ . '/../..' . '/app/Business/CategoryServiceBusiness.php',
         'App\\Business\\CityBusiness' => __DIR__ . '/../..' . '/app/Business/CityBusiness.php',
@@ -508,6 +503,9 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Business\\EnterprisePartnerBusiness' => __DIR__ . '/../..' . '/app/Business/EnterprisePartnerBusiness.php',
         'App\\Business\\FileBusiness' => __DIR__ . '/../..' . '/app/Business/FileBusiness.php',
         'App\\Business\\GroupBusiness' => __DIR__ . '/../..' . '/app/Business/GroupBusiness.php',
+        'App\\Business\\MeasurementBusiness' => __DIR__ . '/../..' . '/app/Business/MeasurementBusiness.php',
+        'App\\Business\\MeasurementConfigurationBusiness' => __DIR__ . '/../..' . '/app/Business/MeasurementConfigurationBusiness.php',
+        'App\\Business\\MeasurementItemBusiness' => __DIR__ . '/../..' . '/app/Business/MeasurementItemBusiness.php',
         'App\\Business\\PartnerBusiness' => __DIR__ . '/../..' . '/app/Business/PartnerBusiness.php',
         'App\\Business\\ProductBusiness' => __DIR__ . '/../..' . '/app/Business/ProductBusiness.php',
         'App\\Business\\ProjectBusiness' => __DIR__ . '/../..' . '/app/Business/ProjectBusiness.php',
@@ -532,9 +530,9 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Exceptions\\MethodNotImplementedYet' => __DIR__ . '/../..' . '/app/Exceptions/MethodNotImplementedYet.php',
         'App\\Http\\Controllers\\APIController' => __DIR__ . '/../..' . '/app/Http/Controllers/APIController.php',
         'App\\Http\\Controllers\\AccountantController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountantController.php',
+        'App\\Http\\Controllers\\BillTicketController' => __DIR__ . '/../..' . '/app/Http/Controllers/BillTicketController.php',
         'App\\Http\\Controllers\\BillsPayController' => __DIR__ . '/../..' . '/app/Http/Controllers/BillsPayController.php',
         'App\\Http\\Controllers\\BillsReceiveController' => __DIR__ . '/../..' . '/app/Http/Controllers/BillsReceiveController.php',
-        'App\\Http\\Controllers\\BotManController' => __DIR__ . '/../..' . '/app/Http/Controllers/BotManController.php',
         'App\\Http\\Controllers\\CategoryProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoryProductController.php',
         'App\\Http\\Controllers\\CategoryServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoryServiceController.php',
         'App\\Http\\Controllers\\CityController' => __DIR__ . '/../..' . '/app/Http/Controllers/CityController.php',
@@ -549,7 +547,9 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Http\\Controllers\\EnterpriseOwnerController' => __DIR__ . '/../..' . '/app/Http/Controllers/EnterpriseOwnerController.php',
         'App\\Http\\Controllers\\EnterprisePartnerController' => __DIR__ . '/../..' . '/app/Http/Controllers/EnterprisePartnerController.php',
         'App\\Http\\Controllers\\GroupController' => __DIR__ . '/../..' . '/app/Http/Controllers/GroupController.php',
-        'App\\Http\\Controllers\\ObservabilityController' => __DIR__ . '/../..' . '/app/Http/Controllers/ObservabilityController.php',
+        'App\\Http\\Controllers\\MeasurementConfigurationController' => __DIR__ . '/../..' . '/app/Http/Controllers/MeasurementConfigurationController.php',
+        'App\\Http\\Controllers\\MeasurementController' => __DIR__ . '/../..' . '/app/Http/Controllers/MeasurementController.php',
+        'App\\Http\\Controllers\\MeasurementItemController' => __DIR__ . '/../..' . '/app/Http/Controllers/MeasurementItemController.php',
         'App\\Http\\Controllers\\PDFController' => __DIR__ . '/../..' . '/app/Http/Controllers/PDFController.php',
         'App\\Http\\Controllers\\PartnerController' => __DIR__ . '/../..' . '/app/Http/Controllers/PartnerController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
@@ -579,6 +579,7 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Models\\BaseModel' => __DIR__ . '/../..' . '/app/Models/BaseModel.php',
         'App\\Models\\BillPay' => __DIR__ . '/../..' . '/app/Models/BillPay.php',
         'App\\Models\\BillReceive' => __DIR__ . '/../..' . '/app/Models/BillReceive.php',
+        'App\\Models\\BillTicket' => __DIR__ . '/../..' . '/app/Models/BillTicket.php',
         'App\\Models\\Building' => __DIR__ . '/../..' . '/app/Models/Building.php',
         'App\\Models\\CategoryProduct' => __DIR__ . '/../..' . '/app/Models/CategoryProduct.php',
         'App\\Models\\CategoryService' => __DIR__ . '/../..' . '/app/Models/CategoryService.php',
@@ -597,6 +598,9 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Models\\Group' => __DIR__ . '/../..' . '/app/Models/Group.php',
         'App\\Models\\GroupRole' => __DIR__ . '/../..' . '/app/Models/GroupRole.php',
         'App\\Models\\Logger' => __DIR__ . '/../..' . '/app/Models/Logger.php',
+        'App\\Models\\Measurement' => __DIR__ . '/../..' . '/app/Models/Measurement.php',
+        'App\\Models\\MeasurementConfiguration' => __DIR__ . '/../..' . '/app/Models/MeasurementConfiguration.php',
+        'App\\Models\\MeasurementItem' => __DIR__ . '/../..' . '/app/Models/MeasurementItem.php',
         'App\\Models\\Partner' => __DIR__ . '/../..' . '/app/Models/Partner.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Project' => __DIR__ . '/../..' . '/app/Models/Project.php',
@@ -626,7 +630,6 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'App\\Validation\\ClientValidator' => __DIR__ . '/../..' . '/app/Validation/ClientValidator.php',
         'App\\Validation\\EnterpriseValidator' => __DIR__ . '/../..' . '/app/Validation/EnterpriseValidator.php',
         'App\\Validation\\ModelValidator' => __DIR__ . '/../..' . '/app/Validation/ModelValidator.php',
-        'App\\Validation\\RatingValidator' => __DIR__ . '/../..' . '/app/Validation/RatingValidator.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
@@ -2647,10 +2650,10 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'MohsenAbrishami\\Stethoscope\\Notifications\\Notifiable' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Notifications/Notifiable.php',
         'MohsenAbrishami\\Stethoscope\\Providers\\EventServiceProvider' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Providers/EventServiceProvider.php',
         'MohsenAbrishami\\Stethoscope\\Services\\Cpu' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/Cpu.php',
-        'MohsenAbrishami\\Stethoscope\\Services\\HardDisk' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/HardDisk.php',
         'MohsenAbrishami\\Stethoscope\\Services\\Memory' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/Memory.php',
         'MohsenAbrishami\\Stethoscope\\Services\\Network' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/Network.php',
         'MohsenAbrishami\\Stethoscope\\Services\\ServiceInterface' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/ServiceInterface.php',
+        'MohsenAbrishami\\Stethoscope\\Services\\Storage' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/Storage.php',
         'MohsenAbrishami\\Stethoscope\\Services\\WebServer' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Services/WebServer.php',
         'MohsenAbrishami\\Stethoscope\\StethoscopeServiceProvider' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/StethoscopeServiceProvider.php',
         'MohsenAbrishami\\Stethoscope\\Traits\\MessageCreatorTrait' => __DIR__ . '/..' . '/mohsenabrishami/stethoscope/src/Traits/MessageCreatorTrait.php',
@@ -3321,12 +3324,14 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'PhpParser\\JsonDecoder' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/JsonDecoder.php',
         'PhpParser\\Lexer' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer.php',
         'PhpParser\\Lexer\\Emulative' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/Emulative.php',
+        'PhpParser\\Lexer\\TokenEmulator\\AsymmetricVisibilityTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\AttributeEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/AttributeEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\EnumTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/EnumTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ExplicitOctalEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ExplicitOctalEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\KeywordEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/KeywordEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\MatchTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/MatchTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\NullsafeTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/NullsafeTokenEmulator.php',
+        'PhpParser\\Lexer\\TokenEmulator\\PropertyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyFunctionTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyFunctionTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReverseEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReverseEmulator.php',
@@ -3460,6 +3465,7 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'PhpParser\\Node\\Name\\Relative' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Name/Relative.php',
         'PhpParser\\Node\\NullableType' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/NullableType.php',
         'PhpParser\\Node\\Param' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Param.php',
+        'PhpParser\\Node\\PropertyHook' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/PropertyHook.php',
         'PhpParser\\Node\\PropertyItem' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/PropertyItem.php',
         'PhpParser\\Node\\Scalar' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar.php',
         'PhpParser\\Node\\Scalar\\Float_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/Float_.php',
@@ -3473,6 +3479,7 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'PhpParser\\Node\\Scalar\\MagicConst\\Line' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Line.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Method' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Method.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Namespace_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Namespace_.php',
+        'PhpParser\\Node\\Scalar\\MagicConst\\Property' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Property.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Trait_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Trait_.php',
         'PhpParser\\Node\\Scalar\\String_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/String_.php',
         'PhpParser\\Node\\StaticVar' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/StaticVar.php',
@@ -4960,7 +4967,6 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'Symfony\\Polyfill\\Intl\\Idn\\Resources\\unidata\\Regex' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/Resources/unidata/Regex.php',
         'Symfony\\Polyfill\\Intl\\Normalizer\\Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Normalizer.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
-        'Symfony\\Polyfill\\Php72\\Php72' => __DIR__ . '/..' . '/symfony/polyfill-php72/Php72.php',
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
         'Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
         'Symfony\\Polyfill\\Php81\\Php81' => __DIR__ . '/..' . '/symfony/polyfill-php81/Php81.php',
@@ -5000,6 +5006,7 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
         'Termwind\\ValueObjects\\Node' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Node.php',
         'Termwind\\ValueObjects\\Style' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Style.php',
         'Termwind\\ValueObjects\\Styles' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
+        'Tests\\Backend\\measurements\\CreateMeasurementTest' => __DIR__ . '/../..' . '/tests/Backend/measurements/CreateMeasurementTest.php',
         'Tests\\CPFGenerator' => __DIR__ . '/../..' . '/tests/CPFGenerator.php',
         'Tests\\CreatesApplication' => __DIR__ . '/../..' . '/tests/CreatesApplication.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
@@ -5029,9 +5036,9 @@ class ComposerStaticInitbb492b6872dc392ae20e1e97665be699
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbb492b6872dc392ae20e1e97665be699::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbb492b6872dc392ae20e1e97665be699::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitbb492b6872dc392ae20e1e97665be699::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite705195e0bf64654401b4ca2a8002e29::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite705195e0bf64654401b4ca2a8002e29::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite705195e0bf64654401b4ca2a8002e29::$classMap;
 
         }, null, ClassLoader::class);
     }
