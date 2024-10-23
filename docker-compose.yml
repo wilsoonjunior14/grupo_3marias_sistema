@@ -1,3 +1,4 @@
+version: "3"
 #
 #
 # Clear docker cache
