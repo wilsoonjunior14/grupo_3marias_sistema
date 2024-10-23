@@ -8,19 +8,19 @@
 #
 services:
   # Database - MYSQL
-  # mysql:
-  #   container_name: 3marias_database
-  #   image: mysql:5.7
-  #   ports:
-  #     - "3306:3306"
-  #   expose:
-  #     - "3306"
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=12345
-  #     - MYSQL_ROOT_USER=user
-  #     - MYSQL_USER=user
-  #     - MYSQL_PASSWORD=12345
-  #     - MYSQL_DATABASE=testdb
+  mysql:
+    container_name: 3marias_database
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_ROOT_USER=user
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=12345
+      - MYSQL_DATABASE=testdb
 
   # Backend - LARAVEL
   php:
@@ -33,8 +33,8 @@ services:
     ports:
       - "80:80"
     #it must run on dev
-    entrypoint: ["bash", "-c", "php artisan serve --port 80 --host 0.0.0.0"]
-    #entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 80 --host 0.0.0.0"]
+    #entrypoint: ["bash", "-c", "php artisan serve --port 80 --host 0.0.0.0"]
+    entrypoint: ["bash", "-c", "php composer.phar install && php artisan serve --port 80 --host 0.0.0.0"]
     
   # Frontend - React
   # react:
