@@ -17,9 +17,9 @@ export default function GroupList() {
     ];
 
     const table = {
-        fields: ["#", "Descrição", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Descrição"],
         amountOptions: 1,
-        bodyFields: ["id", "description", "created_at", "updated_at"]
+        bodyFields: ["id", "description"]
     };
 
     const customOptions = [

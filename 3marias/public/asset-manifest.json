@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.f1a9b00b.css",
+    "main.js": "/static/js/main.ff3a3d03.js",
+    "blueprint-icons-all-paths-loader.js": "/static/js/blueprint-icons-all-paths-loader.222b26a2.chunk.js",
+    "blueprint-icons-split-paths-by-size-loader.js": "/static/js/blueprint-icons-split-paths-by-size-loader.8d1ff2e3.chunk.js",
+    "static/js/488.2264fe0d.chunk.js": "/static/js/488.2264fe0d.chunk.js",
+    "blueprint-icons-all-paths.js": "/static/js/blueprint-icons-all-paths.e7410007.chunk.js",
+    "blueprint-icons-16px-paths.js": "/static/js/blueprint-icons-16px-paths.84198ac9.chunk.js",
+    "blueprint-icons-20px-paths.js": "/static/js/blueprint-icons-20px-paths.372267aa.chunk.js",
+    "static/media/logo_complete.png": "/static/media/logo_complete.f0a8daca68fa655fa5bc.png",
+    "static/media/logo512.png": "/static/media/logo512.ee103dd5daddd253932e.png",
+    "static/media/instagram.png": "/static/media/instagram.e719d8b29f452a16302d.png",
+    "static/media/whatsapp.png": "/static/media/whatsapp.c826b0165560636baf0b.png",
+    "static/media/gmail.png": "/static/media/gmail.a2f2146f929409405da0.png",
+    "index.html": "/index.html",
+    "main.f1a9b00b.css.map": "/static/css/main.f1a9b00b.css.map",
+    "main.ff3a3d03.js.map": "/static/js/main.ff3a3d03.js.map",
+    "blueprint-icons-all-paths-loader.222b26a2.chunk.js.map": "/static/js/blueprint-icons-all-paths-loader.222b26a2.chunk.js.map",
+    "blueprint-icons-split-paths-by-size-loader.8d1ff2e3.chunk.js.map": "/static/js/blueprint-icons-split-paths-by-size-loader.8d1ff2e3.chunk.js.map",
+    "488.2264fe0d.chunk.js.map": "/static/js/488.2264fe0d.chunk.js.map",
+    "blueprint-icons-all-paths.e7410007.chunk.js.map": "/static/js/blueprint-icons-all-paths.e7410007.chunk.js.map",
+    "blueprint-icons-16px-paths.84198ac9.chunk.js.map": "/static/js/blueprint-icons-16px-paths.84198ac9.chunk.js.map",
+    "blueprint-icons-20px-paths.372267aa.chunk.js.map": "/static/js/blueprint-icons-20px-paths.372267aa.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f1a9b00b.css",
+    "static/js/main.ff3a3d03.js"
+  ]
+}

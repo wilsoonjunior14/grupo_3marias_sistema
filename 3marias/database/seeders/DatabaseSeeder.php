@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
                 'nationality' => 'BRASILEIRA',
                 'naturality' => 'IBIAPINA/CE',
                 'rg' => '2002009013471',
-                'rg_date' => '05/10/2010',
+                'rg_date' => '2010-10-05',
                 'rg_organ' => 'SSP/CE',
                 'cpf' => '003.781.613.69',
                 'enterprise_id' => 1,

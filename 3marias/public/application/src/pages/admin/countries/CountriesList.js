@@ -16,9 +16,9 @@ export default function CountriesList() {
     ];
 
     const table = {
-        fields: ["#", "País", "Sigla", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "País", "Sigla"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "acronym", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "acronym"]
     };
 
     return (
