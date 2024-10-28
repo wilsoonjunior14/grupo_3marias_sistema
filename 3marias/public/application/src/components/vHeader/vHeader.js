@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../../App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,40 +12,46 @@ import VHeaderAdmin from "./vHeaderAdmin";
 import VHeaderAlmoxarifado from "./vHeaderAlmoxarifado";
 import VHeaderContracts from "./vHeaderContracts";
 import VHeaderMoney from "./vHeaderMoney";
-import { isLogged, removeUserData } from "../../services/Storage";
+import { hasPermission, isLogged, removeUserData } from "../../services/Storage";
 export const logo = config.url + "/img/logo.png";
 
 function VHeader() {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+
     const [logged, setLogged] = useState(true);
     const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red";
     const accountColor = window.location.pathname.indexOf("account") == -1 ? "white" : "red"; 
     const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
-    const initialStateItems = [
-        {
-            id: 1,
-            name: "Cadastros",
-            icon: "add_circle_outline",
-            path: "admin"
-        },
-        {
+    let initialStateItems = [];
+
+    initialStateItems.push({
+        id: 1,
+        name: "Cadastros",
+        icon: "add_circle_outline",
+        path: "admin"
+    });
+
+    if (isAdmin || isDeveloper) {
+        initialStateItems.push({
             id: 2,
             name: "Contratos",
             icon: "business_center",
             path: "contracts"
-        },
-        {
+        });
+        initialStateItems.push({
             id: 3,
             name: "Almoxarifado",
             icon: "content_paste",
             path: "stocks"
-        },
-        {
+        });
+        initialStateItems.push({
             id: 4,
             name: "Financeiro",
             icon: "attach_money",
             path: "money"
-        }
-    ];
+        });
+    }
     const [items, setItems] = useState(initialStateItems);
 
     const setItemShow = (item, value) => {

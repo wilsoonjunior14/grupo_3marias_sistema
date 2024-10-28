@@ -18,6 +18,9 @@ export function formatDateToServer(date) {
 }
 
 export function formatStringToNumber(string) {
+    if (!string){
+        return string;
+    }
     return Number(string.replace(".", "").replace(",", "."));
 }
 

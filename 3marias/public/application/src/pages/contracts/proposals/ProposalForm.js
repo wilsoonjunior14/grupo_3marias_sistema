@@ -24,8 +24,13 @@ import { formatDate, formatDateToServer, formatDoubleValue, formatMoney, formatS
 import { useParams } from "react-router-dom";
 import { validateMoney, validateMoneyWithoutAllPatterns } from "../../../services/Validation";
 import { processDataBefore } from "../../../services/Utils";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const ProposalForm = ({}) => {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+
     const [loading, setLoading] = useState(false);
     const [loadingProposal, setLoadingProposal] = useState(false);
     const [httpError, setHttpError] = useState(null);
@@ -582,6 +587,7 @@ const ProposalForm = ({}) => {
             </Modal.Footer>
         </Modal>
 
+        {(isDeveloper || isAdmin) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             {!loading && httpError &&
                 <Error message={httpError.message} />
@@ -982,6 +988,11 @@ const ProposalForm = ({}) => {
                 </Col>
             </Row>
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
+        }
         </>
     )
 };

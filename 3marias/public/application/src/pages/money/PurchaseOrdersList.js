@@ -14,8 +14,12 @@ import Loading from '../../components/loading/Loading';
 import Success from "../../components/success/Success";
 import Error from "../../components/error/Error";
 import { performRequest } from "../../services/Api";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function PurchaseOrdersList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const [showItemsModal, setShowItemsModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
@@ -223,7 +227,7 @@ export default function PurchaseOrdersList() {
                 <Error message={errorMessage} />
             } 
 
-            {!isRejecting && !isApproving &&
+            {!isRejecting && !isApproving && (isDeveloper || isAdmin) &&
                 <CustomTable 
                     tableName="Compras" 
                     tableIcon="shopping_cart" 
@@ -232,6 +236,10 @@ export default function PurchaseOrdersList() {
                     tableFields={table}
                     searchFields={fields}
                     customOptions={customOptions} />
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
             }
 
             </Container>

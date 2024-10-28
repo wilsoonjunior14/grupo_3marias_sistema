@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomButton from '../../../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
@@ -22,8 +22,16 @@ import NoEntity from '../../../components/table/NoEntity';
 import { formatDate, formatDateTime } from '../../../services/Format';
 import { useNavigate } from 'react-router-dom';
 import config from "../../../config.json";
+import { hasPermission } from '../../../services/Storage';
 
 export default function ClientList() {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+
+    const canEdit = isAdmin || isDeveloper;
+    const canDelete = canEdit;
+    const canAdd = canEdit;
 
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -78,14 +86,19 @@ export default function ClientList() {
             tooltip: "Ver Documentos",
             icon: "assignment_ind",
             onClick: (evt) => {setClient(evt); setShowDocumentsModal(true)}
-        },
-        {
-            name: "upload_documents",
-            tooltip: "Upload de Documentos",
-            icon: "file_upload",
-            onClick: (evt) => {setClient(evt); setShowModal(true);}
         }
     ];
+
+    useEffect(() => {
+        if (isAdmin || isDeveloper) {
+            customOptions.push({
+                name: "upload_documents",
+                tooltip: "Upload de Documentos",
+                icon: "file_upload",
+                onClick: (evt) => {setClient(evt); setShowModal(true);}
+            });
+        }
+    }, []);
 
     const changeField = (e) => {
         const { name, value } = e.target;
@@ -435,7 +448,10 @@ export default function ClientList() {
                     url="/clients" 
                     tableFields={table}
                     searchFields={fields}
-                    customOptions={customOptions} />
+                    customOptions={customOptions}
+                    disableAdd={!canAdd}
+                    disableDelete={!canDelete}
+                    disableEdit={!canEdit} />
 
             </Container>
             }

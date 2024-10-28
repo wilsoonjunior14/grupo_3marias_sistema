@@ -3,8 +3,12 @@ import Container from 'react-bootstrap/Container';
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
 import VHeader from "../../../components/vHeader/vHeader";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 export default function EngineerList() {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -36,6 +40,7 @@ export default function EngineerList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
@@ -47,6 +52,11 @@ export default function EngineerList() {
                     searchFields={fields} />
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

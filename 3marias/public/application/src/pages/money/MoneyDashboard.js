@@ -13,12 +13,16 @@ import { performRequest } from '../../services/Api';
 import Loading from "../../components/loading/Loading";
 import { formatDate, formatMoney } from "../../services/Format";
 import Error from "../../components/error/Error";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(CategoryScale);
 
 export default function MoneyDashboard() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const data = {
         labels: ['Red', 'Orange', 'Blue'],
@@ -141,6 +145,7 @@ export default function MoneyDashboard() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id='app-container' className="home-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 <Row>
                     <Col>
@@ -296,6 +301,11 @@ export default function MoneyDashboard() {
                 </Row>
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 };

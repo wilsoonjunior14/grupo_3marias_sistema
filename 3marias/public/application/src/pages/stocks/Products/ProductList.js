@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 export default function ProductList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const fields = [
         {
@@ -24,6 +28,7 @@ export default function ProductList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
@@ -35,6 +40,11 @@ export default function ProductList() {
                     searchFields={fields} />
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

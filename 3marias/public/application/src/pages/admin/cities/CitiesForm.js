@@ -1,8 +1,11 @@
 import Container from "react-bootstrap/Container";
 import CustomForm from "../../../components/form/Form";
 import VHeader from "../../../components/vHeader/vHeader";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const CitiesForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -25,9 +28,15 @@ const CitiesForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isDeveloper) &&
         <Container style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm endpoint="/v1/cities" nameScreen="Cidade" fields={fields} />
         </Container>
+        }
+
+        {!(isDeveloper) &&
+            <Forbidden />
+        }
         </>
     )
 };

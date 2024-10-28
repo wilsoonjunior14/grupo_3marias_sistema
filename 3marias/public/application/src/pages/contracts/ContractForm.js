@@ -13,9 +13,14 @@ import CustomInput from "../../components/input/CustomInput";
 import Button from "react-bootstrap/Button";
 import { performRequest } from "../../services/Api";
 import { getMoney, validateForm } from '../../services/Utils';
-import { validateAddress, validateCPF, validateMoneyWithoutAllPatterns, validateRequired, validateRequiredString, validateRequiredStringWithoutPattern } from '../../services/Validation';
+import { validateAddress, validateCPF, validateRequired, validateRequiredString, validateRequiredStringWithoutPattern } from '../../services/Validation';
+import { hasPermission } from '../../services/Storage';
+import Forbidden from '../../components/error/Forbidden';
 
-const ContractForm = ({disableHeader}) => {
+const ContractForm = ({}) => {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
@@ -234,7 +239,7 @@ const ContractForm = ({disableHeader}) => {
         <>
         <VHeader />
         
-        {!resetScreen &&
+        {!resetScreen && (isDeveloper || isAdmin) &&
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col>
@@ -437,6 +442,10 @@ const ContractForm = ({disableHeader}) => {
                 </Col>
             </Row>
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
         }
         
         </>

@@ -23,3 +23,13 @@ export function retrieveUserData() {
     }
     return JSON.parse(data);
 }
+
+export function hasPermission(permission) {
+    const userdata = retrieveUserData();
+    if (userdata) {
+        if (userdata.user.group.description.toString().toUpperCase() === permission.toString().toUpperCase()) {
+            return true;
+        }
+    }
+    return false;
+}
