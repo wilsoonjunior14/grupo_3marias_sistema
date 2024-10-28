@@ -14,8 +14,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../components/loading/Loading";
 import { performCustomRequest, performRequest } from "../../../services/Api";
 import Error from "../../../components/error/Error";
+import Forbidden from "../../../components/error/Forbidden";
+import { hasPermission } from "../../../services/Storage";
 
 function EnterpriseDetails() {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [showDialogModal, setShowDialogModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -163,6 +168,7 @@ function EnterpriseDetails() {
         </Modal>
 
         <VHeader />
+        {(isAdmin || isDeveloper) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             {httpError &&
                 <Row>
@@ -672,6 +678,11 @@ function EnterpriseDetails() {
                 </Col>
             </Row>
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+        <Forbidden />
+        }
         </>
     )
 };

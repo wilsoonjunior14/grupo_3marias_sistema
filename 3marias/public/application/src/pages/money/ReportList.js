@@ -15,8 +15,13 @@ import { performRequest } from "../../services/Api";
 import { processDataBefore } from "../../services/Utils";
 import { formatDate, formatMoney } from "../../services/Format";
 import "./Report.css";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function ReportList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+
     const [errorMessage, setErrorMessage] = useState(null);
     const [tickets, setTickets] = useState([]);
     const [total, setTotal] = useState("");
@@ -90,6 +95,7 @@ export default function ReportList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 {errorMessage !== null &&
                 <Error message={errorMessage} />
@@ -155,6 +161,11 @@ export default function ReportList() {
                     </Col>
                 </Row>
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

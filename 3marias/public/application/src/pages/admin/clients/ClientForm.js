@@ -16,8 +16,13 @@ import { formatDateToServer, formatDoubleValue } from "../../../services/Format"
 import { formatDataFrontend, validateForm } from '../../../services/Utils';
 import BackButton from '../../../components/button/BackButton';
 import { validateClient } from '../../../services/Validation';
+import { hasPermission } from '../../../services/Storage';
+import Forbidden from '../../../components/error/Forbidden';
 
 const ClientForm = ({disableHeader}) => {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [loading, setLoading] = useState(false);
     const [isLoadingData, setIsLoadingData] = useState(false);
@@ -30,7 +35,11 @@ const ClientForm = ({disableHeader}) => {
     const [endpoint] = useState("/v1/clients");
     const [containerStyle, setContainerStyle] = useState({});
 
+    const [cities, setCities] = useState([]);
+    const [isLoadingCities, setIsLoadingCities] = useState(false);
+
     useEffect(() => {
+        getCities();
         if (parameters.id && !isLoadingData) {
             setIsLoadingData(true);
             setHttpError(null);
@@ -47,6 +56,17 @@ const ClientForm = ({disableHeader}) => {
             setContainerStyle({marginLeft: 90, width: "calc(100% - 100px)"});
         }
     }, []);
+
+    const getCities = () => {
+        if (isLoadingCities) {
+            return;
+        }
+        setIsLoadingCities(true);
+
+        performRequest("GET", "/v1/cities")
+        .then((response) => setCities(response.data))
+        .catch(errorResponse);
+    }
 
     const successGet = (response) => {
         setItem(response.data);
@@ -75,6 +95,21 @@ const ClientForm = ({disableHeader}) => {
     const changeField = (e) => {
         const { name, value } = e.target;
         dispatch({ type: name, value });
+
+        if (name === "naturality_id") {
+            cities.forEach((city) => {
+                if (city.id.toString() === value) {
+                    changeField({target: {name: "naturality", value: city.name.toUpperCase()}});
+                }
+            });
+        }
+        if (name === "naturality_dependent_id") {
+            cities.forEach((city) => {
+                if (city.id.toString() === value) {
+                    changeField({target: {name: "naturality_dependent", value: city.name.toUpperCase()}});
+                }
+            });
+        }
 
         if (name === "zipcode") {
             var zipCodeRegex = new RegExp(/\d{5}-\d{3}/g);
@@ -298,11 +333,12 @@ const ClientForm = ({disableHeader}) => {
             required: false
         },
         {
-            name: 'naturality',
+            name: 'naturality_id',
             placeholder: 'Naturalidade',
-            type: 'text',
-            maxlength: 255,
-            required: false
+            type: 'select',
+            required: false,
+            endpoint: "cities",
+            endpoint_field: "name"
         },
         {
             name: 'salary',
@@ -462,11 +498,12 @@ const ClientForm = ({disableHeader}) => {
             required: false
         },
         {
-            name: 'naturality_dependent',
+            name: 'naturality_dependent_id',
             placeholder: 'Naturalidade do Cônjugue',
-            type: 'text',
-            maxlength: 255,
-            required: false
+            type: 'select',
+            required: false,
+            endpoint: "cities",
+            endpoint_field: "name"
         },
         {
             name: 'ocupation_dependent',
@@ -534,7 +571,7 @@ const ClientForm = ({disableHeader}) => {
         {!disableHeader &&
         <VHeader />
         }
-        {!resetScreen &&
+        {!resetScreen && (isAdmin || isDeveloper) &&
         <Container id='app-container' style={containerStyle} fluid>
             <Row>
                 <Col xs={2}>
@@ -625,6 +662,10 @@ const ClientForm = ({disableHeader}) => {
                 </Col>
             </Row>
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+            <Forbidden />
         }
         </>
     )

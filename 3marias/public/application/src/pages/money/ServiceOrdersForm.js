@@ -17,12 +17,16 @@ import { performRequest } from "../../services/Api";
 import NoEntity from "../../components/table/NoEntity";
 import { formatDataFrontend, processDataBefore, validateForm } from "../../services/Utils";
 import Button from "react-bootstrap/esm/Button";
-import { validateDate, validateMoney, validateMoneyWithoutAllPatterns, validateNumber, validateRequired, validateRequiredString, validateRequiredStringWithoutPattern } from "../../services/Validation";
+import { validateDate, validateMoney, validateMoneyWithoutAllPatterns, validateRequired, validateRequiredStringWithoutPattern } from "../../services/Validation";
 import { useParams } from "react-router-dom";
-import { formatMoney } from "../../services/Format";
 import CustomMoney from "../../components/input/CustomMoney";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 const ServiceOrdersForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+
     const [loading, setLoading] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
@@ -278,7 +282,7 @@ const ServiceOrdersForm = ({}) => {
     return (
         <>
         <VHeader />
-        {!resetScreen &&
+        {!resetScreen && (isDeveloper || isAdmin) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col xs={2}>
@@ -532,6 +536,10 @@ const ServiceOrdersForm = ({}) => {
                 }
             </Row>
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
         }
         </>
     )

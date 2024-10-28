@@ -99,7 +99,11 @@ class UserController extends BaseController implements APIController
 
        Logger::info("Iniciando a validação dos dados informados.");
        $data = $request->all();
-       $user = (new UserBusiness())->create(data: $data);
+       if (!isset($data["id"])) {
+        $user = (new UserBusiness())->create(data: $data);
+       } else {
+        return $this->update(request: $request, id: $data["id"]);
+       }
 
        Logger::info("Encerrando a criação do usuário.");
        return ResponseUtils::getResponse($user, 201);
@@ -167,8 +171,7 @@ class UserController extends BaseController implements APIController
         $response = [
            "access_token" => $token,
            "type" => "Bearer",
-           "user" => $user,
-           "permissions" => $this->groupRoleInstance->getGroupsRolesByGroupId($user->group_id)
+           "user" => $user
         ];
 
         Logger::info("Encerrando o login do usuário.");

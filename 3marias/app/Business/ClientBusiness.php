@@ -89,7 +89,7 @@ class ClientBusiness {
         }
         
         if (!isset($data["state"]) || strcmp($data["state"], "Casado") !== 0) {
-            Logger::info("Removendo campos de dependented.");
+            Logger::info("Removendo campos de dependente.");
             $data = UpdateUtils::deleteFields(targetData: $data, fields: Client::$dependentFields);
         }
         Logger::info("Salvando o novo cliente.");

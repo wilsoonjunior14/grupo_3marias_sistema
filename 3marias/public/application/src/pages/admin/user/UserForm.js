@@ -1,8 +1,13 @@
 import CustomForm from "../../../components/form/Form";
 import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const UserForm = ({}) => {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -52,6 +57,8 @@ const UserForm = ({}) => {
     return (
         <>
         <VHeader />
+        
+        {(isAdmin || isDeveloper) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm 
                 id='app-container' 
@@ -60,6 +67,11 @@ const UserForm = ({}) => {
                 fields={fields}
                 validation={customValidation} />
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+            <Forbidden />
+        }
         </>
     )
 };

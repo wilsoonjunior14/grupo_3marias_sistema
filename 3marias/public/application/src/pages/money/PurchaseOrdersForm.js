@@ -19,8 +19,13 @@ import { formatDataFrontend, processDataBefore, validateForm } from "../../servi
 import Button from "react-bootstrap/esm/Button";
 import { validateDate, validateMoney, validateMoneyWithoutAllPatterns, validateNumber, validateRequired } from "../../services/Validation";
 import { useParams } from "react-router-dom";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 const PurchaseOrdersForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+
     const [loading, setLoading] = useState(false);
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
@@ -292,7 +297,7 @@ const PurchaseOrdersForm = ({}) => {
     return (
         <>
         <VHeader />
-        {!resetScreen &&
+        {!resetScreen && (isDeveloper || isAdmin) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col xs={2}>
@@ -503,6 +508,10 @@ const PurchaseOrdersForm = ({}) => {
                 </Col>
             </Row>
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
         }
         </>
     )

@@ -1,8 +1,13 @@
 import CustomForm from "../../../components/form/Form";
 import VHeader from "../../../components/vHeader/vHeader";
 import Container from "react-bootstrap/Container";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const AccountantsForm = ({}) => {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -31,7 +36,7 @@ const AccountantsForm = ({}) => {
             placeholder: "Cidade *",
             type: "select",
             endpoint: "cities",
-            endpoint_data: "name",
+            endpoint_field: "name",
             required: true
         },
         {
@@ -68,9 +73,15 @@ const AccountantsForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isAdmin || isDeveloper) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm endpoint="/v1/accountants" nameScreen="Contador" fields={fields} />
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+        <Forbidden />
+        }
         </>
     )
 };

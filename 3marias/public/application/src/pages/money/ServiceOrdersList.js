@@ -5,17 +5,17 @@ import '../../App.css';
 import CustomTable from "../../components/table/Table";
 import CustomButton from '../../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
-import Table from "react-bootstrap/esm/Table";
-import Row from "react-bootstrap/esm/Row";
-import Col from "react-bootstrap/esm/Col";
-import { getMoney } from "../../services/Utils";
 import Button from 'react-bootstrap/esm/Button';
 import Loading from '../../components/loading/Loading';
 import Success from "../../components/success/Success";
 import Error from "../../components/error/Error";
 import { performRequest } from "../../services/Api";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function ServiceOrdersList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showApproveModal, setShowApproveModal] = useState(false);
@@ -108,6 +108,7 @@ export default function ServiceOrdersList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
             <Modal 
@@ -190,6 +191,11 @@ export default function ServiceOrdersList() {
             }
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

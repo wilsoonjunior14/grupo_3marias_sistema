@@ -1,8 +1,13 @@
 import CustomForm from "../../../components/form/Form";
 import VHeader from "../../../components/vHeader/vHeader";
 import Container from "react-bootstrap/Container";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const EnterpriseOwnerForm = ({}) => {
+
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -89,9 +94,15 @@ const EnterpriseOwnerForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isAdmin || isDeveloper) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm endpoint="/v1/enterpriseOwners" nameScreen="Representante Legal" fields={fields} />
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+        <Forbidden />
+        }
         </>
     )
 };

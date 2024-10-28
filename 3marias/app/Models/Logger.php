@@ -26,6 +26,7 @@ class Logger extends Model
     }
 
     static function info(string $message): void {
+        error_log($message);
         if (strcmp(env('APP_ENV'), 'testing') === 0) {
             return;
         }

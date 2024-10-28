@@ -31,8 +31,6 @@ import PartnerList from './pages/admin/partners/PartnerList';
 import PartnerForm from './pages/admin/partners/PartnerForm';
 import ProposalList from './pages/contracts/proposals/ProposalList';
 import ProposalForm from './pages/contracts/proposals/ProposalForm';
-import ClientDetails from './pages/admin/clients/ClientDetails';
-import ProposalDownload from './pages/contracts/proposals/ProposalDownload';
 import ContractList from './pages/contracts/ContractList';
 import ContractForm from './pages/contracts/ContractForm';
 import BillsReceiveList from './pages/money/BillsReceiveList';
@@ -88,7 +86,6 @@ function App() {
           <Route path='admin/clients' element={<ClientList />}></Route>
           <Route path='admin/clients/add' element={<ClientForm disableHeader={false} />}></Route>
           <Route path='admin/clients/edit/:id' element={<ClientForm disableHeader={false} />}></Route>
-          <Route path='admin/clients/details/:id' element={<ClientDetails />}></Route>
           <Route path='admin/groups' element={<GroupList />}></Route>
           <Route path='admin/groups/add' element={<GroupForm />}></Route>
           <Route path='admin/groups/edit/:id' element={<GroupForm />}></Route>
@@ -114,8 +111,7 @@ function App() {
 
           <Route path='contracts/proposals' element={<ProposalList />}></Route>
           <Route path='contracts/proposals/add' element={<ProposalForm />}></Route>
-          <Route path='contracts/proposals/edit/:id' element={<ProposalForm />}></Route> 
-          <Route path='contracts/proposals/download/:id' element={<ProposalDownload />}></Route> 
+          <Route path='contracts/proposals/edit/:id' element={<ProposalForm />}></Route>
           <Route path='contracts' element={<ContractList />}></Route>
           <Route path='contracts/add' element={<ContractForm />}></Route>
           <Route path='contracts/edit/:id' element={<ContractForm />}></Route> 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
@@ -7,13 +7,17 @@ import config from "../../../config.json";
 import { performRequest } from "../../../services/Api";
 import Success from "../../../components/success/Success";
 import Error from "../../../components/error/Error";
+import Forbidden from "../../../components/error/Forbidden";
 import Button from 'react-bootstrap/esm/Button';
 import Loading from '../../../components/loading/Loading';
 import CustomButton from '../../../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { hasPermission } from "../../../services/Storage";
 
 export default function ProposalList() {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [isRejectingProposal, setIsRejectingProposal] = useState(false);
     const [showRejectingProposal, setRejectingProposal] = useState(false);
@@ -34,9 +38,9 @@ export default function ProposalList() {
     ];
 
     const table = {
-        fields: ["Status", "Código", "Cliente", "Descrição", "Tipo", "Tipo da Proposta", "Valor", "Data da Proposta"],
+        fields: ["Status", "Código", "Cliente", "Valor"],
         amountOptions: 1,
-        bodyFields: ["icon", "code", "client.name", "description", "construction_type", "proposal_type", "global_value", "proposal_date"]
+        bodyFields: ["icon", "code", "client.name", "global_value"]
     };
 
     // TODO: only admin or developer can approve or cancel a proposal
@@ -100,6 +104,8 @@ export default function ProposalList() {
     return (
         <>
             <VHeader />
+
+            {(isDeveloper || isAdmin) &&
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <Modal 
@@ -183,6 +189,11 @@ export default function ProposalList() {
                 }
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

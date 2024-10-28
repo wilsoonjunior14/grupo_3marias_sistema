@@ -5,8 +5,13 @@ import '../../../App.css';
 import CustomTable from "../../../components/table/Table";
 import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
+import Forbidden from "../../../components/error/Forbidden";
+import { hasPermission } from "../../../services/Storage";
 
 export default function StockList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    
     const navigate = useNavigate();
     const fields = [
         {
@@ -41,6 +46,7 @@ export default function StockList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
@@ -55,6 +61,11 @@ export default function StockList() {
                     searchFields={fields} />
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

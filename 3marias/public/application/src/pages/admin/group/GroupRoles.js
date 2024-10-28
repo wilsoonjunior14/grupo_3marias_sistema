@@ -16,8 +16,11 @@ import './GroupRoles.css';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import TableButton from "../../../components/button/TableButton";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 function GroupRoles() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [loading, setLoading] = useState(false);
     const [loadingRoles, setLoadingRoles] = useState(false);
@@ -147,6 +150,7 @@ function GroupRoles() {
     return (
         <>
             <VHeader />
+            {(isDeveloper) &&
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 {!loading && httpError &&
                     <Error message={httpError.message} />
@@ -282,6 +286,11 @@ function GroupRoles() {
                 </Row>
 
             </Container>
+            }
+
+            {!(isDeveloper) &&
+                <Forbidden />
+            }
         </>
     );
 }

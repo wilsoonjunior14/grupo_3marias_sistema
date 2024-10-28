@@ -28,12 +28,16 @@ import BackButton from "../../components/button/BackButton";
 import config from "../../config.json";
 import CustomButton from "../../components/button/Button";
 import Modal from 'react-bootstrap/Modal';
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(CategoryScale);
 
 const BillsReceiveForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
@@ -363,6 +367,7 @@ const BillsReceiveForm = ({}) => {
         </Modal>
 
         <VHeader />
+        {(isDeveloper || isAdmin) &&
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col>
@@ -717,6 +722,11 @@ const BillsReceiveForm = ({}) => {
             </>
             }
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
+        }
         </>
     )
 };

@@ -29,11 +29,7 @@ class User extends Authenticatable
         'active',
         'deleted',
         'group_id',
-        'created_at',
-        'updated_at',
-        'birthdate',
-        'recovery_password_expiration',
-        'recovery_password_token'
+        'birthdate'
     ];
 
     /**
@@ -77,7 +73,7 @@ class User extends Authenticatable
     ];
 
     public function group() {
-        return $this->hasOne(Group::class, "id", "group_id")->where("deleted", false);
+        return $this->hasOne(Group::class, "id", "group_id")->select(["id", "description"])->where("deleted", false);
     }
 
     public function search($data) {
@@ -118,6 +114,7 @@ class User extends Authenticatable
 
     public function getUserLogin($email) {
         return (new User())->where("deleted", false)
+        ->with("group")
         ->where("email", "like", "%" . $email . "%")
         ->take(1)
         ->get();

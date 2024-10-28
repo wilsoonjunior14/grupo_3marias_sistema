@@ -1,9 +1,13 @@
 import CustomForm from "../../../components/form/Form";
 import VHeader from "../../../components/vHeader/vHeader";
 import Container from "react-bootstrap/Container";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const EnterpriseBranchForm = ({}) => {
 
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
     const fields = [
         {
             name: "name",
@@ -75,9 +79,15 @@ const EnterpriseBranchForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isAdmin || isDeveloper) &&
         <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm endpoint="/v1/enterpriseBranches" nameScreen="Filial" fields={fields} />
         </Container>
+        }
+
+        {!(isAdmin || isDeveloper) &&
+        <Forbidden />
+        }
         </>
     )
 };

@@ -25,12 +25,17 @@ import { Doughnut, Pie } from 'react-chartjs-2';
 import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
 import { formatMoney } from "../../../services/Format";
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(CategoryScale);
 
 function StockItems() {
+
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const parameters = useParams();
     const [initialState, setInitialState] = useState({items: []});
@@ -223,6 +228,7 @@ function StockItems() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 {!loading && httpError &&
                     <Error message={httpError.message} />
@@ -598,6 +604,11 @@ function StockItems() {
                     </Accordion.Item>
                 </Accordion>
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

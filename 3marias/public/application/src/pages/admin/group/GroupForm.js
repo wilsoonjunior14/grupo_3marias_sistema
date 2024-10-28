@@ -1,7 +1,12 @@
-import { useParams } from "react-router-dom";
+import Container from "react-bootstrap/esm/Container";
 import CustomForm from "../../../components/form/Form";
+import { hasPermission } from "../../../services/Storage";
+import VHeader from "../../../components/vHeader/vHeader";
+import Forbidden from "../../../components/error/Forbidden";
 
 const GroupForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+
     const fields = [
         {
             name: "description",
@@ -14,7 +19,17 @@ const GroupForm = ({}) => {
 
     return (
         <>
-        <CustomForm id='app-container' endpoint="/v1/groups" nameScreen="Grupo de Usuário" fields={fields} />
+        <VHeader />
+
+        {(isDeveloper) &&
+        <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
+            <CustomForm id='app-container' endpoint="/v1/groups" nameScreen="Grupo de Usuário" fields={fields} />
+        </Container>
+        }
+
+        {!(isDeveloper) &&
+            <Forbidden />
+        }
         </>
     )
 };

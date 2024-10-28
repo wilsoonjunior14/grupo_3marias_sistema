@@ -1,9 +1,15 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
+import { hasPermission } from '../../services/Storage';
 
 function VHeaderAdmin() {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isUser = hasPermission("USUÁRIO");
+
+    console.log(isAdmin, isDeveloper, isUser);
+
     return (
         <>
         <Row style={{width: "100%"}}>
@@ -12,6 +18,8 @@ function VHeaderAdmin() {
                 Clientes</Nav.Link>
             </Col>
         </Row>
+        {(isAdmin || isDeveloper) &&
+        <>
         <Row style={{width: "100%"}}>
             <Col><Nav.Link href="/admin/users">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
@@ -42,6 +50,10 @@ function VHeaderAdmin() {
                 Parceiros/Fornecedores</Nav.Link>
             </Col>
         </Row>
+        </>
+        }
+        {isDeveloper &&
+        <>
         <Row style={{width: "100%"}}> 
             <Col><Nav.Link href="/admin/cities">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
@@ -66,29 +78,8 @@ function VHeaderAdmin() {
                 Permissões</Nav.Link>
             </Col>
         </Row>
-
-{/*                         
-        <Row style={{width: "100%", marginLeft: 0}}>
-            <Col>
-            <Nav className="">
-            <NavDropdown
-                            title="Cadastros"
-                            className="App-primary-color">
-                        
-                       
-                        <NavDropdown.Item href="/admin/states">
-                                <i className="material-icons float-left">keyboard_arrow_right</i>
-                                                Estados</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="/admin/cities">
-                                <i className="material-icons float-left">keyboard_arrow_right</i>
-                                                Cidades
-                        </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                </NavDropdown>
-            </Nav>
-            </Col>
-        </Row> */}
+        </>
+        }
         </>
     );
 }

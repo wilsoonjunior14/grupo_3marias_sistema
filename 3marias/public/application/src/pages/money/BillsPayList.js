@@ -4,8 +4,12 @@ import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
 import { useNavigate } from "react-router-dom";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function BillsPayList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
     const navigate = useNavigate();
     const fields = [
         {
@@ -40,6 +44,7 @@ export default function BillsPayList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
@@ -55,6 +60,11 @@ export default function BillsPayList() {
                     customOptions={customOptions} />
 
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

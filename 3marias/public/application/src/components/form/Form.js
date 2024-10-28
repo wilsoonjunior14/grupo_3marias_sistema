@@ -110,11 +110,14 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
         const hasImageField = Object.keys(data).some((key) => key === "image");
         if (hasImageField) {
             var formData = new FormData();
-            Object.keys(data).forEach((key) => {
+            const userdata = processDataBefore(data);
+            Object.keys(userdata).forEach((key) => {
                 formData.append(key, data[key]);
             });
-            formData.delete("image");
-            formData.append("image", document.getElementById("imageInput").files[0]);
+            if (document.getElementById("imageInput")) {
+                formData.delete("image");
+                formData.append("image", document.getElementById("imageInput").files[0]);
+            }
 
             const payload = Object.assign(item, state);
             performCustomRequest("POST", endpoint, formData)

@@ -264,9 +264,8 @@ export function validateClient(array) {
     if (clientSalaryValidation) {
         return clientSalaryValidation;
     }
-    const clientNaturalityValidation = validateString(array, "naturality", 100, "Naturalidade do Cliente");
-    if (clientNaturalityValidation) {
-        return clientNaturalityValidation;
+    if (array["naturality"] && array["naturality"].length <= 0) {
+        return returnMessage("Campo naturalidade está inválido.");
     }
     const clientNationalityValidation = validateString(array, "nationality", 100, "Nacionalidade do Cliente");
     if (clientNationalityValidation) {

@@ -4,8 +4,12 @@ import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
 import config from "../../config.json";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function ContractList() {
+    const isAdmin = hasPermission("PROPRIETÁRIO");
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const fields = [
         {
@@ -40,6 +44,7 @@ export default function ContractList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id='app-container' style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
                 <CustomTable 
                     tableName="Contratos" 
@@ -50,6 +55,11 @@ export default function ContractList() {
                     tableFields={table}
                     searchFields={fields} />
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }

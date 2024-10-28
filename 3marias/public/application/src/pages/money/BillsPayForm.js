@@ -25,12 +25,16 @@ import { CategoryScale } from "chart.js";
 import { registerables} from 'chart.js';
 import { formatDate, formatMoney } from "../../services/Format";
 import BackButton from "../../components/button/BackButton";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 ChartJS.register(...registerables);
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(CategoryScale);
 
 const BillsPayForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const [httpError, setHttpError] = useState(null);
     const [httpSuccess, setHttpSuccess] = useState(null);
@@ -146,6 +150,7 @@ const BillsPayForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isDeveloper || isAdmin) &&
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <Row>
                 <Col>
@@ -369,6 +374,11 @@ const BillsPayForm = ({}) => {
                     </Accordion.Item>
                 </Accordion>
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
+        }
         </>
     )
 };

@@ -2,8 +2,12 @@ import CustomForm from "../../../components/form/Form";
 import Container from 'react-bootstrap/Container';
 import VHeader from "../../../components/vHeader/vHeader";
 import '../../../App.css';
+import { hasPermission } from "../../../services/Storage";
+import Forbidden from "../../../components/error/Forbidden";
 
 const PartnerForm = ({}) => {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const fields = [
         {
@@ -67,9 +71,15 @@ const PartnerForm = ({}) => {
     return (
         <>
         <VHeader />
+        {(isDeveloper || isAdmin) &&
         <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
             <CustomForm endpoint="/v1/partners" nameScreen="Parceiro/Fornecedor" fields={fields} />
         </Container>
+        }
+
+        {!(isDeveloper || isAdmin) &&
+            <Forbidden />
+        }
         </>
     )
 };

@@ -4,8 +4,12 @@ import VHeader from "../../components/vHeader/vHeader";
 import '../../App.css';
 import CustomTable from "../../components/table/Table";
 import { useNavigate } from "react-router-dom";
+import { hasPermission } from "../../services/Storage";
+import Forbidden from "../../components/error/Forbidden";
 
 export default function BillsReceiveList() {
+    const isDeveloper = hasPermission("DESENVOLVEDOR");
+    const isAdmin = hasPermission("PROPRIETÁRIO");
 
     const navigate = useNavigate();
     const fields = [
@@ -47,6 +51,7 @@ export default function BillsReceiveList() {
     return (
         <>
             <VHeader />
+            {(isDeveloper || isAdmin) &&
             <Container id="app-container" style={{marginLeft: 90, width: "calc(100% - 100px)"}} fluid>
 
                 <CustomTable 
@@ -60,8 +65,12 @@ export default function BillsReceiveList() {
                     tableFields={table}
                     searchFields={fields}
                     customOptions={customOptions} />
-
             </Container>
+            }
+
+            {!(isDeveloper || isAdmin) &&
+                <Forbidden />
+            }
         </>
     );
 }
