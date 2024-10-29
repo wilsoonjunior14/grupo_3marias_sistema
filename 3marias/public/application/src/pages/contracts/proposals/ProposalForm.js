@@ -346,8 +346,7 @@ const ProposalForm = ({}) => {
             setHttpError({message: "Bairro deve conter mais que 3 caracteres."});
             return;
         }
-        const numberRegex = RegExp(/^\d+$/g);
-        if (state.number && state.number !== "" && !numberRegex.test(state.number)) {
+        if (state.number && state.number !== "" && state.number.length > 4) {
             setHttpError({message: "Número do endereço inválido."});
             return;
         }
@@ -597,7 +596,7 @@ const ProposalForm = ({}) => {
             }
             <Row className="proposal-menu">
                 {steps.map((s) => 
-                    <Col className={s.class + " proposal-menu-item"}>
+                    <Col key={s.name} className={s.class + " proposal-menu-item"}>
                         {s.name}
                     </Col>
                 )}

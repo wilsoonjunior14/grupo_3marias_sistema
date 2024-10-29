@@ -101,4 +101,8 @@ ORDEM_DE_SERVICO --> CENTRO_DE_CUSTO;
 }
 ```
 
-## Changelog
+## How To
+
+### Export mysql data
+
+> Note: mysqldump -u user -p --no-create-info --no-tablespaces testdb > export_attempt_1.sql

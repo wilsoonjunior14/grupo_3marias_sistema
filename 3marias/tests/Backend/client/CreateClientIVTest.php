@@ -806,7 +806,7 @@ class CreateClientIVTest extends TestFramework
             "state" => "Solteiro",
             "sex" => "Outro",
             "nationality" => "Brasileira",
-            "naturality" => "#$%@#$%@$%@"
+            "naturality" => 12345
         ];
 
         $response = $this

@@ -15,7 +15,7 @@ class Address extends BaseModel
         'address' => 'required|max:100|min:3|string',
         'neighborhood' => 'required|max:100|min:2|string',
         'complement' => 'max:255',
-        'number' => 'integer',
+        'number' => 'string',
         'city_id' => 'required|integer|regex:/^\d+$/',
         'zipcode' => 'required|regex:/^\d{5}-\d{3}$/|string'
     ];
@@ -29,7 +29,7 @@ class Address extends BaseModel
         'neighborhood.string' => 'Campo bairro está inválido.',
         'neighborhood.max' => 'Campo bairro permite no máximo 100 caracteres.',
         'neighborhood.min' => 'Campo bairro deve conter no mínimo 2 caracteres.',
-        'number.integer' => 'Campo de número deve ser um número inteiro.',
+        'number.string' => 'Campo de número está inválido.',
         'complement.max' => 'Campo complemento permite no máximo 255 caracteres.',
         'city_id.required' => 'Campo identificador de cidade é obrigatório.',
         'city_id.integer' => 'Campo identificador de cidade deve ser um número inteiro.',

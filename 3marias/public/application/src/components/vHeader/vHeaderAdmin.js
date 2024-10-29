@@ -8,8 +8,6 @@ function VHeaderAdmin() {
     const isDeveloper = hasPermission("DESENVOLVEDOR");
     const isUser = hasPermission("USUÁRIO");
 
-    console.log(isAdmin, isDeveloper, isUser);
-
     return (
         <>
         <Row style={{width: "100%"}}>

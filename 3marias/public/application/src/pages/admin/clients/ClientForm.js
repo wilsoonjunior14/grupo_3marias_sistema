@@ -172,6 +172,8 @@ const ClientForm = ({disableHeader}) => {
             return;
         }
 
+        console.log(state);
+
         const clientValidation = validateClient(state);
         if (clientValidation) {
             setHttpError(clientValidation);
@@ -394,7 +396,7 @@ const ClientForm = ({disableHeader}) => {
         {
             name: 'number',
             placeholder: 'Número',
-            type: 'number',
+            type: 'text',
             maxlength: 4,
             required: false
         },
