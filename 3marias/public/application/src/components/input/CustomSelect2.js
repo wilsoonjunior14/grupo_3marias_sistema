@@ -48,7 +48,7 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
         items.forEach((i) => {
             const contains = newItems.some((s) => s === i[endpoint_field]);
             if (!contains) {
-                newItems.push(i[endpoint_field]);
+                newItems.push(i[endpoint_field].toString().toUpperCase());
             }
         });
         setItemsToBePresented(newItems);

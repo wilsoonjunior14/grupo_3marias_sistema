@@ -10,6 +10,13 @@ use App\Utils\ErrorMessage;
 
 class CityBusiness {
 
+    public function getCitiesWithUF() {
+        return City::where("deleted", false)
+        ->with("state")
+        ->orderBy("name")
+        ->get();
+    }
+
     public function getById(int $id, bool $mergeFields = true) {
         Logger::info("Recuperando cidade.");
         try {

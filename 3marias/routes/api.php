@@ -174,4 +174,5 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
+    Route::get('/citiesuf', [CityController::class, 'citiesuf']);
 });

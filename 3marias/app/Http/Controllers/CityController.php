@@ -39,6 +39,22 @@ class CityController extends Controller implements APIController
     }
 
     /**
+     * Gets all cities.
+     */
+    public function citiesuf() {
+        $entities = (new CityBusiness())->getCitiesWithUF();
+
+        $response = [];
+        foreach ($entities as $entity) {
+            $response[] = [
+                "id" => $entity->id,
+                "name" => $entity->name . "/" . $entity->state->acronym
+            ];
+        }
+        return ResponseUtils::getResponse($response, 200);
+    }
+
+    /**
      * Creates a city.
      */
     public function store(Request $request) {

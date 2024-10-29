@@ -38,6 +38,8 @@ const ClientForm = ({disableHeader}) => {
     const [cities, setCities] = useState([]);
     const [isLoadingCities, setIsLoadingCities] = useState(false);
 
+    const [secondClientLabel, setSecondClientLabel] = useState("");
+
     useEffect(() => {
         getCities();
         if (parameters.id && !isLoadingData) {
@@ -57,13 +59,33 @@ const ClientForm = ({disableHeader}) => {
         }
     }, []);
 
+    useEffect(() => {
+        if (secondClientLabel === "Cônjugue") {
+            fields.forEach((field) => {
+                field.placeholder = field.placeholder.replace("Segundo Comprador", secondClientLabel);    
+            });
+        }
+
+        if (secondClientLabel === "Segundo Comprador") {
+            fields.forEach((field) => {
+                field.placeholder = field.placeholder.replace("Cônjugue", secondClientLabel);
+            });
+        }
+        setFields(fields);
+        setResetScreen(true);
+        setTimeout(() => {
+            setResetScreen(false);
+        }, 10);
+
+    }, [secondClientLabel]);
+
     const getCities = () => {
         if (isLoadingCities) {
             return;
         }
         setIsLoadingCities(true);
 
-        performRequest("GET", "/v1/cities")
+        performRequest("GET", "/v1/citiesuf")
         .then((response) => setCities(response.data))
         .catch(errorResponse);
     }
@@ -98,14 +120,14 @@ const ClientForm = ({disableHeader}) => {
 
         if (name === "naturality_id") {
             cities.forEach((city) => {
-                if (city.id.toString() === value) {
+                if (city.name.toString().toUpperCase() === value) {
                     changeField({target: {name: "naturality", value: city.name.toUpperCase()}});
                 }
             });
         }
         if (name === "naturality_dependent_id") {
             cities.forEach((city) => {
-                if (city.id.toString() === value) {
+                if (city.name.toString().toUpperCase() === value) {
                     changeField({target: {name: "naturality_dependent", value: city.name.toUpperCase()}});
                 }
             });
@@ -118,22 +140,29 @@ const ClientForm = ({disableHeader}) => {
             }
         }
 
-        const hasField = fields.some((item) => {return (item.name === "conjugue")});
-        if (name.toString() === "state" && value === "Casado" && !hasField) {
-            fields.concat(dependentFields);
+        const hasField = fields.some((item) => {return (item.name === "name_dependent")});
+        if (name.toString() === "state" && value === "Casado") {
+            setSecondClientLabel("Cônjugue");
 
-            dependentFields.forEach((f) => fields.push(f));
-            setFields(fields);
-        } else if(name.toString() === "state" && value !== "Casado") {
+            if (!hasField) {
+                fields.concat(dependentFields);
+                dependentFields.forEach((f) => fields.push(f));
+                setFields(fields);
+            }
+        } else if((name.toString() === "state" && value !== "Casado") && !(state.has_many_buyers && state.has_many_buyers === "Sim")) {
             removeDependentFields();
         }
 
         if (name.toString() === "has_many_buyers") {
             if (value.toString() === "Sim") {
-                fields.concat(dependentFields);
-                dependentFields.forEach((f) => fields.push(f));
-                setFields(fields);
-            } else {
+                setSecondClientLabel("Segundo Comprador");
+
+                if (!hasField) {
+                    fields.concat(dependentFields);
+                    dependentFields.forEach((f) => fields.push(f));
+                    setFields(fields);
+                }
+            } else if (!(state.state && state.state === "Casado")) {
                 removeDependentFields();
             }
         }
@@ -171,8 +200,6 @@ const ClientForm = ({disableHeader}) => {
         if (!validation) {
             return;
         }
-
-        console.log(state);
 
         const clientValidation = validateClient(state);
         if (clientValidation) {
@@ -337,9 +364,9 @@ const ClientForm = ({disableHeader}) => {
         {
             name: 'naturality_id',
             placeholder: 'Naturalidade',
-            type: 'select',
+            type: 'select2',
             required: false,
-            endpoint: "cities",
+            endpoint: "citiesuf",
             endpoint_field: "name"
         },
         {
@@ -502,9 +529,9 @@ const ClientForm = ({disableHeader}) => {
         {
             name: 'naturality_dependent_id',
             placeholder: 'Naturalidade do Cônjugue',
-            type: 'select',
+            type: 'select2',
             required: false,
-            endpoint: "cities",
+            endpoint: "citiesuf",
             endpoint_field: "name"
         },
         {
@@ -554,7 +581,7 @@ const ClientForm = ({disableHeader}) => {
         },
         {
             name: "has_fgts_dependent",
-            placeholder: "O Cônjugue possui 3 anos de trabalho sob regime do FGTS?",
+            placeholder: "O Cônjugue possui 3 anos de trabalho no FGTS?",
             type: "select",
             required: false,
             data: ["Sim", "Não"]

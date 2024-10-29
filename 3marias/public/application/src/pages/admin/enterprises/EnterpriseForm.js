@@ -70,8 +70,8 @@ const EnterpriseForm = ({}) => {
             name: "city_id",
             placeholder: "Cidade *",
             type: "select",
-            endpoint: "cities",
-            endpoint_data: "name",
+            endpoint: "citiesuf",
+            endpoint_field: "name",
             required: true
         },
         {

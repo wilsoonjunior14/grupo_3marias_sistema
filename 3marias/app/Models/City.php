@@ -20,4 +20,8 @@ class City extends BaseModel
         'name.regex' => 'Campo nome deve conter somente letras.',
         'state_id.required' => 'Campo identificador de país é obrigatório.'
     ];
+
+    public function state() {
+        return $this->hasOne(State::class, "id", "state_id")->select(["id", "acronym"])->where("deleted", false);
+    }
 }
