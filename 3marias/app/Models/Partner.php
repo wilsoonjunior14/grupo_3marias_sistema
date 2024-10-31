@@ -7,10 +7,12 @@ class Partner extends BaseModel
     protected $table = "partners";
     protected $fillable = ["id", "fantasy_name", "partner_type", "cnpj",
     "social_reason", "phone", "email", "website", "observation",
+    "address_id",
     "deleted", "created_at", "updated_at"];
 
     static $fieldsToBeUpdated = ["fantasy_name", "partner_type", "cnpj",
-    "social_reason", "phone", "email", "email", "website", "observation"];
+    "social_reason", "phone", "email", "email", "website", "observation",
+    "address_id"];
 
     static $rules = [
         'fantasy_name' => 'bail|string|required|max:255|min:3',
@@ -21,6 +23,7 @@ class Partner extends BaseModel
         'cnpj' => 'cnpj|required',
         'website' => 'bail|max:255|url|string',
         'observation' => 'bail|max:500|min:3|string',
+        'address_id' => 'integer|exists:addresses,id'
     ];
 
     static $rulesMessages = [
@@ -51,7 +54,9 @@ class Partner extends BaseModel
         'social_reason.string' => 'Campo Razão Social do Parceiro/Fornecedor está inválido.',
         'observation.max' => 'Campo Nome Completo do Parceiro/Fornecedor permite no máximo 500 caracteres.',
         'observation.min' => 'Campo Nome Completo do Parceiro/Fornecedor deve conter no mínimo 3 caracteres.',
-        'observation.string' => 'Campo Nome Completo do Parceiro/Fornecedor está inválido.'
+        'observation.string' => 'Campo Nome Completo do Parceiro/Fornecedor está inválido.',
+        'address_id.integer' => 'Campo Endereço do Parceiro/Fornecedor está inválido.',
+        'address_id.exists' => 'Campo Endereço do Parceiro/Fornecedor não foi criado corretamente.'
     ];
 
     public function address(): \Illuminate\Database\Eloquent\Relations\HasOne {

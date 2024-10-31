@@ -33,7 +33,50 @@ const PartnerForm = ({}) => {
         },
         {
             name: 'social_reason',
-            placeholder: 'Razão Social',
+            placeholder: 'Razão Social *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'zipcode',
+            placeholder: 'CEP *',
+            type: 'mask',
+            required: true,
+            mask: '99999-999'
+        },  
+        {
+            name: 'city_id',
+            placeholder: 'Cidade *',
+            type: 'select',
+            required: true,
+            endpoint: "cities",
+            endpoint_field: "name"
+        },      
+        {
+            name: 'address',
+            placeholder: 'Endereço *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'neighborhood',
+            placeholder: 'Bairro *',
+            type: 'text',
+            maxlength: 255,
+            required: true
+        },
+        {
+            name: 'number',
+            placeholder: 'Número *',
+            type: 'text',
+            maxlength: 4,
+            required: true
+        },
+        {
+            name: 'complement',
+            placeholder: 'Complemento',
             type: 'text',
             maxlength: 255,
             required: false
