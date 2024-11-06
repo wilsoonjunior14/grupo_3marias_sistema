@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from 'react-bootstrap/Form';
 import { performRequest } from "../../services/Api";
-import { useParams } from "react-router-dom";
 import "@blueprintjs/core/lib/css/blueprint.css"; 
-import { Button, MenuItem } from "@blueprintjs/core"; 
+import { MenuItem } from "@blueprintjs/core"; 
 import { Select2 } from "@blueprintjs/select"; 
 import "@blueprintjs/select/lib/css/blueprint-select.css"; 
 import CustomInput from "./CustomInput";
@@ -16,7 +15,6 @@ const CustomSelect2 = ({placeholder, name, value, maxlength, required, onChange,
     const [itemsToBePresented, setItemsToBePresented] = useState([]);
     const [item, setItem] = useState(value);
     const [placeholderName, setPlaceholderName] = useState(null);
-    const parameters = useParams();
 
     useEffect(() => {
         if (items.length === 0 && !loading) {

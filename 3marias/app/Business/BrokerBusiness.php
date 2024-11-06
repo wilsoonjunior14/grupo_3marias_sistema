@@ -43,7 +43,7 @@ class BrokerBusiness {
 
         $broker = new Broker($data);
         $broker->validate(rules: Broker::$rules, rulesMessages: Broker::$rulesMessages);
-        $address = (new AddressBusiness())->create($data);
+        $address = (new AddressBusiness())->create($request->all());
         
         $broker->address_id = $address->id;
         $broker->save();

@@ -48,16 +48,22 @@ function VHeaderAdmin() {
                 Parceiros/Fornecedores</Nav.Link>
             </Col>
         </Row>
-        </>
-        }
-        {isDeveloper &&
-        <>
+        <Row style={{width: "100%"}}> 
+            <Col><Nav.Link href="/admin/brokers">
+                <i className="material-icons float-left">keyboard_arrow_right</i>
+                Corretores</Nav.Link>
+            </Col>
+        </Row>
         <Row style={{width: "100%"}}> 
             <Col><Nav.Link href="/admin/cities">
                 <i className="material-icons float-left">keyboard_arrow_right</i>
                 Cidades</Nav.Link>
             </Col>
         </Row>
+        </>
+        }
+        {isDeveloper &&
+        <>
         <Row style={{width: "100%"}}> 
             <Col><Nav.Link href="/admin/states">
                 <i className="material-icons float-left">keyboard_arrow_right</i>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('brokers', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name", 255);
+            $table->string("creci", 255);
             $table->string("cpf", 14)->nullable();
             $table->string("phone", 20)->nullable();
             $table->string("email", 100)->nullable();

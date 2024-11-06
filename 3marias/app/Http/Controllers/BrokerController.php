@@ -30,8 +30,10 @@ class BrokerController extends Controller implements APIController
             $broker = $this->brokerBO->create(request: $request);
             return ResponseUtils::getResponse($broker, 201);
         } catch (\App\Exceptions\AppException $e) {
+            error_log($e);
             return ResponseUtils::getExceptionResponse(message: $e->getMessage());
         } catch (\Exception $e) {
+            error_log($e);
             return ResponseUtils::getErrorResponse($e);
         }
     }
