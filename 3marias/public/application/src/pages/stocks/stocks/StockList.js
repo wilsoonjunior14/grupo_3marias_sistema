@@ -23,9 +23,9 @@ export default function StockList() {
     ];
 
     const table = {
-        fields: ["#", "Nome", "Contrato", "Cliente", "Tipo de Obra", "Data de Criação", "Data de Alteração"],
+        fields: ["#", "Nome", "Contrato", "Cliente", "Tipo de Obra"],
         amountOptions: 1,
-        bodyFields: ["id", "name", "contract.code", "contract.proposal.client.name", "contract.building_type", "created_at", "updated_at"]
+        bodyFields: ["id", "name", "contract.code", "contract.proposal.client.name", "contract.building_type"]
     };
 
     const customOptions = [
