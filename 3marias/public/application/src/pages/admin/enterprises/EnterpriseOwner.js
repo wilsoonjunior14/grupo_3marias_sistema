@@ -57,7 +57,7 @@ const EnterpriseOwnerForm = ({}) => {
             placeholder: "Cidade *",
             type: "select",
             endpoint: "cities",
-            endpoint_data: "name",
+            endpoint_field: "name",
             required: true
         },
         {
