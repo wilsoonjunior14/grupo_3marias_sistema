@@ -60,13 +60,15 @@ const ClientForm = ({disableHeader}) => {
     }, []);
 
     useEffect(() => {
+        let hasPartner = state.state && state.state === "Casado";
+
         if (secondClientLabel === "Cônjugue") {
             fields.forEach((field) => {
                 field.placeholder = field.placeholder.replace("Segundo Comprador", secondClientLabel);    
             });
         }
 
-        if (secondClientLabel === "Segundo Comprador") {
+        if (!hasPartner && secondClientLabel === "Segundo Comprador") {
             fields.forEach((field) => {
                 field.placeholder = field.placeholder.replace("Cônjugue", secondClientLabel);
             });
@@ -75,18 +77,20 @@ const ClientForm = ({disableHeader}) => {
         setResetScreen(true);
         setTimeout(() => {
             setResetScreen(false);
-        }, 10);
+        }, 1);
 
     }, [secondClientLabel]);
 
     const getCities = () => {
-        if (isLoadingCities) {
+        let stillLoading = localStorage.getItem('isLoadingCities');
+        if (stillLoading || isLoadingCities) {
             return;
         }
         setIsLoadingCities(true);
+        localStorage.setItem('isLoadingCities', true);
 
         performRequest("GET", "/v1/citiesuf")
-        .then((response) => setCities(response.data))
+        .then((response) => {setCities(response.data); localStorage.removeItem('isLoadingCities');} )
         .catch(errorResponse);
     }
 
