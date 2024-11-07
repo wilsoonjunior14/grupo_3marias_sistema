@@ -232,7 +232,7 @@
             <div class="row">
                 <div class="col-3 row-colored">
                     <b>RG</b> </br>
-                    <span>{{ mb_strtoupper($contract->proposal->client->rg_dependent, ÚTF-8) }}</span>
+                    <span>{{ mb_strtoupper($contract->proposal->client->rg_dependent, 'UTF-8') }}</span>
                 </div>
                 <div class="col-3 row-colored">
                     <b>Òrgão Expedidor/UF</b> </br>
