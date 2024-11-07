@@ -15,31 +15,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->createRoles();
-        $this->createGroups();
-        $this->createGroupRoles();
-        $this->createGenericUsers();
-        $this->createCategoryServices();
-        $this->createServices();
-        $this->createProducts();
+        // $this->createRoles();
+        // $this->createGroups();
+        // $this->createGroupRoles();
+        // $this->createGenericUsers();
+        // $this->createCategoryServices();
+        // $this->createServices();
+        // $this->createProducts();
 
-        // creating countries
-        DB::table("countries")->insert(["name" => "Brasil", "acronym" => "BRA", "deleted" => false]);
+        // // creating countries
+        // DB::table("countries")->insert(["name" => "Brasil", "acronym" => "BRA", "deleted" => false]);
 
         // creating states
-        DB::table("states")->insert(["name" => "Ceará", "acronym" => "CE", "deleted" => false, "country_id" => 1]);
+        // DB::table("states")->insert(["name" => "Ceará", "acronym" => "CE", "deleted" => false, "country_id" => 1]);
             
-        DB::table("cities")->insert(["name" => "Ibiapina", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "Ubajara", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "Tianguá", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "São Benedito", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "Guaraciaba do Norte", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "Carnaubal", "deleted" => false, "state_id" => 1]);
-        DB::table("cities")->insert(["name" => "Viçosa do Ceará", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Ibiapina", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Ubajara", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Tianguá", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "São Benedito", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Guaraciaba do Norte", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Carnaubal", "deleted" => false, "state_id" => 1]);
+        // DB::table("cities")->insert(["name" => "Viçosa do Ceará", "deleted" => false, "state_id" => 1]);
 
-        $this->createStocks();
-        $this->createEquipment();
-        $this->createProjects();
+        // $this->createStocks();
+        // $this->createEquipment();
+        // $this->createProjects();
         $this->createEnterprise();
     }
 
