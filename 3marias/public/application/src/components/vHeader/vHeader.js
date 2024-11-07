@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import '../../App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -20,8 +20,8 @@ function VHeader() {
     const isDeveloper = hasPermission("DESENVOLVEDOR");
 
     const [logged, setLogged] = useState(true);
-    const dashboardColor = window.location.pathname.indexOf("home") == -1 ? "white" : "red";
-    const accountColor = window.location.pathname.indexOf("account") == -1 ? "white" : "red"; 
+    const dashboardColor = window.location.pathname.indexOf("home") === -1 ? "white" : "red";
+    const accountColor = window.location.pathname.indexOf("account") === -1 ? "white" : "red"; 
     const [itemSelected, setItemSelected] = useState({id: 0, item: ""});
     let initialStateItems = [];
 

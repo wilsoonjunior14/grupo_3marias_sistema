@@ -45,7 +45,6 @@ export default function ClientList() {
     const [successMessage, setSuccessMessage] = useState(null);
     const [isLoadingDocuments, setIsLoadingDocuments] = useState(false);
     const [show, setShow] = useState(true);
-    const navigate = useNavigate();
 
     const fields = [
         {
@@ -89,16 +88,14 @@ export default function ClientList() {
         }
     ];
 
-    useEffect(() => {
-        if (isAdmin || isDeveloper) {
-            customOptions.push({
-                name: "upload_documents",
-                tooltip: "Upload de Documentos",
-                icon: "file_upload",
-                onClick: (evt) => {setClient(evt); setShowModal(true);}
-            });
-        }
-    }, []);
+    if ((isAdmin || isDeveloper)) {
+        customOptions.push({
+            name: "upload_documents",
+            tooltip: "Upload de Documentos",
+            icon: "file_upload",
+            onClick: (evt) => {setClient(evt); setShowModal(true);}
+        });
+    }
 
     const changeField = (e) => {
         const { name, value } = e.target;

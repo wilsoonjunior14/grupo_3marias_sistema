@@ -36,7 +36,7 @@ const CustomSelect = ({placeholder, name, value, maxlength, required, onChange, 
     }
 
     const getOptionField = (item) => {
-        if (item.id === value) {
+        if (value && item.id.toString() === value.toString()) {
             return (
                 <option selected key={item.id} value={item.id.toString()} label={item.name.toString().toUpperCase()}>{item[endpoint_field]}</option>
             );

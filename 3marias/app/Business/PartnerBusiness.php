@@ -25,6 +25,10 @@ class PartnerBusiness {
         Logger::info("Iniciando a recuperação de parceiro/fornecedor $id.");
         try {
             $partner = (new Partner())->getById($id);
+            if (!is_null($partner->address_id)) {
+                $address = (new AddressBusiness())->getById(id: $partner->address_id);
+                $partner = $partner->mountAddressInline($partner, $address);
+            }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $mnfe) {
             throw new InputValidationException(sprintf(ErrorMessage::$ENTITY_NOT_FOUND_PATTERN, "Parceiro/Fornecedor"));
         }
@@ -41,10 +45,10 @@ class PartnerBusiness {
     }
 
     public function create(Request $request) {
-        Logger::info("Iniciando a criação de parceiro/fornecedor.");
-        Logger::info("Validando as informações fornecidas.");
         $data = $request->all();
+        $addressBusiness = new AddressBusiness();
 
+        $addressBusiness->validateData($data);
         $serviceValidator = new ModelValidator(Partner::$rules, Partner::$rulesMessages);
         $errors = $serviceValidator->validate(data: $data);
         if (!is_null($errors)) {
@@ -53,29 +57,30 @@ class PartnerBusiness {
         if (isset($data["cnpj"]) || !empty($data["cnpj"])) {
             $this->existsEntity(cnpj: $data["cnpj"]);
         }
-        
-        Logger::info("Salvando o novo parceiro/fornecedor.");
+
+        $address = $addressBusiness->create($data);
         $partner = new Partner($data);
+        $partner->address_id = $address->id;
         $partner->save();
-        Logger::info("Finalizando a atualização de parceiro/fornecedor.");
         return $partner;
     }
 
     public function update(int $id, Request $request) {
-        Logger::info("Alterando informações do parceiro/fornecedor.");
+        Logger::info("Alterando informações do contrato.");
         $data = $request->all();
-        $partner = $this->getById($id);
-        $partnerUpdated = UpdateUtils::processFieldsToBeUpdated($partner, $request->all(), Partner::$fieldsToBeUpdated);
-        
-        Logger::info("Validando as informações do parceiro/fornecedor.");
-        $partnerValidator = new ModelValidator(Partner::$rules, Partner::$rulesMessages);
-        $errors = $partnerValidator->validate(data: $data);
-        if (!is_null($errors)) {
-            throw new InputValidationException($errors);
-        }
-        $this->existsEntity(cnpj: $partnerUpdated["cnpj"], id: $id);
+        $partner = (new Partner())->getById($id);
+        $partnerUpdated = UpdateUtils::processFieldsToBeUpdated($partner, $data, Partner::$fieldsToBeUpdated);
 
-        Logger::info("Atualizando as informações do parceiro/fornecedor.");
+        $validator = new ModelValidator(Partner::$rules, Partner::$rulesMessages);
+        $validation = $validator->validate(data: $data);
+        if (!is_null($validation)) {
+            throw new InputValidationException($validation);
+        }
+
+        Logger::info("Atualizando as informações de endereço.");
+        (new AddressBusiness())->update($request->all(), id: $partner->address_id);
+
+        Logger::info("Atualizando as informações do contrato.");
         $partnerUpdated->save();
         return $this->getById(id: $partnerUpdated->id);
     }

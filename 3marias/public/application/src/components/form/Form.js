@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createRef, useReducer} from "react";
+import React, {useState, useEffect, useReducer} from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,7 +24,7 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
     const [httpSuccess, setHttpSuccess] = useState(null);
     const [item, setItem] = useState({});
     const parameters = useParams();
-    const [randomId, setRandomId] = useState(parseInt(Math.random() * 1000));
+    const [randomId] = useState(parseInt(Math.random() * 1000));
     const initialState = {};
 
     useEffect(() => {
@@ -119,7 +119,6 @@ const CustomForm = ({endpoint, nameScreen, fields, validation}) => {
                 formData.append("image", document.getElementById("imageInput").files[0]);
             }
 
-            const payload = Object.assign(item, state);
             performCustomRequest("POST", endpoint, formData)
             .then(successPut)
             .catch(errorResponse);

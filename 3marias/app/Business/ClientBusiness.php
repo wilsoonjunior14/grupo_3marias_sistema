@@ -88,10 +88,13 @@ class ClientBusiness {
             $addressId = $address->id;
         }
         
-        if (!isset($data["state"]) || strcmp($data["state"], "Casado") !== 0) {
+        $isClientMarried = isset($data["state"]) && strcmp($data["state"], "Casado") === 0;
+        $hasOtherBuyer = isset($data["has_many_buyers"]) && strcmp($data["has_many_buyers"], "Sim") === 0;
+        if (!$isClientMarried && !$hasOtherBuyer) {
             Logger::info("Removendo campos de dependente.");
             $data = UpdateUtils::deleteFields(targetData: $data, fields: Client::$dependentFields);
         }
+        
         Logger::info("Salvando o novo cliente.");
         $client = new Client($data);
         $client->address_id = $addressId;
@@ -104,7 +107,10 @@ class ClientBusiness {
         Logger::info("Alterando informações do cliente.");
         $client = (new Client())->getById($id);
         $clientUpdated = UpdateUtils::processFieldsToBeUpdated($client, $request->all(), Client::$fieldsToBeUpdated);
-        if (strcmp($clientUpdated->state, "Casado") !== 0) {
+        
+        $isClientMarried = strcmp($clientUpdated->state, "Casado") === 0;
+        $hasOtherBuyer = strcmp($clientUpdated->has_many_buyers, "Sim") === 0;
+        if (!$isClientMarried && !$hasOtherBuyer) {
             $clientUpdated = UpdateUtils::nullFields($clientUpdated, Client::$dependentFields);
         }
         
@@ -112,7 +118,9 @@ class ClientBusiness {
         $clientValidator = new ClientValidator(Client::$rules, Client::$rulesMessages);
         $clientValidator->validateUpdate(request: $request);
 
-        (new AddressBusiness())->update($request->all(), id: $client->address_id);
+        if (!is_null($client->address_id)) {
+            (new AddressBusiness())->update($request->all(), id: $client->address_id);
+        }
 
         Logger::info("Atualizando as informações do cliente.");
         $clientUpdated->save();

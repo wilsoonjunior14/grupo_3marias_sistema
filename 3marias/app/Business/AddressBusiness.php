@@ -12,15 +12,10 @@ use App\Validation\ModelValidator;
 class AddressBusiness {
 
     public function create(array $data) {
-        Logger::info("Iniciando a criação de endereço.");
-        Logger::info("Validando as informações fornecidas.");
-
         $this->validateData(data: $data);
         
-        Logger::info("Salvando a nova endereço.");
         $address = new Address($data);
         $address->save();
-        Logger::info("Finalizando a atualização de endereço.");
         return $address;
     }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountantController;
 use App\Http\Controllers\BillsPayController;
 use App\Http\Controllers\BillsReceiveController;
 use App\Http\Controllers\BillTicketController;
+use App\Http\Controllers\BrokerController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CategoryServiceController;
 use App\Http\Controllers\CityController;
@@ -174,4 +175,7 @@ Route::group(['prefix' => 'v1',  'middleware' => ['auth:sanctum', 'userIsAllowed
     Route::apiResource('/countries', CountryController::class);
     // Route api cities
     Route::apiResource('/cities', CityController::class);
+    Route::get('/citiesuf', [CityController::class, 'citiesuf']);
+    // Route api brokers
+    Route::apiResource('/brokers', BrokerController::class);
 });

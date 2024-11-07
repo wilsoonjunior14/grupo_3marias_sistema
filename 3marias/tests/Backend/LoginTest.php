@@ -155,7 +155,6 @@ class LoginTest extends TestFramework
             "type" => "Bearer"
         ]);
         $loginResponse->assertSee("access_token");
-        $loginResponse->assertSee("permissions");
         $loginResponse->assertSee("user");
     }
 

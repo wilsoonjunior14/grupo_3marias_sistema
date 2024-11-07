@@ -188,13 +188,13 @@ function validateZipCode(array, field, fieldName) {
 }
 
 export function validateNumber(array, field, fieldName) {
-    const regNumber = new RegExp(/^\d+$/g);
+    // const regNumber = new RegExp(/^\d+$/g);
     if (!array[field]) {
         return;
     }
-    if (!regNumber.test(array[field])) {
-        return returnMessage(fieldName + " não é válido.");
-    }
+    // if (!regNumber.test(array[field])) {
+    //     return returnMessage(fieldName + " não é válido.");
+    // }
     if (array[field].toString().length > 4) {
         return returnMessage(fieldName + " não pode ser tão longo.");
     }
@@ -260,9 +260,16 @@ export function validateClient(array) {
     if (clientPhoneValidation) {
         return clientPhoneValidation;
     }
-    const clientSalaryValidation = validateMoney(array, "salary", "Renda Bruta do Cliente");
-    if (clientSalaryValidation) {
-        return clientSalaryValidation;
+    if (array["id"]) {
+        const clientSalaryValidation = validateMoneyWithoutAllPatterns(array, "salary", "salary", "Renda Bruta do Cliente");
+        if (clientSalaryValidation) {
+            return clientSalaryValidation;
+        }
+    } else {
+        const clientSalaryValidation = validateMoney(array, "salary", "Renda Bruta do Cliente");
+        if (clientSalaryValidation) {
+            return clientSalaryValidation;
+        }
     }
     if (array["naturality"] && array["naturality"].length <= 0) {
         return returnMessage("Campo naturalidade está inválido.");

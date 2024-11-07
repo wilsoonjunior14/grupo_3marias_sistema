@@ -29,6 +29,8 @@ import CategoryProductForm from './pages/stocks/CategoryProducts/CategoryProduct
 import CategoryProductList from './pages/stocks/CategoryProducts/CategoryProductList';
 import PartnerList from './pages/admin/partners/PartnerList';
 import PartnerForm from './pages/admin/partners/PartnerForm';
+import BrokerList from './pages/admin/brokers/BrokerList';
+import BrokerForm from './pages/admin/brokers/BrokerForm';
 import ProposalList from './pages/contracts/proposals/ProposalList';
 import ProposalForm from './pages/contracts/proposals/ProposalForm';
 import ContractList from './pages/contracts/ContractList';
@@ -102,6 +104,9 @@ function App() {
           <Route path='admin/partners' element={<PartnerList />}></Route>
           <Route path='admin/partners/add' element={<PartnerForm />}></Route>
           <Route path='admin/partners/edit/:id' element={<PartnerForm />}></Route>
+          <Route path='admin/brokers' element={<BrokerList />}></Route>
+          <Route path='admin/brokers/add' element={<BrokerForm />}></Route>
+          <Route path='admin/brokers/edit/:id' element={<BrokerForm />}></Route>
           <Route path='admin/projects' element={<ProjectList />}></Route>
           <Route path='admin/projects/add' element={<ProjectForm />}></Route>
           <Route path='admin/projects/edit/:id' element={<ProjectForm />}></Route>
